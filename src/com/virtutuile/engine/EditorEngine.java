@@ -1,16 +1,22 @@
-package com.virtutuile.graphics.engine;
+package com.virtutuile.engine;
 
 import java.awt.*;
 import java.util.Vector;
 
-public class PaintMachine {
+public class EditorEngine {
 
     Vector<Point> _points = new Vector<>();
     Point _mouse = new Point();
+    PhysicalEngine _pe = null;
+
+    public EditorEngine(PhysicalEngine _pe) {
+        this._pe = _pe;
+    }
 
     public void paint(Graphics gfx) {
         Point last = null;
         for (Point p: _points) {
+            p = _pe.fromGeoToPixel(p);
             if (last != null) {
                 gfx.drawLine(last.x, last.y, p.x, p.y);
             }
@@ -26,6 +32,7 @@ public class PaintMachine {
     }
 
     public void addPoint(Point point) {
-        this._points.add(point);
+        if (_pe.canAddPoint(_points, _pe.fromPixelToGeo(point)))
+            this._points.add(point);
     }
 }

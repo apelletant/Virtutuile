@@ -1,7 +1,7 @@
 package com.virtutuile.graphics.components;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.engine.PaintMachine;
+import com.virtutuile.engine.EditorEngine;
 import com.virtutuile.graphics.wrap.JPanelEventListened;
 import com.virtutuile.graphics.wrap.MouseEventKind;
 
@@ -9,24 +9,24 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-class DrawZone extends JPanelEventListened implements MouseListener,
+class Editor extends JPanelEventListened implements MouseListener,
         MouseMotionListener {
     Point p;
-    PaintMachine pm;
+    EditorEngine ee;
 
-    public DrawZone(PaintMachine pm) {
+    public Editor(EditorEngine ee) {
         this.setBackground(UIConstants.DRAW_BACKGROUND);
         this.setName("Toolbar");
         this.setBorder(null);
-        this.pm = pm;
+        this.ee = ee;
 
         addEventListener(MouseEventKind.MousePress, (me) -> {
-            pm.addPoint(me.getPoint());
+            ee.addPoint(me.getPoint());
             this.revalidate();
         });
 
         addEventListener(MouseEventKind.MouseMove, (me) -> {
-            pm.setMouse(me.getPoint());
+            ee.setMouse(me.getPoint());
             revalidate();
             repaint();
         });
@@ -35,6 +35,6 @@ class DrawZone extends JPanelEventListened implements MouseListener,
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        pm.paint(g);
+        ee.paint(g);
     }
 }
