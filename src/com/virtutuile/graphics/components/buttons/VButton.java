@@ -2,7 +2,7 @@ package com.virtutuile.graphics.components.buttons;
 
 import com.virtutuile.constants.UIConstants;
 import com.virtutuile.graphics.wrap.ImageManipulator;
-import com.virtutuile.graphics.wrap.JPanelEventListened;
+import com.virtutuile.graphics.components.panels.VPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,18 +15,18 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
-public class ButtonLayout extends JPanelEventListened implements MouseListener {
+public class VButton extends VPanel implements MouseListener {
     private ImageIcon _icon;
     private JLabel _imgContainer;
     private JLabel _text;
 
     /**
-     * Build a ButtonLayout. It's a combo of an icon and a text.
+     * Build a VButton. It's a combo of an icon and a text.
      *
      * @param name     The name of the button
      * @param fileicon The icon of the button
      */
-    public ButtonLayout(String name, File fileicon) {
+    public VButton(String name, File fileicon) {
         this.setBackground(UIConstants.TOOLBAR_BACKGROUND);
         this.fixSize(UIConstants.BUTTON_SIZE);
 

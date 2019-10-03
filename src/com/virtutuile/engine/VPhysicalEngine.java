@@ -4,7 +4,7 @@ import javax.swing.text.Position;
 import java.awt.*;
 import java.util.Vector;
 
-public class PhysicalEngine {
+public class VPhysicalEngine {
 
     public boolean canAddPoint(Vector<Point> points, Point point) {
         return true;

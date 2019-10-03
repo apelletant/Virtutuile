@@ -6,7 +6,7 @@ import com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels
 import javax.swing.*;
 import java.awt.*;
 
-public class EditionPanel extends JScrollPane {
+public class VEditionPanel extends JScrollPane {
     private boolean _isActive = false;
     private ScrollPaneLayout _scrollPaneLayout = new ScrollPaneLayout();
 
@@ -18,9 +18,9 @@ public class EditionPanel extends JScrollPane {
     private SettingsPanel _settingsPanel5;
 
 
-    public EditionPanel() {
+    public VEditionPanel() {
         super();
-        this.setName("EditionPanel");
+        this.setName("VEditionPanel");
         this.setBackground(UIConstants.EDITIONPANEL_BACKGROUND);
         this.setForeground(UIConstants.EDITIONPANEL_FONT_COLOR);
         /*this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));*/
