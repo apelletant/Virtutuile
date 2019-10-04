@@ -17,15 +17,10 @@ class VEditor extends VPanel {
         this.setBorder(null);
         this.ee = ee;
 
-        addEventListener(MouseEventKind.MouseDbClick, (me) -> {
-            ee.mouseDbClick(me.getPoint());
+        addEventListener(MouseEventKind.MousePress, (me) -> {
+            ee.mouseLClick(me.getPoint());
             repaint();
-        });
-
-        addEventListener(MouseEventKind.MouseClick, (me) -> {
-            ee.mouseClick(me.getPoint());
-            repaint();
-        });
+        });;
 
         addEventListener(MouseEventKind.MouseMove, (me) -> {
             ee.setMouse(me.getPoint());

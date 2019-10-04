@@ -1,8 +1,8 @@
 package com.virtutuile.graphics.components.buttons;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.wrap.ImageManipulator;
 import com.virtutuile.graphics.components.panels.VPanel;
+import com.virtutuile.graphics.wrap.ImageManipulator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -55,42 +55,26 @@ public class VButton extends VPanel implements MouseListener {
     // region mouse button colors
     @Override
     public void mousePressed(MouseEvent me) {
-        if (!this._is_active) {
-            System.out.println("mousePressed");
-            setBackground(UIConstants.BUTTON_ACTIVE_COLOR);
-            repaint();
-        }
         super.mousePressed(me);
+        repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        if (!this._is_active) {
-            if (!this._hovered) {
-                setBackground(UIConstants.BUTTON_NORMAL_COLOR);
-            } else {
-                setBackground(UIConstants.BUTTON_HOVER_COLOR);
-            }
-        }
-        repaint();
         super.mouseReleased(me);
+        repaint();
     }
 
     @Override
     public void mouseEntered(MouseEvent me) {
-        if (!this._is_active) {
-            setBackground(UIConstants.BUTTON_HOVER_COLOR);
-            repaint();
-        }
         super.mouseEntered(me);
+        repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
-        if (!this._is_active) {
-            setBackground(UIConstants.BUTTON_NORMAL_COLOR);
-        }
         super.mouseExited(me);
+        repaint();
     }
     // endregion
 
@@ -103,5 +87,17 @@ public class VButton extends VPanel implements MouseListener {
         this.setMaximumSize(size);
         this.setPreferredSize(size);
         this.setMinimumSize(size);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        if (this._isActive || this._isClicked) {
+            setBackground(UIConstants.BUTTON_ACTIVE_COLOR);
+        } else if (this._isMouseOver) {
+            setBackground(UIConstants.BUTTON_HOVER_COLOR);
+        } else {
+            setBackground(UIConstants.BUTTON_NORMAL_COLOR);
+        }
+        super.paint(g);
     }
 }

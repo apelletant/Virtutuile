@@ -21,6 +21,9 @@ public final class UIConstants {
 
     public static final Color DRAW_BACKGROUND = new Color(123, 123, 123);
 
+    public static final Color NORMAL_SHAPE_FILL_COLOR = new Color(175, 175, 175);
+    public static final Color NORMAL_SHAPE_BORDER_COLOR = Color.black;
+
     private UIConstants(){
         //this prevents even the native class from
         //calling this ctor as well :

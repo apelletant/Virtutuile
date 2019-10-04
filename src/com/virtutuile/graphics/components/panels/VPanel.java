@@ -13,10 +13,9 @@ import java.util.Vector;
 import java.util.function.Consumer;
 
 public class VPanel extends JPanel implements MouseListener, MouseMotionListener {
-    protected boolean _is_active = false;
-    protected boolean _hovered = false;
-    private int eventCnt = 0;
-    java.util.Timer timer = new java.util.Timer("doubleClickTimer", false);
+    protected boolean _isClicked = false;
+    protected boolean _isActive = false;
+    protected boolean _isMouseOver = false;
 
     HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _events = new HashMap<>();
 
@@ -43,10 +42,19 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
         addMouseMotionListener(this);
     }
 
+    public void setActive(boolean isActive) {
+        this._isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return this._isActive;
+    }
+
     /**
      * Adds a listener to a specific event.
+     *
      * @param event The event to add
-     * @param cb The event to call
+     * @param cb    The event to call
      */
     public void addEventListener(MouseEventKind event, Consumer<MouseEvent> cb) {
 
@@ -64,29 +72,23 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
 
     @Override
     public void mouseClicked(MouseEvent me) {
-        eventCnt = me.getClickCount();
-        if ( me.getClickCount() == 1 ) {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if ( eventCnt == 1 ) {
-                        invokeEvents(MouseEventKind.MouseClick, me);
-                    } else if ( eventCnt > 1 ) {
-                        invokeEvents(MouseEventKind.MouseDbClick, me);
-                    }
-                    eventCnt = 0;
-                }
-            }, 400);
+        if (me.getButton() == MouseEvent.BUTTON1) {
+            invokeEvents(MouseEventKind.MouseLClick, me);
+        } else if (me.getButton() == MouseEvent.BUTTON2) {
+            invokeEvents(MouseEventKind.MouseRClick, me);
         }
     }
 
     @Override
     public void mousePressed(MouseEvent me) {
+        _isClicked = true;
+        System.out.println("Before invoke mouse Press");
         invokeEvents(MouseEventKind.MousePress, me);
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
+        _isClicked = false;
         invokeEvents(MouseEventKind.MouseRelease, me);
     }
 
@@ -98,13 +100,13 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
     @Override
     public void mouseEntered(MouseEvent me) {
         invokeEvents(MouseEventKind.MouseEnter, me);
-        _hovered = true;
+        _isMouseOver = true;
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
         invokeEvents(MouseEventKind.MouseLeave, me);
-        _hovered = false;
+        _isMouseOver = false;
     }
 
     @Override
@@ -114,6 +116,7 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
 
     /**
      * Force the button to be this size
+     *
      * @param size The desired size
      */
     public void fixSize(Dimension size) {
@@ -128,10 +131,5 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
                 cb.accept(me);
             }
         }
-    }
-
-    private Integer dbClickInterval() {
-        Number obj = (Number) Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval");
-        return (obj != null) ? obj.intValue() : 300;
     }
 }

@@ -1,10 +1,13 @@
 package com.virtutuile.graphics.components;
 
+import com.virtutuile.engine.VEditorState;
 import com.virtutuile.engine.VPhysicalEngine;
+import com.virtutuile.graphics.components.buttons.VButton;
 import com.virtutuile.graphics.components.panels.VTopToolbar;
 import com.virtutuile.graphics.components.panels.editionpanel.VEditionPanel;
 
 import com.virtutuile.engine.VEditorEngine;
+import com.virtutuile.graphics.wrap.MouseEventKind;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +31,28 @@ public class MainWindow extends JFrame {
 
         setupWindow();
         setupContainer();
+        setupEvents();
         setVisible(true);
+    }
+
+    private void setupEvents() {
+        setupTopToolbarEvents();
+    }
+
+    private void setupTopToolbarEvents() {
+        VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
+        draw.addEventListener(MouseEventKind.MousePress, (me) -> {
+            switch (_ee.getState()) {
+                case Idle:
+                    _ee.setState(VEditorState.CreatingRectShape);
+                    draw.setActive(true);
+                    break;
+                case CreatingFreeShape:
+                case CreatingRectShape:
+                    _ee.setState(VEditorState.Idle);
+                    draw.setActive(false);
+            }
+        });
     }
 
     private void setupWindow() {

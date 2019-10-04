@@ -1,6 +1,7 @@
 package com.virtutuile.graphics.components.panels;
 
 import com.virtutuile.graphics.components.buttons.VButton;
+import com.virtutuile.graphics.wrap.MapList;
 import com.virtutuile.graphics.wrap.MouseEventKind;
 import javafx.util.Pair;
 
@@ -8,11 +9,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class VTopToolbar extends JToolBar {
 
-    private Vector<Pair<String, VButton>> _buttons = new Vector<>();
+    public enum TargetButton {
+        NewCanvas,
+        LoadCanvas,
+        SaveCanvas,
+        DrawShape,
+        CanvasSettings,
+        CanvasInfos,
+    }
+
+    private MapList<TargetButton, VButton> _buttons = new MapList<>();
 
     /**
      * VTopToolbar constructor
@@ -31,7 +42,7 @@ public class VTopToolbar extends JToolBar {
      * @param buttonName     button key
      * @param actionListener action listener to apply
      */
-    public void setActionListener(String buttonName, ActionListener actionListener) {
+    public void setActionListener(TargetButton buttonName, ActionListener actionListener) {
 //        this._buttonsToolbar.get(buttonName).addActionListener(actionListener)
     }
 
@@ -42,33 +53,34 @@ public class VTopToolbar extends JToolBar {
      */
     private void setButtonOnToolbar() {
         //New Canvas Button
-        VButton newCanvas = new VButton("New Canvas", new File("assets/icons/file.png"));
-        newCanvas.addEventListener(MouseEventKind.MouseClick, (me) -> System.out.println("New Canvas clicked"));
-        this._buttons.add(new Pair<>("newCanvas", newCanvas));
+        this._buttons.put(TargetButton.NewCanvas, new VButton("New Canvas", new File("assets/icons/file.png")));
 
         //Load Canvas Button
-        this._buttons.add(new Pair<>("loadCanvas", new VButton("Load Canvas", new File("assets/icons/folder-open.png"))));
+        this._buttons.put(TargetButton.LoadCanvas, new VButton("Load Canvas", new File("assets/icons/folder-open.png")));
 
         //Save Canvas Button
-        this._buttons.add(new Pair<>("saveCanvas", new VButton("Save Canvas", new File("assets/icons/save.png"))));
+        this._buttons.put(TargetButton.SaveCanvas, new VButton("Save Canvas", new File("assets/icons/save.png")));
 
         //Draw VShape Button
-        this._buttons.add(new Pair<>("drawShape", new VButton("Draw VShape", new File("assets/icons/pencil-alt.png"))));
+        this._buttons.put(TargetButton.DrawShape, new VButton("Draw Shape", new File("assets/icons/pencil-alt.png")));
 
         //Canvas Settings Button
-        this._buttons.add(new Pair<>("canvasSettings", new VButton("Canvas Settings", new File("assets/icons/cog.png"))));
+        this._buttons.put(TargetButton.CanvasSettings, new VButton("Canvas Settings", new File("assets/icons/cog.png")));
 
         //Canvas infos button
-        VButton canvasInfo = new VButton("Canvas Infos", new File("assets/icons/info.png"));
-        this._buttons.add(new Pair<>("canvasInfos", canvasInfo));
+        this._buttons.put(TargetButton.CanvasInfos, new VButton("Canvas Infos", new File("assets/icons/info.png")));
 
-        for (Pair<String, VButton> button : this._buttons) {
-            if (button.getKey().equals("canvasInfos"))
-                continue;
-            this.add(button.getValue());
-        }
+        this._buttons.forEach((key, value) -> {
+            if (key == TargetButton.CanvasInfos)
+                return;
+            this.add(value);
+        });
         this.add(Box.createHorizontalGlue());
         this.add(Box.createVerticalGlue());
-        this.add(canvasInfo);
+        this.add(_buttons.get(TargetButton.CanvasInfos));
+    }
+
+    public VButton getButton(TargetButton name) {
+        return _buttons.get(name);
     }
 }
