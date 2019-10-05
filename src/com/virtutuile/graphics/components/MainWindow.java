@@ -69,7 +69,7 @@ public class MainWindow extends JFrame {
         container.setLayout(new BorderLayout());
         container.setBackground(new Color(39, 39, 39));
         container.add(_toolBar, BorderLayout.NORTH);
-        container.add(_editionPanel, BorderLayout.EAST);
+        container.add(BorderLayout.EAST, new JScrollPane(this._editionPanel));
         container.add(_editor, BorderLayout.CENTER);
 
     }
