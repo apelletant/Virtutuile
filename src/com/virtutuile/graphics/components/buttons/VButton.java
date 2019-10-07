@@ -91,7 +91,7 @@ public class VButton extends VPanel implements MouseListener {
 
     @Override
     public void paint(Graphics g) {
-        if (this._isActive || this._isClicked) {
+        if (this._isMouseActive || this._isClicked) {
             setBackground(UIConstants.BUTTON_ACTIVE_COLOR);
         } else if (this._isMouseOver) {
             setBackground(UIConstants.BUTTON_HOVER_COLOR);

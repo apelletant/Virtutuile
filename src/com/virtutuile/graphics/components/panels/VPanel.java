@@ -8,13 +8,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
-import java.util.TimerTask;
 import java.util.Vector;
 import java.util.function.Consumer;
 
 public class VPanel extends JPanel implements MouseListener, MouseMotionListener {
     protected boolean _isClicked = false;
-    protected boolean _isActive = false;
+    protected boolean _isMouseActive = false;
     protected boolean _isMouseOver = false;
 
     HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _events = new HashMap<>();
@@ -43,11 +42,11 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void setActive(boolean isActive) {
-        this._isActive = isActive;
+        this._isMouseActive = isActive;
     }
 
     public boolean isActive() {
-        return this._isActive;
+        return this._isMouseActive;
     }
 
     /**
@@ -82,7 +81,6 @@ public class VPanel extends JPanel implements MouseListener, MouseMotionListener
     @Override
     public void mousePressed(MouseEvent me) {
         _isClicked = true;
-        System.out.println("Before invoke mouse Press");
         invokeEvents(MouseEventKind.MousePress, me);
     }
 

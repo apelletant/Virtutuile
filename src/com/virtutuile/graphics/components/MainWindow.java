@@ -53,6 +53,32 @@ public class MainWindow extends JFrame {
                     draw.setActive(false);
             }
         });
+
+        VButton save = _toolBar.getButton(VTopToolbar.TargetButton.SaveCanvas);
+        save.addEventListener(MouseEventKind.MouseLClick, (me) -> {
+            if (_editionPanel.isPanelActive(VEditionPanel.SHAPE_MANAG)) {
+                _editionPanel.removePanelsActive(VEditionPanel.SHAPE_MANAG);
+                save.setActive(false);
+            } else {
+                _editionPanel.addPanelsActive(VEditionPanel.SHAPE_MANAG);
+                save.setActive(true);
+            }
+            revalidate();
+            repaint();
+        });
+
+        VButton config = _toolBar.getButton(VTopToolbar.TargetButton.CanvasSettings);
+        config.addEventListener(MouseEventKind.MouseLClick, (me) -> {
+            if (_editionPanel.isPanelActive(VEditionPanel.SETTINGS)) {
+                _editionPanel.removePanelsActive(VEditionPanel.SETTINGS);
+                config.setActive(false);
+            } else {
+                _editionPanel.addPanelsActive(VEditionPanel.SETTINGS);
+                config.setActive(true);
+            }
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupWindow() {
@@ -71,6 +97,5 @@ public class MainWindow extends JFrame {
         container.add(_toolBar, BorderLayout.NORTH);
         container.add(BorderLayout.EAST, new JScrollPane(this._editionPanel));
         container.add(_editor, BorderLayout.CENTER);
-
     }
 }
