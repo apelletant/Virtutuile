@@ -32,11 +32,9 @@ public class VEditorEngine {
             case CreatingRectShape:
                 showShapePoint(point);
         }
-//        _mouse = point;
     }
 
     public void mouseLClick(Point point) {
-        System.out.println("Click fire");
         switch (_state) {
             case CreatingRectShape:
                 this.placeShapePoint(point);

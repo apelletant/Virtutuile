@@ -19,6 +19,7 @@ public class MainWindow extends JFrame {
     private VEditor _editor;
     private VEditorEngine _ee;
     private VPhysicalEngine _pe;
+    private JTabbedPane _tabs = new JTabbedPane();
 
     public MainWindow() {
         super();
@@ -96,6 +97,7 @@ public class MainWindow extends JFrame {
         container.setBackground(new Color(39, 39, 39));
         container.add(_toolBar, BorderLayout.NORTH);
         container.add(BorderLayout.EAST, new JScrollPane(this._editionPanel));
-        container.add(_editor, BorderLayout.CENTER);
+        _tabs.add("Canvas 1", _editor);
+        container.add(_tabs, BorderLayout.CENTER);
     }
 }

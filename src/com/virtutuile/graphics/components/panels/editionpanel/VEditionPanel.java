@@ -8,6 +8,7 @@ import com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels
 import com.virtutuile.graphics.wrap.MapList;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class VEditionPanel extends VPanel {
 
@@ -32,11 +33,9 @@ public class VEditionPanel extends VPanel {
         this.setName("VEditionPanel");
         this.setBackground(UIConstants.EDITIONPANEL_BACKGROUND);
         this.setForeground(UIConstants.EDITIONPANEL_FONT_COLOR);
+        this.setBorder(new EmptyBorder(0, 0, 0, 0));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        add(new SettingsPanel("zeokfozekfozekf"));
-        add(new SettingsPanel("zjenfzjefzef"));
-        add(new SettingsPanel("ijfijizj"));
         _panels.put(SETTINGS, _settings);
         _panels.put(SHAPE_MANAG, _shape);
     }

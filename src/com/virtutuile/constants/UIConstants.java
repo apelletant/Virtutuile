@@ -25,7 +25,6 @@ public final class UIConstants {
     public static final Color NORMAL_SHAPE_BORDER_COLOR = Color.black;
 
     private UIConstants(){
-        //this prevents even the native class from
-        //calling this ctor as well :
         throw new AssertionError();
-    }}
+    }
+}

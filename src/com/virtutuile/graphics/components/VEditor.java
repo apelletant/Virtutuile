@@ -5,6 +5,7 @@ import com.virtutuile.engine.VEditorEngine;
 import com.virtutuile.graphics.components.panels.VPanel;
 import com.virtutuile.graphics.wrap.MouseEventKind;
 
+import javax.swing.*;
 import java.awt.*;
 
 class VEditor extends VPanel {
