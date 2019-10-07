@@ -1,16 +1,16 @@
 package com.virtutuile.graphics.components.panels.editionpanel;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.components.panels.VPanel;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.SubPanel;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels.SettingsPanel;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels.ShapeManagementPanel;
 import com.virtutuile.graphics.wrap.MapList;
+import com.virtutuile.graphics.wrap.VPanelEvents;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class VEditionPanel extends VPanel {
+public class VEditionPanel extends VPanelEvents {
 
     public static final int NONE = 0;
     public static final int SETTINGS = 0x0001;
@@ -40,24 +40,8 @@ public class VEditionPanel extends VPanel {
         _panels.put(SHAPE_MANAG, _shape);
     }
 
-    public void setPanelsActive(int activatedPanels) {
-        persistPanels(activatedPanels);
-    }
-
     public void addPanelsActive(int activePanel) {
         persistPanels(this._panelsActive | activePanel);
-    }
-
-    public void removePanelsActive(int deactivatePanels) {
-        persistPanels(this._panelsActive & (this._panelsActive ^ deactivatePanels));
-    }
-
-    public boolean isPanelActive(int panel) {
-        return (this._panelsActive & panel) != 0;
-    }
-
-    public int getPanelsActive() {
-        return this._panelsActive;
     }
 
     private void persistPanels(int newPannelList) {
@@ -75,5 +59,21 @@ public class VEditionPanel extends VPanel {
             }
         });
         this._panelsActive = newPannelList;
-    };
+    }
+
+    public void removePanelsActive(int deactivatePanels) {
+        persistPanels(this._panelsActive & (this._panelsActive ^ deactivatePanels));
+    }
+
+    public boolean isPanelActive(int panel) {
+        return (this._panelsActive & panel) != 0;
+    }
+
+    public int getPanelsActive() {
+        return this._panelsActive;
+    }
+
+    public void setPanelsActive(int activatedPanels) {
+        persistPanels(activatedPanels);
+    }
 }

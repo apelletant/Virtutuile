@@ -5,7 +5,6 @@ import com.virtutuile.graphics.components.inputs.VInput;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.SubPanel;
 
 import javax.swing.border.TitledBorder;
-import java.awt.*;
 
 public class ShapeManagementPanel extends SubPanel {
     private VInput _input = new VInput("Area");

@@ -1,12 +1,11 @@
 package com.virtutuile.graphics.components;
 
+import com.virtutuile.engine.VEditorEngine;
 import com.virtutuile.engine.VEditorState;
 import com.virtutuile.engine.VPhysicalEngine;
 import com.virtutuile.graphics.components.buttons.VButton;
 import com.virtutuile.graphics.components.panels.VTopToolbar;
 import com.virtutuile.graphics.components.panels.editionpanel.VEditionPanel;
-
-import com.virtutuile.engine.VEditorEngine;
 import com.virtutuile.graphics.wrap.MouseEventKind;
 
 import javax.swing.*;

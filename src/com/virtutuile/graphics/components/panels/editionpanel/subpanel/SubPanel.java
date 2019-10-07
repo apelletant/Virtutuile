@@ -1,12 +1,12 @@
 package com.virtutuile.graphics.components.panels.editionpanel.subpanel;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.components.panels.VPanel;
+import com.virtutuile.graphics.wrap.VPanelEvents;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SubPanel extends VPanel {
+public class SubPanel extends VPanelEvents {
 
     public SubPanel(String name) {
         this.setName(name);

@@ -17,45 +17,6 @@ public class VRect extends VShape {
     private Point _second = null;
     private Rectangle _bounds = null;
 
-
-    public void setFirstPoint(Point p) {
-        _first = p;
-        updateBounds();
-    }
-
-    public void setSecondPoint(Point p) {
-        _second = p;
-        updateBounds();
-    }
-
-    @Override
-    public void draw(Graphics gfx) {
-        if (_bounds == null) return;
-        gfx.setColor(UIConstants.NORMAL_SHAPE_BORDER_COLOR);
-        gfx.drawRect(_bounds.x, _bounds.y, _bounds.width, _bounds.height);
-        gfx.setColor(UIConstants.NORMAL_SHAPE_FILL_COLOR);
-        gfx.fillRect(_bounds.x + 1, _bounds.y + 1, _bounds.width - 2, _bounds.height - 2);
-    }
-
-    @Override
-    public boolean isDone() {
-        return _first != null && _second != null;
-    }
-
-    @Override
-    public void setPoint(Point point) {
-        if (_first == null)
-            setFirstPoint(point);
-        else
-            setSecondPoint(point);
-    }
-
-    @Override
-    public void viewPoint(Point point) {
-        setSecondPoint(point);
-        _second = null;
-    }
-
     @Override
     public Rectangle getBounds() {
         return _bounds;
@@ -68,6 +29,39 @@ public class VRect extends VShape {
 
     @Override
     public void rotate(Point origin, float angle) {
+    }
+
+    @Override
+    public void setPoint(Point point) {
+        if (_first == null)
+            setFirstPoint(point);
+        else
+            setSecondPoint(point);
+    }
+
+    public void setFirstPoint(Point p) {
+        _first = p;
+        updateBounds();
+    }
+
+    public void setSecondPoint(Point p) {
+        _second = p;
+        updateBounds();
+    }
+
+    @Override
+    public void viewPoint(Point point) {
+        setSecondPoint(point);
+        _second = null;
+    }
+
+    @Override
+    public void draw(Graphics gfx) {
+        if (_bounds == null) return;
+        gfx.setColor(UIConstants.NORMAL_SHAPE_BORDER_COLOR);
+        gfx.drawRect(_bounds.x, _bounds.y, _bounds.width, _bounds.height);
+        gfx.setColor(UIConstants.NORMAL_SHAPE_FILL_COLOR);
+        gfx.fillRect(_bounds.x + 1, _bounds.y + 1, _bounds.width - 2, _bounds.height - 2);
     }
 
     @Override
@@ -95,5 +89,10 @@ public class VRect extends VShape {
             _bounds = null;
         }
         return _bounds;
+    }
+
+    @Override
+    public boolean isDone() {
+        return _first != null && _second != null;
     }
 }

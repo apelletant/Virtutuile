@@ -32,17 +32,11 @@ public final class PhysicConstants {
     public static final double INCHES_RATIO = 0.39370078740157D;
     public static final double FOOT_RATIO = 0.032808398950131D;
     public static final double YARD_RATIO = 0.010936132983377D;
-
-    public enum Units {
-        Millimeter,
-        Centimeter,
-        Meter,
-        Inches,
-        Foot,
-        Yard,
-    }
-
     public static final String[] UNIT_GROUP_STRING = {"Metric", "Imperial"};
+
+    private PhysicConstants() {
+        throw new AssertionError();
+    }
 
     public static final double Convert(double value, Units from, Units to) {
         switch (from) {
@@ -77,9 +71,14 @@ public final class PhysicConstants {
             default:
                 throw new AssertionError("Use of unknown unit");
         }
-   }
+    }
 
-    private PhysicConstants() {
-        throw new AssertionError();
+    public enum Units {
+        Millimeter,
+        Centimeter,
+        Meter,
+        Inches,
+        Foot,
+        Yard,
     }
 }

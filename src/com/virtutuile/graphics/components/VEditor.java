@@ -2,13 +2,12 @@ package com.virtutuile.graphics.components;
 
 import com.virtutuile.constants.UIConstants;
 import com.virtutuile.engine.VEditorEngine;
-import com.virtutuile.graphics.components.panels.VPanel;
 import com.virtutuile.graphics.wrap.MouseEventKind;
+import com.virtutuile.graphics.wrap.VPanelEvents;
 
-import javax.swing.*;
 import java.awt.*;
 
-class VEditor extends VPanel {
+class VEditor extends VPanelEvents {
     Point p;
     VEditorEngine ee;
 
@@ -21,7 +20,8 @@ class VEditor extends VPanel {
         addEventListener(MouseEventKind.MousePress, (me) -> {
             ee.mouseLClick(me.getPoint());
             repaint();
-        });;
+        });
+        ;
 
         addEventListener(MouseEventKind.MouseMove, (me) -> {
             ee.setMouse(me.getPoint());

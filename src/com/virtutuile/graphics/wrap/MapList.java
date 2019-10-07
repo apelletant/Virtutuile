@@ -53,6 +53,15 @@ public class MapList<K, V> implements Map<K, V> {
         return value;
     }
 
+    @Override
+    public V remove(Object key) {
+        int index = indexOf(key);
+        if (index > -1) {
+            return _list.remove(index).getValue();
+        }
+        return null;
+    }
+
     private int indexOf(Object key) {
         int i = 0;
 
@@ -62,15 +71,6 @@ public class MapList<K, V> implements Map<K, V> {
             ++i;
         }
         return -1;
-    }
-
-    @Override
-    public V remove(Object key) {
-        int index = indexOf(key);
-        if (index > -1) {
-            return _list.remove(index).getValue();
-        }
-        return null;
     }
 
     @Override

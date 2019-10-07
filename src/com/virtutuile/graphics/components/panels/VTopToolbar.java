@@ -2,26 +2,13 @@ package com.virtutuile.graphics.components.panels;
 
 import com.virtutuile.graphics.components.buttons.VButton;
 import com.virtutuile.graphics.wrap.MapList;
-import com.virtutuile.graphics.wrap.MouseEventKind;
-import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Vector;
 
 public class VTopToolbar extends JToolBar {
-
-    public enum TargetButton {
-        NewCanvas,
-        LoadCanvas,
-        SaveCanvas,
-        DrawShape,
-        CanvasSettings,
-        CanvasInfos,
-    }
 
     private MapList<TargetButton, VButton> _buttons = new MapList<>();
 
@@ -36,14 +23,6 @@ public class VTopToolbar extends JToolBar {
         this.setButtonOnToolbar();
         this.setFloatable(true);
         System.out.println(this.getLayout());
-    }
-
-    /**
-     * @param buttonName     button key
-     * @param actionListener action listener to apply
-     */
-    public void setActionListener(TargetButton buttonName, ActionListener actionListener) {
-//        this._buttonsToolbar.get(buttonName).addActionListener(actionListener)
     }
 
     /**
@@ -80,7 +59,24 @@ public class VTopToolbar extends JToolBar {
         this.add(_buttons.get(TargetButton.CanvasInfos));
     }
 
+    /**
+     * @param buttonName     button key
+     * @param actionListener action listener to apply
+     */
+    public void setActionListener(TargetButton buttonName, ActionListener actionListener) {
+//        this._buttonsToolbar.get(buttonName).addActionListener(actionListener)
+    }
+
     public VButton getButton(TargetButton name) {
         return _buttons.get(name);
+    }
+
+    public enum TargetButton {
+        NewCanvas,
+        LoadCanvas,
+        SaveCanvas,
+        DrawShape,
+        CanvasSettings,
+        CanvasInfos,
     }
 }

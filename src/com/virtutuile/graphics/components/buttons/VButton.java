@@ -1,8 +1,8 @@
 package com.virtutuile.graphics.components.buttons;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.components.panels.VPanel;
 import com.virtutuile.graphics.wrap.ImageManipulator;
+import com.virtutuile.graphics.wrap.VPanelEvents;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
-public class VButton extends VPanel implements MouseListener {
+public class VButton extends VPanelEvents implements MouseListener {
     private ImageIcon _icon;
     private JLabel _imgContainer;
     private JLabel _text;

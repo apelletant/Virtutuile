@@ -24,7 +24,12 @@ public final class UIConstants {
     public static final Color NORMAL_SHAPE_FILL_COLOR = new Color(175, 175, 175);
     public static final Color NORMAL_SHAPE_BORDER_COLOR = Color.black;
 
-    private UIConstants(){
+    public static final Color INPUT_COLOR = DRAW_BACKGROUND;
+    public static final Color INPUT_COLOR_INVALID = new Color(255, 89, 79, 255);
+    public static final Color INPUT_BACKGROUND_LIGHTER = new Color(89, 89, 89);
+    public static final Color INPUT_BACKGROUND_DARKER = new Color(51, 51, 51);
+
+    private UIConstants() {
         throw new AssertionError();
     }
 }

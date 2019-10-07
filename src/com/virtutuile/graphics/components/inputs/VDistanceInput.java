@@ -1,28 +1,44 @@
 package com.virtutuile.graphics.components.inputs;
 
 import com.virtutuile.constants.PhysicConstants;
+import com.virtutuile.graphics.wrap.VLabel;
+import com.virtutuile.system.Validators;
+import com.virtutuile.system.exeptions.ValidationException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
 import java.awt.*;
 
 public class VDistanceInput extends VInput {
 
     int _value;
-    JLabel _unitLabel = new JLabel();
+    VLabel _unitLabel = new VLabel();
     PhysicConstants.Units _unit;
+
+    public VDistanceInput(String label) {
+        this(label, true);
+    }
 
     public VDistanceInput(String label, boolean horizontalFlex) {
         super(label, horizontalFlex);
         setUnit(PhysicConstants.Units.Centimeter);
         _unitLabel.setPreferredSize(new Dimension(50, _unitLabel.getPreferredSize().height));
-        _fieldContainer.add(_unitLabel, BorderLayout.EAST);
+        _unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        _fieldBorder.add(_unitLabel, BorderLayout.EAST);
         revalidate();
         repaint();
     }
 
-    public VDistanceInput(String label) {
-        this(label, true);
+    @Override
+    protected void validateInput(DocumentEvent documentEvent) {
+        try {
+            Validators.isNumber(_field.getText());
+            setValid(true);
+            _errorLabel.setText(" ");
+        } catch (ValidationException except) {
+            _errorLabel.setText(except.getMessage());
+            setValid(false);
+        }
     }
 
     public int getValue() {

@@ -2,7 +2,6 @@ package com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanel
 
 import com.virtutuile.constants.UIConstants;
 import com.virtutuile.graphics.components.inputs.VDistanceInput;
-import com.virtutuile.graphics.components.inputs.VInput;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.SubPanel;
 
 import javax.swing.*;
@@ -12,6 +11,8 @@ import java.util.Vector;
 public class SettingsPanel extends SubPanel {
     private VDistanceInput _areaInput = new VDistanceInput("Area");
     private VDistanceInput _perimeterInput = new VDistanceInput("Perimeter");
+    private VDistanceInput _width = new VDistanceInput("Width");
+    private VDistanceInput _height = new VDistanceInput("Height");
     private Vector<JPanel> _lines = new Vector<>();
 
     public SettingsPanel(String name) {
@@ -28,13 +29,18 @@ public class SettingsPanel extends SubPanel {
         line.add(_perimeterInput);
         _lines.add(line);
 
+        line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.add(_width);
+        line.add(_height);
+        _lines.add(line);
+
         persistLayout();
     }
 
     private void persistLayout() {
         for (JPanel layout : _lines) {
             if (!isAncestorOf(layout)) {
-                System.out.println("Line displayed");
                 add(layout);
             }
         }

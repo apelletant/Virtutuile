@@ -27,6 +27,12 @@ public class VEditorEngine {
         }
     }
 
+    private void drawShapes(Graphics gfx) {
+        for (VShape shape : _shapes) {
+            shape.draw(gfx);
+        }
+    }
+
     public void setMouse(Point point) {
         switch (_state) {
             case CreatingRectShape:
@@ -34,37 +40,14 @@ public class VEditorEngine {
         }
     }
 
+    private void showShapePoint(Point point) {
+        _currentEditingShape.viewPoint(point);
+    }
+
     public void mouseLClick(Point point) {
         switch (_state) {
             case CreatingRectShape:
                 this.placeShapePoint(point);
-        }
-    }
-
-    public void mouseRClick(Point point) {
-
-    }
-
-    public void setState(VEditorState state) {
-        switch (state) {
-            case CreatingRectShape:
-                _currentEditingShape = new VRect();
-                break;
-            case Idle:
-                persistChanges(state);
-                if (_currentEditingShape != null)
-                    _currentEditingShape = null;
-        }
-        _state = state;
-    }
-
-    public VEditorState getState() {
-        return _state;
-    }
-
-    private void drawShapes(Graphics gfx) {
-        for (VShape shape : _shapes) {
-            shape.draw(gfx);
         }
     }
 
@@ -82,8 +65,25 @@ public class VEditorEngine {
         }
     }
 
-    private void showShapePoint(Point point) {
-        _currentEditingShape.viewPoint(point);
+    public void mouseRClick(Point point) {
+
+    }
+
+    public VEditorState getState() {
+        return _state;
+    }
+
+    public void setState(VEditorState state) {
+        switch (state) {
+            case CreatingRectShape:
+                _currentEditingShape = new VRect();
+                break;
+            case Idle:
+                persistChanges(state);
+                if (_currentEditingShape != null)
+                    _currentEditingShape = null;
+        }
+        _state = state;
     }
 
     private void persistChanges(VEditorState newState) {

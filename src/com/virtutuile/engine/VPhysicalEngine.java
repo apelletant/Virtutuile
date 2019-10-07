@@ -1,6 +1,5 @@
 package com.virtutuile.engine;
 
-import javax.swing.text.Position;
 import java.awt.*;
 import java.util.Vector;
 
@@ -12,6 +11,7 @@ public class VPhysicalEngine {
 
     /**
      * Convert a position into pixel coordinates
+     *
      * @return
      */
     public Point fromGeoToPixel(Point point) {

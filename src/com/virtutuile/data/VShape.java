@@ -1,8 +1,5 @@
 package com.virtutuile.data;
 
-import javafx.geometry.Bounds;
-import org.w3c.dom.css.Rect;
-
 import java.awt.*;
 import java.util.Vector;
 

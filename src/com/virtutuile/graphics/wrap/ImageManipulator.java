@@ -15,10 +15,6 @@ public class ImageManipulator {
         return ImageManipulator.Resize(img, size, true);
     }
 
-    public static ImageIcon Resize(ImageIcon img, int width, int height) {
-        return ImageManipulator.Resize(img, new Dimension(width, height), true);
-    }
-
     public static ImageIcon Resize(ImageIcon img, Dimension size, boolean preserveRatio) {
         Image ref = img.getImage();
         int oWidth = ref.getWidth(null);
@@ -39,6 +35,10 @@ public class ImageManipulator {
 
         Image outRef = ref.getScaledInstance(oWidth, oHeight, Image.SCALE_SMOOTH);
         return new ImageIcon(outRef);
+    }
+
+    public static ImageIcon Resize(ImageIcon img, int width, int height) {
+        return ImageManipulator.Resize(img, new Dimension(width, height), true);
     }
 
 }
