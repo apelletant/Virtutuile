@@ -1,7 +1,7 @@
 package com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.components.inputs.VDistanceInput;
+import com.virtutuile.graphics.components.inputs.VMetricInput;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.SubPanel;
 
 import javax.swing.*;
@@ -9,10 +9,10 @@ import javax.swing.border.TitledBorder;
 import java.util.Vector;
 
 public class SettingsPanel extends SubPanel {
-    private VDistanceInput _areaInput = new VDistanceInput("Area");
-    private VDistanceInput _perimeterInput = new VDistanceInput("Perimeter");
-    private VDistanceInput _width = new VDistanceInput("Width");
-    private VDistanceInput _height = new VDistanceInput("Height");
+    private VMetricInput _areaInput = new VMetricInput("Area");
+    private VMetricInput _perimeterInput = new VMetricInput("Perimeter");
+    private VMetricInput _width = new VMetricInput("Width");
+    private VMetricInput _height = new VMetricInput("Height");
     private Vector<JPanel> _lines = new Vector<>();
 
     public SettingsPanel(String name) {

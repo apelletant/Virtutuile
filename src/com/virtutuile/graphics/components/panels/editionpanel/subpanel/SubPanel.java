@@ -1,7 +1,7 @@
 package com.virtutuile.graphics.components.panels.editionpanel.subpanel;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.wrap.VPanelEvents;
+import com.virtutuile.graphics.wrap.panels.VPanelEvents;
 
 import javax.swing.*;
 import java.awt.*;

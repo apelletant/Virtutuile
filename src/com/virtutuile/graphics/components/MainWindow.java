@@ -4,6 +4,7 @@ import com.virtutuile.engine.VEditorEngine;
 import com.virtutuile.engine.VEditorState;
 import com.virtutuile.engine.VPhysicalEngine;
 import com.virtutuile.graphics.components.buttons.VButton;
+import com.virtutuile.graphics.components.panels.VBottomToolbar;
 import com.virtutuile.graphics.components.panels.VTopToolbar;
 import com.virtutuile.graphics.components.panels.editionpanel.VEditionPanel;
 import com.virtutuile.graphics.wrap.MouseEventKind;
@@ -15,6 +16,7 @@ public class MainWindow extends JFrame {
 
     private VTopToolbar _toolBar;
     private VEditionPanel _editionPanel;
+    private VBottomToolbar _bottomToolbar;
     private VEditor _editor;
     private VEditorEngine _ee;
     private VPhysicalEngine _pe;
@@ -25,6 +27,7 @@ public class MainWindow extends JFrame {
 
         _toolBar = new VTopToolbar();
         _editionPanel = new VEditionPanel();
+        _bottomToolbar = new VBottomToolbar();
         _pe = new VPhysicalEngine();
         _ee = new VEditorEngine(_pe);
         _editor = new VEditor(_ee);
@@ -41,7 +44,7 @@ public class MainWindow extends JFrame {
 
     private void setupTopToolbarEvents() {
         VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
-        draw.addEventListener(MouseEventKind.MousePress, (me) -> {
+        draw.addEventListener(MouseEventKind.MouseLClick, (me) -> {
             switch (_ee.getState()) {
                 case Idle:
                     _ee.setState(VEditorState.CreatingRectShape);
@@ -98,5 +101,6 @@ public class MainWindow extends JFrame {
         container.add(BorderLayout.EAST, new JScrollPane(this._editionPanel));
         _tabs.add("Canvas 1", _editor);
         container.add(_tabs, BorderLayout.CENTER);
+        container.add(_bottomToolbar, BorderLayout.SOUTH);
     }
 }

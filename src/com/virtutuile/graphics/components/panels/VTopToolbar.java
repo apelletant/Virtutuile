@@ -1,14 +1,15 @@
 package com.virtutuile.graphics.components.panels;
 
 import com.virtutuile.graphics.components.buttons.VButton;
-import com.virtutuile.graphics.wrap.MapList;
+import com.virtutuile.graphics.wrap.panels.VBorderedPanel;
+import com.virtutuile.system.MapList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class VTopToolbar extends JToolBar {
+public class VTopToolbar extends VBorderedPanel {
 
     private MapList<TargetButton, VButton> _buttons = new MapList<>();
 
@@ -21,8 +22,6 @@ public class VTopToolbar extends JToolBar {
         this.setBackground(new Color(66, 66, 66));
         this.setBorder(null);
         this.setButtonOnToolbar();
-        this.setFloatable(true);
-        System.out.println(this.getLayout());
     }
 
     /**

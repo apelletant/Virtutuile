@@ -1,4 +1,4 @@
-package com.virtutuile.graphics.wrap;
+package com.virtutuile.system;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

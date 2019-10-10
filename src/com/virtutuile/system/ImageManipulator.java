@@ -1,4 +1,4 @@
-package com.virtutuile.graphics.wrap;
+package com.virtutuile.system;
 
 import javax.swing.*;
 import java.awt.*;

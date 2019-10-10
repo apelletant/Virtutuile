@@ -1,8 +1,8 @@
 package com.virtutuile.graphics.components.buttons;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.wrap.ImageManipulator;
-import com.virtutuile.graphics.wrap.VPanelEvents;
+import com.virtutuile.graphics.wrap.panels.VBorderedEventPanel;
+import com.virtutuile.system.ImageManipulator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
-public class VButton extends VPanelEvents implements MouseListener {
+public class VButton extends VBorderedEventPanel implements MouseListener {
     private ImageIcon _icon;
     private JLabel _imgContainer;
     private JLabel _text;
@@ -47,9 +47,20 @@ public class VButton extends VPanelEvents implements MouseListener {
         _imgContainer.setBorder(new CompoundBorder(_imgContainer.getBorder(), imgMargin));
 
         // Setting the layout of the button and add it's components
-        this.setLayout(new BorderLayout());
+        this._content.setLayout(new BorderLayout());
         this.add(_imgContainer, BorderLayout.CENTER);
         this.add(_text, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Force the button to be this size
+     *
+     * @param size The desired size
+     */
+    private void fixSize(Dimension size) {
+        this.setMaximumSize(size);
+        this.setPreferredSize(size);
+        this.setMinimumSize(size);
     }
 
     // region mouse button colors
@@ -70,23 +81,12 @@ public class VButton extends VPanelEvents implements MouseListener {
         super.mouseEntered(me);
         repaint();
     }
+    // endregion
 
     @Override
     public void mouseExited(MouseEvent me) {
         super.mouseExited(me);
         repaint();
-    }
-    // endregion
-
-    /**
-     * Force the button to be this size
-     *
-     * @param size The desired size
-     */
-    public void fixSize(Dimension size) {
-        this.setMaximumSize(size);
-        this.setPreferredSize(size);
-        this.setMinimumSize(size);
     }
 
     @Override

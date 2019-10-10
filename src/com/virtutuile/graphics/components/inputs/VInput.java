@@ -1,9 +1,9 @@
 package com.virtutuile.graphics.components.inputs;
 
 import com.virtutuile.constants.UIConstants;
-import com.virtutuile.graphics.wrap.SimpleDocumentListener;
 import com.virtutuile.graphics.wrap.VLabel;
-import com.virtutuile.graphics.wrap.VPanel;
+import com.virtutuile.graphics.wrap.panels.VPanel;
+import com.virtutuile.system.SimpleDocumentListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -59,6 +59,15 @@ public class VInput extends VPanel {
     }
 
     protected void validateInput(DocumentEvent documentEvent) {
+    }
+
+    public String getText() {
+        return _field.getText();
+    }
+
+    public VInput setText(String text) {
+        _field.setText(text);
+        return this;
     }
 
     public boolean isValid() {

@@ -4,8 +4,8 @@ import com.virtutuile.constants.UIConstants;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.SubPanel;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels.SettingsPanel;
 import com.virtutuile.graphics.components.panels.editionpanel.subpanel.subpanels.ShapeManagementPanel;
-import com.virtutuile.graphics.wrap.MapList;
-import com.virtutuile.graphics.wrap.VPanelEvents;
+import com.virtutuile.graphics.wrap.panels.VPanelEvents;
+import com.virtutuile.system.MapList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

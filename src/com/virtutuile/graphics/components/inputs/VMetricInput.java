@@ -9,17 +9,17 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 
-public class VDistanceInput extends VInput {
+public class VMetricInput extends VInput {
 
     int _value;
     VLabel _unitLabel = new VLabel();
     PhysicConstants.Units _unit;
 
-    public VDistanceInput(String label) {
+    public VMetricInput(String label) {
         this(label, true);
     }
 
-    public VDistanceInput(String label, boolean horizontalFlex) {
+    public VMetricInput(String label, boolean horizontalFlex) {
         super(label, horizontalFlex);
         setUnit(PhysicConstants.Units.Centimeter);
         _unitLabel.setPreferredSize(new Dimension(50, _unitLabel.getPreferredSize().height));
@@ -45,7 +45,7 @@ public class VDistanceInput extends VInput {
         return _value;
     }
 
-    public VDistanceInput setValue(int value) {
+    public VMetricInput setValue(int value) {
         this._value = value;
         _field.setText(String.valueOf(_value));
         repaint();
@@ -56,7 +56,7 @@ public class VDistanceInput extends VInput {
         return _unit;
     }
 
-    public VDistanceInput setUnit(PhysicConstants.Units unit) {
+    public VMetricInput setUnit(PhysicConstants.Units unit) {
         this._unit = unit;
         this._unitLabel.setText(PhysicConstants.UnitLabels.get(unit));
         repaint();

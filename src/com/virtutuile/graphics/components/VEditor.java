@@ -3,7 +3,7 @@ package com.virtutuile.graphics.components;
 import com.virtutuile.constants.UIConstants;
 import com.virtutuile.engine.VEditorEngine;
 import com.virtutuile.graphics.wrap.MouseEventKind;
-import com.virtutuile.graphics.wrap.VPanelEvents;
+import com.virtutuile.graphics.wrap.panels.VPanelEvents;
 
 import java.awt.*;
 
