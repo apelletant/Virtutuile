@@ -1,6 +1,6 @@
 package com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels;
 
-import com.virtutuile.system.constants.UIConstants;
+import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.afficheur.components.inputs.VMetricInput;
 import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.SubPanel;
 

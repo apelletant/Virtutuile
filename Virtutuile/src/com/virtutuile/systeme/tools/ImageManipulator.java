@@ -1,7 +1,5 @@
 package com.virtutuile.systeme.tools;
 
-import com.virtutuile.system.VImageManipulator;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,7 +13,7 @@ public class ImageManipulator {
      * @return The resized image
      */
     public static ImageIcon Resize(ImageIcon img, Dimension size) {
-        return VImageManipulator.Resize(img, size, true);
+        return ImageManipulator.Resize(img, size, true);
     }
 
     public static ImageIcon Resize(ImageIcon img, Dimension size, boolean preserveRatio) {
@@ -41,7 +39,7 @@ public class ImageManipulator {
     }
 
     public static ImageIcon Resize(ImageIcon img, int width, int height) {
-        return VImageManipulator.Resize(img, new Dimension(width, height), true);
+        return ImageManipulator.Resize(img, new Dimension(width, height), true);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.virtutuile.afficheur.components.inputs;
 
-import com.virtutuile.system.constants.PhysicConstants;
+import com.virtutuile.systeme.constants.VPhysicsConstants;
 import com.virtutuile.afficheur.wrap.VLabel;
-import com.virtutuile.system.Validators;
-import com.virtutuile.system.exeptions.ValidationException;
+import com.virtutuile.systeme.tools.Validators;
+import com.virtutuile.systeme.tools.ValidationsException;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -13,7 +13,7 @@ public class VMetricInput extends VInput {
 
     int _value;
     VLabel _unitLabel = new VLabel();
-    PhysicConstants.Units _unit;
+    VPhysicsConstants.Units _unit;
 
     public VMetricInput(String label) {
         this(label, true);
@@ -21,7 +21,7 @@ public class VMetricInput extends VInput {
 
     public VMetricInput(String label, boolean horizontalFlex) {
         super(label, horizontalFlex);
-        setUnit(PhysicConstants.Units.Centimeter);
+        setUnit(VPhysicsConstants.Units.Centimeter);
         _unitLabel.setPreferredSize(new Dimension(50, _unitLabel.getPreferredSize().height));
         _unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         _fieldBorder.add(_unitLabel, BorderLayout.EAST);
@@ -35,7 +35,7 @@ public class VMetricInput extends VInput {
             Validators.isNumber(_field.getText());
             setValid(true);
             _errorLabel.setText(" ");
-        } catch (ValidationException except) {
+        } catch (ValidationsException except) {
             _errorLabel.setText(except.getMessage());
             setValid(false);
         }
@@ -52,13 +52,13 @@ public class VMetricInput extends VInput {
         return this;
     }
 
-    public PhysicConstants.Units getUnit() {
+    public VPhysicsConstants.Units getUnit() {
         return _unit;
     }
 
-    public VMetricInput setUnit(PhysicConstants.Units unit) {
+    public VMetricInput setUnit(VPhysicsConstants.Units unit) {
         this._unit = unit;
-        this._unitLabel.setText(PhysicConstants.UnitLabels.get(unit));
+        this._unitLabel.setText(VPhysicsConstants.UnitLabels.get(unit));
         repaint();
         return this;
     }

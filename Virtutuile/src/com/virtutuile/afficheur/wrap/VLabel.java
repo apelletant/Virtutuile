@@ -1,6 +1,6 @@
 package com.virtutuile.afficheur.wrap;
 
-import com.virtutuile.system.constants.UIConstants;
+import com.virtutuile.systeme.constants.UIConstants;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

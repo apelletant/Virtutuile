@@ -1,30 +1,30 @@
 package com.virtutuile.afficheur.components;
 
-import com.virtutuile.system.constants.UIConstants;
 import com.virtutuile.moteur.VEditorEngine;
 import com.virtutuile.afficheur.wrap.MouseEventKind;
 import com.virtutuile.afficheur.wrap.panels.VPanelEvents;
+import com.virtutuile.systeme.constants.UIConstants;
 
 import java.awt.*;
 
 public class VEditor extends VPanelEvents {
     Point p;
-    VEditorEngine ee;
+    private VEditorEngine _editorEngine;
 
-    public VEditor(VEditorEngine ee) {
+    public VEditor(VEditorEngine editorEngine) {
         this.setBackground(UIConstants.DRAW_BACKGROUND);
         this.setName("Toolbar");
         this.setBorder(null);
-        this.ee = ee;
+        this._editorEngine = editorEngine;
 
         addEventListener(MouseEventKind.MousePress, (me) -> {
-            ee.mouseLClick(me.getPoint());
+            /*editorEngine.mouseLClick(me.getPoint());*/
             repaint();
         });
         ;
 
         addEventListener(MouseEventKind.MouseMove, (me) -> {
-            ee.setMouse(me.getPoint());
+            /*editorEngine.setMouse(me.getPoint());*/
             repaint();
         });
     }
@@ -32,6 +32,6 @@ public class VEditor extends VPanelEvents {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        ee.paint(g);
+        /*this._editorEngine.paint(g);*/
     }
 }

@@ -1,14 +1,12 @@
 package com.virtutuile.afficheur;
 
-import com.virtutuile.moteur.VEditorEngine;
-import com.virtutuile.moteur.VEditorState;
-import com.virtutuile.moteur.VPhysicalEngine;
 import com.virtutuile.afficheur.components.VEditor;
 import com.virtutuile.afficheur.components.buttons.VButton;
 import com.virtutuile.afficheur.components.panels.VBottomToolbar;
 import com.virtutuile.afficheur.components.panels.VTopToolbar;
 import com.virtutuile.afficheur.components.panels.editionpanel.VEditionPanel;
 import com.virtutuile.afficheur.wrap.MouseEventKind;
+import com.virtutuile.moteur.VEditorEngine;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +17,7 @@ public class MainWindow extends JFrame {
     private VEditionPanel _editionPanel;
     private VBottomToolbar _bottomToolbar;
     private VEditor _editor;
-    private VEditorEngine _ee;
-    private VPhysicalEngine _pe;
+    private VEditorEngine _editorEngine;
     private JTabbedPane _tabs = new JTabbedPane();
 
     public MainWindow() {
@@ -29,9 +26,8 @@ public class MainWindow extends JFrame {
         _toolBar = new VTopToolbar();
         _editionPanel = new VEditionPanel();
         _bottomToolbar = new VBottomToolbar();
-        _pe = new VPhysicalEngine();
-        _ee = new VEditorEngine(_pe);
-        _editor = new VEditor(_ee);
+        _editorEngine = new VEditorEngine();
+        _editor = new VEditor(_editorEngine);
 
         setupWindow();
         setupContainer();
@@ -46,14 +42,14 @@ public class MainWindow extends JFrame {
     private void setupTopToolbarEvents() {
         VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
         draw.addEventListener(MouseEventKind.MouseLClick, (me) -> {
-            switch (_ee.getState()) {
+            switch (_editorEngine.getEditorState()) {
                 case Idle:
-                    _ee.setState(VEditorState.CreatingRectShape);
+                    _editorEngine.setEditorState(VEditorEngine.VEditorState.CreatingRectShape);
                     draw.setActive(true);
                     break;
                 case CreatingFreeShape:
                 case CreatingRectShape:
-                    _ee.setState(VEditorState.Idle);
+                    _editorEngine.setEditorState(VEditorEngine.VEditorState.Idle);
                     draw.setActive(false);
             }
         });

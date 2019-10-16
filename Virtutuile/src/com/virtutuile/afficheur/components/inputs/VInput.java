@@ -1,9 +1,9 @@
 package com.virtutuile.afficheur.components.inputs;
 
-import com.virtutuile.system.constants.UIConstants;
+import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.afficheur.wrap.VLabel;
 import com.virtutuile.afficheur.wrap.panels.VPanel;
-import com.virtutuile.system.SimpleDocumentListener;
+import com.virtutuile.systeme.interfaces.ISimpleDocumentListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -41,7 +41,7 @@ public class VInput extends VPanel {
         _field.setOpaque(false);
         _field.setForeground(UIConstants.EDITIONPANEL_FONT_COLOR);
         _field.setCaretColor(UIConstants.EDITIONPANEL_FONT_COLOR);
-        _field.getDocument().addDocumentListener((SimpleDocumentListener) this::validateInput);
+        _field.getDocument().addDocumentListener((ISimpleDocumentListener) this::validateInput);
 
         _fieldBorder.setBorder(_validBorder);
         _fieldBorder.add(_field);

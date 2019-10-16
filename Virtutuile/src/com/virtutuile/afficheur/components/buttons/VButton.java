@@ -1,8 +1,8 @@
 package com.virtutuile.afficheur.components.buttons;
 
-import com.virtutuile.system.constants.UIConstants;
+import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.afficheur.wrap.panels.VBorderedEventPanel;
-import com.virtutuile.system.VImageManipulator;
+import com.virtutuile.systeme.tools.ImageManipulator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -37,7 +37,7 @@ public class VButton extends VBorderedEventPanel implements MouseListener {
 
         // Creating the image and style it
         try {
-            _icon = VImageManipulator.Resize(new ImageIcon(ImageIO.read(fileicon)), UIConstants.BUTTON_ICON_SIZE);
+            _icon = ImageManipulator.Resize(new ImageIcon(ImageIO.read(fileicon)), UIConstants.BUTTON_ICON_SIZE);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
