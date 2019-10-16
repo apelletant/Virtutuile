@@ -5,7 +5,7 @@ import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.SubPanel
 import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels.SettingsPanel;
 import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels.ShapeManagementPanel;
 import com.virtutuile.afficheur.wrap.panels.VPanelEvents;
-import com.virtutuile.system.MapList;
+import com.virtutuile.system.UnorderedMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +26,7 @@ public class VEditionPanel extends VPanelEvents {
     private SettingsPanel _settings = new SettingsPanel("Settings");
     private ShapeManagementPanel _shape = new ShapeManagementPanel("Shape");
     private int _panelsActive = NONE;
-    private MapList<Integer, SubPanel> _panels = new MapList<>();
+    private UnorderedMap<Integer, SubPanel> _panels = new UnorderedMap<>();
 
     public VEditionPanel() {
         super();

@@ -2,7 +2,7 @@ package com.virtutuile.afficheur.components.panels;
 
 import com.virtutuile.afficheur.components.buttons.VButton;
 import com.virtutuile.afficheur.wrap.panels.VBorderedPanel;
-import com.virtutuile.system.MapList;
+import com.virtutuile.system.UnorderedMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.io.File;
 
 public class VTopToolbar extends VBorderedPanel {
 
-    private MapList<TargetButton, VButton> _buttons = new MapList<>();
+    private UnorderedMap<TargetButton, VButton> _buttons = new UnorderedMap<>();
 
     /**
      * VTopToolbar constructor

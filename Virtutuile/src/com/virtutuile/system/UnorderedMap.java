@@ -7,7 +7,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class MapList<K, V> implements Map<K, V> {
+public class UnorderedMap<K, V> implements Map<K, V> {
     private List<Pair<K, V>> _list = new ArrayList<>();
 
     @Override
@@ -85,7 +85,7 @@ public class MapList<K, V> implements Map<K, V> {
 
     @Override
     public Set<K> keySet() {
-        Set<K> ret = new SetList<>();
+        Set<K> ret = new UnorderedSet<>();
 
         for (Pair<K, V> pair : _list) {
             ret.add(pair.getKey());
@@ -95,7 +95,7 @@ public class MapList<K, V> implements Map<K, V> {
 
     @Override
     public Collection<V> values() {
-        Collection<V> ret = new SetList<>();
+        Collection<V> ret = new UnorderedSet<>();
 
         for (Pair<K, V> pair : _list) {
             ret.add(pair.getValue());
@@ -105,7 +105,7 @@ public class MapList<K, V> implements Map<K, V> {
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        Set<Entry<K, V>> ret = new SetList<>();
+        Set<Entry<K, V>> ret = new UnorderedSet<>();
 
         for (Pair<K, V> pair : _list) {
             ret.add(new AbstractMap.SimpleEntry<>(pair.getKey(), pair.getValue()));

@@ -3,7 +3,7 @@ package com.virtutuile.system;
 import javax.swing.*;
 import java.awt.*;
 
-public class ImageManipulator {
+public class VImageManipulator {
     /**
      * Image resizer for icon fit purpose
      *
@@ -12,7 +12,7 @@ public class ImageManipulator {
      * @return The resized image
      */
     public static ImageIcon Resize(ImageIcon img, Dimension size) {
-        return ImageManipulator.Resize(img, size, true);
+        return VImageManipulator.Resize(img, size, true);
     }
 
     public static ImageIcon Resize(ImageIcon img, Dimension size, boolean preserveRatio) {
@@ -38,7 +38,7 @@ public class ImageManipulator {
     }
 
     public static ImageIcon Resize(ImageIcon img, int width, int height) {
-        return ImageManipulator.Resize(img, new Dimension(width, height), true);
+        return VImageManipulator.Resize(img, new Dimension(width, height), true);
     }
 
 }
