@@ -1,4 +1,4 @@
-package com.virtutuile.system.constants;
+package com.virtutuile.systeme.constants;
 
 import java.awt.*;
 

@@ -1,28 +1,28 @@
-package com.virtutuile.system.constants;
+package com.virtutuile.systeme.constants;
 
 import java.util.Map;
 
-public final class PhysicConstants {
+public final class VPhysicsConstants {
 
     public static final int METRIC = 0;
     public static final int IMPERIAL = 1;
 
-    public static final Map<Units, String> UnitNames = Map.of(
-            Units.Millimeter, "Millimeter",
-            Units.Centimeter, "Centimeter",
-            Units.Meter, "Meter",
-            Units.Inches, "Inches",
-            Units.Foot, "Foot",
-            Units.Yard, "Yards"
+    public static final Map<VPhysicsConstants.Units, String> UnitNames = Map.of(
+            VPhysicsConstants.Units.Millimeter, "Millimeter",
+            VPhysicsConstants.Units.Centimeter, "Centimeter",
+            VPhysicsConstants.Units.Meter, "Meter",
+            VPhysicsConstants.Units.Inches, "Inches",
+            VPhysicsConstants.Units.Foot, "Foot",
+            VPhysicsConstants.Units.Yard, "Yards"
     );
 
-    public static final Map<Units, String> UnitLabels = Map.of(
-            Units.Millimeter, "mm",
-            Units.Centimeter, "cm",
-            Units.Meter, "m",
-            Units.Inches, "in",
-            Units.Foot, "ft",
-            Units.Yard, "yd"
+    public static final Map<VPhysicsConstants.Units, String> UnitLabels = Map.of(
+            VPhysicsConstants.Units.Millimeter, "mm",
+            VPhysicsConstants.Units.Centimeter, "cm",
+            VPhysicsConstants.Units.Meter, "m",
+            VPhysicsConstants.Units.Inches, "in",
+            VPhysicsConstants.Units.Foot, "ft",
+            VPhysicsConstants.Units.Yard, "yd"
     );
 
     // Converting table from https://metricunitconversion.globefeed.com/length_conversion_table.asp
@@ -34,14 +34,14 @@ public final class PhysicConstants {
     public static final double YARD_RATIO = 0.010936132983377D;
     public static final String[] UNIT_GROUP_STRING = {"Metric", "Imperial"};
 
-    private PhysicConstants() {
+    private VPhysicsConstants() {
         throw new AssertionError();
     }
 
-    public static final double Convert(double value, Units from, Units to) {
+    public static final double Convert(double value, VPhysicsConstants.Units from, VPhysicsConstants.Units to) {
         switch (from) {
             case Millimeter:
-                return to == Units.Millimeter ? value : Convert(value / MILLIMETER_RATIO, Units.Centimeter, to);
+                return to == VPhysicsConstants.Units.Millimeter ? value : Convert(value / MILLIMETER_RATIO, VPhysicsConstants.Units.Centimeter, to);
             case Centimeter:
                 switch (to) {
                     case Millimeter:
@@ -61,13 +61,13 @@ public final class PhysicConstants {
                 }
 
             case Meter:
-                return to == Units.Meter ? value : Convert(value / METER_RATIO, Units.Centimeter, to);
+                return to == VPhysicsConstants.Units.Meter ? value : Convert(value / METER_RATIO, VPhysicsConstants.Units.Centimeter, to);
             case Inches:
-                return to == Units.Inches ? value : Convert(value / INCHES_RATIO, Units.Centimeter, to);
+                return to == VPhysicsConstants.Units.Inches ? value : Convert(value / INCHES_RATIO, VPhysicsConstants.Units.Centimeter, to);
             case Foot:
-                return to == Units.Foot ? value : Convert(value / FOOT_RATIO, Units.Centimeter, to);
+                return to == VPhysicsConstants.Units.Foot ? value : Convert(value / FOOT_RATIO, VPhysicsConstants.Units.Centimeter, to);
             case Yard:
-                return to == Units.Yard ? value : Convert(value / YARD_RATIO, Units.Centimeter, to);
+                return to == VPhysicsConstants.Units.Yard ? value : Convert(value / YARD_RATIO, VPhysicsConstants.Units.Centimeter, to);
             default:
                 throw new AssertionError("Use of unknown unit");
         }

@@ -1,10 +1,10 @@
-package com.virtutuile.system;
+package com.virtutuile.systeme.interfaces;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 @FunctionalInterface
-public interface SimpleDocumentListener extends DocumentListener {
+public interface ISimpleDocumentListener extends DocumentListener {
     @Override
     default void insertUpdate(DocumentEvent e) {
         update(e);
@@ -21,5 +21,5 @@ public interface SimpleDocumentListener extends DocumentListener {
     default void changedUpdate(DocumentEvent e) {
         update(e);
     }
-
 }
+

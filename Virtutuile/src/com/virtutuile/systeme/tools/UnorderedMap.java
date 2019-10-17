@@ -1,5 +1,4 @@
-package com.virtutuile.system;
-
+package com.virtutuile.systeme.tools;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -228,3 +227,4 @@ public class UnorderedMap<K, V> implements Map<K, V> {
         return pair.getValue();
     }
 }
+

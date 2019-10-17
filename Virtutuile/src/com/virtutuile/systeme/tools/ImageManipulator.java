@@ -1,9 +1,12 @@
-package com.virtutuile.system;
+package com.virtutuile.systeme.tools;
+
+import com.virtutuile.system.VImageManipulator;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class VImageManipulator {
+public class ImageManipulator {
+
     /**
      * Image resizer for icon fit purpose
      *
