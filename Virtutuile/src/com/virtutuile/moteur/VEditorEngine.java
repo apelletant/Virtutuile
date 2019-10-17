@@ -16,7 +16,9 @@ public class VEditorEngine {
     }
 
     public void mouseLClick(VCoordinates coordinates) {
+        if (this._editorState == VEditorState.Idle) {
 
+        }
     }
 
     public void mouseRClick(VCoordinates coordinates) {

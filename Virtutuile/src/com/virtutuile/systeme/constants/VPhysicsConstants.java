@@ -1,5 +1,8 @@
 package com.virtutuile.systeme.constants;
 
+import com.virtutuile.systeme.units.VCoordinates;
+
+import java.awt.*;
 import java.util.Map;
 
 public final class VPhysicsConstants {
@@ -71,6 +74,14 @@ public final class VPhysicsConstants {
             default:
                 throw new AssertionError("Use of unknown unit");
         }
+    }
+
+    public static final VCoordinates pointToCoordinates(Point point) {
+        return new VCoordinates();
+    }
+
+    public static final Point coordinatesToPoint(Point point) {
+        return new Point();
     }
 
     public enum Units {

@@ -4,6 +4,8 @@ import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.moteur.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.constants.VPhysicsConstants;
+import com.virtutuile.systeme.units.VCoordinates;
 
 import java.awt.*;
 
@@ -17,8 +19,9 @@ public class VEditor extends VPanelEvents {
         this.setBorder(null);
         this._editorEngine = editorEngine;
 
-        addEventListener(MouseEventKind.MousePress, (me) -> {
-            /*editorEngine.mouseLClick(me.getPoint());*/
+        addEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
+            VCoordinates coordinates = VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint());
+            editorEngine.mouseLClick(coordinates);
             repaint();
         });
         ;
@@ -27,6 +30,7 @@ public class VEditor extends VPanelEvents {
             /*editorEngine.setMouse(me.getPoint());*/
             repaint();
         });
+
     }
 
     @Override

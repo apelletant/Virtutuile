@@ -44,9 +44,9 @@ public class VEditionPanel extends VPanelEvents {
         persistPanels(this._panelsActive | activePanel);
     }
 
-    private void persistPanels(int newPannelList) {
+    private void persistPanels(int newPanelList) {
         _panels.forEach((key, value) -> {
-            if ((key & newPannelList) != 0) {
+            if ((key & newPanelList) != 0) {
                 if ((key & this._panelsActive) == 0) {
                     System.out.print("Add ");
                     System.out.println(key);
@@ -58,7 +58,7 @@ public class VEditionPanel extends VPanelEvents {
                 this.remove(value);
             }
         });
-        this._panelsActive = newPannelList;
+        this._panelsActive = newPanelList;
     }
 
     public void removePanelsActive(int deactivatePanels) {
