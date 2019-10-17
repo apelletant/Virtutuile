@@ -12,7 +12,6 @@ public class SettingsPanel extends SubPanel {
     private VMetricInputText _perimeterInput = new VMetricInputText("Perimeter");
     private VMetricInputText _width = new VMetricInputText("Width");
     private VMetricInputText _height = new VMetricInputText("Height");
-    private Vector<JPanel> _lines = new Vector<>();
 
     public SettingsPanel(String name) {
         super(name);
@@ -35,13 +34,5 @@ public class SettingsPanel extends SubPanel {
         _lines.add(line);
 
         persistLayout();
-    }
-
-    private void persistLayout() {
-        for (JPanel layout : _lines) {
-            if (!isAncestorOf(layout)) {
-                add(layout);
-            }
-        }
     }
 }

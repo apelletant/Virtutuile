@@ -1,5 +1,6 @@
 package com.virtutuile.afficheur.panels;
 
+import com.virtutuile.afficheur.panels.subpanel.DrawShapePanel;
 import com.virtutuile.afficheur.panels.subpanel.SettingsPanel;
 import com.virtutuile.afficheur.panels.subpanel.ShapeManagementPanel;
 import com.virtutuile.afficheur.panels.subpanel.SubPanel;
@@ -24,7 +25,7 @@ public class VEditionPanel extends VPanelEvents {
 
 
     private SettingsPanel _settings = new SettingsPanel("Settings");
-    private ShapeManagementPanel _shape = new ShapeManagementPanel("Shape");
+    private DrawShapePanel _shape = new DrawShapePanel("Shape");
     private int _panelsActive = NONE;
     private UnorderedMap<Integer, SubPanel> _panels = new UnorderedMap<>();
 
@@ -37,7 +38,7 @@ public class VEditionPanel extends VPanelEvents {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         _panels.put(SETTINGS, _settings);
-        _panels.put(SHAPE_MANAG, _shape);
+        _panels.put(DRAW_SHAPE, _shape);
     }
 
     public void addPanelsActive(int activePanel) {
