@@ -1,11 +1,21 @@
 package com.virtutuile.moteur;
 
+import com.virtutuile.moteur.interfaces.IVEditorManager;
+import com.virtutuile.moteur.managers.VPatternEditorManager;
+import com.virtutuile.moteur.managers.VShapeEditorManager;
 import com.virtutuile.systeme.interfaces.IVGraphics;
+import com.virtutuile.systeme.singletons.VActionStatus;
 import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VProperties;
+
+import java.util.HashMap;
 
 public class VEditorEngine {
 
-    private VEditorState _editorState;
+    private HashMap<VActionStatus.VActionManager, IVEditorManager> _managers = new HashMap<>() {{
+        put(VActionStatus.VActionManager.Pattern, new VPatternEditorManager());
+        put(VActionStatus.VActionManager.Shape, new VShapeEditorManager());
+    }};
 
     public void paint(IVGraphics graphics) {
 
@@ -15,27 +25,12 @@ public class VEditorEngine {
 
     }
 
-    public void mouseLClick(VCoordinates coordinates) {
-        if (this._editorState == VEditorState.Idle) {
-
-        }
+    public void mouseLClick(VProperties properties) {
+        VActionStatus.VActionManager manager = VActionStatus.VActionStatus().manager;
+        this._managers.get(manager).mouseLClick(properties);
     }
 
     public void mouseRClick(VCoordinates coordinates) {
 
-    }
-
-    public VEditorState getEditorState() {
-        return this._editorState;
-    }
-
-    public void setEditorState(VEditorState editorState) {
-        this._editorState = editorState;
-    }
-
-    public enum VEditorState {
-        Idle,
-        CreatingRectShape,
-        CreatingFreeShape
     }
 }

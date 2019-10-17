@@ -6,6 +6,7 @@ import com.virtutuile.moteur.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
 import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VProperties;
 
 import java.awt.*;
 
@@ -20,8 +21,10 @@ public class VEditor extends VPanelEvents {
         this._editorEngine = editorEngine;
 
         addEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
-            VCoordinates coordinates = VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint());
-            editorEngine.mouseLClick(coordinates);
+            VProperties properties = new VProperties() {{
+               coordinates.add(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
+            }};
+            editorEngine.mouseLClick(properties);
             repaint();
         });
         ;

@@ -1,29 +1,46 @@
 package com.virtutuile.moteur.managers;
 
-import com.virtutuile.moteur.interfaces.VEditorManager;
+import com.virtutuile.moteur.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
 import com.virtutuile.systeme.components.VShape;
+import com.virtutuile.systeme.constants.VPhysicsConstants;
+import com.virtutuile.systeme.singletons.VActionStatus;
 import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinates;
-import com.virtutuile.systeme.units.VDimensions;
+import com.virtutuile.systeme.units.VProperties;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
-/**
- * Singleton
- */
-class VShapeEditorManager implements VEditorManager {
-    private static VShapeEditorManager _shapeEditorManager = null;
+public class VShapeEditorManager implements IVEditorManager {
+    private HashMap<VActionStatus.VActionState, Consumer<VProperties>> _actions = new HashMap<>() {{
+        put(VActionStatus.VActionState.Idle, VShapeEditorManager.this::selectShape);
+        put(VActionStatus.VActionState.CreatingRectShape, VShapeEditorManager.this::createRectShape);
+        put(VActionStatus.VActionState.CreatingFreeShape, VShapeEditorManager.this::createFreeShape);
+    }};
 
     private UnorderedMap<Integer, VShape> _shapes;
     private VShape _currentShape;
 
-    public static VShapeEditorManager VShapeEditorManager() {
-        if (_shapeEditorManager == null) {
-            _shapeEditorManager = new VShapeEditorManager();
+    private void selectShape(VProperties properties) {
+        Integer shapeId = this.getShapeIdAt(properties.coordinates.firstElement());
+        if (this._currentShape != null) {
+            this._currentShape.selected(false);
         }
-        return _shapeEditorManager;
+        if (shapeId != null) {
+            this._currentShape = this._shapes.get(shapeId);
+            this._currentShape.selected(true);
+        }
+    }
+
+    public void createRectShape(VProperties properties) {
+
+    }
+
+    public void createFreeShape(VProperties properties) {
+
     }
 
     public VShape getShapeById(int id) {
@@ -47,16 +64,14 @@ class VShapeEditorManager implements VEditorManager {
         return 0;
     }
 
-    public VShape getShapeAt(VCoordinates coordinates) {
-        return null;
-    }
-
-    public int createRectShape(VCoordinates origin, VDimensions dimensions) {
-        return 0;
-    }
-
-    public int createFreeShape(Vector<VCoordinates> coordinates) {
-        return 0;
+    public Integer getShapeIdAt(VCoordinates coordinates) {
+        AtomicReference<Integer> shapeId = new AtomicReference<>();
+        this._shapes.forEach((key, value) -> {
+            if (value.polygon().contains(VPhysicsConstants.coordinatesToPoint(coordinates))) {
+                shapeId.set(key);
+            }
+        });
+        return shapeId.get();
     }
 
     public VDrawableShape getDrawableShape() {
@@ -69,8 +84,9 @@ class VShapeEditorManager implements VEditorManager {
     }
 
     @Override
-    public void mouseLClick(VCoordinates coordinates) {
-
+    public void mouseLClick(VProperties properties) {
+        VActionStatus.VActionState actionState = VActionStatus.VActionStatus().doing;
+        this._actions.get(actionState).accept(properties);
     }
 
     @Override
@@ -79,7 +95,7 @@ class VShapeEditorManager implements VEditorManager {
     }
 
     @Override
-    public List<VDrawableShape> getPrimitiveShaoes() {
+    public List<VDrawableShape> getDrawableShapes() {
         return null;
     }
 }

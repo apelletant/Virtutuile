@@ -7,6 +7,7 @@ import com.virtutuile.afficheur.panels.VEditor;
 import com.virtutuile.afficheur.panels.VTopToolbar;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.moteur.VEditorEngine;
+import com.virtutuile.systeme.singletons.VActionStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,18 +41,19 @@ public class MainWindow extends JFrame {
     }
 
     private void setupTopToolbarEvents() {
+        VActionStatus actionStatus = VActionStatus.VActionStatus();
         VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
         draw.addEventListener(MouseEventKind.MouseLClick, (me) -> {
-            switch (_editorEngine.getEditorState()) {
+            /*switch (actionStatus.doing) {
                 case Idle:
-                    _editorEngine.setEditorState(VEditorEngine.VEditorState.CreatingRectShape);
+                    actionStatus.doing = VActionStatus.VActionState.CreatingRectShape
                     draw.setActive(true);
                     break;
                 case CreatingFreeShape:
                 case CreatingRectShape:
                     _editorEngine.setEditorState(VEditorEngine.VEditorState.Idle);
                     draw.setActive(false);
-            }
+            }*/
         });
 
         VButton save = _toolBar.getButton(VTopToolbar.TargetButton.SaveCanvas);

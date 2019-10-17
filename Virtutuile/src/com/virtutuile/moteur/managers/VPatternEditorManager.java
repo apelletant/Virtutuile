@@ -1,28 +1,17 @@
 package com.virtutuile.moteur.managers;
 
-import com.virtutuile.moteur.interfaces.VEditorManager;
+import com.virtutuile.moteur.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
 import com.virtutuile.systeme.components.VPattern;
 import com.virtutuile.systeme.components.VPatternSpec;
 import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VProperties;
 
 import java.util.List;
 
-/**
- * Singleton
- */
-public class VPatternEditorManager implements VEditorManager {
-    private static VPatternEditorManager _patternEditorManager = null;
-
+public class VPatternEditorManager implements IVEditorManager {
     private UnorderedMap<Integer, VPatternSpec> _patternList;
-
-    public static VPatternEditorManager VPatternEditorManager() {
-        if (_patternEditorManager == null) {
-            _patternEditorManager = new VPatternEditorManager();
-        }
-        return _patternEditorManager;
-    }
 
     public void addPatternToShape(int shapeId, VPattern pattern) {
 
@@ -42,7 +31,7 @@ public class VPatternEditorManager implements VEditorManager {
     }
 
     @Override
-    public void mouseLClick(VCoordinates coordinates) {
+    public void mouseLClick(VProperties properties) {
 
     }
 
@@ -52,7 +41,7 @@ public class VPatternEditorManager implements VEditorManager {
     }
 
     @Override
-    public List<VDrawableShape> getPrimitiveShaoes() {
+    public List<VDrawableShape> getDrawableShapes() {
         return null;
     }
 }

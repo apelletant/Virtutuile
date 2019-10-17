@@ -4,6 +4,7 @@ import com.virtutuile.systeme.units.VCoordinates;
 
 import java.awt.*;
 import java.util.Map;
+import java.util.function.ToDoubleBiFunction;
 
 public final class VPhysicsConstants {
 
@@ -41,7 +42,7 @@ public final class VPhysicsConstants {
         throw new AssertionError();
     }
 
-    public static final double Convert(double value, VPhysicsConstants.Units from, VPhysicsConstants.Units to) {
+    public static double Convert(double value, VPhysicsConstants.Units from, VPhysicsConstants.Units to) {
         switch (from) {
             case Millimeter:
                 return to == VPhysicsConstants.Units.Millimeter ? value : Convert(value / MILLIMETER_RATIO, VPhysicsConstants.Units.Centimeter, to);
@@ -76,12 +77,20 @@ public final class VPhysicsConstants {
         }
     }
 
-    public static final VCoordinates pointToCoordinates(Point point) {
-        return new VCoordinates();
+    //TODO: Développer la méthode pointToCoordinates
+    public static VCoordinates pointToCoordinates(Point point) {
+        return new VCoordinates() {{
+            longitude = point.x;
+            latitude = point.y;
+        }};
     }
 
-    public static final Point coordinatesToPoint(Point point) {
-        return new Point();
+    //TODO: Développer la méthode coordinatesToPoint
+    public static Point coordinatesToPoint(VCoordinates coordinates) {
+        return new Point() {{
+            x = (int) coordinates.longitude;
+            y = (int) coordinates.latitude;
+        }};
     }
 
     public enum Units {
