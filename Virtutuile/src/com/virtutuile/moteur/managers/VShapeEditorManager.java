@@ -21,8 +21,8 @@ public class VShapeEditorManager implements IVEditorManager {
         put(VActionStatus.VActionState.CreatingFreeShape, VShapeEditorManager.this::createFreeShape);
     }};
 
-    private UnorderedMap<Integer, VShape> _shapes;
-    private VShape _currentShape;
+    private UnorderedMap<Integer, VShape> _shapes = new UnorderedMap<>();
+    private VShape _currentShape = null;
 
     private void selectShape(VProperties properties) {
         Integer shapeId = this.getShapeIdAt(properties.coordinates.firstElement());
@@ -67,7 +67,9 @@ public class VShapeEditorManager implements IVEditorManager {
     public Integer getShapeIdAt(VCoordinates coordinates) {
         AtomicReference<Integer> shapeId = new AtomicReference<>();
         this._shapes.forEach((key, value) -> {
-            if (value.polygon().contains(VPhysicsConstants.coordinatesToPoint(coordinates))) {
+            if (value != null
+                    && value.polygon() != null
+                    && value.polygon().contains(VPhysicsConstants.coordinatesToPoint(coordinates))) {
                 shapeId.set(key);
             }
         });

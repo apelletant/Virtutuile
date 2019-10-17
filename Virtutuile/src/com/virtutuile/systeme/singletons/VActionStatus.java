@@ -6,7 +6,7 @@ public class VActionStatus {
     private VActionStatus(){}
 
     public VActionState doing = VActionState.Idle;
-    public VActionManager manager = VActionManager.Undefined;
+    public VActionManager manager = VActionManager.Shape;
 
     public static VActionStatus VActionStatus() {
         if (_actionsStatus == null) {
@@ -33,8 +33,7 @@ public class VActionStatus {
 
     public enum VActionManager {
         Pattern,
-        Shape,
-        Undefined
+        Shape
     }
 
 }

@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 public class VEditorEngine {
 
+    public VEditorEngine() {super();}
+
     private HashMap<VActionStatus.VActionManager, IVEditorManager> _managers = new HashMap<>() {{
         put(VActionStatus.VActionManager.Pattern, new VPatternEditorManager());
         put(VActionStatus.VActionManager.Shape, new VShapeEditorManager());

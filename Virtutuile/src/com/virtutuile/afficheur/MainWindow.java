@@ -42,28 +42,15 @@ public class MainWindow extends JFrame {
 
     private void setupTopToolbarEvents() {
         VActionStatus actionStatus = VActionStatus.VActionStatus();
-        VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
-        draw.addEventListener(MouseEventKind.MouseLClick, (me) -> {
-            /*switch (actionStatus.doing) {
-                case Idle:
-                    actionStatus.doing = VActionStatus.VActionState.CreatingRectShape
-                    draw.setActive(true);
-                    break;
-                case CreatingFreeShape:
-                case CreatingRectShape:
-                    _editorEngine.setEditorState(VEditorEngine.VEditorState.Idle);
-                    draw.setActive(false);
-            }*/
-        });
 
-        VButton save = _toolBar.getButton(VTopToolbar.TargetButton.SaveCanvas);
-        save.addEventListener(MouseEventKind.MouseLClick, (me) -> {
-            if (_editionPanel.isPanelActive(VEditionPanel.SHAPE_MANAG)) {
-                _editionPanel.removePanelsActive(VEditionPanel.SHAPE_MANAG);
-                save.setActive(false);
+        VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
+        draw.addEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
+            if (_editionPanel.isPanelActive(VEditionPanel.DRAW_SHAPE)) {
+                _editionPanel.removePanelsActive(VEditionPanel.DRAW_SHAPE);
+                draw.setActive(false);
             } else {
-                _editionPanel.addPanelsActive(VEditionPanel.SHAPE_MANAG);
-                save.setActive(true);
+                _editionPanel.addPanelsActive(VEditionPanel.DRAW_SHAPE);
+                draw.setActive(true);
             }
             revalidate();
             repaint();
