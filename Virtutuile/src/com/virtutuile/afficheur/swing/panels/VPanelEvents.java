@@ -1,26 +1,42 @@
-package com.virtutuile.afficheur.wrap.panels;
+package com.virtutuile.afficheur.swing.panels;
 
-import com.virtutuile.afficheur.wrap.MouseEventKind;
-
-import javax.swing.event.MouseInputListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.function.Consumer;
 
-public class VBorderedEventPanel extends VBorderedPanel implements MouseInputListener, MouseMotionListener {
-
+public class VPanelEvents extends JPanel implements MouseListener, MouseMotionListener {
     protected boolean _isClicked = false;
     protected boolean _isMouseActive = false;
     protected boolean _isMouseHover = false;
 
     HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _events = new HashMap<>();
 
-    public VBorderedEventPanel() {
-        super();
-        _border.addMouseListener(this);
-        _border.addMouseMotionListener(this);
+    public VPanelEvents(LayoutManager layout, boolean isDoubleBuffered) {
+        super(layout, isDoubleBuffered);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+    }
+
+    public VPanelEvents(LayoutManager layout) {
+        super(layout);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+    }
+
+    public VPanelEvents(boolean isDoubleBuffered) {
+        super(isDoubleBuffered);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+    }
+
+    public VPanelEvents() {
+        addMouseListener(this);
+        addMouseMotionListener(this);
     }
 
     public boolean isActive() {
@@ -102,4 +118,14 @@ public class VBorderedEventPanel extends VBorderedPanel implements MouseInputLis
         invokeEvents(MouseEventKind.MouseMove, me);
     }
 
+    /**
+     * Force the button to be this size
+     *
+     * @param size The desired size
+     */
+    public void fixSize(Dimension size) {
+        this.setMaximumSize(size);
+        this.setPreferredSize(size);
+        this.setMinimumSize(size);
+    }
 }

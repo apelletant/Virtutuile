@@ -1,4 +1,4 @@
-package com.virtutuile.afficheur.wrap.borders;
+package com.virtutuile.afficheur.swing.inputs;
 
 import javax.swing.border.AbstractBorder;
 import java.awt.*;

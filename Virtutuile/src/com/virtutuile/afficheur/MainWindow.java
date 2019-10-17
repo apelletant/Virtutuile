@@ -1,11 +1,11 @@
 package com.virtutuile.afficheur;
 
-import com.virtutuile.afficheur.components.VEditor;
-import com.virtutuile.afficheur.components.buttons.VButton;
-import com.virtutuile.afficheur.components.panels.VBottomToolbar;
-import com.virtutuile.afficheur.components.panels.VTopToolbar;
-import com.virtutuile.afficheur.components.panels.editionpanel.VEditionPanel;
-import com.virtutuile.afficheur.wrap.MouseEventKind;
+import com.virtutuile.afficheur.inputs.VButton;
+import com.virtutuile.afficheur.panels.VBottomToolbar;
+import com.virtutuile.afficheur.panels.VEditionPanel;
+import com.virtutuile.afficheur.panels.VEditor;
+import com.virtutuile.afficheur.panels.VTopToolbar;
+import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.moteur.VEditorEngine;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class MainWindow extends JFrame {
     private VBottomToolbar _bottomToolbar;
     private VEditor _editor;
     private VEditorEngine _editorEngine;
-    private JTabbedPane _tabs = new JTabbedPane();
+    private JTabbedPane _tabbedPane = new JTabbedPane();
 
     public MainWindow() {
         super();
@@ -96,8 +96,8 @@ public class MainWindow extends JFrame {
         container.setBackground(new Color(39, 39, 39));
         container.add(_toolBar, BorderLayout.NORTH);
         container.add(BorderLayout.EAST, new JScrollPane(this._editionPanel));
-        _tabs.add("Canvas 1", _editor);
-        container.add(_tabs, BorderLayout.CENTER);
+        _tabbedPane.add("Canvas 1", _editor);
+        container.add(_tabbedPane, BorderLayout.CENTER);
         container.add(_bottomToolbar, BorderLayout.SOUTH);
     }
 }

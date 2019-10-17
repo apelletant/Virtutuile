@@ -1,25 +1,25 @@
-package com.virtutuile.afficheur.components.inputs;
+package com.virtutuile.afficheur.inputs;
 
+import com.virtutuile.afficheur.swing.tools.VLabel;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
-import com.virtutuile.afficheur.wrap.VLabel;
-import com.virtutuile.systeme.tools.Validators;
 import com.virtutuile.systeme.tools.ValidationsException;
+import com.virtutuile.systeme.tools.Validators;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 
-public class VMetricInput extends VInput {
+public class VMetricInputText extends VInputText {
 
     int _value;
     VLabel _unitLabel = new VLabel();
     VPhysicsConstants.Units _unit;
 
-    public VMetricInput(String label) {
+    public VMetricInputText(String label) {
         this(label, true);
     }
 
-    public VMetricInput(String label, boolean horizontalFlex) {
+    public VMetricInputText(String label, boolean horizontalFlex) {
         super(label, horizontalFlex);
         setUnit(VPhysicsConstants.Units.Centimeter);
         _unitLabel.setPreferredSize(new Dimension(50, _unitLabel.getPreferredSize().height));
@@ -45,7 +45,7 @@ public class VMetricInput extends VInput {
         return _value;
     }
 
-    public VMetricInput setValue(int value) {
+    public VMetricInputText setValue(int value) {
         this._value = value;
         _field.setText(String.valueOf(_value));
         repaint();
@@ -56,7 +56,7 @@ public class VMetricInput extends VInput {
         return _unit;
     }
 
-    public VMetricInput setUnit(VPhysicsConstants.Units unit) {
+    public VMetricInputText setUnit(VPhysicsConstants.Units unit) {
         this._unit = unit;
         this._unitLabel.setText(VPhysicsConstants.UnitLabels.get(unit));
         repaint();

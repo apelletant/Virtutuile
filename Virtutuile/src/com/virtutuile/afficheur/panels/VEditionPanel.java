@@ -1,10 +1,10 @@
-package com.virtutuile.afficheur.components.panels.editionpanel;
+package com.virtutuile.afficheur.panels;
 
+import com.virtutuile.afficheur.panels.subpanel.SettingsPanel;
+import com.virtutuile.afficheur.panels.subpanel.ShapeManagementPanel;
+import com.virtutuile.afficheur.panels.subpanel.SubPanel;
+import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.SubPanel;
-import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels.SettingsPanel;
-import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels.ShapeManagementPanel;
-import com.virtutuile.afficheur.wrap.panels.VPanelEvents;
 import com.virtutuile.systeme.tools.UnorderedMap;
 
 import javax.swing.*;

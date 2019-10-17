@@ -1,4 +1,4 @@
-package com.virtutuile.afficheur.wrap.panels;
+package com.virtutuile.afficheur.swing.panels;
 
 import javax.swing.*;
 import java.awt.*;

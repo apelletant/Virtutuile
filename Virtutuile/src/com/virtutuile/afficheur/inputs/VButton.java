@@ -1,7 +1,7 @@
-package com.virtutuile.afficheur.components.buttons;
+package com.virtutuile.afficheur.inputs;
 
+import com.virtutuile.afficheur.swing.panels.VBorderedEventPanel;
 import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.afficheur.wrap.panels.VBorderedEventPanel;
 import com.virtutuile.systeme.tools.ImageManipulator;
 
 import javax.imageio.ImageIO;

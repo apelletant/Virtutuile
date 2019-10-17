@@ -1,8 +1,8 @@
-package com.virtutuile.afficheur.components.inputs;
+package com.virtutuile.afficheur.inputs;
 
+import com.virtutuile.afficheur.swing.panels.VPanel;
+import com.virtutuile.afficheur.swing.tools.VLabel;
 import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.afficheur.wrap.VLabel;
-import com.virtutuile.afficheur.wrap.panels.VPanel;
 import com.virtutuile.systeme.interfaces.ISimpleDocumentListener;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 
-public class VInput extends VPanel {
+public class VInputText extends VPanel {
     protected VLabel _label = new VLabel();
     protected VPanel _fieldMargin = new VPanel();
     protected VPanel _fieldBorder = new VPanel(new BorderLayout());
@@ -21,11 +21,11 @@ public class VInput extends VPanel {
     protected Border _invalidBorder = BorderFactory.createLineBorder(UIConstants.INPUT_COLOR_INVALID, 1, false);
     protected boolean _isValid;
 
-    public VInput(String label) {
+    public VInputText(String label) {
         this(label, true);
     }
 
-    public VInput(String label, boolean horizontalFlex) {
+    public VInputText(String label, boolean horizontalFlex) {
         super(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
         if (horizontalFlex)
@@ -65,7 +65,7 @@ public class VInput extends VPanel {
         return _field.getText();
     }
 
-    public VInput setText(String text) {
+    public VInputText setText(String text) {
         _field.setText(text);
         return this;
     }
@@ -74,7 +74,7 @@ public class VInput extends VPanel {
         return _isValid;
     }
 
-    public VInput setValid(boolean validity) {
+    public VInputText setValid(boolean validity) {
         _isValid = validity;
         _fieldBorder.setBorder(_isValid ? _validBorder : _invalidBorder);
         repaint();

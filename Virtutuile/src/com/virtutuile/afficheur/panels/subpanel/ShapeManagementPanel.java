@@ -1,13 +1,12 @@
-package com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels;
+package com.virtutuile.afficheur.panels.subpanel;
 
+import com.virtutuile.afficheur.inputs.VInputText;
 import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.afficheur.components.inputs.VInput;
-import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.SubPanel;
 
 import javax.swing.border.TitledBorder;
 
 public class ShapeManagementPanel extends SubPanel {
-    private VInput _input = new VInput("Area");
+    private VInputText _input = new VInputText("Area");
 
     public ShapeManagementPanel(String name) {
         super(name);

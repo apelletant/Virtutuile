@@ -1,4 +1,4 @@
-package com.virtutuile.afficheur.wrap;
+package com.virtutuile.afficheur.swing.panels;
 
 public enum MouseEventKind {
     MouseEnter,

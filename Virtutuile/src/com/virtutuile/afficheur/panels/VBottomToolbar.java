@@ -1,6 +1,6 @@
-package com.virtutuile.afficheur.components.panels;
+package com.virtutuile.afficheur.panels;
 
-import com.virtutuile.afficheur.wrap.panels.VBorderedPanel;
+import com.virtutuile.afficheur.swing.panels.VBorderedPanel;
 
 public class VBottomToolbar extends VBorderedPanel {
     public VBottomToolbar() {

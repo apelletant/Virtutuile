@@ -1,8 +1,8 @@
-package com.virtutuile.afficheur.components;
+package com.virtutuile.afficheur.panels;
 
+import com.virtutuile.afficheur.swing.panels.MouseEventKind;
+import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.moteur.VEditorEngine;
-import com.virtutuile.afficheur.wrap.MouseEventKind;
-import com.virtutuile.afficheur.wrap.panels.VPanelEvents;
 import com.virtutuile.systeme.constants.UIConstants;
 
 import java.awt.*;

@@ -1,7 +1,7 @@
-package com.virtutuile.afficheur.components.panels;
+package com.virtutuile.afficheur.panels;
 
-import com.virtutuile.afficheur.components.buttons.VButton;
-import com.virtutuile.afficheur.wrap.panels.VBorderedPanel;
+import com.virtutuile.afficheur.inputs.VButton;
+import com.virtutuile.afficheur.swing.panels.VBorderedPanel;
 import com.virtutuile.systeme.tools.UnorderedMap;
 
 import javax.swing.*;

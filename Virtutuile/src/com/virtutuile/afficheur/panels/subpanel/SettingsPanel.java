@@ -1,18 +1,17 @@
-package com.virtutuile.afficheur.components.panels.editionpanel.subpanel.subpanels;
+package com.virtutuile.afficheur.panels.subpanel;
 
+import com.virtutuile.afficheur.inputs.VMetricInputText;
 import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.afficheur.components.inputs.VMetricInput;
-import com.virtutuile.afficheur.components.panels.editionpanel.subpanel.SubPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.util.Vector;
 
 public class SettingsPanel extends SubPanel {
-    private VMetricInput _areaInput = new VMetricInput("Area");
-    private VMetricInput _perimeterInput = new VMetricInput("Perimeter");
-    private VMetricInput _width = new VMetricInput("Width");
-    private VMetricInput _height = new VMetricInput("Height");
+    private VMetricInputText _areaInput = new VMetricInputText("Area");
+    private VMetricInputText _perimeterInput = new VMetricInputText("Perimeter");
+    private VMetricInputText _width = new VMetricInputText("Width");
+    private VMetricInputText _height = new VMetricInputText("Height");
     private Vector<JPanel> _lines = new Vector<>();
 
     public SettingsPanel(String name) {
