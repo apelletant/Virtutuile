@@ -41,6 +41,12 @@ public class VTopToolbar extends VBorderedPanel {
         //Save Canvas Button
         this._buttons.put(TargetButton.SaveCanvas, new VButton("Save Canvas", AssetLoader.loadImage("/icons/save.png")));
 
+        //Undo Canvas Button
+        this._buttons.put(TargetButton.Undo, new VButton("Undo", AssetLoader.loadImage("/icons/undo-alt.png")));
+
+        //Redo Canvas Button
+        this._buttons.put(TargetButton.Redo, new VButton("Redo", AssetLoader.loadImage("/icons/redo-alt.png")));
+
         //Draw VShape Button
         this._buttons.put(TargetButton.DrawShape, new VButton("Draw Shape", AssetLoader.loadImage("/icons/pencil-alt.png")));
 
@@ -76,6 +82,8 @@ public class VTopToolbar extends VBorderedPanel {
         NewCanvas,
         LoadCanvas,
         SaveCanvas,
+        Undo,
+        Redo,
         DrawShape,
         CanvasSettings,
         CanvasInfos,

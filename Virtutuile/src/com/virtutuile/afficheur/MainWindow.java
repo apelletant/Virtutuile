@@ -48,9 +48,12 @@ public class MainWindow extends JFrame {
             if (_editionPanel.isPanelActive(VEditionPanel.DRAW_SHAPE)) {
                 _editionPanel.removePanelsActive(VEditionPanel.DRAW_SHAPE);
                 draw.setActive(false);
+                actionStatus.doing = VActionStatus.VActionState.Idle;
             } else {
                 _editionPanel.addPanelsActive(VEditionPanel.DRAW_SHAPE);
                 draw.setActive(true);
+                actionStatus.doing = VActionStatus.VActionState.CreatingRectShape;
+                actionStatus.manager = VActionStatus.VActionManager.Shape;
             }
             revalidate();
             repaint();
