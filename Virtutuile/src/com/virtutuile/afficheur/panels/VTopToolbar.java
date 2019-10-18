@@ -2,12 +2,14 @@ package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.inputs.VButton;
 import com.virtutuile.afficheur.swing.panels.VBorderedPanel;
+import com.virtutuile.systeme.tools.AssetLoader;
 import com.virtutuile.systeme.tools.UnorderedMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 
 public class VTopToolbar extends VBorderedPanel {
 
@@ -31,22 +33,22 @@ public class VTopToolbar extends VBorderedPanel {
      */
     private void setButtonOnToolbar() {
         //New Canvas Button
-        this._buttons.put(TargetButton.NewCanvas, new VButton("New Canvas", new File("./Virtutuile/assets/icons/file.png")));
+        this._buttons.put(TargetButton.NewCanvas, new VButton("New Canvas", AssetLoader.loadImage("/icons/file.png")));
 
         //Load Canvas Button
-        this._buttons.put(TargetButton.LoadCanvas, new VButton("Load Canvas", new File("./Virtutuile/assets/icons/folder-open.png")));
+        this._buttons.put(TargetButton.LoadCanvas, new VButton("Load Canvas", AssetLoader.loadImage("/icons/folder-open.png")));
 
         //Save Canvas Button
-        this._buttons.put(TargetButton.SaveCanvas, new VButton("Save Canvas", new File("./Virtutuile/assets/icons/save.png")));
+        this._buttons.put(TargetButton.SaveCanvas, new VButton("Save Canvas", AssetLoader.loadImage("/icons/save.png")));
 
         //Draw VShape Button
-        this._buttons.put(TargetButton.DrawShape, new VButton("Draw Shape", new File("./Virtutuile/assets/icons/pencil-alt.png")));
+        this._buttons.put(TargetButton.DrawShape, new VButton("Draw Shape", AssetLoader.loadImage("/icons/pencil-alt.png")));
 
         //Canvas Settings Button
-        this._buttons.put(TargetButton.CanvasSettings, new VButton("Canvas Settings", new File("./Virtutuile/assets/icons/cog.png")));
+        this._buttons.put(TargetButton.CanvasSettings, new VButton("Canvas Settings", AssetLoader.loadImage("/icons/cog.png")));
 
         //Canvas infos button
-        this._buttons.put(TargetButton.CanvasInfos, new VButton("Canvas Infos", new File("./Virtutuile/assets/icons/info.png")));
+        this._buttons.put(TargetButton.CanvasInfos, new VButton("Canvas Infos", AssetLoader.loadImage("/icons/info.png")));
 
         this._buttons.forEach((key, value) -> {
             if (key == TargetButton.CanvasInfos)

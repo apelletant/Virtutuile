@@ -53,6 +53,34 @@ public class VButton extends VBorderedEventPanel implements MouseListener {
     }
 
     /**
+     * Build a VButton. It's a combo of an icon and a text.
+     *  @param name     The name of the button
+     * @param icon The icon of the button
+     */
+    public VButton(String name, Image icon) {
+        this.setBackground(UIConstants.TOOLBAR_BACKGROUND);
+        this.fixSize(UIConstants.BUTTON_SIZE);
+
+        // Creating the label and style it
+        _text = new JLabel(name, SwingConstants.CENTER);
+        Border textMargin = new EmptyBorder(3, 10, 10, 10);
+        _text.setBorder(new CompoundBorder(_text.getBorder(), textMargin));
+        _text.setForeground(UIConstants.TOOLBAR_FONT_COLOR);
+
+        // Creating the image and style it
+        _icon = ImageManipulator.Resize(new ImageIcon(icon), UIConstants.BUTTON_ICON_SIZE);
+        _imgContainer = new JLabel(_icon);
+        Border imgMargin = new EmptyBorder(10, 10, 3, 10);
+        _imgContainer.setBorder(new CompoundBorder(_imgContainer.getBorder(), imgMargin));
+
+        // Setting the layout of the button and add it's components
+        this._content.setLayout(new BorderLayout());
+        this.add(_imgContainer, BorderLayout.CENTER);
+        this.add(_text, BorderLayout.SOUTH);
+        this.setMargin(5);
+    }
+
+    /**
      * Force the button to be this size
      *
      * @param size The desired size
