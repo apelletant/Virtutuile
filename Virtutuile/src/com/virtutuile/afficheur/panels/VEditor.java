@@ -3,9 +3,10 @@ package com.virtutuile.afficheur.panels;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.moteur.VEditorEngine;
+import com.virtutuile.moteur.managers.VPainterManager;
 import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.interfaces.IVGraphics;
 import com.virtutuile.systeme.units.VProperties;
 
 import java.awt.*;
@@ -30,7 +31,7 @@ public class VEditor extends VPanelEvents {
         ;
 
         addEventListener(MouseEventKind.MouseMove, (me) -> {
-            /*editorEngine.setMouse(me.getPoint());*/
+            editorEngine.mouseHover(VPhysicsConstants.pointToCoordinates(me.getPoint()));
             repaint();
         });
 
@@ -39,6 +40,6 @@ public class VEditor extends VPanelEvents {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        /*this._editorEngine.paint(g);*/
+        this._editorEngine.paint(VPainterManager.getInstance().getPainter(g));
     }
 }

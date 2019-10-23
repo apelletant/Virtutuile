@@ -1,10 +1,23 @@
 package com.virtutuile.moteur.managers;
 
 import com.virtutuile.moteur.VPainter;
-import com.virtutuile.systeme.interfaces.IVGraphics;
+
+import java.awt.*;
 
 public class VPainterManager {
-    public VPainter getPainter(IVGraphics graphics) {
-        return null;
+    private VPainterManager() {
+    }
+
+    private static VPainterManager _instance = null;
+
+    public VPainter getPainter(Graphics graphics) {
+        return new VPainter(graphics);
+    }
+
+    public static VPainterManager getInstance() {
+        if (_instance == null) {
+            _instance = new VPainterManager();
+        }
+        return _instance;
     }
 }

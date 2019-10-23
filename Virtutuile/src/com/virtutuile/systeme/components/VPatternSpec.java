@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.components;
 
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VCoordinate;
 
 import java.util.Vector;
 
@@ -8,7 +8,7 @@ public class VPatternSpec {
     private VPattern _pattern;
     private Vector<VTileSpec> _tiles;
     private float _rotation;
-    private VCoordinates _coordinate;
+    private VCoordinate _coordinate;
 
     public VPattern pattern() {
         return this._pattern;
@@ -34,11 +34,11 @@ public class VPatternSpec {
         this._rotation = rotation;
     }
 
-    public VCoordinates coordinate() {
+    public VCoordinate coordinate() {
         return this._coordinate;
     }
 
-    public void coordinate(VCoordinates coordinate) {
+    public void coordinate(VCoordinate coordinate) {
         this._coordinate = coordinate;
     }
 }

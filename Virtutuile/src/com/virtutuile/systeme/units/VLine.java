@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.units;
 
 public class VLine {
-    public VCoordinates point1;
-    public VCoordinates point2;
+    public VCoordinate point1;
+    public VCoordinate point2;
 }

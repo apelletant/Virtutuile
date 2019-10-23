@@ -1,53 +1,97 @@
 package com.virtutuile.systeme.components;
 
+import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.units.VCoordinate;
+
 import java.awt.*;
+import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class VShape {
-    private UUID _id;
-    private Rectangle _bounds;
-    private boolean _hole;
-    private boolean _selected;
-    private Polygon _polygon;
-    private Color _borderColor;
-    private Color _fillColor;
+    private UUID _id = UUID.randomUUID();
+    private boolean _isHole = false;
+    private boolean _selected = false;
+    private boolean _isMouseHover = false;
+    protected Path2D.Double _polygon = new Path2D.Double();
+    private Color _borderColor = new Color(0);
+    private Color _fillColor = UIConstants.DEFAULT_SHAPE_FILL_COLOR;
 
-    public VShape(Rectangle bounds, boolean hole, Polygon polygon) {
-        this._bounds = bounds;
-        this._hole = hole;
+    protected VShape(boolean isHole) {
+        this._isHole = isHole;
+    }
+
+    public VShape(double[] pointsX, double[] pointsY, int nPoints, boolean isHole) {
+        this(isHole);
+        this._polygon = new Path2D.Double();
+        for (int i = 1; i <= nPoints; ++i) {
+            if (i == 1) {
+                this._polygon.moveTo(pointsX[i], pointsY[i]);
+            } else {
+                this._polygon.lineTo(pointsX[i], pointsY[i]);
+            }
+        }
+        this._polygon.closePath();
+    }
+
+    public VShape(VCoordinate[] coordinates, int nPoints, boolean isHole) {
+        this(isHole);
+        this._polygon = new Path2D.Double();
+        for (int i = 1; i <= nPoints; ++i) {
+            if (i == 1) {
+                this._polygon.moveTo(coordinates[i].longitude, coordinates[i].latitude);
+            } else {
+                this._polygon.lineTo(coordinates[i].longitude, coordinates[i].latitude);
+            }
+        }
+        this._polygon.closePath();
+    }
+
+    public VShape(Path2D.Double polygon, boolean isHole) {
+        this._isHole = isHole;
         this._polygon = polygon;
-        this._id = UUID.randomUUID();
     }
 
     public UUID id() {
         return this._id;
     }
 
-    public Rectangle bounds() {
-        return this._bounds;
-    }
-
-    public void bounds(Rectangle bounds) {
-        this._bounds = bounds;
+    public Rectangle2D bounds() {
+        return this._polygon.getBounds2D();
     }
 
     public boolean isHole() {
-        return this._hole;
+        return this._isHole;
     }
 
     public void hole(boolean hole) {
-        this._hole = hole;
+        this._isHole = hole;
     }
 
-    public boolean isSelected() { return this._selected; }
+    public boolean isMouseHover() {
+        return this._isMouseHover;
+    }
 
-    public void selected(boolean selected) { this._selected = selected; }
+    public void setMouseHover(boolean isMouseHover) {
+        this._isMouseHover = isMouseHover;
+    }
 
-    public Polygon polygon() {
+    public boolean isSelected() {
+        return this._selected;
+    }
+
+    public void selected(boolean selected) {
+        this._selected = selected;
+    }
+
+    public Path2D polygon() {
         return this._polygon;
     }
 
-    public void polygon(Polygon polygon) {
+    public void polygon(Path2D.Double polygon) {
         this._polygon = polygon;
     }
 
@@ -65,5 +109,31 @@ public class VShape {
 
     public void fillColor(Color fillColor) {
         this._fillColor = fillColor;
+    }
+
+    public VCoordinate[] getVertices() {
+        List<VCoordinate> vertices = new ArrayList<VCoordinate>();
+        boolean isFirst = true;
+        double[] firstCoords = new double[2];
+        double[] coords = new double[2];
+
+        for (PathIterator pi = _polygon.getPathIterator(null); !pi.isDone(); pi.next()) {
+            switch (pi.currentSegment(coords)) {
+                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_LINETO:
+                    if (isFirst) {
+                        firstCoords[0] = coords[0];
+                        firstCoords[1] = coords[1];
+                        isFirst = false;
+                    }
+                    vertices.add(new VCoordinate(coords[0], coords[1]));
+                    break;
+                case PathIterator.SEG_CLOSE:
+                    return vertices.toArray(new VCoordinate[vertices.size()]);
+                default:
+                    throw new IllegalArgumentException("Path contains curves");
+            }
+        }
+        throw new IllegalArgumentException("Unclosed path");
     }
 }

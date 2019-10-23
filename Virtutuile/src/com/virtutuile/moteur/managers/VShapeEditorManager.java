@@ -2,15 +2,20 @@ package com.virtutuile.moteur.managers;
 
 import com.virtutuile.moteur.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
+import com.virtutuile.systeme.components.VRectShape;
 import com.virtutuile.systeme.components.VShape;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
 import com.virtutuile.systeme.singletons.VActionStatus;
 import com.virtutuile.systeme.tools.UnorderedMap;
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -21,16 +26,26 @@ public class VShapeEditorManager implements IVEditorManager {
         put(VActionStatus.VActionState.CreatingFreeShape, VShapeEditorManager.this::createFreeShape);
     }};
 
-    private UnorderedMap<Integer, VShape> _shapes = new UnorderedMap<>();
+    private UnorderedMap<UUID, VShape> _shapes = new UnorderedMap<>();
     private VShape _currentShape = null;
+    private VShape _hoveredShape = null;
+
+    public VShapeEditorManager() {
+        VShape shape = new VRectShape(new Rectangle2D.Double(30, 30, 240, 120), false);
+        _shapes.put(shape.id(), shape);
+        shape = new VRectShape(new Rectangle2D.Double(500, 230, 240, 120), false);
+        shape.fillColor(Color.RED);
+        _shapes.put(shape.id(), shape);
+    }
 
     private void selectShape(VProperties properties) {
-        Integer shapeId = this.getShapeIdAt(properties.coordinates.firstElement());
+        VShape shape = this.getShapeAt(properties.coordinates.firstElement());
         if (this._currentShape != null) {
             this._currentShape.selected(false);
         }
-        if (shapeId != null) {
-            this._currentShape = this._shapes.get(shapeId);
+        _currentShape = shape;
+        if (shape != null) {
+            this._currentShape = this._shapes.get(shape.id());
             this._currentShape.selected(true);
         }
     }
@@ -64,25 +79,41 @@ public class VShapeEditorManager implements IVEditorManager {
         return 0;
     }
 
-    public Integer getShapeIdAt(VCoordinates coordinates) {
-        AtomicReference<Integer> shapeId = new AtomicReference<>();
+    public UUID getShapeIdAt(VCoordinate coordinates) {
+        AtomicReference<UUID> shapeId = new AtomicReference<>();
         this._shapes.forEach((key, value) -> {
             if (value != null
                     && value.polygon() != null
-                    && value.polygon().contains(VPhysicsConstants.coordinatesToPoint(coordinates))) {
+                    && value.polygon().contains(VPhysicsConstants.coordinateToPoint(coordinates))) {
                 shapeId.set(key);
             }
         });
         return shapeId.get();
     }
 
-    public VDrawableShape getDrawableShape() {
-        return null;
+    public VShape getShapeAt(VCoordinate coordinates) {
+        AtomicReference<VShape> shapeId = new AtomicReference<>();
+        this._shapes.forEach((key, value) -> {
+            if (value != null
+                    && value.polygon() != null
+                    && value.polygon().contains(VPhysicsConstants.coordinateToPoint(coordinates))) {
+                shapeId.set(value);
+            }
+        });
+        return shapeId.get();
     }
 
     @Override
-    public void mouseHover(VCoordinates coordinates) {
+    public void mouseHover(VCoordinate coordinates) {
+        VShape shape = getShapeAt(coordinates);
 
+        if (_hoveredShape != null) {
+            _hoveredShape.setMouseHover(false);
+        }
+        if (shape != null) {
+            shape.setMouseHover(true);
+            _hoveredShape = shape;
+        }
     }
 
     @Override
@@ -92,12 +123,22 @@ public class VShapeEditorManager implements IVEditorManager {
     }
 
     @Override
-    public void mouseRClick(VCoordinates coordinates) {
+    public void mouseRClick(VCoordinate coordinates) {
 
     }
 
     @Override
     public List<VDrawableShape> getDrawableShapes() {
-        return null;
+        List<VDrawableShape> list = new ArrayList<>();
+        _shapes.forEach((id, shape) -> {
+            VCoordinate[] coords = shape.getVertices();
+            Point[] points = VPhysicsConstants.coordinatesToPoints(coords);
+            VDrawableShape drawable = new VDrawableShape(points);
+            drawable.setActive(shape.isSelected());
+            drawable.setMouseHovered(shape.isMouseHover());
+            drawable.fillColor(shape.fillColor());
+            list.add(drawable);
+        });
+        return list;
     }
 }

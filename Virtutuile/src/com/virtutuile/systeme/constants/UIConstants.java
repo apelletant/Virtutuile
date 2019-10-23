@@ -29,6 +29,32 @@ public final class UIConstants {
     public static final Color INPUT_BACKGROUND_LIGHTER = new Color(89, 89, 89);
     public static final Color INPUT_BACKGROUND_DARKER = new Color(51, 51, 51);
 
+    public static final Color DEFAULT_SHAPE_FILL_COLOR = new Color(255, 215, 171);
+    public static final int DEFAULT_SHAPE_BORDER_THICKNESS = 2;
+
+
+    public static final class Gizmos {
+
+        public static final class BoundingBoxes {
+
+        }
+
+        public static final class Handles {
+            public static final Dimension SIZE = new Dimension(8, 8);
+            public static final Color BACKGROUND_COLOR = Color.WHITE;
+            public static final Color BORDER_COLOR = Color.BLACK;
+            public static final int BORDER_STROKE = 2;
+
+            private Handles() {
+                throw new AssertionError();
+            }
+        }
+
+        private Gizmos() {
+            throw new AssertionError();
+        }
+    }
+
     private UIConstants() {
         throw new AssertionError();
     }

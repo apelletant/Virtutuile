@@ -1,30 +1,37 @@
 package com.virtutuile.systeme.components;
 
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VCoordinate;
 
 import java.awt.*;
 
 public class VRectShape extends VShape {
-    private VCoordinates _origin;
-    private VCoordinates _opposite;
+    private VCoordinate _origin;
+    private VCoordinate _opposite;
 
-    public VRectShape(Rectangle bounds, boolean hole, Polygon polygon) {
-        super(bounds, hole, polygon);
+    public VRectShape(Rectangle.Double rect, boolean isHole) {
+        super(isHole);
+        _polygon.moveTo(rect.x, rect.y);
+        _polygon.lineTo(rect.x + rect.width, rect.y);
+        _polygon.lineTo(rect.x + rect.width, rect.y + rect.height);
+        _polygon.lineTo(rect.x, rect.y + rect.height);
+        _polygon.closePath();
+        _origin = new VCoordinate(rect.x, rect.y);
+        _opposite = new VCoordinate(rect.x + rect.width, rect.y + rect.height);
     }
 
-    public VCoordinates origin() {
+    public VCoordinate origin() {
         return this._origin;
     }
 
-    public void origin(VCoordinates origin) {
+    public void origin(VCoordinate origin) {
         this._origin = origin;
     }
 
-    public VCoordinates opposite() {
+    public VCoordinate opposite() {
         return this._opposite;
     }
 
-    public void opposite(VCoordinates opposite) {
+    public void opposite(VCoordinate opposite) {
         this._opposite = opposite;
     }
 }

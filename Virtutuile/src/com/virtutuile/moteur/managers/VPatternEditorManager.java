@@ -5,28 +5,30 @@ import com.virtutuile.systeme.components.VDrawableShape;
 import com.virtutuile.systeme.components.VPattern;
 import com.virtutuile.systeme.components.VPatternSpec;
 import com.virtutuile.systeme.tools.UnorderedMap;
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class VPatternEditorManager implements IVEditorManager {
-    private UnorderedMap<Integer, VPatternSpec> _patternList;
+    private UnorderedMap<UUID, VPatternSpec> _patternList;
 
-    public void addPatternToShape(int shapeId, VPattern pattern) {
-
-    }
-
-    public void removePatternFromShape(int shapeId) {
+    public void addPatternToShape(UUID shapeId, VPattern pattern) {
 
     }
 
-    public VPatternSpec getPatternFromShape(int shapeId) {
+    public void removePatternFromShape(UUID shapeId) {
+
+    }
+
+    public VPatternSpec getPatternFromShape(UUID shapeId) {
         return null;
     }
 
     @Override
-    public void mouseHover(VCoordinates coordinates) {
+    public void mouseHover(VCoordinate coordinates) {
 
     }
 
@@ -36,12 +38,12 @@ public class VPatternEditorManager implements IVEditorManager {
     }
 
     @Override
-    public void mouseRClick(VCoordinates coordinates) {
+    public void mouseRClick(VCoordinate coordinates) {
 
     }
 
     @Override
     public List<VDrawableShape> getDrawableShapes() {
-        return null;
+        return new ArrayList<>(0);
     }
 }

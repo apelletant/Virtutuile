@@ -1,10 +1,10 @@
 package com.virtutuile.systeme.constants;
 
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VCoordinate;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.function.ToDoubleBiFunction;
 
 public final class VPhysicsConstants {
 
@@ -78,15 +78,27 @@ public final class VPhysicsConstants {
     }
 
     //TODO: Développer la méthode pointToCoordinates
-    public static VCoordinates pointToCoordinates(Point point) {
-        return new VCoordinates() {{
+    public static VCoordinate pointToCoordinates(Point point) {
+        return new VCoordinate() {{
             longitude = point.x;
             latitude = point.y;
         }};
     }
 
-    //TODO: Développer la méthode coordinatesToPoint
-    public static Point coordinatesToPoint(VCoordinates coordinates) {
+    //TODO: Développer la méthode coordinatesToPoints
+    public static Point[] coordinatesToPoints(VCoordinate[] coordinates) {
+        Point[] points = new Point[coordinates.length];
+
+        for (int i = 0; i < coordinates.length; ++i) {
+            VCoordinate coord = coordinates[i];
+
+            points[i] = coordinateToPoint(coord);
+        }
+        return points;
+    }
+
+    //TODO: Développer la méthode coordinateToPoint
+    public static Point coordinateToPoint(VCoordinate coordinates) {
         return new Point() {{
             x = (int) coordinates.longitude;
             y = (int) coordinates.latitude;

@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-public class SubPanel extends VPanelEvents {
+public abstract class SubPanel extends VPanelEvents {
 
     protected Vector<JPanel> _lines = new Vector<>();
 

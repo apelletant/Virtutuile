@@ -1,17 +1,17 @@
 package com.virtutuile.systeme.components;
 
-import com.virtutuile.systeme.units.VCoordinates;
+import com.virtutuile.systeme.units.VCoordinate;
 
 public class VTileSpec {
-    private VCoordinates _position;
+    private VCoordinate _position;
     private float _rotation;
-    private VCoordinates _origin;
+    private VCoordinate _origin;
 
-    public VCoordinates position() {
+    public VCoordinate position() {
         return this._position;
     }
 
-    public void position(VCoordinates position) {
+    public void position(VCoordinate position) {
         this._position = position;
     }
 
@@ -23,11 +23,11 @@ public class VTileSpec {
         this._rotation = rotation;
     }
 
-    public VCoordinates origin() {
+    public VCoordinate origin() {
         return this._origin;
     }
 
-    public void origin(VCoordinates origin) {
+    public void origin(VCoordinate origin) {
         this._origin = origin;
     }
 }
