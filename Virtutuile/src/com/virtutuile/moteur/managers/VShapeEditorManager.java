@@ -34,7 +34,9 @@ public class VShapeEditorManager implements IVEditorManager {
         VShape shape = new VRectShape(new Rectangle2D.Double(30, 30, 240, 120), false);
         _shapes.put(shape.id(), shape);
         shape = new VRectShape(new Rectangle2D.Double(500, 230, 240, 120), false);
-        shape.fillColor(Color.RED);
+        _shapes.put(shape.id(), shape);
+        shape = new VRectShape(new Rectangle2D.Double(100, 190, 240, 120), false);
+        shape.rotateDeg(45);
         _shapes.put(shape.id(), shape);
     }
 

@@ -16,6 +16,14 @@ public class VCoordinate {
         return new VCoordinate(longitude - point.longitude, latitude - point.latitude);
     }
 
+    public VCoordinate add(VCoordinate point) {
+        return new VCoordinate(longitude + point.longitude, latitude + point.latitude);
+    }
+
+    public Vector2D toVector2D() {
+        return new Vector2D(longitude, latitude);
+    }
+
     @Override
     public String toString() {
         return "VCoordinate{" +

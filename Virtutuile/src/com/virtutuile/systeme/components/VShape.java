@@ -144,4 +144,18 @@ public class VShape {
         at.setToTranslation(to.longitude - from.longitude, to.latitude - from.latitude);
         _polygon.transform(at);
     }
+
+    public void rotateDeg(double degrees) {
+        AffineTransform at = new AffineTransform();
+
+        at.setToRotation(degrees / 180 * Math.PI);
+        _polygon.transform(at);
+    }
+
+    public void rotateRad(double radians) {
+        AffineTransform at = new AffineTransform();
+
+        at.setToRotation(radians);
+        _polygon.transform(at);
+    }
 }

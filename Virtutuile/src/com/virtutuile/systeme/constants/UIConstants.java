@@ -37,6 +37,9 @@ public final class UIConstants {
 
         public static final class BoundingBoxes {
 
+            public static final int STROKE = 1;
+            public static final Color BOX_COLOR = new Color(122, 161, 235);
+            public static final int EXPANSION_LENGTH = 12;
         }
 
         public static final class Handles {
