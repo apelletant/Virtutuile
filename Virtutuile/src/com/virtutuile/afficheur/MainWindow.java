@@ -44,7 +44,7 @@ public class MainWindow extends JFrame {
         VActionStatus actionStatus = VActionStatus.VActionStatus();
 
         VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
-        draw.addEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
+        draw.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
             if (_editionPanel.isPanelActive(VEditionPanel.DRAW_SHAPE)) {
                 _editionPanel.removePanelsActive(VEditionPanel.DRAW_SHAPE);
                 draw.setActive(false);
@@ -60,7 +60,7 @@ public class MainWindow extends JFrame {
         });
 
         VButton config = _toolBar.getButton(VTopToolbar.TargetButton.CanvasSettings);
-        config.addEventListener(MouseEventKind.MouseLClick, (me) -> {
+        config.addMouseEventListener(MouseEventKind.MouseLClick, (me) -> {
             if (_editionPanel.isPanelActive(VEditionPanel.SETTINGS)) {
                 _editionPanel.removePanelsActive(VEditionPanel.SETTINGS);
                 config.setActive(false);

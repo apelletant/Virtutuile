@@ -49,13 +49,9 @@ public class VEditionPanel extends VPanelEvents {
         _panels.forEach((key, value) -> {
             if ((key & newPanelList) != 0) {
                 if ((key & this._panelsActive) == 0) {
-                    System.out.print("Add ");
-                    System.out.println(key);
                     this.add(value);
                 }
             } else if ((key & this._panelsActive) != 0) {
-                System.out.print("Remove ");
-                System.out.println(key);
                 this.remove(value);
             }
         });

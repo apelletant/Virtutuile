@@ -12,6 +12,7 @@ import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,5 +56,16 @@ public class VEditorEngine {
 
         manager.moveShape(_clicked, point);
         _clicked = point;
+    }
+
+    public void keyEvent(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE || ke.getKeyCode() == KeyEvent.VK_DELETE) {
+
+            VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VActionStatus.VActionManager.Shape);
+            manager.deleteSelectedShape();
+
+            //TODO -> Revérifie les liens entre les shapes et les patterns.
+            ((VPatternEditorManager)_managers.get(VActionStatus.VActionManager.Pattern)).resync();
+        }
     }
 }

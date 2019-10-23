@@ -143,6 +143,15 @@ public class VShapeEditorManager implements IVEditorManager {
     }
 
     public void moveShape(VCoordinate from, VCoordinate to) {
-        _currentShape.move(from, to);
+        if (_currentShape != null) {
+            _currentShape.move(from, to);
+        }
+    }
+
+    public void deleteSelectedShape() {
+        if (_currentShape != null) {
+            _shapes.remove(_currentShape.id());
+            _currentShape = null;
+        }
     }
 }

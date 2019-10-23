@@ -1,5 +1,6 @@
 package com.virtutuile.afficheur.panels;
 
+import com.virtutuile.afficheur.swing.panels.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.moteur.VEditorEngine;
@@ -15,28 +16,34 @@ public class VEditor extends VPanelEvents {
     private VEditorEngine _editorEngine;
 
     public VEditor(VEditorEngine editorEngine) {
+        setFocusable(true);
         this.setBackground(UIConstants.DRAW_BACKGROUND);
         this.setName("Toolbar");
         this.setBorder(null);
         this._editorEngine = editorEngine;
 
-        addEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
+        addMouseEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
+            requestFocusInWindow();
             VProperties properties = new VProperties() {{
                 coordinates.add(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
             }};
             editorEngine.mouseLClick(properties);
             repaint();
         });
-        addEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
+        addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
             editorEngine.mouseDrag(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
             repaint();
         });
 
-        addEventListener(MouseEventKind.MouseMove, (me) -> {
+        addMouseEventListener(MouseEventKind.MouseMove, (me) -> {
             editorEngine.mouseHover(VPhysicsConstants.pointToCoordinates(me.getPoint()));
             repaint();
         });
 
+        addKeyboardEventListener(KeyboardEventKind.KeyPressed, (ke) -> {
+            editorEngine.keyEvent(ke);
+            repaint();
+        });
     }
 
     @Override

@@ -46,4 +46,7 @@ public class VPatternEditorManager implements IVEditorManager {
     public List<VDrawableShape> getDrawableShapes() {
         return new ArrayList<>(0);
     }
+
+    public void resync() {
+    }
 }
