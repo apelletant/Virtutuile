@@ -17,6 +17,8 @@ import java.util.List;
 
 public class VEditorEngine {
 
+    private VCoordinate _clicked = null;
+
     public VEditorEngine() {super();}
 
     private UnorderedMap<VActionStatus.VActionManager, IVEditorManager> _managers = new UnorderedMap<>() {{
@@ -41,9 +43,17 @@ public class VEditorEngine {
     public void mouseLClick(VProperties properties) {
         VActionStatus.VActionManager manager = VActionStatus.VActionStatus().manager;
         this._managers.get(manager).mouseLClick(properties);
+        this._clicked = properties.coordinates.get(0);
     }
 
     public void mouseRClick(VCoordinate coordinates) {
 
+    }
+
+    public void mouseDrag(VCoordinate point) {
+        VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VActionStatus.VActionManager.Shape);
+
+        manager.moveShape(_clicked, point);
+        _clicked = point;
     }
 }

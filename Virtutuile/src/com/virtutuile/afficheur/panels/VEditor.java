@@ -6,7 +6,6 @@ import com.virtutuile.moteur.VEditorEngine;
 import com.virtutuile.moteur.managers.VPainterManager;
 import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
-import com.virtutuile.systeme.interfaces.IVGraphics;
 import com.virtutuile.systeme.units.VProperties;
 
 import java.awt.*;
@@ -23,12 +22,15 @@ public class VEditor extends VPanelEvents {
 
         addEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
             VProperties properties = new VProperties() {{
-               coordinates.add(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
+                coordinates.add(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
             }};
             editorEngine.mouseLClick(properties);
             repaint();
         });
-        ;
+        addEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
+            editorEngine.mouseDrag(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
+            repaint();
+        });
 
         addEventListener(MouseEventKind.MouseMove, (me) -> {
             editorEngine.mouseHover(VPhysicsConstants.pointToCoordinates(me.getPoint()));

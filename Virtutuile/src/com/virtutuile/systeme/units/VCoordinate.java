@@ -11,4 +11,16 @@ public class VCoordinate {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    public VCoordinate sub(VCoordinate point) {
+        return new VCoordinate(longitude - point.longitude, latitude - point.latitude);
+    }
+
+    @Override
+    public String toString() {
+        return "VCoordinate{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
+    }
 }

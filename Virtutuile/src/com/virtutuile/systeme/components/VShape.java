@@ -4,6 +4,7 @@ import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.units.VCoordinate;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
@@ -135,5 +136,12 @@ public class VShape {
             }
         }
         throw new IllegalArgumentException("Unclosed path");
+    }
+
+    public void move(VCoordinate from, VCoordinate to) {
+        AffineTransform at = new AffineTransform();
+
+        at.setToTranslation(to.longitude - from.longitude, to.latitude - from.latitude);
+        _polygon.transform(at);
     }
 }

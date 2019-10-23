@@ -141,4 +141,8 @@ public class VShapeEditorManager implements IVEditorManager {
         });
         return list;
     }
+
+    public void moveShape(VCoordinate from, VCoordinate to) {
+        _currentShape.move(from, to);
+    }
 }
