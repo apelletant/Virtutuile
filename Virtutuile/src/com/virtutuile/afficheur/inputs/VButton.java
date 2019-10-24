@@ -15,19 +15,15 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
-public class VButton extends VBorderedEventPanel implements MouseListener {
+public class VButton extends VBorderedEventPanel {
     private ImageIcon _icon;
     private JLabel _imgContainer;
     private JLabel _text;
 
-    /**
-     * Build a VButton. It's a combo of an icon and a text.
-     *  @param name     The name of the button
-     * @param fileicon The icon of the button
-     */
-    public VButton(String name, File fileicon) {
+    public VButton(String name) {
         this.setBackground(UIConstants.TOOLBAR_BACKGROUND);
         this.fixSize(UIConstants.BUTTON_SIZE);
+        _content.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Creating the label and style it
         _text = new JLabel(name, SwingConstants.CENTER);
@@ -35,19 +31,8 @@ public class VButton extends VBorderedEventPanel implements MouseListener {
         _text.setBorder(new CompoundBorder(_text.getBorder(), textMargin));
         _text.setForeground(UIConstants.TOOLBAR_FONT_COLOR);
 
-        // Creating the image and style it
-        try {
-            _icon = ImageManipulator.Resize(new ImageIcon(ImageIO.read(fileicon)), UIConstants.BUTTON_ICON_SIZE);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-        _imgContainer = new JLabel(_icon);
-        Border imgMargin = new EmptyBorder(10, 10, 3, 10);
-        _imgContainer.setBorder(new CompoundBorder(_imgContainer.getBorder(), imgMargin));
-
         // Setting the layout of the button and add it's components
         this._content.setLayout(new BorderLayout());
-        this.add(_imgContainer, BorderLayout.CENTER);
         this.add(_text, BorderLayout.SOUTH);
         this.setMargin(5);
     }
@@ -58,15 +43,7 @@ public class VButton extends VBorderedEventPanel implements MouseListener {
      * @param icon The icon of the button
      */
     public VButton(String name, Image icon) {
-        this.setBackground(UIConstants.TOOLBAR_BACKGROUND);
-        this.fixSize(UIConstants.BUTTON_SIZE);
-
-        // Creating the label and style it
-        _text = new JLabel(name, SwingConstants.CENTER);
-        Border textMargin = new EmptyBorder(3, 10, 10, 10);
-        _text.setBorder(new CompoundBorder(_text.getBorder(), textMargin));
-        _text.setForeground(UIConstants.TOOLBAR_FONT_COLOR);
-
+        this(name);
         // Creating the image and style it
         _icon = ImageManipulator.Resize(new ImageIcon(icon), UIConstants.BUTTON_ICON_SIZE);
         _imgContainer = new JLabel(_icon);
@@ -74,10 +51,7 @@ public class VButton extends VBorderedEventPanel implements MouseListener {
         _imgContainer.setBorder(new CompoundBorder(_imgContainer.getBorder(), imgMargin));
 
         // Setting the layout of the button and add it's components
-        this._content.setLayout(new BorderLayout());
         this.add(_imgContainer, BorderLayout.CENTER);
-        this.add(_text, BorderLayout.SOUTH);
-        this.setMargin(5);
     }
 
     /**

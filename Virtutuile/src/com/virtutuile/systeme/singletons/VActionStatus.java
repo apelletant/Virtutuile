@@ -1,5 +1,7 @@
 package com.virtutuile.systeme.singletons;
 
+import java.awt.*;
+
 public class VActionStatus {
     private static VActionStatus _actionsStatus  = null;
 
@@ -7,11 +9,13 @@ public class VActionStatus {
 
     public VActionState doing = VActionState.Idle;
     public VActionManager manager = VActionManager.Shape;
+    public int cursorShape = Cursor.DEFAULT_CURSOR;
 
-    public static VActionStatus VActionStatus() {
+    public static VActionStatus getInstance() {
         if (_actionsStatus == null) {
             _actionsStatus = new VActionStatus();
         }
+
         return _actionsStatus;
     }
 
@@ -35,5 +39,4 @@ public class VActionStatus {
         Pattern,
         Shape
     }
-
 }

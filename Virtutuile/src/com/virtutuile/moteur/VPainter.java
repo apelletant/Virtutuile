@@ -1,5 +1,6 @@
 package com.virtutuile.moteur;
 
+import com.virtutuile.moteur.managers.VPainterManager;
 import com.virtutuile.systeme.components.VDrawableShape;
 import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.units.Vector2D;
@@ -11,6 +12,7 @@ public class VPainter {
 
     private Graphics _graphics;
     private Graphics2D _graphics2D;
+    VPainterManager _manager = VPainterManager.getInstance();
 
     public VPainter(Graphics graphics) {
         this._graphics = graphics;
@@ -65,7 +67,9 @@ public class VPainter {
     }
 
     public void drawGizmos(VDrawableShape shape) {
-        drawBoundingBox(shape.polygon().getBounds());
+        if ((this._manager.getGizmos() & VPainterManager.GIZ_BOUNDS) != 0) {
+            drawBoundingBox(shape.polygon().getBounds());
+        }
         drawHandles(shape.polygon().xpoints, shape.polygon().ypoints);
     }
 
@@ -114,24 +118,24 @@ public class VPainter {
         _graphics2D.drawRect(box.x, box.y, box.width, box.height);
         _graphics2D.setStroke(new BasicStroke(UIConstants.Gizmos.BoundingBoxes.STROKE));
         Point corner = new Point(box.x, box.y);
-        Point expansion = Vector2D.fromPoint(corner).tarnslateDeg(180, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        Point expansion = Vector2D.from(corner).tarnslateDeg(180, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(270, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(270, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         corner.x += box.width;
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(270, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(270, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(0, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(0, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         corner.y += box.height;
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(0, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(0, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(90, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(90, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         corner.x -= box.width;
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(180, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(180, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.fromPoint(corner).tarnslateDeg(90, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).tarnslateDeg(90, UIConstants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         _graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
     }
 }

@@ -43,6 +43,16 @@ public class VPatternEditorManager implements IVEditorManager {
     }
 
     @Override
+    public void mouseDrag(VCoordinate from, VCoordinate to) {
+
+    }
+
+    @Override
+    public void mouseRelease(VCoordinate coordinate) {
+
+    }
+
+    @Override
     public List<VDrawableShape> getDrawableShapes() {
         return new ArrayList<>(0);
     }

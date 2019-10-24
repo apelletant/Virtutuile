@@ -76,16 +76,16 @@ public class VBorderedEventPanel extends VBorderedPanel implements MouseInputLis
 
     @Override
     public void mouseClicked(MouseEvent me) {
-        if (me.getButton() == MouseEvent.BUTTON1) {
-            invokeMouseEvent(MouseEventKind.MouseLClick, me);
-        } else if (me.getButton() == MouseEvent.BUTTON2) {
-            invokeMouseEvent(MouseEventKind.MouseRClick, me);
-        }
     }
 
     @Override
     public void mousePressed(MouseEvent me) {
         _isClicked = true;
+        if (me.getButton() == MouseEvent.BUTTON1) {
+            invokeMouseEvent(MouseEventKind.MouseLClick, me);
+        } else if (me.getButton() == MouseEvent.BUTTON2) {
+            invokeMouseEvent(MouseEventKind.MouseRClick, me);
+        }
         invokeMouseEvent(MouseEventKind.MousePress, me);
     }
 

@@ -7,6 +7,7 @@ import com.virtutuile.afficheur.panels.VEditor;
 import com.virtutuile.afficheur.panels.VTopToolbar;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.moteur.VEditorEngine;
+import com.virtutuile.moteur.managers.VPainterManager;
 import com.virtutuile.systeme.singletons.VActionStatus;
 
 import javax.swing.*;
@@ -41,7 +42,7 @@ public class MainWindow extends JFrame {
     }
 
     private void setupTopToolbarEvents() {
-        VActionStatus actionStatus = VActionStatus.VActionStatus();
+        VActionStatus actionStatus = VActionStatus.getInstance();
 
         VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
         draw.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
@@ -71,6 +72,21 @@ public class MainWindow extends JFrame {
             revalidate();
             repaint();
         });
+
+        VButton showbounds = _bottomToolbar.getButton(VBottomToolbar.TargetButton.ShowBounds);
+        showbounds.addMouseEventListener(MouseEventKind.MouseLClick, (evt) -> {
+            VPainterManager pm = VPainterManager.getInstance();
+
+            if (pm.isGizmoActive(VPainterManager.GIZ_BOUNDS)) {
+                pm.deactiveGizmos(VPainterManager.GIZ_BOUNDS);
+                showbounds.setActive(false);
+            } else {
+                pm.activeGizmos(VPainterManager.GIZ_BOUNDS);
+                showbounds.setActive(true);
+            }
+            repaint();
+        });
+
     }
 
     private void setupWindow() {

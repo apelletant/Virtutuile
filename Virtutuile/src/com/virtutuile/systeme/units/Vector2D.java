@@ -22,6 +22,11 @@ public class Vector2D {
         y = b.y - a.y;
     }
 
+    public Vector2D(Vector2D a, Vector2D b) {
+        x = b.x - a.x;
+        y = b.y - a.y;
+    }
+
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
@@ -91,8 +96,8 @@ public class Vector2D {
      * @return The subtracted vector
      */
     public Vector2D subtract(@NotNull Vector2D subtract) {
-        x += subtract.x;
-        y += subtract.y;
+        x -= subtract.x;
+        y -= subtract.y;
         return this;
     }
 
@@ -101,8 +106,8 @@ public class Vector2D {
      * @return The subtracted vector
      */
     public Vector2D subtract(@NotNull Point subtract) {
-        x += subtract.x;
-        y += subtract.y;
+        x -= subtract.x;
+        y -= subtract.y;
         return this;
     }
 
@@ -111,8 +116,8 @@ public class Vector2D {
      * @return The subtracted vector
      */
     public Vector2D subtract(@NotNull VCoordinate subtract) {
-        x += subtract.longitude;
-        y += subtract.latitude;
+        x -= subtract.longitude;
+        y -= subtract.latitude;
         return this;
     }
 
@@ -121,8 +126,8 @@ public class Vector2D {
      * @return The subtracted vector
      */
     public Vector2D subtract(double subtract) {
-        x += subtract;
-        y += subtract;
+        x -= subtract;
+        y -= subtract;
         return this;
     }
 
@@ -164,23 +169,26 @@ public class Vector2D {
         return this;
     }
 
-    // region ProductWith (type Vector2D, Point, VCoordinate, int, float, double)
+    // region product (type Vector2D, Point, VCoordinate, int, float, double)
 
+    public double product() {
+        return this.x * this.x + this.y * this.y;
+    }
     /**
      * Return the product between two vectors
      *
      * @param vector
      * @return
      */
-    public double productWith(Vector2D vector) {
+    public double product(Vector2D vector) {
         return this.x * vector.x + this.y * vector.y;
     }
 
-    public double productWith(VCoordinate coordinate) {
+    public double product(VCoordinate coordinate) {
         return this.x * coordinate.longitude + this.y * coordinate.latitude;
     }
 
-    public double productWith(double x, double y) {
+    public double product(double x, double y) {
         return this.x * x + this.y * y;
     }
 
@@ -269,10 +277,7 @@ public class Vector2D {
      * @return
      */
     public double angleBetweenRad(double x, double y) {
-        Vector2D v1 = new Vector2D(this);
-        Vector2D v2 = new Vector2D(x, y);
-
-        return Math.acos(v1.productWith(v2) / (v1.magnitude() * v2.magnitude()));
+        return Math.atan2(y - this.y, x - this.x);
     }
 
     /**
@@ -324,11 +329,11 @@ public class Vector2D {
         return new Point((int) x, (int) y);
     }
 
-    public static Vector2D fromPoint(Point point) {
+    public static Vector2D from(Point point) {
         return new Vector2D(point.x, point.y);
     }
 
-    public static Vector2D fromVCoordinate(VCoordinate point) {
+    public static Vector2D from(VCoordinate point) {
         return new Vector2D(point.longitude, point.latitude);
     }
 
@@ -344,5 +349,9 @@ public class Vector2D {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public Vector2D copy() {
+        return new Vector2D(this);
     }
 }

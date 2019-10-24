@@ -105,6 +105,24 @@ public final class VPhysicsConstants {
         }};
     }
 
+    public static double pixelsToCentimeters(int pixels) {
+        return pixels;
+    }
+
+    public static int centimetersToPixels(double centimeters) {
+        return (int) centimeters;
+    }
+
+    public static final class Mouse {
+
+        // Determine the max distance from the mouse to detect and interact with a shape.
+        public static final int DEFAULT_PRECISION = 12;
+
+        private Mouse() {
+            throw new AssertionError();
+        }
+    }
+
     public enum Units {
         Millimeter,
         Centimeter,

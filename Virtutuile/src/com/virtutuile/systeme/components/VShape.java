@@ -2,6 +2,8 @@ package com.virtutuile.systeme.components;
 
 import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.units.VCoordinate;
+import com.virtutuile.systeme.units.Vector2D;
+import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -11,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 public class VShape {
     private UUID _id = UUID.randomUUID();
@@ -54,6 +57,55 @@ public class VShape {
     public VShape(Path2D.Double polygon, boolean isHole) {
         this._isHole = isHole;
         this._polygon = polygon;
+    }
+
+    public double circleIntersect(Circle circle) {
+        VCoordinate[] vertices = getVertices();
+        Vector2D location = new Vector2D(circle.getCenterX(), circle.getCenterY());
+
+        for (int i = 0; i < vertices.length; ++i) {
+            Vector2D from = Vector2D.from(vertices[i]);
+            Vector2D to = Vector2D.from(vertices[(i + 1) % vertices.length]);
+
+            double ab2, acab, h2;
+            Vector2D ac = location.copy().subtract(from);
+            Vector2D ab = to.copy().subtract(from);
+
+            ab2 = ab.product(ab);
+            acab = ac.product(ab);
+            double t = acab / ab2;
+
+            if (t < 0)
+                t = 0;
+            else if (t > 1)
+                t = 1;
+
+            Vector2D h = ab.copy().multiply(t).add(from).subtract(location);
+            h2 = h.product();
+
+            if (h2 <= (circle.getRadius() * circle.getRadius()))
+                return Math.sqrt(h2);
+        }
+        return Double.NaN;
+    }
+
+    public VCoordinate getVerticeNear(VCoordinate coordinates, double limit) {
+        Vector2D coord = Vector2D.from(coordinates);
+        VCoordinate[] vertices = getVertices();
+        VCoordinate nearest = null;
+        double lowest = 0;
+
+        for (int i = 0; i < vertices.length; ++i) {
+            double distance = Math.abs(Vector2D.from(vertices[i]).distance(coord));
+            if (distance <= limit) {
+                if (distance < lowest || nearest == null) {
+                    nearest = vertices[i];
+                    lowest = distance;
+                }
+            }
+        }
+
+        return nearest;
     }
 
     public UUID id() {
@@ -112,8 +164,14 @@ public class VShape {
         this._fillColor = fillColor;
     }
 
+    public VCoordinate getCenter() {
+        Rectangle bounds = _polygon.getBounds();
+
+        return new VCoordinate(bounds.x + bounds.width / 2D, bounds.y + bounds.height / 2D);
+    }
+
     public VCoordinate[] getVertices() {
-        List<VCoordinate> vertices = new ArrayList<VCoordinate>();
+        List<VCoordinate> vertices = new ArrayList<>();
         boolean isFirst = true;
         double[] firstCoords = new double[2];
         double[] coords = new double[2];
@@ -154,8 +212,9 @@ public class VShape {
 
     public void rotateRad(double radians) {
         AffineTransform at = new AffineTransform();
+        VCoordinate center = getCenter();
 
-        at.setToRotation(radians);
+        at.setToRotation(radians, center.longitude, center.latitude);
         _polygon.transform(at);
     }
 }

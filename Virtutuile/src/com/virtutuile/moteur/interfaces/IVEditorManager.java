@@ -14,5 +14,9 @@ public interface IVEditorManager {
 
     public void mouseRClick(VCoordinate coordinates);
 
+    public void mouseDrag(VCoordinate from, VCoordinate to);
+
     public List<VDrawableShape> getDrawableShapes();
+
+    public  void mouseRelease(VCoordinate coordinate);
 }
