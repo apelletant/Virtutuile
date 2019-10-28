@@ -4,7 +4,7 @@ import com.virtutuile.domaine.moteur.interfaces.IVEditorManager;
 import com.virtutuile.domaine.moteur.managers.VPatternEditorManager;
 import com.virtutuile.domaine.moteur.managers.VShapeEditorManager;
 import com.virtutuile.domaine.systeme.components.VDrawableShape;
-import com.virtutuile.domaine.systeme.singletons.VActionStatus;
+import com.virtutuile.domaine.systeme.singletons.VApplicationStatus;
 import com.virtutuile.domaine.systeme.tools.UnorderedMap;
 import com.virtutuile.domaine.systeme.units.VCoordinate;
 import com.virtutuile.domaine.systeme.units.VProperties;
@@ -19,9 +19,9 @@ public class VEditorEngine {
 
     public VEditorEngine() {super();}
 
-    private UnorderedMap<VActionStatus.VActionManager, IVEditorManager> _managers = new UnorderedMap<>() {{
-        put(VActionStatus.VActionManager.Pattern, new VPatternEditorManager());
-        put(VActionStatus.VActionManager.Shape, new VShapeEditorManager());
+    private UnorderedMap<VApplicationStatus.VActionManager, IVEditorManager> _managers = new UnorderedMap<>() {{
+        put(VApplicationStatus.VActionManager.Pattern, new VPatternEditorManager());
+        put(VApplicationStatus.VActionManager.Shape, new VShapeEditorManager());
     }};
 
     public void paint(VPainter graphics) {
@@ -47,7 +47,7 @@ public class VEditorEngine {
     }
 
     public void mouseLClick(VProperties properties) {
-        VActionStatus.VActionManager manager = VActionStatus.getInstance().manager;
+        VApplicationStatus.VActionManager manager = VApplicationStatus.getInstance().manager;
         this._managers.get(manager).mouseLClick(properties);
         this._clicked = properties.coordinates.get(0);
     }
@@ -57,7 +57,7 @@ public class VEditorEngine {
     }
 
     public void mouseDrag(VCoordinate coordinates) {
-        VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VActionStatus.VActionManager.Shape);
+        VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VApplicationStatus.VActionManager.Shape);
 
         manager.mouseDrag(_hover, coordinates);
         _hover = coordinates;
@@ -66,11 +66,11 @@ public class VEditorEngine {
     public void keyEvent(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE || ke.getKeyCode() == KeyEvent.VK_DELETE) {
 
-            VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VActionStatus.VActionManager.Shape);
+            VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VApplicationStatus.VActionManager.Shape);
             manager.deleteSelectedShape();
 
             //TODO VPatternEditorManager::resync -> Revérifie les liens entre les shapes et les patterns.
-            ((VPatternEditorManager)_managers.get(VActionStatus.VActionManager.Pattern)).resync();
+            ((VPatternEditorManager)_managers.get(VApplicationStatus.VActionManager.Pattern)).resync();
         }
     }
 }

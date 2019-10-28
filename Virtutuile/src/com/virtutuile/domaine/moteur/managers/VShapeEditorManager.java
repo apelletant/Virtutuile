@@ -6,7 +6,7 @@ import com.virtutuile.domaine.systeme.components.VRectShape;
 import com.virtutuile.domaine.systeme.components.VShape;
 import com.virtutuile.domaine.systeme.constants.UIConstants;
 import com.virtutuile.domaine.systeme.constants.VPhysicsConstants;
-import com.virtutuile.domaine.systeme.singletons.VActionStatus;
+import com.virtutuile.domaine.systeme.singletons.VApplicationStatus;
 import com.virtutuile.domaine.systeme.tools.UnorderedMap;
 import com.virtutuile.domaine.systeme.units.VCoordinate;
 import com.virtutuile.domaine.systeme.units.VProperties;
@@ -15,18 +15,16 @@ import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class VShapeEditorManager implements IVEditorManager {
-    private HashMap<VActionStatus.VActionState, Consumer<VProperties>> _actions = new HashMap<>() {{
-        put(VActionStatus.VActionState.Idle, VShapeEditorManager.this::selectShape);
-        put(VActionStatus.VActionState.CreatingRectShape, VShapeEditorManager.this::createRectShape);
-        put(VActionStatus.VActionState.CreatingFreeShape, VShapeEditorManager.this::createFreeShape);
+    private HashMap<VApplicationStatus.VActionState, Consumer<VProperties>> _actions = new HashMap<>() {{
+        put(VApplicationStatus.VActionState.Idle, VShapeEditorManager.this::selectShape);
+        put(VApplicationStatus.VActionState.CreatingRectShape, VShapeEditorManager.this::createRectShape);
+        put(VApplicationStatus.VActionState.CreatingFreeShape, VShapeEditorManager.this::createFreeShape);
     }};
 
     private CursorEventType _cursor = CursorEventType.Move;
@@ -46,6 +44,7 @@ public class VShapeEditorManager implements IVEditorManager {
 
     private void selectShape(VProperties properties) {
         VShape shape = this.getShapeAt(properties.coordinates.firstElement());
+
         if (this._currentShape != null) {
             this._currentShape.selected(false);
         }
@@ -55,6 +54,10 @@ public class VShapeEditorManager implements IVEditorManager {
             this._currentShape.selected(true);
             this._shapes.remove(shape.id());
             this._shapes.put(this._currentShape.id(), this._currentShape);
+            VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.DrawShape);
+            VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.PatternManagement);
+        } else {
+            VApplicationStatus.getInstance().removeActivePanel(VApplicationStatus.VPanelType.PatternManagement);
         }
     }
 
@@ -138,7 +141,7 @@ public class VShapeEditorManager implements IVEditorManager {
     public void mouseHover(VCoordinate coordinates) {
         VShape shape = getShapeAt(coordinates);
         boolean outofShape = false;
-        VActionStatus actionStatus = VActionStatus.getInstance();
+        VApplicationStatus actionStatus = VApplicationStatus.getInstance();
 
         actionStatus.cursorShape = UIConstants.Mouse.VCursor.Pointer;
         if (shape == null) {
@@ -170,10 +173,11 @@ public class VShapeEditorManager implements IVEditorManager {
         }
     }
 
+    //TODO: penser à une meilleure solution (cas du IDLE qui empeche le drag)
     @Override
     public void mouseLClick(VProperties properties) {
-        VActionStatus.VActionState actionState = VActionStatus.getInstance().doing;
-        this._actions.get(actionState).accept(properties);
+        /*VActionStatus.VActionState actionState = VActionStatus.getInstance().doing;*/
+        this._actions.get(VApplicationStatus.VActionState.Idle).accept(properties);
     }
 
     @Override
@@ -183,7 +187,7 @@ public class VShapeEditorManager implements IVEditorManager {
 
     @Override
     public void mouseDrag(VCoordinate from, VCoordinate to) {
-            VActionStatus actionStatus = VActionStatus.getInstance();
+            VApplicationStatus actionStatus = VApplicationStatus.getInstance();
         if (_cursor == CursorEventType.Move && _currentShape != null) {
             actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
             _currentShape.move(from, to);

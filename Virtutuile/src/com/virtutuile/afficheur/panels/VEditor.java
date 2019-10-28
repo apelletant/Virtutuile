@@ -7,7 +7,7 @@ import com.virtutuile.domaine.moteur.VEditorEngine;
 import com.virtutuile.domaine.moteur.managers.VPainterManager;
 import com.virtutuile.domaine.systeme.constants.UIConstants;
 import com.virtutuile.domaine.systeme.constants.VPhysicsConstants;
-import com.virtutuile.domaine.systeme.singletons.VActionStatus;
+import com.virtutuile.domaine.systeme.singletons.VApplicationStatus;
 import com.virtutuile.domaine.systeme.units.VProperties;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.awt.*;
 public class VEditor extends VPanelEvents {
     Point p;
     private VEditorEngine _editorEngine;
-    private UIConstants.Mouse.VCursor _currentCursor = VActionStatus.getInstance().cursorShape;
+    private UIConstants.Mouse.VCursor _currentCursor = VApplicationStatus.getInstance().cursorShape;
 
     public VEditor(VEditorEngine editorEngine) {
         setFocusable(true);
@@ -51,7 +51,7 @@ public class VEditor extends VPanelEvents {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        VActionStatus status = VActionStatus.getInstance();
+        VApplicationStatus status = VApplicationStatus.getInstance();
         if (_currentCursor != status.cursorShape) {
             UIConstants.Mouse.SetCursor(this, status.cursorShape);
             _currentCursor = status.cursorShape;
