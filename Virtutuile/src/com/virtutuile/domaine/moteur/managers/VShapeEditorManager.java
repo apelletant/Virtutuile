@@ -53,6 +53,8 @@ public class VShapeEditorManager implements IVEditorManager {
         if (shape != null) {
             this._currentShape = this._shapes.get(shape.id());
             this._currentShape.selected(true);
+            this._shapes.remove(shape.id());
+            this._shapes.put(this._currentShape.id(), this._currentShape);
         }
     }
 
