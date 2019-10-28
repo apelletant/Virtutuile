@@ -40,43 +40,47 @@ public class MainWindow extends JFrame {
     private void setupEvents() {
         setupTopToolbarEvents();
         VApplicationStatus.getInstance().setOnPanelChange((state) -> {
-            System.out.println("state "  + state);
+            System.out.println("Panneaux affichés : "  + state);
+            this._editionPanel.persistPanels();
             revalidate();
             repaint();
         });
     }
 
     private void setupTopToolbarEvents() {
-        VApplicationStatus actionStatus = VApplicationStatus.getInstance();
+        VApplicationStatus applicationStatus = VApplicationStatus.getInstance();
 
         VButton draw = _toolBar.getButton(VTopToolbar.TargetButton.DrawShape);
         VButton config = _toolBar.getButton(VTopToolbar.TargetButton.CanvasSettings);
 
         draw.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
-            if (_editionPanel.isPanelActive(VEditionPanel.DRAW_SHAPE)) {
-                _editionPanel.removePanelsActive(VEditionPanel.DRAW_SHAPE);
+            if (applicationStatus.getActivePanels().contains(VApplicationStatus.VPanelType.DrawShape)) {
+                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.DrawShape);
+                /*applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.PatternManagement);*/
                 draw.setActive(false);
-                actionStatus.doing = VApplicationStatus.VActionState.Idle;
+                applicationStatus.doing = VApplicationStatus.VActionState.Idle;
             } else {
-                _editionPanel.setPanelsActive(VEditionPanel.DRAW_SHAPE);
+                applicationStatus.setActivePanel(VApplicationStatus.VPanelType.DrawShape);
                 config.setActive(false);
                 draw.setActive(true);
-                actionStatus.doing = VApplicationStatus.VActionState.CreatingRectShape;
-                actionStatus.manager = VApplicationStatus.VActionManager.Shape;
+                applicationStatus.doing = VApplicationStatus.VActionState.CreatingRectShape;
+                applicationStatus.manager = VApplicationStatus.VActionManager.Shape;
             }
+            this._editionPanel.persistPanels();
             revalidate();
             repaint();
         });
 
         config.addMouseEventListener(MouseEventKind.MouseLClick, (me) -> {
-            if (_editionPanel.isPanelActive(VEditionPanel.SETTINGS)) {
-                _editionPanel.removePanelsActive(VEditionPanel.SETTINGS);
+            if (applicationStatus.getActivePanels().contains(VApplicationStatus.VPanelType.Settings)) {
+                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.Settings);
                 config.setActive(false);
             } else {
                 draw.setActive(false);
-                _editionPanel.setPanelsActive(VEditionPanel.SETTINGS);
+                applicationStatus.setActivePanel(VApplicationStatus.VPanelType.Settings);
                 config.setActive(true);
             }
+            this._editionPanel.persistPanels();
             revalidate();
             repaint();
         });

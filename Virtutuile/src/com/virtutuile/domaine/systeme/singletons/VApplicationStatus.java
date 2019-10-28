@@ -1,5 +1,6 @@
 package com.virtutuile.domaine.systeme.singletons;
 
+import com.virtutuile.afficheur.swing.panels.VPanel;
 import com.virtutuile.domaine.systeme.constants.UIConstants;
 
 import java.util.Vector;
@@ -37,6 +38,22 @@ public class VApplicationStatus {
         if (throwEvent) {
             this._onPanelChange.accept(this._activePanels);
         }
+    }
+
+    public void setActivePanel(VPanelType panel) {
+        this.setActivePanel(panel, true);
+    }
+
+    public void setActivePanel(VPanelType panel, boolean throwEvent) {
+        this._activePanels.clear();
+        this._activePanels.add(panel);
+        if (throwEvent) {
+            this._onPanelChange.accept(this._activePanels);
+        }
+    }
+
+    public Vector<VPanelType> getActivePanels() {
+        return this._activePanels;
     }
 
     public void addActivePanel(VPanelType activePanels) {

@@ -35,9 +35,9 @@ public class DrawShapePanel extends SubPanel {
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         this.setRemoveShapesButtons(line);
 
-        line = new VPanel();
+        /*line = new VPanel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        this.setRectSettings(line);
+        this.setRectSettings(line);*/
     }
 
     private void setDrawShapesButtons(JPanel line) {

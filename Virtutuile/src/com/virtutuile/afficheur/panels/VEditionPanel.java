@@ -5,28 +5,20 @@ import com.virtutuile.afficheur.panels.subpanel.SettingsPanel;
 import com.virtutuile.afficheur.panels.subpanel.SubPanel;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.domaine.systeme.singletons.VApplicationStatus;
 import com.virtutuile.domaine.systeme.tools.UnorderedMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.synth.SynthTextAreaUI;
+import java.util.Vector;
 
 public class VEditionPanel extends VPanelEvents {
 
-    public static final int NONE = 0;
-    public static final int SETTINGS = 0x0001;
-    public static final int DRAW_SHAPE = 0x0002;
-    public static final int PATTERN = 0x0004;
-    public static final int SHAPE_MANAG = 0x0008;
-    public static final int ALERTS = 0x0010;
-    public static final int OTHER1 = 0x0020;
-    public static final int OTHER2 = 0x0040;
-    public static final int OTHER3 = 0x0080;
-
-
     private SettingsPanel _settings = new SettingsPanel("Settings");
     private DrawShapePanel _shape = new DrawShapePanel("Shape");
-    private int _panelsActive = NONE;
-    private UnorderedMap<Integer, SubPanel> _panels = new UnorderedMap<>();
+    private Vector<VApplicationStatus.VPanelType> _panelsActive = new Vector<>();
+    private UnorderedMap<VApplicationStatus.VPanelType, SubPanel> _panels = new UnorderedMap<>();
 
     public VEditionPanel() {
         super();
@@ -36,40 +28,26 @@ public class VEditionPanel extends VPanelEvents {
         this.setBorder(new EmptyBorder(0, 0, 0, 0));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        _panels.put(SETTINGS, _settings);
-        _panels.put(DRAW_SHAPE, _shape);
+        _panels.put(VApplicationStatus.VPanelType.Settings, _settings);
+        _panels.put(VApplicationStatus.VPanelType.DrawShape, _shape);
     }
 
-    public void addPanelsActive(int activePanel) {
-        persistPanels(this._panelsActive | activePanel);
-    }
-
-    private void persistPanels(int newPanelList) {
+    public void persistPanels() {
+        Vector<VApplicationStatus.VPanelType> activePanels =  VApplicationStatus.getInstance().getActivePanels();
         _panels.forEach((key, value) -> {
-            if ((key & newPanelList) != 0) {
-                if ((key & this._panelsActive) == 0) {
+            if (activePanels.contains(key)) {
+                if (!this._panelsActive.contains(key)) {
+                    System.out.println("add in persist: " + key);
                     this.add(value);
+
                 }
-            } else if ((key & this._panelsActive) != 0) {
+            } else {
+                System.out.println("remove in persist: " + key);
                 this.remove(value);
             }
         });
-        this._panelsActive = newPanelList;
+        this._panelsActive = activePanels;
     }
 
-    public void removePanelsActive(int deactivatePanels) {
-        persistPanels(this._panelsActive & (this._panelsActive ^ deactivatePanels));
-    }
 
-    public boolean isPanelActive(int panel) {
-        return (this._panelsActive & panel) != 0;
-    }
-
-    public int getPanelsActive() {
-        return this._panelsActive;
-    }
-
-    public void setPanelsActive(int activatedPanels) {
-        persistPanels(activatedPanels);
-    }
 }
