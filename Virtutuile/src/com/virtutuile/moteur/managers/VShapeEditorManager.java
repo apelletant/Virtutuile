@@ -4,6 +4,7 @@ import com.virtutuile.moteur.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
 import com.virtutuile.systeme.components.VRectShape;
 import com.virtutuile.systeme.components.VShape;
+import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
 import com.virtutuile.systeme.singletons.VActionStatus;
 import com.virtutuile.systeme.tools.UnorderedMap;
@@ -14,8 +15,10 @@ import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -133,8 +136,9 @@ public class VShapeEditorManager implements IVEditorManager {
     public void mouseHover(VCoordinate coordinates) {
         VShape shape = getShapeAt(coordinates);
         boolean outofShape = false;
+        VActionStatus actionStatus = VActionStatus.getInstance();
 
-        VActionStatus.getInstance().cursorShape = Cursor.DEFAULT_CURSOR;
+        actionStatus.cursorShape = UIConstants.Mouse.VCursor.Pointer;
         if (shape == null) {
             outofShape = true;
             shape = getShapeNear(coordinates);
@@ -144,7 +148,7 @@ public class VShapeEditorManager implements IVEditorManager {
         }
 
         if (shape != null) {
-            VActionStatus.getInstance().cursorShape = Cursor.HAND_CURSOR;
+            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
             shape.setMouseHover(true);
             _hoveredShape = shape;
             _cursor = CursorEventType.Move;
@@ -152,8 +156,10 @@ public class VShapeEditorManager implements IVEditorManager {
                 VCoordinate vertice = shape.getVerticeNear(coordinates, VPhysicsConstants.pixelsToCentimeters(VPhysicsConstants.Mouse.DEFAULT_PRECISION));
 
                 if (vertice != null) {
+                    actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
                     _cursor = CursorEventType.Resize;
                 } else {
+                    actionStatus.cursorShape = UIConstants.Mouse.VCursor.Rotate;
                     _cursor = CursorEventType.Rotate;
                 }
             }
@@ -175,18 +181,19 @@ public class VShapeEditorManager implements IVEditorManager {
 
     @Override
     public void mouseDrag(VCoordinate from, VCoordinate to) {
+            VActionStatus actionStatus = VActionStatus.getInstance();
         if (_cursor == CursorEventType.Move && _currentShape != null) {
-            VActionStatus.getInstance().cursorShape = Cursor.MOVE_CURSOR;
+            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
             _currentShape.move(from, to);
         } else if (_cursor == CursorEventType.Rotate && _hoveredShape != null) {
             Vector2D root = Vector2D.from(_hoveredShape.getCenter());
             Vector2D origin = Vector2D.from(from);
             Vector2D target = Vector2D.from(to);
 
-            VActionStatus.getInstance().cursorShape = Cursor.WAIT_CURSOR;
+            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Rotate;
             _hoveredShape.rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
         } else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
-            VActionStatus.getInstance().cursorShape = Cursor.NE_RESIZE_CURSOR;
+            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
         }
     }
 

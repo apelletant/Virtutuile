@@ -1,6 +1,12 @@
 package com.virtutuile.systeme.constants;
 
+import com.virtutuile.systeme.singletons.VActionStatus;
+import com.virtutuile.systeme.tools.AssetLoader;
+
+import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.function.Consumer;
 
 public final class UIConstants {
 
@@ -32,6 +38,51 @@ public final class UIConstants {
     public static final Color DEFAULT_SHAPE_FILL_COLOR = new Color(255, 215, 171);
     public static final int DEFAULT_SHAPE_BORDER_THICKNESS = 2;
 
+    public static final class Mouse {
+        public enum VCursor {
+            Default,
+            Pointer,
+            Hand,
+            Move,
+            Rotate,
+            RotateCW,
+            RotateCCW,
+            Resize,
+            ResizeWE,
+            ResizeNS,
+            ResizeNESW,
+            ResizeNWSE,
+            Zoom,
+            ZoomIn,
+            ZoomOut,
+        }
+
+        private static final HashMap<VCursor, Consumer<JPanel>> _cursorSet = new HashMap<>() {{
+            put(VCursor.Default, (self) -> self.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)));
+            put(VCursor.Pointer, (self) -> self.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)));
+            put(VCursor.Move, (self) -> self.setCursor(new Cursor(Cursor.MOVE_CURSOR)));
+            put(VCursor.Hand, (self) -> self.setCursor(new Cursor(Cursor.HAND_CURSOR)));
+            put(VCursor.Rotate, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/Rotate.png")));
+            put(VCursor.RotateCW, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/RotateCW.png")));
+            put(VCursor.RotateCCW, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/RotateCCW.png")));
+            put(VCursor.Resize, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/Resize.png")));
+            put(VCursor.ResizeNS, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/ResizeNS.png")));
+            put(VCursor.ResizeWE, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/ResizeWE.png")));
+            put(VCursor.ResizeNESW, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/ResizeNESW.png")));
+            put(VCursor.ResizeNWSE, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/ResizeNWSE.png")));
+            put(VCursor.Zoom, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/Zoom.png")));
+            put(VCursor.ZoomIn, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/ZoomIn.png")));
+            put(VCursor.ZoomOut, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/ZoomOut.png")));
+        }};
+
+        public static final void SetCursor(JPanel panel, VCursor cursor) {
+            if (_cursorSet.containsKey(cursor)) {
+                _cursorSet.get(cursor).accept(panel);
+            } else {
+                _cursorSet.get(VCursor.Default).accept(panel);
+            }
+        }
+    }
 
     public static final class Gizmos {
 

@@ -1,5 +1,7 @@
 package com.virtutuile.systeme.singletons;
 
+import com.virtutuile.systeme.constants.UIConstants;
+
 import java.awt.*;
 
 public class VActionStatus {
@@ -9,7 +11,7 @@ public class VActionStatus {
 
     public VActionState doing = VActionState.Idle;
     public VActionManager manager = VActionManager.Shape;
-    public int cursorShape = Cursor.DEFAULT_CURSOR;
+    public UIConstants.Mouse.VCursor cursorShape = UIConstants.Mouse.VCursor.Pointer;
 
     public static VActionStatus getInstance() {
         if (_actionsStatus == null) {
