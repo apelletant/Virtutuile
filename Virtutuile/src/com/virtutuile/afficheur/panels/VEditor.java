@@ -3,17 +3,14 @@ package com.virtutuile.afficheur.panels;
 import com.virtutuile.afficheur.swing.panels.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
-import com.virtutuile.moteur.VEditorEngine;
-import com.virtutuile.moteur.managers.VPainterManager;
-import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.systeme.constants.VPhysicsConstants;
-import com.virtutuile.systeme.singletons.VActionStatus;
-import com.virtutuile.systeme.units.VProperties;
+import com.virtutuile.domaine.moteur.VEditorEngine;
+import com.virtutuile.domaine.moteur.managers.VPainterManager;
+import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.domaine.systeme.constants.VPhysicsConstants;
+import com.virtutuile.domaine.systeme.singletons.VActionStatus;
+import com.virtutuile.domaine.systeme.units.VProperties;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.function.Consumer;
 
 public class VEditor extends VPanelEvents {
     Point p;

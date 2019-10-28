@@ -1,11 +1,10 @@
 package com.virtutuile.afficheur.panels.subpanel;
 
 import com.virtutuile.afficheur.inputs.VMetricInputText;
-import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.domaine.systeme.constants.UIConstants;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.util.Vector;
 
 public class SettingsPanel extends SubPanel {
     private VMetricInputText _areaInput = new VMetricInputText("Area");

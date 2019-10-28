@@ -3,15 +3,11 @@ package com.virtutuile.afficheur.panels.subpanel;
 import com.virtutuile.afficheur.inputs.VButton;
 import com.virtutuile.afficheur.inputs.VMetricInputText;
 import com.virtutuile.afficheur.swing.panels.VPanel;
-import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.systeme.constants.VPhysicsConstants;
-import com.virtutuile.systeme.tools.AssetLoader;
-import com.virtutuile.systeme.tools.UnorderedMap;
+import com.virtutuile.domaine.systeme.constants.VPhysicsConstants;
+import com.virtutuile.domaine.systeme.tools.AssetLoader;
+import com.virtutuile.domaine.systeme.tools.UnorderedMap;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.io.File;
-import java.util.Vector;
 
 public class DrawShapePanel extends SubPanel {
     private UnorderedMap<DrawShapeButtonType, VButton> _addShape = new UnorderedMap<>();

@@ -1,19 +1,15 @@
 package com.virtutuile.afficheur.inputs;
 
 import com.virtutuile.afficheur.swing.panels.VBorderedEventPanel;
-import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.systeme.tools.ImageManipulator;
+import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.domaine.systeme.tools.ImageManipulator;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 
 public class VButton extends VBorderedEventPanel {
     private ImageIcon _icon;

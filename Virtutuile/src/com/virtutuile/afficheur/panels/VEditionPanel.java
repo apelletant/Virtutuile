@@ -2,11 +2,10 @@ package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.panels.subpanel.DrawShapePanel;
 import com.virtutuile.afficheur.panels.subpanel.SettingsPanel;
-import com.virtutuile.afficheur.panels.subpanel.ShapeManagementPanel;
 import com.virtutuile.afficheur.panels.subpanel.SubPanel;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
-import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.systeme.tools.UnorderedMap;
+import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.domaine.systeme.tools.UnorderedMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

@@ -2,8 +2,8 @@ package com.virtutuile.afficheur.inputs;
 
 import com.virtutuile.afficheur.swing.panels.VPanel;
 import com.virtutuile.afficheur.swing.tools.VLabel;
-import com.virtutuile.systeme.constants.UIConstants;
-import com.virtutuile.systeme.interfaces.ISimpleDocumentListener;
+import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.domaine.systeme.interfaces.ISimpleDocumentListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;

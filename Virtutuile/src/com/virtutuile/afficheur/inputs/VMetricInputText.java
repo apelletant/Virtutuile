@@ -1,9 +1,9 @@
 package com.virtutuile.afficheur.inputs;
 
 import com.virtutuile.afficheur.swing.tools.VLabel;
-import com.virtutuile.systeme.constants.VPhysicsConstants;
-import com.virtutuile.systeme.tools.ValidationsException;
-import com.virtutuile.systeme.tools.Validators;
+import com.virtutuile.domaine.systeme.constants.VPhysicsConstants;
+import com.virtutuile.domaine.systeme.tools.ValidationsException;
+import com.virtutuile.domaine.systeme.tools.Validators;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
