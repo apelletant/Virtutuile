@@ -55,9 +55,9 @@ public class VShapeEditorManager implements IVEditorManager {
             this._shapes.remove(shape.id());
             this._shapes.put(this._currentShape.id(), this._currentShape);
             VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.DrawShape);
-            /*VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.PatternManagement);*/
+            VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.PatternManagement);
         } else {
-            /*VApplicationStatus.getInstance().removeActivePanel(VApplicationStatus.VPanelType.PatternManagement);*/
+            VApplicationStatus.getInstance().removeActivePanel(VApplicationStatus.VPanelType.PatternManagement);
         }
     }
 

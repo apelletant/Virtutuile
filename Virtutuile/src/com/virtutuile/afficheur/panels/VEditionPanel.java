@@ -39,15 +39,12 @@ public class VEditionPanel extends VPanelEvents {
                 if (!this._panelsActive.contains(key)) {
                     System.out.println("add in persist: " + key);
                     this.add(value);
-
                 }
             } else {
                 System.out.println("remove in persist: " + key);
                 this.remove(value);
             }
         });
-        this._panelsActive = activePanels;
+        this._panelsActive = new Vector<>(activePanels);
     }
-
-
 }

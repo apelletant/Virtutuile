@@ -54,13 +54,14 @@ public class MainWindow extends JFrame {
         VButton config = _toolBar.getButton(VTopToolbar.TargetButton.CanvasSettings);
 
         draw.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
+            System.out.println(applicationStatus.getActivePanels());
             if (applicationStatus.getActivePanels().contains(VApplicationStatus.VPanelType.DrawShape)) {
-                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.DrawShape);
-                /*applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.PatternManagement);*/
+                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.DrawShape, false);
+                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.PatternManagement, false);
                 draw.setActive(false);
                 applicationStatus.doing = VApplicationStatus.VActionState.Idle;
             } else {
-                applicationStatus.setActivePanel(VApplicationStatus.VPanelType.DrawShape);
+                applicationStatus.setActivePanel(VApplicationStatus.VPanelType.DrawShape, false);
                 config.setActive(false);
                 draw.setActive(true);
                 applicationStatus.doing = VApplicationStatus.VActionState.CreatingRectShape;
@@ -73,11 +74,11 @@ public class MainWindow extends JFrame {
 
         config.addMouseEventListener(MouseEventKind.MouseLClick, (me) -> {
             if (applicationStatus.getActivePanels().contains(VApplicationStatus.VPanelType.Settings)) {
-                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.Settings);
+                applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.Settings, false);
                 config.setActive(false);
             } else {
                 draw.setActive(false);
-                applicationStatus.setActivePanel(VApplicationStatus.VPanelType.Settings);
+                applicationStatus.setActivePanel(VApplicationStatus.VPanelType.Settings, false);
                 config.setActive(true);
             }
             this._editionPanel.persistPanels();

@@ -1,15 +1,15 @@
 package com.virtutuile.domaine.systeme.singletons;
 
-import com.virtutuile.afficheur.swing.panels.VPanel;
 import com.virtutuile.domaine.systeme.constants.UIConstants;
 
 import java.util.Vector;
 import java.util.function.Consumer;
 
 public class VApplicationStatus {
-    private static VApplicationStatus _actionsStatus  = null;
+    private static VApplicationStatus _actionsStatus = null;
 
-    private VApplicationStatus(){}
+    private VApplicationStatus() {
+    }
 
     public VActionState doing = VActionState.Idle;
     public VActionManager manager = VActionManager.Shape;
@@ -64,21 +64,23 @@ public class VApplicationStatus {
 
         if (!_activePanels.contains(activePanel)) {
             this._activePanels.add(activePanel);
-        }
-        if (throwEvent) {
-            this._onPanelChange.accept(this._activePanels);
-            System.out.println("add active panel");
+            if (throwEvent) {
+                this._onPanelChange.accept(this._activePanels);
+                System.out.println("add active panel");
+            }
         }
     }
 
     public void removeActivePanel(VPanelType activePanel) {
-       this.removeActivePanel(activePanel, true);
+        this.removeActivePanel(activePanel, true);
     }
 
     public void removeActivePanel(VPanelType activePanel, boolean throwEvent) {
-        this._activePanels.remove(activePanel);
-        if (throwEvent) {
-            this._onPanelChange.accept(this._activePanels);
+        if (_activePanels.contains(activePanel)) {
+            this._activePanels.remove(activePanel);
+            if (throwEvent) {
+                this._onPanelChange.accept(this._activePanels);
+            }
         }
     }
 
