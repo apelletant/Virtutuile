@@ -171,7 +171,7 @@ public class Vector2D {
 
     // region product (type Vector2D, Point, VCoordinate, int, float, double)
 
-    public double product() {
+    public double getProduct() {
         return this.x * this.x + this.y * this.y;
     }
     /**
@@ -180,15 +180,15 @@ public class Vector2D {
      * @param vector
      * @return
      */
-    public double product(Vector2D vector) {
+    public double setProduct(Vector2D vector) {
         return this.x * vector.x + this.y * vector.y;
     }
 
-    public double product(VCoordinate coordinate) {
+    public double setProduct(VCoordinate coordinate) {
         return this.x * coordinate.longitude + this.y * coordinate.latitude;
     }
 
-    public double product(double x, double y) {
+    public double setProduct(double x, double y) {
         return this.x * x + this.y * y;
     }
 

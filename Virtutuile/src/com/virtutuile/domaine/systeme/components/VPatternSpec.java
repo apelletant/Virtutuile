@@ -10,35 +10,35 @@ public class VPatternSpec {
     private float _rotation;
     private VCoordinate _coordinate;
 
-    public VPattern pattern() {
+    public VPattern getPattern() {
         return this._pattern;
     }
 
-    public void pattern(VPattern pattern) {
+    public void setPattern(VPattern pattern) {
         this._pattern = pattern;
     }
 
-    public Vector<VTileSpec> tiles() {
+    public Vector<VTileSpec> getTiles() {
         return this._tiles;
     }
 
-    public void tiles(Vector<VTileSpec> tiles) {
+    public void setTiles(Vector<VTileSpec> tiles) {
         this._tiles = tiles;
     }
 
-    public float rotation() {
+    public float getRotation() {
         return this._rotation;
     }
 
-    public void rotation(float rotation) {
+    public void setRotation(float rotation) {
         this._rotation = rotation;
     }
 
-    public VCoordinate coordinate() {
+    public VCoordinate getCoordinate() {
         return this._coordinate;
     }
 
-    public void coordinate(VCoordinate coordinate) {
+    public void setCoordinate(VCoordinate coordinate) {
         this._coordinate = coordinate;
     }
 }

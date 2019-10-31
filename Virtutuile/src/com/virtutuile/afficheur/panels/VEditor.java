@@ -13,7 +13,6 @@ import com.virtutuile.domaine.systeme.units.VProperties;
 import java.awt.*;
 
 public class VEditor extends VPanelEvents {
-    Point p;
     private VEditorEngine _editorEngine;
     private UIConstants.Mouse.VCursor _currentCursor = VApplicationStatus.getInstance().cursorShape;
 

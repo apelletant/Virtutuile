@@ -6,7 +6,7 @@ import java.util.Vector;
 import java.util.function.Consumer;
 
 public class VApplicationStatus {
-    private static VApplicationStatus _actionsStatus = null;
+    private static VApplicationStatus _applicationStatus = null;
 
     private VApplicationStatus() {
     }
@@ -18,11 +18,11 @@ public class VApplicationStatus {
     private Consumer<Vector<VPanelType>> _onPanelChange;
 
     public static VApplicationStatus getInstance() {
-        if (_actionsStatus == null) {
-            _actionsStatus = new VApplicationStatus();
+        if (_applicationStatus == null) {
+            _applicationStatus = new VApplicationStatus();
         }
 
-        return _actionsStatus;
+        return _applicationStatus;
     }
 
     public void setOnPanelChange(Consumer<Vector<VPanelType>> consumer) {
@@ -56,8 +56,8 @@ public class VApplicationStatus {
         return this._activePanels;
     }
 
-    public void addActivePanel(VPanelType activePanels) {
-        this.addActivePanel(activePanels, true);
+    public void addActivePanel(VPanelType activePanel) {
+        this.addActivePanel(activePanel, true);
     }
 
     public void addActivePanel(VPanelType activePanel, boolean throwEvent) {

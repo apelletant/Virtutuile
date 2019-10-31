@@ -10,6 +10,7 @@ public class VBorderedPanel extends VPanel {
     protected VPanel _border;
     protected VPanel _content;
     private SizingPolicy _sizingPolicy = SizingPolicy.ContentBox;
+
     public VBorderedPanel() {
         super();
 
@@ -134,7 +135,9 @@ public class VBorderedPanel extends VPanel {
     @Override
     public void add(Component comp, Object constraints, int index) {
         _content.add(comp, constraints, index);
-    }    @Override
+    }
+
+    @Override
     public void setMaximumSize(Dimension maximumSize) {
         if (this._content == null) {
             super.setMaximumSize(maximumSize);
@@ -154,7 +157,9 @@ public class VBorderedPanel extends VPanel {
             default:
                 throw new AssertionError("Unknown sizing policy");
         }
-    }    @Override
+    }
+
+    @Override
     public Dimension getMaximumSize() {
         if (this._content == null) {
             return super.getMaximumSize();
@@ -167,7 +172,8 @@ public class VBorderedPanel extends VPanel {
         Border,
         Content,
         Margin,
-    }    @Override
+    }
+    @Override
     public void setMinimumSize(Dimension minimumSize) {
         if (this._content == null) {
             super.setMinimumSize(minimumSize);
@@ -179,7 +185,9 @@ public class VBorderedPanel extends VPanel {
     public enum SizingPolicy {
         ContentBox,
         MarginBox,
-    }    @Override
+    }
+
+    @Override
     public Dimension getMinimumSize() {
         if (this._content == null) {
             return super.getMinimumSize();
@@ -187,18 +195,6 @@ public class VBorderedPanel extends VPanel {
             return getSizingBox().getMinimumSize();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     private VPanel getSizingBox() {
         switch (_sizingPolicy) {

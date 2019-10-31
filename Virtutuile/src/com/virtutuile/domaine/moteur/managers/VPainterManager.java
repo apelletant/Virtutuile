@@ -7,9 +7,6 @@ import java.awt.*;
 public class VPainterManager {
     public static final int GIZ_BOUNDS = 0x0001;
 
-    private VPainterManager() {
-    }
-
     private int _gizmos;
 
     public VPainter getPainter(Graphics graphics) {

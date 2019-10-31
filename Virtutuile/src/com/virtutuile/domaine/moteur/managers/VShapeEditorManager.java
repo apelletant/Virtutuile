@@ -34,26 +34,26 @@ public class VShapeEditorManager implements IVEditorManager {
 
     public VShapeEditorManager() {
         VShape shape = new VRectShape(new Rectangle2D.Double(30, 30, 70, 70), false);
-        _shapes.put(shape.id(), shape);
+        _shapes.put(shape.getId(), shape);
         shape = new VRectShape(new Rectangle2D.Double(500, 230, 240, 120), false);
-        _shapes.put(shape.id(), shape);
+        _shapes.put(shape.getId(), shape);
         shape = new VRectShape(new Rectangle2D.Double(100, 190, 240, 120), false);
         shape.rotateDeg(45);
-        _shapes.put(shape.id(), shape);
+        _shapes.put(shape.getId(), shape);
     }
 
     private void selectShape(VProperties properties) {
         VShape shape = this.getShapeAt(properties.coordinates.firstElement());
 
         if (this._currentShape != null) {
-            this._currentShape.selected(false);
+            this._currentShape.setSelected(false);
         }
         _currentShape = shape;
         if (shape != null) {
-            this._currentShape = this._shapes.get(shape.id());
-            this._currentShape.selected(true);
-            this._shapes.remove(shape.id());
-            this._shapes.put(this._currentShape.id(), this._currentShape);
+            this._currentShape = this._shapes.get(shape.getId());
+            this._currentShape.setSelected(true);
+            this._shapes.remove(shape.getId());
+            this._shapes.put(this._currentShape.getId(), this._currentShape);
             VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.DrawShape);
             VApplicationStatus.getInstance().addActivePanel(VApplicationStatus.VPanelType.PatternManagement);
         } else {
@@ -69,33 +69,33 @@ public class VShapeEditorManager implements IVEditorManager {
 
     }
 
-    public VShape getShapeById(int id) {
+    public VShape getShapeById(UUID id) {
         if (this._shapes.containsKey(id)) {
             return _shapes.get(id);
         }
         return null;
     }
 
-    public int addShape(VShape shape) {
-        return 0;
+    public UUID addShape(VShape shape) {
+        return new UUID(3, 3);
     }
 
-    public void removeShape(int id) {
+    public void removeShape(UUID id) {
         if (this._shapes.containsKey(id)) {
             this._shapes.remove(id);
         }
     }
 
-    public int buildShapeAt(VShape shape) {
-        return 0;
+    public UUID buildShapeAt(VShape shape) {
+        return new UUID(3,3);
     }
 
     public UUID getShapeIdAt(VCoordinate coordinates) {
         AtomicReference<UUID> shapeId = new AtomicReference<>();
         this._shapes.forEach((key, value) -> {
             if (value != null
-                    && value.polygon() != null
-                    && value.polygon().contains(VPhysicsConstants.coordinateToPoint(coordinates))) {
+                    && value.getPolygon() != null
+                    && value.getPolygon().contains(VPhysicsConstants.coordinateToPoint(coordinates))) {
                 shapeId.set(key);
             }
         });
@@ -106,8 +106,8 @@ public class VShapeEditorManager implements IVEditorManager {
         AtomicReference<VShape> shape = new AtomicReference<>();
         this._shapes.forEach((key, value) -> {
             if (value != null
-                    && value.polygon() != null
-                    && value.polygon().contains(VPhysicsConstants.coordinateToPoint(coordinates))) {
+                    && value.getPolygon() != null
+                    && value.getPolygon().contains(VPhysicsConstants.coordinateToPoint(coordinates))) {
                 shape.set(value);
             }
         });
@@ -215,9 +215,9 @@ public class VShapeEditorManager implements IVEditorManager {
             VCoordinate[] coords = shape.getVertices();
             Point[] points = VPhysicsConstants.coordinatesToPoints(coords);
             VDrawableShape drawable = new VDrawableShape(points);
-            drawable.setActive(shape.isSelected());
-            drawable.setMouseHovered(shape.isMouseHover());
-            drawable.fillColor(shape.fillColor());
+            drawable.setActive(shape.getIsSelected());
+            drawable.setMouseHovered(shape.getIsMouseHover());
+            drawable.fillColor(shape.getFillColor());
             list.add(drawable);
         });
         return list;
@@ -225,7 +225,7 @@ public class VShapeEditorManager implements IVEditorManager {
 
     public void deleteSelectedShape() {
         if (_currentShape != null) {
-            _shapes.remove(_currentShape.id());
+            _shapes.remove(_currentShape.getId());
             _currentShape = null;
         }
     }

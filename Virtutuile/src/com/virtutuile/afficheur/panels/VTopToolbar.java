@@ -64,14 +64,6 @@ public class VTopToolbar extends VBorderedPanel {
         this.add(_buttons.get(TargetButton.CanvasInfos));
     }
 
-    /**
-     * @param buttonName     button key
-     * @param actionListener action listener to apply
-     */
-    public void setActionListener(TargetButton buttonName, ActionListener actionListener) {
-//        this._buttonsToolbar.get(buttonName).addActionListener(actionListener)
-    }
-
     public VButton getButton(TargetButton name) {
         return _buttons.get(name);
     }

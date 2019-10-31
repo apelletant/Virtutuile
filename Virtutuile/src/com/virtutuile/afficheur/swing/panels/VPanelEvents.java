@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.function.Consumer;
 
-public class VPanelEvents extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class VPanelEvents extends VPanel implements MouseListener, MouseMotionListener, KeyListener {
     protected boolean _isClicked = false;
     protected boolean _isMouseActive = false;
     protected boolean _isMouseHover = false;
 
-    HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _mouseEvents = new HashMap<>();
-    HashMap<KeyboardEventKind, Vector<Consumer<KeyEvent>>> _keyboardEvents = new HashMap<>();
+    private HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _mouseEvents = new HashMap<>();
+    private HashMap<KeyboardEventKind, Vector<Consumer<KeyEvent>>> _keyboardEvents = new HashMap<>();
 
     public VPanelEvents(LayoutManager layout, boolean isDoubleBuffered) {
         super(layout, isDoubleBuffered);

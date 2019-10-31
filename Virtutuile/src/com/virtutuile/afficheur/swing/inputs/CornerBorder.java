@@ -4,20 +4,20 @@ import javax.swing.border.AbstractBorder;
 import java.awt.*;
 
 public class CornerBorder extends AbstractBorder {
-    int top;
-    int left;
-    int bottom;
-    int right;
-    int gap;
-    Color color = null;
+    private int _top;
+    private int _left;
+    private int _bottom;
+    private int _right;
+    private int _gap;
+    private Color _color = null;
 
     public CornerBorder() {
-        this.top = 1;
-        this.left = 1;
-        this.bottom = 1;
-        this.right = 1;
-        this.color = Color.RED;
-        this.gap = 10;
+        this._top = 1;
+        this._left = 1;
+        this._bottom = 1;
+        this._right = 1;
+        this._color = Color.RED;
+        this._gap = 10;
     }
 
     public void paintBorder(Component c,
@@ -27,51 +27,51 @@ public class CornerBorder extends AbstractBorder {
 
 
         Insets insets = getBorderInsets(c);
-        if (color != null)
-            g.setColor(color);
+        if (_color != null)
+            g.setColor(_color);
 
 
         // Top Left
         g.fill3DRect(0,
                 0,
-                gap,
+                _gap,
                 insets.top,
                 true);
         g.fill3DRect(0,
                 0,
                 insets.left,
-                gap,
+                _gap,
                 true);
 
         // Top Right
-        g.fill3DRect(width - gap,
+        g.fill3DRect(width - _gap,
                 0,
-                gap,
+                _gap,
                 insets.top,
                 true);
-        g.fill3DRect(width - gap,
+        g.fill3DRect(width - _gap,
                 0,
                 width + insets.right,
-                gap,
+                _gap,
                 true);
 
         // Bottom Left
         g.fill3DRect(0,
                 height,
-                gap,
+                _gap,
                 insets.bottom,
                 true);
         g.fill3DRect(0,
-                height - gap,
+                height - _gap,
                 insets.left,
-                gap,
+                _gap,
                 true);
 
         // Bottom Right
-        g.fill3DRect(width - gap,
+        g.fill3DRect(width - _gap,
                 height,
                 width + insets.right,
-                gap,
+                _gap,
                 true);
 
         // Bottom left
@@ -84,7 +84,7 @@ public class CornerBorder extends AbstractBorder {
     }
 
     public Insets getBorderInsets(Component c) {
-        return new Insets(top, left, bottom, right);
+        return new Insets(_top, _left, _bottom, _right);
     }
 
     public boolean isBorderOpaque() {

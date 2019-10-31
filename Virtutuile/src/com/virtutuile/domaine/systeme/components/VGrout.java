@@ -13,27 +13,27 @@ public class VGrout {
         _height = height;
     }
 
-    public Color color() {
+    public Color getColor() {
         return this._color;
     }
 
-    public void color(Color color) {
+    public void setColor(Color color) {
         this._color = color;
     }
 
-    public float thickness() {
+    public float getThickness() {
         return this._thickness;
     }
 
-    public void thickness(float thickness) {
+    public void setThickness(float thickness) {
         this._thickness = thickness;
     }
 
-    public float height() {
+    public float getHeight() {
         return this._height;
     }
 
-    public void height(float height) {
+    public void setHeight(float height) {
         this._height = height;
     }
 }

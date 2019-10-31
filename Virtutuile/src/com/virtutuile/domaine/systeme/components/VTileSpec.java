@@ -7,27 +7,27 @@ public class VTileSpec {
     private float _rotation;
     private VCoordinate _origin;
 
-    public VCoordinate position() {
+    public VCoordinate getPosition() {
         return this._position;
     }
 
-    public void position(VCoordinate position) {
+    public void setPosition(VCoordinate position) {
         this._position = position;
     }
 
-    public float rotation() {
+    public float getRotation() {
         return this._rotation;
     }
 
-    public void rotation(float rotation) {
+    public void setRotation(float rotation) {
         this._rotation = rotation;
     }
 
-    public VCoordinate origin() {
+    public VCoordinate getOrigin() {
         return this._origin;
     }
 
-    public void origin(VCoordinate origin) {
+    public void setOrigin(VCoordinate origin) {
         this._origin = origin;
     }
 }

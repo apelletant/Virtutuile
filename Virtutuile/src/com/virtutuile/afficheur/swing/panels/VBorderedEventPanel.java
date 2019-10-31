@@ -16,8 +16,8 @@ public class VBorderedEventPanel extends VBorderedPanel implements MouseInputLis
     protected boolean _isMouseActive = false;
     protected boolean _isMouseHover = false;
 
-    HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _mouseEvents = new HashMap<>();
-    HashMap<KeyboardEventKind, Vector<Consumer<KeyEvent>>> _keyboardEvents = new HashMap<>();
+    private HashMap<MouseEventKind, Vector<Consumer<MouseEvent>>> _mouseEvents = new HashMap<>();
+    private HashMap<KeyboardEventKind, Vector<Consumer<KeyEvent>>> _keyboardEvents = new HashMap<>();
 
     public VBorderedEventPanel() {
         super();

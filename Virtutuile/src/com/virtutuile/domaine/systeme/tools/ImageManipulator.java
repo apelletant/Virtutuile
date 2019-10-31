@@ -37,9 +37,4 @@ public class ImageManipulator {
         Image outRef = ref.getScaledInstance(oWidth, oHeight, Image.SCALE_SMOOTH);
         return new ImageIcon(outRef);
     }
-
-    public static ImageIcon Resize(ImageIcon img, int width, int height) {
-        return ImageManipulator.Resize(img, new Dimension(width, height), true);
-    }
-
 }

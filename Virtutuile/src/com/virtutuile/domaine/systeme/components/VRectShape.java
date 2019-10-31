@@ -19,19 +19,19 @@ public class VRectShape extends VShape {
         _opposite = new VCoordinate(rect.x + rect.width, rect.y + rect.height);
     }
 
-    public VCoordinate origin() {
+    public VCoordinate getOrigin() {
         return this._origin;
     }
 
-    public void origin(VCoordinate origin) {
+    public void setOrigin(VCoordinate origin) {
         this._origin = origin;
     }
 
-    public VCoordinate opposite() {
+    public VCoordinate getOpposite() {
         return this._opposite;
     }
 
-    public void opposite(VCoordinate opposite) {
+    public void setOpposite(VCoordinate opposite) {
         this._opposite = opposite;
     }
 }

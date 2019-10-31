@@ -70,8 +70,8 @@ public class VShape {
             Vector2D ac = location.copy().subtract(from);
             Vector2D ab = to.copy().subtract(from);
 
-            ab2 = ab.product(ab);
-            acab = ac.product(ab);
+            ab2 = ab.setProduct(ab);
+            acab = ac.setProduct(ab);
             double t = acab / ab2;
 
             if (t < 0)
@@ -80,7 +80,7 @@ public class VShape {
                 t = 1;
 
             Vector2D h = ab.copy().multiply(t).add(from).subtract(location);
-            h2 = h.product();
+            h2 = h.getProduct();
 
             if (h2 <= (circle.getRadius() * circle.getRadius()))
                 return Math.sqrt(h2);
@@ -107,23 +107,23 @@ public class VShape {
         return nearest;
     }
 
-    public UUID id() {
+    public UUID getId() {
         return this._id;
     }
 
-    public Rectangle2D bounds() {
+    public Rectangle2D getBounds() {
         return this._polygon.getBounds2D();
     }
 
-    public boolean isHole() {
+    public boolean getIsHole() {
         return this._isHole;
     }
 
-    public void hole(boolean hole) {
+    public void setHole(boolean hole) {
         this._isHole = hole;
     }
 
-    public boolean isMouseHover() {
+    public boolean getIsMouseHover() {
         return this._isMouseHover;
     }
 
@@ -131,35 +131,35 @@ public class VShape {
         this._isMouseHover = isMouseHover;
     }
 
-    public boolean isSelected() {
+    public boolean getIsSelected() {
         return this._selected;
     }
 
-    public void selected(boolean selected) {
+    public void setSelected(boolean selected) {
         this._selected = selected;
     }
 
-    public Path2D polygon() {
+    public Path2D getPolygon() {
         return this._polygon;
     }
 
-    public void polygon(Path2D.Double polygon) {
+    public void setPolygon(Path2D.Double polygon) {
         this._polygon = polygon;
     }
 
-    public Color borderColor() {
+    public Color getBorderColor() {
         return this._borderColor;
     }
 
-    public void borderColor(Color borderColor) {
+    public void setBorderColor(Color borderColor) {
         this._borderColor = borderColor;
     }
 
-    public Color fillColor() {
+    public Color getFillColor() {
         return this._fillColor;
     }
 
-    public void fillColor(Color fillColor) {
+    public void setFillColor(Color fillColor) {
         this._fillColor = fillColor;
     }
 
