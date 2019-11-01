@@ -11,10 +11,9 @@ import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
 import com.virtutuile.systeme.units.Vector2D;
-import com.virtutuile.domaine.systeme.components.VShapeBuilder;
+import com.virtutuile.systeme.components.VShapeBuilder;
 import javafx.scene.shape.Circle;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,6 +170,11 @@ public class VShapeEditorManager implements IVEditorManager {
             actionStatus.cursorShape = UIConstants.Mouse.VCursor.Cross;
             _builder.movePoint(coordinates);
         } else {
+
+            // TODO
+            // Logic pour afficher les data de la surface
+            // dans la bottom toolBar
+
             actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
             shape.setMouseHover(true);
             _hoveredShape = shape;

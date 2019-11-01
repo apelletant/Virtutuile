@@ -19,6 +19,8 @@ public class VPainter {
         this._graphics2D = (Graphics2D) graphics;
     }
 
+    //TODO create magnetic grid here
+
     public VPainter getFillColor() {
         return null;
     }

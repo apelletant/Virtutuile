@@ -1,4 +1,4 @@
-package com.virtutuile.domaine.systeme.components;
+package com.virtutuile.systeme.components;
 
 
 import com.virtutuile.systeme.components.VShape;

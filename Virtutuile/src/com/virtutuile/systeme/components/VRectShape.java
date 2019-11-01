@@ -1,6 +1,5 @@
 package com.virtutuile.systeme.components;
 
-import com.virtutuile.domaine.systeme.components.VShapeBuilder;
 import com.virtutuile.systeme.units.VCoordinate;
 
 import java.awt.*;
