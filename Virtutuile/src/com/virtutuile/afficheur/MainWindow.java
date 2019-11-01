@@ -40,7 +40,6 @@ public class MainWindow extends JFrame {
     private void setupEvents() {
         setupTopToolbarEvents();
         VApplicationStatus.getInstance().setOnPanelChange((state) -> {
-            System.out.println("Panneaux affichés : "  + state);
             this._editionPanel.persistPanels();
             revalidate();
             repaint();

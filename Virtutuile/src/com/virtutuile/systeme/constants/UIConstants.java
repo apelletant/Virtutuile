@@ -41,6 +41,7 @@ public final class UIConstants {
         public enum VCursor {
             Default,
             Pointer,
+            Cross,
             Hand,
             Move,
             Rotate,
@@ -59,6 +60,7 @@ public final class UIConstants {
         private static final HashMap<VCursor, Consumer<JPanel>> _cursorSet = new HashMap<>() {{
             put(VCursor.Default, (self) -> self.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)));
             put(VCursor.Pointer, (self) -> self.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)));
+            put(VCursor.Cross, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/Cross.png")));
             put(VCursor.Move, (self) -> self.setCursor(new Cursor(Cursor.MOVE_CURSOR)));
             put(VCursor.Hand, (self) -> self.setCursor(new Cursor(Cursor.HAND_CURSOR)));
             put(VCursor.Rotate, (self) -> self.setCursor(AssetLoader.loadCursor("/cursors/Rotate.png")));

@@ -11,12 +11,15 @@ import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
 import com.virtutuile.systeme.units.Vector2D;
+import com.virtutuile.domaine.systeme.components.VShapeBuilder;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -31,6 +34,7 @@ public class VShapeEditorManager implements IVEditorManager {
     private UnorderedMap<UUID, VShape> _shapes = new UnorderedMap<>();
     private VShape _currentShape = null;
     private VShape _hoveredShape = null;
+    private VShapeBuilder _builder = null;
 
     public VShapeEditorManager() {
         VShape shape = new VRectShape(new Rectangle2D.Double(30, 30, 70, 70), false);
@@ -153,6 +157,20 @@ public class VShapeEditorManager implements IVEditorManager {
         }
 
         if (shape != null) {
+            hoverShapeHandling(coordinates, shape, outofShape);
+        } else {
+            _hoveredShape = null;
+        }
+    }
+
+    private void hoverShapeHandling(VCoordinate coordinates, VShape shape, boolean outofShape) {
+        VApplicationStatus actionStatus = VApplicationStatus.getInstance();
+
+        if (_builder != null && (actionStatus.doing == VApplicationStatus.VActionState.CreatingRectShape ||
+                actionStatus.doing == VApplicationStatus.VActionState.CreatingFreeShape)) {
+            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Cross;
+            _builder.movePoint(coordinates);
+        } else {
             actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
             shape.setMouseHover(true);
             _hoveredShape = shape;
@@ -168,15 +186,17 @@ public class VShapeEditorManager implements IVEditorManager {
                     _cursor = CursorEventType.Rotate;
                 }
             }
-        } else {
-            _hoveredShape = null;
         }
     }
 
     //TODO: penser à une meilleure solution (cas du IDLE qui empeche le drag)
     @Override
     public void mouseLClick(VProperties properties) {
-        /*VActionStatus.VActionState actionState = VActionStatus.getInstance().doing;*/
+        VApplicationStatus.VActionState actionState = VApplicationStatus.getInstance().doing;
+        if (actionState == VApplicationStatus.VActionState.CreatingRectShape) {
+            _builder = VRectShape.getBuilder();
+            _builder.placePoint(properties.coordinates.firstElement());
+        }
         this._actions.get(VApplicationStatus.VActionState.Idle).accept(properties);
     }
 
@@ -187,39 +207,49 @@ public class VShapeEditorManager implements IVEditorManager {
 
     @Override
     public void mouseDrag(VCoordinate from, VCoordinate to) {
-            VApplicationStatus actionStatus = VApplicationStatus.getInstance();
-        if (_cursor == CursorEventType.Move && _currentShape != null) {
-            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
-            _currentShape.move(from, to);
-        } else if (_cursor == CursorEventType.Rotate && _hoveredShape != null) {
-            Vector2D root = Vector2D.from(_hoveredShape.getCenter());
-            Vector2D origin = Vector2D.from(from);
-            Vector2D target = Vector2D.from(to);
+        VApplicationStatus actionStatus = VApplicationStatus.getInstance();
+        if (actionStatus.doing == VApplicationStatus.VActionState.CreatingRectShape) {
+            _builder.movePoint(to);
+        } else {
+            if (_cursor == CursorEventType.Move && _currentShape != null) {
+                actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
+                _currentShape.move(from, to);
+            } else if (_cursor == CursorEventType.Rotate && _hoveredShape != null) {
+                Vector2D root = Vector2D.from(_hoveredShape.getCenter());
+                Vector2D origin = Vector2D.from(from);
+                Vector2D target = Vector2D.from(to);
 
-            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Rotate;
-            _hoveredShape.rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
-        } else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
-            actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
+                actionStatus.cursorShape = UIConstants.Mouse.VCursor.Rotate;
+                _hoveredShape.rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
+            } else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
+                actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
+            }
         }
     }
 
     @Override
     public void mouseRelease(VCoordinate coordinate) {
+        VApplicationStatus actionStatus = VApplicationStatus.getInstance();
+
+        if (actionStatus.doing == VApplicationStatus.VActionState.CreatingRectShape) {
+            _builder.placePoint(coordinate);
+            VShape shape = _builder.getShape();
+            _shapes.put(shape.getId(), shape);
+            _builder = null;
+            System.out.println("Shape added");
+        }
         mouseHover(coordinate);
     }
 
     @Override
     public List<VDrawableShape> getDrawableShapes() {
-        List<VDrawableShape> list = new ArrayList<>();
+        List<VDrawableShape> list = new ArrayList<>(_shapes.size() + 1);
         _shapes.forEach((id, shape) -> {
-            VCoordinate[] coords = shape.getVertices();
-            Point[] points = VPhysicsConstants.coordinatesToPoints(coords);
-            VDrawableShape drawable = new VDrawableShape(points);
-            drawable.setActive(shape.getIsSelected());
-            drawable.setMouseHovered(shape.getIsMouseHover());
-            drawable.fillColor(shape.getFillColor());
-            list.add(drawable);
+            list.add(shape.getDrawable());
         });
+        if (_builder != null) {
+            list.add(_builder.getShape().getDrawable());
+        }
         return list;
     }
 

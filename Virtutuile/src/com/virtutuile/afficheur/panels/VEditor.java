@@ -5,6 +5,7 @@ import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.domaine.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.constants.VPhysicsConstants;
 import com.virtutuile.systeme.singletons.VApplicationStatus;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ public class VEditor extends VPanelEvents {
 
     public VEditor(VEditorEngine editorEngine) {
         setFocusable(true);
+        this.setOpaque(true);
         this.setBackground(UIConstants.DRAW_BACKGROUND);
         this.setName("Toolbar");
         this.setBorder(null);
@@ -29,6 +31,11 @@ public class VEditor extends VPanelEvents {
             editorEngine.mouseDrag(mouseEvent.getPoint().x, mouseEvent.getPoint().y);
             repaint();
         });
+
+        addMouseEventListener(MouseEventKind.MouseRelease, (mouseEvent -> {
+            editorEngine.mouseRelease(mouseEvent.getPoint().x, mouseEvent.getPoint().y);
+            repaint();
+        }));
 
         addMouseEventListener(MouseEventKind.MouseMove, (mouseEvent) -> {
             editorEngine.mouseHover(mouseEvent.getPoint().x, mouseEvent.getPoint().y);

@@ -2,8 +2,9 @@ package com.virtutuile.afficheur.panels.subpanel;
 
 import com.virtutuile.afficheur.inputs.VButton;
 import com.virtutuile.afficheur.inputs.VMetricInputText;
+import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanel;
-import com.virtutuile.systeme.constants.VPhysicsConstants;
+import com.virtutuile.systeme.singletons.VApplicationStatus;
 import com.virtutuile.systeme.tools.AssetLoader;
 import com.virtutuile.systeme.tools.UnorderedMap;
 
@@ -24,6 +25,22 @@ public class DrawShapePanel extends SubPanel {
         this.setButtonsOnDrawShape();
         /*this.setBorder(border);*/
         this.persistLayout();
+        this.setEvents();
+    }
+
+    private void setEvents() {
+        VButton addRect = _addShape.get(DrawShapeButtonType.AddRectangularShape);
+        VApplicationStatus manager = VApplicationStatus.getInstance();
+
+        addRect.addMouseEventListener(MouseEventKind.MouseLClick, (evt) -> {
+            if (addRect.isActive()) {
+                manager.doing = VApplicationStatus.VActionState.Idle;
+                addRect.setActive(false);
+            } else {
+                manager.doing = VApplicationStatus.VActionState.CreatingRectShape;
+                addRect.setActive(true);
+            }
+        });
     }
 
     private void setButtonsOnDrawShape() {
@@ -57,16 +74,6 @@ public class DrawShapePanel extends SubPanel {
         this._removeShape.put(DrawShapeButtonType.RemoveTriangularShape, new VButton("Triangle",  AssetLoader.loadImage("/icons/shape-edit-remove-triangle.png")));
 
         this._removeShape.forEach((key, value) -> {
-            line.add(value);
-        });
-        this._lines.add(line);
-    }
-
-    private void setRectSettings(JPanel line) {
-        this._rectSize.put(DrawShapeInputType.Width, new VMetricInputText("Width", false).setUnit(VPhysicsConstants.Units.Centimeter));
-        this._rectSize.put(DrawShapeInputType.Height, new VMetricInputText("Height", false).setUnit(VPhysicsConstants.Units.Centimeter));
-
-        this._rectSize.forEach((key, value) -> {
             line.add(value);
         });
         this._lines.add(line);

@@ -21,6 +21,7 @@ public class VEditionPanel extends VPanelEvents {
 
     public VEditionPanel() {
         super();
+        this.setOpaque(true);
         this.setName("VEditionPanel");
         this.setBackground(UIConstants.EDITIONPANEL_BACKGROUND);
         this.setForeground(UIConstants.EDITIONPANEL_FONT_COLOR);

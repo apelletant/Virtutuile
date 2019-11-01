@@ -48,6 +48,8 @@ public class VPainter {
     }
 
     public void paint(VDrawableShape drawableShape) {
+        if (drawableShape == null)
+            return;
         _graphics2D.setColor(drawableShape.fillColor());
         fillPolygon(drawableShape.polygon());
         _graphics2D.setColor(drawableShape.borderColor());

@@ -7,6 +7,11 @@ public class VCoordinate {
     public VCoordinate() {
     }
 
+    public VCoordinate(VCoordinate coord) {
+        longitude = coord.longitude;
+        latitude = coord.latitude;
+    }
+
     public VCoordinate(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;

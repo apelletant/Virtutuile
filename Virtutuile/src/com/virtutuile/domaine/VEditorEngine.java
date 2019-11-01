@@ -18,8 +18,11 @@ public class VEditorEngine {
 
     private VCoordinate _clicked = null;
     private VCoordinate _hover = null;
+    private boolean _mousePressed = false;
 
-    public VEditorEngine() {super();}
+    public VEditorEngine() {
+        super();
+    }
 
     private UnorderedMap<VApplicationStatus.VActionManager, IVEditorManager> _managers = new UnorderedMap<>() {{
         put(VApplicationStatus.VActionManager.Pattern, new VPatternEditorManager());
@@ -39,11 +42,11 @@ public class VEditorEngine {
         _managers.forEach((action, manager) -> {
             manager.mouseHover(_hover);
         });
-
     }
 
     public void mouseRelease(int x, int y) {
         _hover = new VCoordinate(x, y);
+        _mousePressed = false;
         _managers.forEach((action, manager) -> {
             manager.mouseRelease(_hover);
         });
@@ -55,6 +58,7 @@ public class VEditorEngine {
         properties.coordinates.add(new VCoordinate(x,y));
         this._managers.get(manager).mouseLClick(properties);
         this._clicked = properties.coordinates.get(0);
+        _mousePressed = true;
     }
 
     public void mouseRClick(int x, int y) {
@@ -62,8 +66,8 @@ public class VEditorEngine {
     }
 
     public void mouseDrag(int x, int y) {
-        VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VApplicationStatus.VActionManager.Shape);
         VCoordinate coordinates = new VCoordinate(x,y);
+        VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VApplicationStatus.VActionManager.Shape);
         manager.mouseDrag(_hover, coordinates);
         _hover = coordinates;
     }
@@ -71,11 +75,11 @@ public class VEditorEngine {
     public void keyEvent(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE || ke.getKeyCode() == KeyEvent.VK_DELETE) {
 
-            VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VApplicationStatus.VActionManager.Shape);
+            VShapeEditorManager manager = (VShapeEditorManager) _managers.get(VApplicationStatus.VActionManager.Shape);
             manager.deleteSelectedShape();
 
             //TODO VPatternEditorManager::resync -> Revérifie les liens entre les shapes et les patterns.
-            ((VPatternEditorManager)_managers.get(VApplicationStatus.VActionManager.Pattern)).resync();
+            ((VPatternEditorManager) _managers.get(VApplicationStatus.VActionManager.Pattern)).resync();
         }
     }
 }

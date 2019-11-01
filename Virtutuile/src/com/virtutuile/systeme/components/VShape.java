@@ -1,6 +1,7 @@
 package com.virtutuile.systeme.components;
 
 import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.constants.VPhysicsConstants;
 import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.Vector2D;
 import javafx.scene.shape.Circle;
@@ -10,18 +11,19 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class VShape {
-    private UUID _id = UUID.randomUUID();
-    private boolean _isHole = false;
-    private boolean _selected = false;
-    private boolean _isMouseHover = false;
+public class VShape implements Serializable {
+    protected UUID _id = UUID.randomUUID();
+    protected boolean _isHole = false;
+    protected boolean _isSelected = false;
+    protected boolean _isMouseHover = false;
     protected Path2D.Double _polygon = new Path2D.Double();
-    private Color _borderColor = new Color(0);
-    private Color _fillColor = UIConstants.DEFAULT_SHAPE_FILL_COLOR;
+    protected Color _borderColor = new Color(0);
+    protected Color _fillColor = UIConstants.DEFAULT_SHAPE_FILL_COLOR;
 
     protected VShape(boolean isHole) {
         this._isHole = isHole;
@@ -56,6 +58,16 @@ public class VShape {
     public VShape(Path2D.Double polygon, boolean isHole) {
         this._isHole = isHole;
         this._polygon = polygon;
+    }
+
+    public VShape(VShape shape) {
+        this._id = UUID.randomUUID();
+        this._isHole = shape._isHole;
+        this._isSelected = shape._isSelected;
+        this._isMouseHover = shape._isMouseHover;
+        this._polygon = (Path2D.Double) shape._polygon.clone();
+        this._borderColor = new Color(shape._borderColor.getRGB());
+        this._fillColor = new Color(shape._fillColor.getRGB());
     }
 
     public double circleIntersect(Circle circle) {
@@ -131,12 +143,12 @@ public class VShape {
         this._isMouseHover = isMouseHover;
     }
 
-    public boolean getIsSelected() {
-        return this._selected;
+    public boolean isSelected() {
+        return this._isSelected;
     }
 
     public void setSelected(boolean selected) {
-        this._selected = selected;
+        this._isSelected = selected;
     }
 
     public Path2D getPolygon() {
@@ -215,5 +227,15 @@ public class VShape {
 
         at.setToRotation(radians, center.longitude, center.latitude);
         _polygon.transform(at);
+    }
+
+    public VDrawableShape getDrawable() {
+        VCoordinate[] coords = getVertices();
+        Point[] points = VPhysicsConstants.coordinatesToPoints(coords);
+        VDrawableShape drawable = new VDrawableShape(points);
+        drawable.setActive(_isSelected);
+        drawable.setMouseHovered(_isMouseHover);
+        drawable.fillColor(_fillColor);
+        return drawable;
     }
 }
