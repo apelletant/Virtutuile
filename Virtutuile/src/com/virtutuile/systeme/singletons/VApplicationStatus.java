@@ -66,7 +66,6 @@ public class VApplicationStatus {
             this._activePanels.add(activePanel);
             if (throwEvent) {
                 this._onPanelChange.accept(this._activePanels);
-                System.out.println("add active panel");
             }
         }
     }

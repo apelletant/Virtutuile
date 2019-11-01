@@ -37,11 +37,9 @@ public class VEditionPanel extends VPanelEvents {
         _panels.forEach((key, value) -> {
             if (activePanels.contains(key)) {
                 if (!this._panelsActive.contains(key)) {
-                    System.out.println("add in persist: " + key);
                     this.add(value);
                 }
             } else {
-                System.out.println("remove in persist: " + key);
                 this.remove(value);
             }
         });

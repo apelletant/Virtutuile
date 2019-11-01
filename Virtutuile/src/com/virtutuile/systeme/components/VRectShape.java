@@ -62,13 +62,11 @@ public class VRectShape extends VShape implements Cloneable {
 
         Builder() {
             _shape = new VRectShape(new Rectangle2D.Double(0, 0, 0, 0), false);
-            System.out.println(Math.random());
             _shape._fillColor = new Color((int) (Math.random() * Integer.MAX_VALUE));
         }
 
         @Override
         public void placePoint(VCoordinate coordinate) {
-            System.out.println("Point placed");
             if (_firstPoint == null) {
                 _shape._origin = coordinate;
                 _firstPoint = coordinate;
@@ -80,7 +78,6 @@ public class VRectShape extends VShape implements Cloneable {
         }
 
         public void movePoint(VCoordinate coordinate) {
-            System.out.println("Point moved");
             _shape._opposite = coordinate;
             _shape.regenerate();
         }

@@ -53,7 +53,6 @@ public class MainWindow extends JFrame {
         VButton config = _toolBar.getButton(VTopToolbar.TargetButton.CanvasSettings);
 
         draw.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
-            System.out.println(applicationStatus.getActivePanels());
             if (applicationStatus.getActivePanels().contains(VApplicationStatus.VPanelType.DrawShape)) {
                 applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.DrawShape, false);
                 applicationStatus.removeActivePanel(VApplicationStatus.VPanelType.PatternManagement, false);

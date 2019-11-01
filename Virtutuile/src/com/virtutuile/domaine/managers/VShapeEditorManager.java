@@ -236,7 +236,6 @@ public class VShapeEditorManager implements IVEditorManager {
             VShape shape = _builder.getShape();
             _shapes.put(shape.getId(), shape);
             _builder = null;
-            System.out.println("Shape added");
         }
         mouseHover(coordinate);
     }
