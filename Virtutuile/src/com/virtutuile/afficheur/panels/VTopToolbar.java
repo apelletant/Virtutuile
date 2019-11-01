@@ -2,12 +2,11 @@ package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.inputs.VButton;
 import com.virtutuile.afficheur.swing.panels.VBorderedPanel;
-import com.virtutuile.domaine.systeme.tools.AssetLoader;
-import com.virtutuile.domaine.systeme.tools.UnorderedMap;
+import com.virtutuile.systeme.tools.AssetLoader;
+import com.virtutuile.systeme.tools.UnorderedMap;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class VTopToolbar extends VBorderedPanel {
 

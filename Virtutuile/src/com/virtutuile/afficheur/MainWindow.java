@@ -6,9 +6,9 @@ import com.virtutuile.afficheur.panels.VEditionPanel;
 import com.virtutuile.afficheur.panels.VEditor;
 import com.virtutuile.afficheur.panels.VTopToolbar;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
-import com.virtutuile.domaine.moteur.VEditorEngine;
-import com.virtutuile.domaine.moteur.managers.VPainterManager;
-import com.virtutuile.domaine.systeme.singletons.VApplicationStatus;
+import com.virtutuile.domaine.VEditorEngine;
+import com.virtutuile.domaine.managers.VPainterManager;
+import com.virtutuile.systeme.singletons.VApplicationStatus;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 package com.virtutuile.afficheur.swing.tools;
 
-import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.systeme.constants.UIConstants;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

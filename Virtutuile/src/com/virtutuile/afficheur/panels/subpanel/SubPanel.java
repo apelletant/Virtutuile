@@ -1,7 +1,7 @@
 package com.virtutuile.afficheur.panels.subpanel;
 
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
-import com.virtutuile.domaine.systeme.constants.UIConstants;
+import com.virtutuile.systeme.constants.UIConstants;
 
 import javax.swing.*;
 import java.awt.*;

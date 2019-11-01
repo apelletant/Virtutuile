@@ -3,12 +3,9 @@ package com.virtutuile.afficheur.panels;
 import com.virtutuile.afficheur.swing.panels.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
-import com.virtutuile.domaine.moteur.VEditorEngine;
-import com.virtutuile.domaine.moteur.managers.VPainterManager;
-import com.virtutuile.domaine.systeme.constants.UIConstants;
-import com.virtutuile.domaine.systeme.constants.VPhysicsConstants;
-import com.virtutuile.domaine.systeme.singletons.VApplicationStatus;
-import com.virtutuile.domaine.systeme.units.VProperties;
+import com.virtutuile.domaine.VEditorEngine;
+import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.singletons.VApplicationStatus;
 
 import java.awt.*;
 
@@ -25,19 +22,16 @@ public class VEditor extends VPanelEvents {
 
         addMouseEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
             requestFocusInWindow();
-            VProperties properties = new VProperties() {{
-                coordinates.add(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
-            }};
-            editorEngine.mouseLClick(properties);
+            editorEngine.mouseLClick(mouseEvent.getPoint().x, mouseEvent.getPoint().y);
             repaint();
         });
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
-            editorEngine.mouseDrag(VPhysicsConstants.pointToCoordinates(mouseEvent.getPoint()));
+            editorEngine.mouseDrag(mouseEvent.getPoint().x, mouseEvent.getPoint().y);
             repaint();
         });
 
-        addMouseEventListener(MouseEventKind.MouseMove, (me) -> {
-            editorEngine.mouseHover(VPhysicsConstants.pointToCoordinates(me.getPoint()));
+        addMouseEventListener(MouseEventKind.MouseMove, (mouseEvent) -> {
+            editorEngine.mouseHover(mouseEvent.getPoint().x, mouseEvent.getPoint().y);
             repaint();
         });
 
@@ -55,6 +49,6 @@ public class VEditor extends VPanelEvents {
             UIConstants.Mouse.SetCursor(this, status.cursorShape);
             _currentCursor = status.cursorShape;
         }
-        this._editorEngine.paint(VPainterManager.getInstance().getPainter(g));
+        this._editorEngine.paint(g);
     }
 }

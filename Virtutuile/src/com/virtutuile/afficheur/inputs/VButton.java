@@ -1,8 +1,8 @@
 package com.virtutuile.afficheur.inputs;
 
 import com.virtutuile.afficheur.swing.panels.VBorderedEventPanel;
-import com.virtutuile.domaine.systeme.constants.UIConstants;
-import com.virtutuile.domaine.systeme.tools.ImageManipulator;
+import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.tools.ImageManipulator;
 
 import javax.swing.*;
 import javax.swing.border.Border;
