@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.units;
 
-import org.jetbrains.annotations.NotNull;
+import com.virtutuile.systeme.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Objects;
