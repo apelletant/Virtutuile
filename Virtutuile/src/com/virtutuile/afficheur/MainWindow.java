@@ -25,10 +25,10 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         super();
 
-        _toolBar = new VTopToolbar();
-        _editionPanel = new VEditionPanel();
-        _bottomToolbar = new VBottomToolbar();
         _editorEngine = new VEditorEngine();
+        _toolBar = new VTopToolbar();
+        _editionPanel = new VEditionPanel(_editorEngine);
+        _bottomToolbar = new VBottomToolbar();
         _editor = new VEditor(_editorEngine);
 
         setupWindow();

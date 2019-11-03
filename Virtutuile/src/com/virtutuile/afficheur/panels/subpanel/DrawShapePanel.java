@@ -4,6 +4,7 @@ import com.virtutuile.afficheur.inputs.VButton;
 import com.virtutuile.afficheur.inputs.VMetricInputText;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanel;
+import com.virtutuile.domaine.VEditorEngine;
 import com.virtutuile.systeme.singletons.VApplicationStatus;
 import com.virtutuile.systeme.tools.AssetLoader;
 import com.virtutuile.systeme.tools.UnorderedMap;
@@ -15,8 +16,8 @@ public class DrawShapePanel extends SubPanel {
     private UnorderedMap<DrawShapeButtonType, VButton> _removeShape = new UnorderedMap<>();
     private UnorderedMap<DrawShapeInputType, VMetricInputText> _rectSize = new UnorderedMap<>();
 
-    public DrawShapePanel(String name) {
-        super(name);
+    public DrawShapePanel(String name, VEditorEngine engine) {
+        super(name, engine);
         /*TitledBorder border = new TitledBorder(name);
         border
         border.setTitleColor(UIConstants.EDITIONPANEL_FONT_COLOR);

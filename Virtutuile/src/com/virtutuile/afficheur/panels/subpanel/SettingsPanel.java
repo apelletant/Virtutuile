@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels.subpanel;
 
 import com.virtutuile.afficheur.inputs.VMetricInputText;
+import com.virtutuile.domaine.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
 
 import javax.swing.*;
@@ -12,8 +13,8 @@ public class SettingsPanel extends SubPanel {
     private VMetricInputText _width = new VMetricInputText("Width");
     private VMetricInputText _height = new VMetricInputText("Height");
 
-    public SettingsPanel(String name) {
-        super(name);
+    public SettingsPanel(String name, VEditorEngine engine) {
+        super(name, engine);
         TitledBorder border = new TitledBorder(name);
         border.setTitleColor(UIConstants.EDITIONPANEL_FONT_COLOR);
         border.setTitleJustification(TitledBorder.LEFT);

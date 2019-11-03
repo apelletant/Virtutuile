@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels.subpanel;
 
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
+import com.virtutuile.domaine.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
 
 import javax.swing.*;
@@ -9,10 +10,12 @@ import java.util.Vector;
 
 public abstract class SubPanel extends VPanelEvents {
 
+    protected VEditorEngine _editorEngine;
     protected Vector<JPanel> _lines = new Vector<>();
 
-    public SubPanel(String name) {
+    public SubPanel(String name, VEditorEngine editorEngine) {
         this.setName(name);
+        this._editorEngine = editorEngine;
 
         Dimension dim = getPreferredSize();
         dim.width = UIConstants.SUBPANEL_SIZE.width;
