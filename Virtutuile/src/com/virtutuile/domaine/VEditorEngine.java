@@ -5,6 +5,8 @@ import com.virtutuile.domaine.managers.VPainterManager;
 import com.virtutuile.domaine.managers.VPatternEditorManager;
 import com.virtutuile.domaine.managers.VShapeEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
+import com.virtutuile.systeme.components.VShape;
+import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.singletons.VApplicationStatus;
 import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinate;
@@ -35,6 +37,13 @@ public class VEditorEngine {
             List<VDrawableShape> shapes = manager.getDrawableShapes();
             shapes.forEach(painter::paint);
         });
+    }
+
+    public void applyPattern(PatternType pattern) {
+        VPatternEditorManager patternEditorManager = (VPatternEditorManager) this._managers.get(VApplicationStatus.VActionManager.Pattern);
+        VShapeEditorManager shapeEditorManager = (VShapeEditorManager) this._managers.get(VApplicationStatus.VActionManager.Shape);
+
+        patternEditorManager.addPatternToShape(shapeEditorManager.getCurrentShape(), pattern);
     }
 
     public void mouseHover(int x, int y){

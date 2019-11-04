@@ -263,6 +263,10 @@ public class VShapeEditorManager implements IVEditorManager {
         }
     }
 
+    public VShape getCurrentShape() {
+        return _currentShape;
+    }
+
     enum CursorEventType {
         Move,
         Resize,

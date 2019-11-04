@@ -1,8 +1,6 @@
 package com.virtutuile.afficheur.panels;
 
-import com.virtutuile.afficheur.panels.subpanel.DrawShapePanel;
-import com.virtutuile.afficheur.panels.subpanel.SettingsPanel;
-import com.virtutuile.afficheur.panels.subpanel.SubPanel;
+import com.virtutuile.afficheur.panels.subpanel.*;
 import com.virtutuile.afficheur.swing.panels.VPanelEvents;
 import com.virtutuile.domaine.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
@@ -19,6 +17,7 @@ public class VEditionPanel extends VPanelEvents {
     private VEditorEngine _editorEngine;
     private SettingsPanel _settings;
     private DrawShapePanel _shape;
+    private PatternPanel _pattern;
     private Vector<VApplicationStatus.VPanelType> _panelsActive = new Vector<>();
     private UnorderedMap<VApplicationStatus.VPanelType, SubPanel> _panels = new UnorderedMap<>();
 
@@ -27,6 +26,7 @@ public class VEditionPanel extends VPanelEvents {
         this._editorEngine = editorEngine;
         this._settings = new SettingsPanel("Settings", editorEngine);
         this._shape = new DrawShapePanel("Shape", editorEngine);
+        this._pattern = new PatternPanel("Pattern", editorEngine);
         this.setOpaque(true);
         this.setName("VEditionPanel");
         this.setBackground(UIConstants.EDITIONPANEL_BACKGROUND);
@@ -36,6 +36,7 @@ public class VEditionPanel extends VPanelEvents {
 
         _panels.put(VApplicationStatus.VPanelType.Settings, _settings);
         _panels.put(VApplicationStatus.VPanelType.DrawShape, _shape);
+        _panels.put(VApplicationStatus.VPanelType.PatternManagement, _pattern);
     }
 
     public void persistPanels() {

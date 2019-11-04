@@ -35,4 +35,9 @@ public class SettingsPanel extends SubPanel {
 
         persistLayout();
     }
+
+    protected void setEvents() {
+
+    }
+
 }

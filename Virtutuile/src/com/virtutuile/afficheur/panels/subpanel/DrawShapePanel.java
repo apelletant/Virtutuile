@@ -5,11 +5,13 @@ import com.virtutuile.afficheur.inputs.VMetricInputText;
 import com.virtutuile.afficheur.swing.panels.MouseEventKind;
 import com.virtutuile.afficheur.swing.panels.VPanel;
 import com.virtutuile.domaine.VEditorEngine;
+import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.singletons.VApplicationStatus;
 import com.virtutuile.systeme.tools.AssetLoader;
 import com.virtutuile.systeme.tools.UnorderedMap;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 public class DrawShapePanel extends SubPanel {
     private UnorderedMap<DrawShapeButtonType, VButton> _addShape = new UnorderedMap<>();
@@ -18,18 +20,12 @@ public class DrawShapePanel extends SubPanel {
 
     public DrawShapePanel(String name, VEditorEngine engine) {
         super(name, engine);
-        /*TitledBorder border = new TitledBorder(name);
-        border
-        border.setTitleColor(UIConstants.EDITIONPANEL_FONT_COLOR);
-        border.setTitleJustification(TitledBorder.LEFT);
-        border.setTitlePosition(TitledBorder.TOP);*/
         this.setButtonsOnDrawShape();
-        /*this.setBorder(border);*/
         this.persistLayout();
         this.setEvents();
     }
 
-    private void setEvents() {
+    protected void setEvents() {
         VButton addRect = _addShape.get(DrawShapeButtonType.AddRectangularShape);
         VApplicationStatus manager = VApplicationStatus.getInstance();
 

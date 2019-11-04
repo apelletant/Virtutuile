@@ -5,6 +5,7 @@ import com.virtutuile.domaine.VEditorEngine;
 import com.virtutuile.systeme.constants.UIConstants;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.Vector;
 
@@ -16,6 +17,12 @@ public abstract class SubPanel extends VPanelEvents {
     public SubPanel(String name, VEditorEngine editorEngine) {
         this.setName(name);
         this._editorEngine = editorEngine;
+
+        TitledBorder border = new TitledBorder(name);
+        border.setTitleColor(UIConstants.EDITIONPANEL_FONT_COLOR);
+        border.setTitleJustification(TitledBorder.LEFT);
+        border.setTitlePosition(TitledBorder.TOP);
+        this.setBorder(border);
 
         Dimension dim = getPreferredSize();
         dim.width = UIConstants.SUBPANEL_SIZE.width;
@@ -31,4 +38,6 @@ public abstract class SubPanel extends VPanelEvents {
             }
         }
     }
+
+    protected abstract void setEvents();
 }

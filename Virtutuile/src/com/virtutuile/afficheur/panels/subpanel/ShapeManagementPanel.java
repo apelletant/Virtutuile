@@ -20,4 +20,8 @@ public class ShapeManagementPanel extends SubPanel {
         this.add(_input);
 
     }
+
+    protected void setEvents() {
+
+    }
 }

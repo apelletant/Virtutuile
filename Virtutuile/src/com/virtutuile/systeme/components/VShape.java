@@ -1,7 +1,9 @@
 package com.virtutuile.systeme.components;
 
+import com.virtutuile.systeme.components.pattern.VPatternSpec;
 import com.virtutuile.systeme.constants.UIConstants;
 import com.virtutuile.systeme.constants.VPhysicsConstants;
+import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.Vector2D;
 import javafx.scene.shape.Circle;
@@ -24,6 +26,7 @@ public class VShape implements Serializable {
     protected Path2D.Double _polygon = new Path2D.Double();
     protected Color _borderColor = new Color(0);
     protected Color _fillColor = UIConstants.DEFAULT_SHAPE_FILL_COLOR;
+    protected VPatternSpec _patternSpec = null;
 
     protected VShape(boolean isHole) {
         this._isHole = isHole;
@@ -117,6 +120,14 @@ public class VShape implements Serializable {
         }
 
         return nearest;
+    }
+
+    public VPatternSpec getPatternSpec() {
+        return this._patternSpec;
+    }
+
+    public void setPatternSpec(PatternType pattern) {
+        this._patternSpec = new VPatternSpec(pattern, this);
     }
 
     public UUID getId() {

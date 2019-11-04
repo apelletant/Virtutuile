@@ -2,8 +2,9 @@ package com.virtutuile.domaine.managers;
 
 import com.virtutuile.domaine.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
-import com.virtutuile.systeme.components.VPattern;
-import com.virtutuile.systeme.components.VPatternSpec;
+import com.virtutuile.systeme.components.pattern.VPatternSpec;
+import com.virtutuile.systeme.components.VShape;
+import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
@@ -15,8 +16,8 @@ import java.util.UUID;
 public class VPatternEditorManager implements IVEditorManager {
     private UnorderedMap<UUID, VPatternSpec> _patternList;
 
-    public void addPatternToShape(UUID shapeId, VPattern pattern) {
-
+    public void addPatternToShape(VShape shape, PatternType pattern) {
+        shape.setPatternSpec(pattern);
     }
 
     public void removePatternFromShape(UUID shapeId) {
