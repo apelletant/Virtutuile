@@ -1,21 +1,20 @@
 package com.virtutuile.systeme.components.pattern;
 
-import com.virtutuile.systeme.components.VGrout;
-import com.virtutuile.systeme.components.VTileSpec;
+import com.virtutuile.systeme.components.VTile;
 
 import java.util.Vector;
 
 public abstract class VPattern {
     protected int[] _offset_x ;
     protected int[] _offset_y ;
-    protected int[] _adjust;
-    protected Vector<VTileSpec> _tiles;
+    protected double[] _adjust;
+    protected Vector<VTile> _tiles = new Vector<>();
 
-    public Vector<VTileSpec> getTiles() {
+    public Vector<VTile> getTiles() {
         return this._tiles;
     }
 
-    public void setTiles(Vector<VTileSpec> tiles) {
+    public void setTiles(Vector<VTile> tiles) {
         this._tiles = tiles;
     }
     public int[] getOffset_x() {
@@ -26,7 +25,7 @@ public abstract class VPattern {
         return _offset_y;
     }
 
-    public int[] getAdjust() {
+    public double[] getAdjust() {
         return _adjust;
     }
 }

@@ -1,7 +1,7 @@
 package com.virtutuile.systeme.components.pattern;
 
 import com.virtutuile.systeme.components.VShape;
-import com.virtutuile.systeme.components.VTileSpec;
+import com.virtutuile.systeme.components.VTile;
 import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.units.VCoordinate;
 
@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class VPatternSpec {
     private VPattern _pattern = null;
-    private Vector<VTileSpec> _tiles;
+    private Vector<VTile> _tiles = new Vector<>();
     private float _rotation;
     private VCoordinate _coordinate;
 
@@ -17,7 +17,6 @@ public class VPatternSpec {
         switch (patternType) {
             case Classic:
                 this._pattern = new VPatternClassic();
-                System.out.println("Classic Pattern selected");
             default:
                 break;
         }
@@ -27,15 +26,38 @@ public class VPatternSpec {
     }
 
     private void buildPattern(VShape shape) {
-        int[] offset_x = this._pattern._offset_x;
-        int[] offset_y = this._pattern._offset_y;
-        int[] adjust = this._pattern._adjust;
-        /*VCoordinate startingPoint
+        double[] adjust = this._pattern._adjust;
+        double[] origin = new double[]{shape.getBounds().getX(), shape.getBounds().getY()};
+        double[] tileSize = {this._pattern.getTiles().get(0).getDimensions().width, this._pattern.getTiles().get(0).getDimensions().height};
+        double y = 0;
+        double x = 0;
 
-        double shapeX = shape.get;
-        double shapeY;
-
-        for(int i = 0; i  ;i++)*/
+        /*System.out.println("Shape: " + shape.getBounds().getWidth() + "x" + shape.getBounds().getHeight());
+        System.out.println("Shape origin: {" + origin[0] + ", " + origin[1] + "}");
+        System.out.println("Tile: " + tileSize[0] + "x" + tileSize[1]);*/
+        while(y < shape.getBounds().getHeight() + tileSize[1] + shape.getGrout().getThickness()) {
+            /*System.out.println("while (y: " + y + " < " + (shape.getBounds().getHeight() + tileSize[1] + shape.getGrout().getThickness()) + ")");*/
+            y = y + shape.getGrout().getThickness();
+            while (x < shape.getBounds().getWidth() + tileSize[0] + shape.getGrout().getThickness()) {
+                /*System.out.println("while (x: " + x + " < " + (shape.getBounds().getWidth() + tileSize[1] + shape.getGrout().getThickness()) + ")");*/
+                int i = 0;
+                x = x + shape.getGrout().getThickness();
+                while (i != this._pattern.getTiles().size()) {
+                    VTile tile = this._pattern.getTiles().get(i).copy();
+                    /*System.out.println("Y + o --> " + (y + origin[1]));
+                    System.out.println("Y --> " + y);
+                    System.out.println("OY --> " + origin[1]);*/
+                    tile.setOrigin(new VCoordinate(x + origin[0], (y + origin[1])));
+                    System.out.println("X: " + tile.getOrigin().longitude + ", Y: " +  tile.getOrigin().latitude);
+                    this._tiles.add(tile);
+                    i++;
+                }
+                x = x + tileSize[0] ;
+            }
+            y = y + tileSize[1] + adjust[1];
+            /*System.out.println("y: " + y);*/
+            x = adjust[0];
+        }
     }
 
     public VPattern getPattern() {
@@ -46,11 +68,11 @@ public class VPatternSpec {
         this._pattern = pattern;
     }
 
-    public Vector<VTileSpec> getTiles() {
+    public Vector<VTile> getTiles() {
         return this._tiles;
     }
 
-    public void setTiles(Vector<VTileSpec> tiles) {
+    public void setTiles(Vector<VTile> tiles) {
         this._tiles = tiles;
     }
 

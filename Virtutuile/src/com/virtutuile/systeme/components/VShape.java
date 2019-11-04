@@ -27,6 +27,7 @@ public class VShape implements Serializable {
     protected Color _borderColor = new Color(0);
     protected Color _fillColor = UIConstants.DEFAULT_SHAPE_FILL_COLOR;
     protected VPatternSpec _patternSpec = null;
+    protected VGrout _grout = new VGrout();
 
     protected VShape(boolean isHole) {
         this._isHole = isHole;
@@ -184,6 +185,10 @@ public class VShape implements Serializable {
 
     public void setFillColor(Color fillColor) {
         this._fillColor = fillColor;
+    }
+
+    public VGrout getGrout() {
+        return  this._grout;
     }
 
     public VCoordinate getCenter() {

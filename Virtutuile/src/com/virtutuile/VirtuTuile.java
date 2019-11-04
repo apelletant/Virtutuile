@@ -6,7 +6,7 @@ import com.virtutuile.systeme.events.Subscription;
 
 public class VirtuTuile {
     public static void main(String[] args) {
-        Observable<String> observable = Observable.from("Bonjour");
+        /*Observable<String> observable = Observable.from("Bonjour");
 
         Subscription sub = observable.subscribe((message) -> {
             System.out.println("Subscriber 1" + message);
@@ -30,7 +30,7 @@ public class VirtuTuile {
         observable.next("zefzeofzefoi");
         observable.next("zefzeofzefoi");
         observable.complete();
-
+*/
         MainWindow window = new MainWindow();
     }
 }

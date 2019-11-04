@@ -4,13 +4,14 @@ import java.awt.*;
 
 public class VGrout {
     private Color _color;
-    private float _thickness;
-    private float _height;
+    private double _thickness;
 
-    public VGrout(Color color, float thickness, float height) {
-        _color = color;
+    //TODO: déplacer la défiition du thickness #edition du coulis
+    public VGrout(/*Color color, float thickness, float height*/) {
+        /*_color = color;
         _thickness = thickness;
-        _height = height;
+        _height = height;*/
+        this._thickness = 2.5;
     }
 
     public Color getColor() {
@@ -21,19 +22,11 @@ public class VGrout {
         this._color = color;
     }
 
-    public float getThickness() {
+    public double getThickness() {
         return this._thickness;
     }
 
-    public void setThickness(float thickness) {
+    public void setThickness(double thickness) {
         this._thickness = thickness;
-    }
-
-    public float getHeight() {
-        return this._height;
-    }
-
-    public void setHeight(float height) {
-        this._height = height;
     }
 }
