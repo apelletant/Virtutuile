@@ -5,24 +5,28 @@ import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VDimensions;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VTile {
-    private VDimensions _dimensions;
-    private Color _color;
-    private VCoordinate _position;
-    private float _rotation;
-    private VCoordinate _origin;
 
+    private VDimensions _dimensions = new VDimensions();
+    private VCoordinate _origin = new VCoordinate();
+    private Color _color;
+    private VCoordinate _position = new VCoordinate();;
+    private float _rotation;
 
     public VTile() {
     }
 
     public VTile(VTile copy) {
-        this._dimensions = copy._dimensions;
+        this._dimensions = new VDimensions(copy._dimensions);
         this._color = copy._color;
-        this._position = copy._position;
+        this._position = new VCoordinate(copy._position);
         this._rotation = copy._rotation;
-        this._origin = copy._origin;
+        this._origin = new VCoordinate(copy._origin);
     }
 
     public VTile copy() {
@@ -68,4 +72,13 @@ public class VTile {
     public void setOrigin(VCoordinate origin) {
         this._origin = origin;
     }
+
+    public void setWidth(double width) {
+        this._dimensions.width = width;
+    }
+
+    public void setHeight(double height) {
+        this._dimensions.height = height;
+    }
+
 }

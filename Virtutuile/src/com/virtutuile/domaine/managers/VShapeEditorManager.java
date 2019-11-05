@@ -30,8 +30,8 @@ public class VShapeEditorManager implements IVEditorManager {
     }};
 
     private CursorEventType _cursor = CursorEventType.Move;
-    private UnorderedMap<UUID, VShape> _shapes = new UnorderedMap<>();
-    private VShape _currentShape = null;
+    UnorderedMap<UUID, VShape> _shapes = new UnorderedMap<>();
+    VShape _currentShape = null;
     private VShape _hoveredShape = null;
     private VShapeBuilder _builder = null;
 

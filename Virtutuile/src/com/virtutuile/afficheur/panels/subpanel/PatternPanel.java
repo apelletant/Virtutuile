@@ -26,6 +26,8 @@ public class PatternPanel extends SubPanel {
 
         classic.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             this._editorEngine.applyPattern(PatternType.Classic);
+            revalidate();
+            repaint();
         });
     }
 

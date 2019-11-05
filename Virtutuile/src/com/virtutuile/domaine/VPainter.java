@@ -7,6 +7,7 @@ import com.virtutuile.systeme.units.Vector2D;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Vector;
 
 public class VPainter {
 
@@ -47,6 +48,15 @@ public class VPainter {
 
     public VPainter paintBorderedShape(List<Point> points) {
         return null;
+    }
+
+    public void paintAll(List<VDrawableShape> drawableShape) {
+        drawableShape.forEach((value) -> {
+            this.paint(value);
+            if (value.getSubShapes() != null) {
+                this.paintAll(value.getSubShapes());
+            }
+        });
     }
 
     public void paint(VDrawableShape drawableShape) {

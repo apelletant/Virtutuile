@@ -3,6 +3,7 @@ package com.virtutuile.systeme.components;
 import com.virtutuile.systeme.constants.UIConstants;
 
 import java.awt.*;
+import java.util.Vector;
 
 public class VDrawableShape {
     private Polygon _polygon = new Polygon();
@@ -11,6 +12,7 @@ public class VDrawableShape {
     private int _borderThickness = UIConstants.DEFAULT_SHAPE_BORDER_THICKNESS;
     private boolean _isActive;
     private boolean _isMouseHovered;
+    private Vector<VDrawableShape> subShapes = null;
 
     public VDrawableShape() {
         _borderColor = new Color(~_fillColor.getRGB());
@@ -76,5 +78,13 @@ public class VDrawableShape {
 
     public boolean isActive() {
         return _isActive;
+    }
+
+    public Vector<VDrawableShape> getSubShapes() {
+        return subShapes;
+    }
+
+    public void setSubShapes(Vector<VDrawableShape> subShapes) {
+        this.subShapes = subShapes;
     }
 }

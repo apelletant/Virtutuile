@@ -9,6 +9,6 @@ public class VPatternClassic extends VPattern {
     public VPatternClassic() {
         this._adjust = new double[]{0, 0};
         this._tiles.add(new VTile());
-        this._tiles.get(0).setDimensions(new VDimensions(30, 10));
+        this._tiles.get(0).setDimensions(new VDimensions(100, 50));
     }
 }

@@ -11,7 +11,7 @@ public class VGrout {
         /*_color = color;
         _thickness = thickness;
         _height = height;*/
-        this._thickness = 2.5;
+        this._thickness = 3;
     }
 
     public Color getColor() {

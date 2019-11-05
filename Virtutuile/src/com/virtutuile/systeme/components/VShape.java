@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 public class VShape implements Serializable {
     protected UUID _id = UUID.randomUUID();
@@ -249,6 +250,25 @@ public class VShape implements Serializable {
         VCoordinate[] coords = getVertices();
         Point[] points = VPhysicsConstants.coordinatesToPoints(coords);
         VDrawableShape drawable = new VDrawableShape(points);
+        if (this._patternSpec != null) {
+            Vector<VDrawableShape> drawableTiles = new Vector<>(this._patternSpec.getTiles().size());
+            this._patternSpec.getTiles().forEach((value) -> {
+                VCoordinate[] coordsTile = new VCoordinate[4];
+                coordsTile[0] = new VCoordinate(value.getOrigin());
+                /*System.out.println("1: {" + coordsTile[0].longitude + ", " + coordsTile[0].latitude + "}");*/
+                coordsTile[1] = new VCoordinate(value.getOrigin().longitude + value.getDimensions().width, value.getOrigin().latitude);
+                /*System.out.println("2: {" + coordsTile[1].longitude + ", " + coordsTile[1].latitude + "}");*/
+                coordsTile[2] = new VCoordinate(value.getOrigin().longitude + value.getDimensions().width, value.getOrigin().latitude + value.getDimensions().height);
+                /*System.out.println("3: {" + coordsTile[2].longitude + ", " + coordsTile[2].latitude + "}");*/
+                coordsTile[3] = new VCoordinate(value.getOrigin().longitude, value.getOrigin().latitude + value.getDimensions().height);
+                /*System.out.println("4: {" + coordsTile[3].longitude + ", " + coordsTile[3].latitude + "}");*/
+                /*System.out.println("  ");*/
+                Point[] pointsTile = VPhysicsConstants.coordinatesToPoints(coordsTile);
+                VDrawableShape tile = new VDrawableShape(pointsTile);
+                drawableTiles.add(tile);
+            });
+            drawable.setSubShapes(drawableTiles);
+        }
         drawable.setActive(_isSelected);
         drawable.setMouseHovered(_isMouseHover);
         drawable.fillColor(_fillColor);

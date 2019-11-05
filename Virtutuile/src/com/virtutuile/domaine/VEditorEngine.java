@@ -21,29 +21,24 @@ public class VEditorEngine {
     private VCoordinate _clicked = null;
     private VCoordinate _hover = null;
     private boolean _mousePressed = false;
+    private UnorderedMap<VApplicationStatus.VActionManager, IVEditorManager> _managers = new UnorderedMap<>();
 
     public VEditorEngine() {
-        super();
+        this._managers.put(VApplicationStatus.VActionManager.Shape, new VShapeEditorManager());
+        this._managers.put(VApplicationStatus.VActionManager.Pattern, new VPatternEditorManager((VShapeEditorManager) this._managers.get(VApplicationStatus.VActionManager.Shape)));
     }
-
-    private UnorderedMap<VApplicationStatus.VActionManager, IVEditorManager> _managers = new UnorderedMap<>() {{
-        put(VApplicationStatus.VActionManager.Pattern, new VPatternEditorManager());
-        put(VApplicationStatus.VActionManager.Shape, new VShapeEditorManager());
-    }};
 
     public void paint(Graphics graphics) {
         VPainter painter = VPainterManager.getInstance().getPainter(graphics);
         _managers.forEach((action, manager) -> {
             List<VDrawableShape> shapes = manager.getDrawableShapes();
-            shapes.forEach(painter::paint);
+            painter.paintAll(shapes);
         });
     }
 
     public void applyPattern(PatternType pattern) {
         VPatternEditorManager patternEditorManager = (VPatternEditorManager) this._managers.get(VApplicationStatus.VActionManager.Pattern);
-        VShapeEditorManager shapeEditorManager = (VShapeEditorManager) this._managers.get(VApplicationStatus.VActionManager.Shape);
-
-        patternEditorManager.addPatternToShape(shapeEditorManager.getCurrentShape(), pattern);
+        patternEditorManager.addPatternToShape(pattern);
     }
 
     public void mouseHover(int x, int y){
