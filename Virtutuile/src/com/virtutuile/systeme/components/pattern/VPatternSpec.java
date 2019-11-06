@@ -26,15 +26,12 @@ public class VPatternSpec {
     }
 
     private void buildPattern(VShape shape) {
-       /* double[] adjust = this._pattern._adjust;
+        double[] adjust = this._pattern._adjust;
         double[] origin = new double[]{shape.getBounds().getX(), shape.getBounds().getY()};
         double[] tileSize = {this._pattern.getTiles().get(0).getPolygon().getBounds().width, this._pattern.getTiles().get(0).getPolygon().getBounds().height};
         double y = 0;
         double x = 0;
 
-        System.out.println("Shape Origin: { " + origin[0] + ", " + origin[1] + " }");
-        System.out.println("Shape Dimensions: " + shape.getBounds().getWidth() + "x" + shape.getBounds().getHeight());
-        System.out.println("   ");
         while(y < shape.getBounds().getHeight() + shape.getGrout().getThickness()) {
             y = y + shape.getGrout().getThickness();
             while (x < shape.getBounds().getWidth() + shape.getGrout().getThickness()) {
@@ -47,23 +44,22 @@ public class VPatternSpec {
 
                     if ((tileX + shape.getGrout().getThickness() + tileSize[0]) > origin[0] + shape.getBounds().getWidth()) {
                         double size = (origin[0] + shape.getBounds().getWidth()) - (x + origin[0] + shape.getGrout().getThickness());
-                        *//*tile.getPolygon().getBounds().width = size;*//*
+                        tile.setWidthForRectTile(size);
                     }
 
                     if ((tileY + shape.getGrout().getThickness() + tileSize[1]) > origin[1] + shape.getBounds().getHeight()) {
                         double size = (origin[1] + shape.getBounds().getHeight()) - (y + origin[1] + shape.getGrout().getThickness());
-                        tile.setHeight(size);
+                        tile.setHeightForRectTile(size);
                     }
                     tile.setOrigin(new VCoordinate(tileX, tileY));
                     this._tiles.add(tile);
                     i++;
-                    System.out.println("   ");
                 }
                 x = x + tileSize[0] + adjust[0];
             }
             y = y + tileSize[1] + adjust[1];
             x = adjust[0];
-        }*/
+        }
     }
 
     public VPattern getPattern() {

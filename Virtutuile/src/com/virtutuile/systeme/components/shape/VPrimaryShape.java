@@ -95,6 +95,14 @@ public abstract class VPrimaryShape implements Serializable {
         polygon.transform(at);
     }
 
+    public void moveOf(VCoordinate to) {
+        AffineTransform at = new AffineTransform();
+
+        at.setToTranslation(to.longitude - this.polygon.getBounds2D().getX(), to.latitude - this.polygon.getBounds2D().getY());
+        polygon.transform(at);
+    }
+
+
     public void rotateDeg(double degrees) {
         AffineTransform at = new AffineTransform();
 

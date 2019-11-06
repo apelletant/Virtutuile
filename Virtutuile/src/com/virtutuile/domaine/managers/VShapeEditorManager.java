@@ -218,9 +218,12 @@ public class VShapeEditorManager implements IVEditorManager {
             if (_cursor == CursorEventType.Move && _currentShape != null) {
                 actionStatus.cursorShape = UIConstants.Mouse.VCursor.Move;
                 _currentShape.move(from, to);
-                /*this._currentShape.getPatternSpec().getTiles().forEach((tile) -> {
-                    tile.move(from, to);
-                });*/
+                if (this._currentShape.getPatternSpec() != null
+                        && this._currentShape.getPatternSpec().getTiles().size() > 0) {
+                    this._currentShape.getPatternSpec().getTiles().forEach((tile) -> {
+                        tile.move(from, to);
+                    });
+                }
             } else if (_cursor == CursorEventType.Rotate && _hoveredShape != null) {
                 Vector2D root = Vector2D.from(_hoveredShape.getCenter());
                 Vector2D origin = Vector2D.from(from);

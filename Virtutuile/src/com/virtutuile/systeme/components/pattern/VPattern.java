@@ -1,6 +1,7 @@
 package com.virtutuile.systeme.components.pattern;
 
 import com.virtutuile.systeme.components.shape.VTile;
+import com.virtutuile.systeme.units.VDimensions;
 
 import java.util.Vector;
 
@@ -9,6 +10,9 @@ public abstract class VPattern {
     protected int[] _offset_y ;
     protected double[] _adjust;
     protected Vector<VTile> _tiles = new Vector<>();
+
+    //TODO: Définir les dimensions de la tuile ailleurs #edtion type de materiau
+    protected VDimensions defaultDimensions = new VDimensions(100, 50);
 
     public Vector<VTile> getTiles() {
         return this._tiles;

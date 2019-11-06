@@ -137,15 +137,6 @@ public class VShape extends VPrimaryShape {
             this.patternSpec.getTiles().forEach((tile) -> {
                 VCoordinate[] coordsTile = tile.getVertices();
                 Point[] pointsTile = VPhysicsConstants.coordinatesToPoints(coordsTile);
-                /*coordsTile[0] = new VCoordinate(value.getOrigin());*/
-                /*System.out.println("1: {" + coordsTile[0].longitude + ", " + coordsTile[0].latitude + "}");*/
-                /*coordsTile[1] = new VCoordinate(value.getOrigin().longitude + value.getDimensions().width, value.getOrigin().latitude);*/
-                /*System.out.println("2: {" + coordsTile[1].longitude + ", " + coordsTile[1].latitude + "}");*/
-                /*coordsTile[2] = new VCoordinate(value.getOrigin().longitude + value.getDimensions().width, value.getOrigin().latitude + value.getDimensions().height);*/
-                /*System.out.println("3: {" + coordsTile[2].longitude + ", " + coordsTile[2].latitude + "}");*/
-                /*coordsTile[3] = new VCoordinate(value.getOrigin().longitude, value.getOrigin().latitude + value.getDimensions().height);*/
-                /*System.out.println("4: {" + coordsTile[3].longitude + ", " + coordsTile[3].latitude + "}");*/
-                /*System.out.println("  ");*/
                 VDrawableShape newTile = new VDrawableShape(pointsTile);
                 drawableTiles.add(newTile);
             });
