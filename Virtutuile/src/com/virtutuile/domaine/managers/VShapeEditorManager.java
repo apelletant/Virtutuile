@@ -2,6 +2,7 @@ package com.virtutuile.domaine.managers;
 
 import com.virtutuile.domaine.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
+import com.virtutuile.systeme.components.shape.VFreeShape;
 import com.virtutuile.systeme.components.shape.VRectShape;
 import com.virtutuile.systeme.components.shape.VShape;
 import com.virtutuile.systeme.constants.UIConstants;
@@ -14,6 +15,7 @@ import com.virtutuile.systeme.units.Vector2D;
 import com.virtutuile.systeme.components.VShapeBuilder;
 import javafx.scene.shape.Circle;
 
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,11 +39,37 @@ public class VShapeEditorManager implements IVEditorManager {
 
     public VShapeEditorManager() {
         VShape shape = new VRectShape(new Rectangle2D.Double(30, 30, 70, 70), false);
-        _shapes.put(shape.getId(), shape);
+        /*_shapes.put(shape.getId(), shape);
+
         shape = new VRectShape(new Rectangle2D.Double(500, 230, 240, 120), false);
         _shapes.put(shape.getId(), shape);
+
         shape = new VRectShape(new Rectangle2D.Double(100, 190, 240, 120), false);
-        shape.rotateDeg(45);
+        shape.rotateDeg(45);*/
+
+        Path2D.Double polygon = new Path2D.Double();
+
+        polygon.moveTo(100, 100);
+        polygon.lineTo(300, 100);
+        polygon.lineTo(300, 300);
+        polygon.lineTo(400, 400);
+        polygon.lineTo(400, 500);
+        polygon.lineTo(200, 500);
+        polygon.lineTo(200, 350);
+        polygon.lineTo(100, 350);
+        polygon.closePath();
+        shape = new VFreeShape(polygon);
+        _shapes.put(shape.getId(), shape);
+
+        polygon = new Path2D.Double();
+        polygon.moveTo(500, 100);
+        polygon.lineTo(900, 100);
+        polygon.lineTo(850, 75);
+        polygon.lineTo(900, 50);
+        polygon.lineTo(900, -100);
+        polygon.closePath();
+        shape = new VFreeShape(polygon);
+
         _shapes.put(shape.getId(), shape);
     }
 
@@ -140,23 +168,33 @@ public class VShapeEditorManager implements IVEditorManager {
         return getShapeNear(coordinate, VPhysicsConstants.pixelsToCentimeters(VPhysicsConstants.Mouse.DEFAULT_PRECISION));
     }
 
+    public VCoordinate[] getLineFromShape(VShape shape, VCoordinate coordinate, double limitDistance) {
+        return null;
+    }
+
+    public VCoordinate[] getLineFromShape(VShape shape, VCoordinate coordinate) {
+        return getLineFromShape(shape, coordinate, VPhysicsConstants.pixelsToCentimeters(VPhysicsConstants.Mouse.DEFAULT_PRECISION));
+    }
+
     @Override
     public void mouseHover(VCoordinate coordinates) {
         VShape shape = getShapeAt(coordinates);
-        boolean outofShape = false;
+        boolean outOfShape = false;
         VApplicationStatus actionStatus = VApplicationStatus.getInstance();
 
         actionStatus.cursorShape = UIConstants.Mouse.VCursor.Pointer;
         if (shape == null) {
-            outofShape = true;
+            outOfShape = true;
             shape = getShapeNear(coordinates);
+            VCoordinate[] lineFromPoints = getLineFromShape(shape, coordinates);
+
         }
         if (_hoveredShape != null) {
             _hoveredShape.setMouseHover(false);
         }
 
         if (shape != null) {
-            hoverShapeHandling(coordinates, shape, outofShape);
+            hoverShapeHandling(coordinates, shape, outOfShape);
         } else {
             _hoveredShape = null;
         }
@@ -179,17 +217,17 @@ public class VShapeEditorManager implements IVEditorManager {
             shape.setMouseHover(true);
             _hoveredShape = shape;
             _cursor = CursorEventType.Move;
-            if (outofShape) {
+            /*if (outofShape) {*/
                 VCoordinate vertice = shape.getVerticeNear(coordinates, VPhysicsConstants.pixelsToCentimeters(VPhysicsConstants.Mouse.DEFAULT_PRECISION));
 
                 if (vertice != null) {
                     actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
                     _cursor = CursorEventType.Resize;
-                } else {
-                    actionStatus.cursorShape = UIConstants.Mouse.VCursor.Rotate;
-                    _cursor = CursorEventType.Rotate;
-                }
-            }
+                } /*else  {*/
+                    /*actionStatus.cursorShape = UIConstants.Mouse.VCursor.Rotate;
+                    _cursor = CursorEventType.Rotate;*/
+                /*}*/
+            /*}*/
         }
     }
 
@@ -233,6 +271,7 @@ public class VShapeEditorManager implements IVEditorManager {
                 _hoveredShape.rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
             } else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
                 actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
+
             }
         }
     }

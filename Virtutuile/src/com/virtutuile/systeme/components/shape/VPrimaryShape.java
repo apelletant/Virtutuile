@@ -67,11 +67,13 @@ public abstract class VPrimaryShape implements Serializable {
         boolean isFirst = true;
         double[] firstCoords = new double[2];
         double[] coords = new double[2];
+        int i = 0;
 
         for (PathIterator pi = polygon.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
                 case PathIterator.SEG_MOVETO:
                 case PathIterator.SEG_LINETO:
+                    i++;
                     if (isFirst) {
                         firstCoords[0] = coords[0];
                         firstCoords[1] = coords[1];

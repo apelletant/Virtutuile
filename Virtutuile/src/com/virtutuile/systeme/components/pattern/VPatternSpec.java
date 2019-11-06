@@ -62,6 +62,10 @@ public class VPatternSpec {
         }
     }
 
+    private void buildPatternComplex(VShape shape) {
+
+    }
+
     public VPattern getPattern() {
         return this._pattern;
     }
