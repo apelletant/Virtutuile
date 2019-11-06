@@ -98,6 +98,16 @@ public class MainWindow extends JFrame {
             repaint();
         });
 
+        VButton displayGrid = _bottomToolbar.getButton(VBottomToolbar.TargetButton.DisplayGrid);
+        displayGrid.addMouseEventListener(MouseEventKind.MouseLClick, (evt) -> {
+            VApplicationStatus.VEditor status = VApplicationStatus.VEditor.getInstance();
+            status.changeGridStatus();
+        });
+
+    }
+
+    private void setUpBottomToolBarEvent() {
+//        VButton grid = this._buttons.put(TargetButton.DisplayGrid, new VButton("Magnetic Grid", AssetLoader.loadImage("/icons/magnetic-grid.png")));;
     }
 
     private void setupWindow() {

@@ -75,6 +75,6 @@ public class VTopToolbar extends VBorderedPanel {
         Redo,
         DrawShape,
         CanvasSettings,
-        CanvasInfos,
+        CanvasInfos
     }
 }

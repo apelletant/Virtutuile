@@ -3,6 +3,7 @@ package com.virtutuile.domaine;
 import com.virtutuile.domaine.managers.VPainterManager;
 import com.virtutuile.systeme.components.VDrawableShape;
 import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.singletons.VApplicationStatus;
 import com.virtutuile.systeme.units.Vector2D;
 
 import java.awt.*;
@@ -19,8 +20,6 @@ public class VPainter {
         this._graphics = graphics;
         this._graphics2D = (Graphics2D) graphics;
     }
-
-    //TODO create magnetic grid here
 
     public VPainter getFillColor() {
         return null;
@@ -60,8 +59,15 @@ public class VPainter {
     }
 
     public void paint(VDrawableShape drawableShape) {
+        VApplicationStatus.VEditor status = VApplicationStatus.VEditor.getInstance();
+
         if (drawableShape == null)
             return;
+
+        if (status.getGridStatus()) {
+            drawMagneticGrid();
+        }
+
         _graphics2D.setColor(drawableShape.fillColor());
         fillPolygon(drawableShape.polygon());
         _graphics2D.setColor(drawableShape.borderColor());
@@ -100,6 +106,27 @@ public class VPainter {
             _graphics2D.setStroke(new BasicStroke(UIConstants.Gizmos.Handles.BORDER_STROKE));
             _graphics2D.setColor(UIConstants.Gizmos.Handles.BORDER_COLOR);
             _graphics2D.drawRect(anchor.x, anchor.y, size.width, size.height);
+        }
+    }
+
+    private void drawMagneticGrid() {
+        VApplicationStatus.VEditor appStatus = VApplicationStatus.VEditor.getInstance();
+
+        Color col = new Color(0, 0, 0);
+        _graphics2D.setColor(col);
+        _graphics2D.setStroke(new BasicStroke(1));
+
+        Dimension canvasDim = appStatus.getSize();
+
+        for (int i = 0; i <= canvasDim.width; i++) {
+            for (int j = 0; j <= canvasDim.height; j++) {
+                //TODO Modify to use zoom
+                // zoomSize / 2 to get 4 sqares by zoom level
+                if (i % 25 == 0 && j % 25 == 0) {
+                    _graphics2D.drawLine(i, j, i, canvasDim.width);
+                    _graphics2D.drawLine(canvasDim.height, j, i, j);
+                }
+            }
         }
     }
 

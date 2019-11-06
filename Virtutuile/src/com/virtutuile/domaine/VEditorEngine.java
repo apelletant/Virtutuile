@@ -42,6 +42,12 @@ public class VEditorEngine {
 
     public void mouseHover(int x, int y){
         _hover = new VCoordinate(x, y);
+        VApplicationStatus.VEditor editorManager = VApplicationStatus.VEditor.getInstance();
+
+        if (editorManager.getGridStatus()) {
+            _hover = coordToMagneticCoord(_hover);
+        }
+
         _managers.forEach((action, manager) -> {
             manager.mouseHover(_hover);
         });
@@ -49,6 +55,11 @@ public class VEditorEngine {
 
     public void mouseRelease(int x, int y) {
         _hover = new VCoordinate(x, y);
+        VApplicationStatus.VEditor editorManager = VApplicationStatus.VEditor.getInstance();
+
+        if (editorManager.getGridStatus()) {
+            _hover = coordToMagneticCoord(_hover);
+        }
         _mousePressed = false;
         _managers.forEach((action, manager) -> {
             manager.mouseRelease(_hover);
@@ -57,8 +68,15 @@ public class VEditorEngine {
 
     public void mouseLClick(int x, int y) {
         VApplicationStatus.VActionManager manager = VApplicationStatus.getInstance().manager;
+        VApplicationStatus.VEditor editorManager = VApplicationStatus.VEditor.getInstance();
         VProperties properties = new VProperties();
-        properties.coordinates.add(new VCoordinate(x,y));
+        VCoordinate coord = new VCoordinate(x, y);
+
+        if (editorManager.getGridStatus()) {
+            coord = coordToMagneticCoord(coord);
+        }
+
+        properties.coordinates.add(coord);
         this._managers.get(manager).mouseLClick(properties);
         this._clicked = properties.coordinates.get(0);
         _mousePressed = true;
@@ -70,6 +88,12 @@ public class VEditorEngine {
 
     public void mouseDrag(int x, int y) {
         VCoordinate coordinates = new VCoordinate(x,y);
+        VApplicationStatus.VEditor editorManager = VApplicationStatus.VEditor.getInstance();
+
+        if (editorManager.getGridStatus()) {
+            coordinates = coordToMagneticCoord(coordinates);
+        }
+
         VShapeEditorManager manager =  (VShapeEditorManager)_managers.get(VApplicationStatus.VActionManager.Shape);
         manager.mouseDrag(_hover, coordinates);
         _hover = coordinates;
@@ -81,5 +105,28 @@ public class VEditorEngine {
             VShapeEditorManager manager = (VShapeEditorManager) _managers.get(VApplicationStatus.VActionManager.Shape);
             manager.deleteSelectedShape();
         }
+    }
+
+    private VCoordinate coordToMagneticCoord(VCoordinate oldCoord) {
+        VApplicationStatus.VEditor manager = VApplicationStatus.VEditor.getInstance();
+        VCoordinate newCoord = new VCoordinate();
+
+//        int zoom = manager.getZoom();
+        //TODO replace with real zoom value
+        int zoom = 100;
+
+        if (oldCoord.latitude % (zoom /4) <= 12) {
+            newCoord.latitude = oldCoord.latitude - (oldCoord.latitude % (zoom /4));
+        } else {
+            newCoord.latitude = oldCoord.latitude + ( (zoom / 4) - (oldCoord.latitude % (zoom /4)));
+        }
+
+        if (oldCoord.longitude % (zoom /4) <= 12) {
+            newCoord.longitude = oldCoord.longitude - (oldCoord.longitude % (zoom /4));
+        } else {
+            newCoord.longitude = oldCoord.longitude + ( (zoom / 4) - (oldCoord.longitude % (zoom /4)));
+        }
+
+        return newCoord;
     }
 }

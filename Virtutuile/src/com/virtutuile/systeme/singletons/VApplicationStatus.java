@@ -131,6 +131,7 @@ public class VApplicationStatus {
         private Dimension editorSize = new Dimension();
         private VCoordinate editorPosition = new VCoordinate();
         public VPhysicsConstants.SystemUnit SystemUnit = VPhysicsConstants.SystemUnit.Metric;
+        private boolean magneticGridIsActivated = false;
 
         public int getZoom() {
             return (int) zoom;
@@ -166,6 +167,14 @@ public class VApplicationStatus {
 
         public Dimension getSize() {
             return editorSize;
+        }
+
+        public boolean getGridStatus() {
+            return this.magneticGridIsActivated;
+        }
+
+        public void changeGridStatus() {
+            magneticGridIsActivated = !magneticGridIsActivated;
         }
     }
 }
