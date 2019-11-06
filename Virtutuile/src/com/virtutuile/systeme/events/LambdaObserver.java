@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.events;
 
-import com.virtutuile.systeme.annotations.NotNull;
+import com.virtutuile.systeme.annotations.NonNull;
 import com.virtutuile.systeme.events.actions.Action0;
 import com.virtutuile.systeme.events.actions.Action1;
 
@@ -18,7 +18,7 @@ public class LambdaObserver<T> implements Observer<T> {
         };
     }
 
-    public LambdaObserver(@NotNull Action1<? super T> onNext) {
+    public LambdaObserver(@NonNull Action1<? super T> onNext) {
         assert onNext != null : "onNext is null.";
 
         this.onNext = onNext;
@@ -27,7 +27,7 @@ public class LambdaObserver<T> implements Observer<T> {
         };
     }
 
-    public LambdaObserver(@NotNull Action1<? super T> onNext, @NotNull Action1<? super Throwable> onError) {
+    public LambdaObserver(@NonNull Action1<? super T> onNext, @NonNull Action1<? super Throwable> onError) {
         assert onNext != null : "onNext is null.";
         assert onError != null : "onError is null.";
 
@@ -37,7 +37,7 @@ public class LambdaObserver<T> implements Observer<T> {
         };
     }
 
-    public LambdaObserver(@NotNull Action1<? super T> onNext, @NotNull Action1<? super Throwable> onError, @NotNull Action0 onComplete) {
+    public LambdaObserver(@NonNull Action1<? super T> onNext, @NonNull Action1<? super Throwable> onError, @NonNull Action0 onComplete) {
         assert onNext != null : "onNext is null.";
         assert onError != null : "onError is null.";
         assert onComplete != null : "onComplete is null.";

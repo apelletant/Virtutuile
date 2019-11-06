@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.function.Consumer;
 
-public class VPanelEvents extends VPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class VPanelEvents extends VPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
     protected boolean _isClicked = false;
     protected boolean _isMouseActive = false;
     protected boolean _isMouseHover = false;
@@ -19,6 +19,7 @@ public class VPanelEvents extends VPanel implements MouseListener, MouseMotionLi
         super(layout, isDoubleBuffered);
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
         addKeyListener(this);
     }
 
@@ -26,6 +27,7 @@ public class VPanelEvents extends VPanel implements MouseListener, MouseMotionLi
         super(layout);
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
         addKeyListener(this);
     }
 
@@ -33,12 +35,14 @@ public class VPanelEvents extends VPanel implements MouseListener, MouseMotionLi
         super(isDoubleBuffered);
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
         addKeyListener(this);
     }
 
     public VPanelEvents() {
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
         addKeyListener(this);
     }
 
@@ -131,6 +135,11 @@ public class VPanelEvents extends VPanel implements MouseListener, MouseMotionLi
     @Override
     public void mouseMoved(MouseEvent me) {
         invokeMouseEvent(MouseEventKind.MouseMove, me);
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent mwe) {
+        invokeMouseEvent(MouseEventKind.MouseWheel, mwe);
     }
 
     /**

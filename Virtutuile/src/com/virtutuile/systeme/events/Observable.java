@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.events;
 
-import com.virtutuile.systeme.annotations.NotNull;
+import com.virtutuile.systeme.annotations.NonNull;
 import com.virtutuile.systeme.events.actions.*;
 
 /**
@@ -28,19 +28,19 @@ public class Observable<T> implements Observer<T> {
         return new Subscription<>(observer);
     }
 
-    public Subscription subscribe(@NotNull Action1<T> next) {
+    public Subscription subscribe(@NonNull Action1<T> next) {
         Observer<T> observer = new LambdaObserver<>(next);
         subscription.add(observer);
         return new Subscription<>(observer);
     }
 
-    public Subscription subscribe(@NotNull Action1<T> next, @NotNull Action1<? super Throwable> error) {
+    public Subscription subscribe(@NonNull Action1<T> next, @NonNull Action1<? super Throwable> error) {
         Observer<T> observer = new LambdaObserver<>(next, error);
         subscription.add(observer);
         return new Subscription<>(observer);
     }
 
-    public Subscription subscribe(@NotNull Action1<T> next, @NotNull Action1<? super Throwable> error, @NotNull Action0 complete) {
+    public Subscription subscribe(@NonNull Action1<T> next, @NonNull Action1<? super Throwable> error, @NonNull Action0 complete) {
         Observer<T> observer = new LambdaObserver<>(next, error, complete);
         subscription.add(observer);
         return new Subscription<>(observer);

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 public final class UIConstants {
+    private UIConstants() {
+        throw new AssertionError();
+    }
 
     public static final Color TOOLBAR_BACKGROUND = new Color(66, 66, 66);
     public static final Color TOOLBAR_FONT_COLOR = new Color(255, 255, 255);
@@ -110,7 +113,17 @@ public final class UIConstants {
         }
     }
 
-    private UIConstants() {
-        throw new AssertionError();
+    public static final class Editor {
+
+        private Editor() {
+            throw new AssertionError();
+        }
+
+        // One pixel at 100% zoom equals to 5 centimeters
+        public static final double PIXEL_CENTIMETERS = 1;
+
+        public static final double ZOOM_FACTOR = 1d;
+        public static final int MINIMAL_ZOOM = 1;
+        public static final int MAXIMAL_ZOOM = 800;
     }
 }

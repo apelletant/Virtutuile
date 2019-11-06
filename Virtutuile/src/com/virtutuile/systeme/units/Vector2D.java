@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.units;
 
-import com.virtutuile.systeme.annotations.NotNull;
+import com.virtutuile.systeme.annotations.NonNull;
 
 import java.awt.*;
 import java.util.Objects;
@@ -55,7 +55,7 @@ public class Vector2D {
      * @param add The value of add to the vector
      * @return The added vector
      */
-    public Vector2D add(@NotNull Vector2D add) {
+    public Vector2D add(@NonNull Vector2D add) {
         x += add.x;
         y += add.y;
         return this;
@@ -65,7 +65,7 @@ public class Vector2D {
      * @param add The value of add to the vector
      * @return The added vector
      */
-    public Vector2D add(@NotNull Point add) {
+    public Vector2D add(@NonNull Point add) {
         x += add.x;
         y += add.y;
         return this;
@@ -75,7 +75,7 @@ public class Vector2D {
      * @param add The value of add to the vector
      * @return The added vector
      */
-    public Vector2D add(@NotNull VCoordinate add) {
+    public Vector2D add(@NonNull VCoordinate add) {
         x += add.longitude;
         y += add.latitude;
         return this;
@@ -95,7 +95,7 @@ public class Vector2D {
      * @param subtract The value of subtract to the vector
      * @return The subtracted vector
      */
-    public Vector2D subtract(@NotNull Vector2D subtract) {
+    public Vector2D subtract(@NonNull Vector2D subtract) {
         x -= subtract.x;
         y -= subtract.y;
         return this;
@@ -105,7 +105,7 @@ public class Vector2D {
      * @param subtract The value of subtract to the vector
      * @return The subtracted vector
      */
-    public Vector2D subtract(@NotNull Point subtract) {
+    public Vector2D subtract(@NonNull Point subtract) {
         x -= subtract.x;
         y -= subtract.y;
         return this;
@@ -115,7 +115,7 @@ public class Vector2D {
      * @param subtract The value of subtract to the vector
      * @return The subtracted vector
      */
-    public Vector2D subtract(@NotNull VCoordinate subtract) {
+    public Vector2D subtract(@NonNull VCoordinate subtract) {
         x -= subtract.longitude;
         y -= subtract.latitude;
         return this;

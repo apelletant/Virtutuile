@@ -9,4 +9,6 @@ public enum MouseEventKind {
     MousePress,
     MouseRelease,
     MouseDrag,
+    MouseWheel,
+    ;
 }

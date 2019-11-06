@@ -8,6 +8,7 @@ public class VPainterManager {
     public static final int GIZ_BOUNDS = 0x0001;
 
     private int _gizmos;
+    private Dimension size;
 
     public VPainter getPainter(Graphics graphics) {
         return new VPainter(graphics);
@@ -29,6 +30,15 @@ public class VPainterManager {
 
     public int getGizmos() {
         return _gizmos;
+    }
+
+    public Dimension getSize() {
+        return size;
+    }
+
+    public VPainterManager setSize(Dimension size) {
+        this.size = size;
+        return this;
     }
 
     // region Static management

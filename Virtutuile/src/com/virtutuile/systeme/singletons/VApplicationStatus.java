@@ -1,7 +1,10 @@
 package com.virtutuile.systeme.singletons;
 
 import com.virtutuile.systeme.constants.UIConstants;
+import com.virtutuile.systeme.constants.VPhysicsConstants;
+import com.virtutuile.systeme.units.VCoordinate;
 
+import java.awt.*;
 import java.util.Vector;
 import java.util.function.Consumer;
 
@@ -109,5 +112,60 @@ public class VApplicationStatus {
     public enum VActionManager {
         Pattern,
         Shape
+    }
+
+    public static class VEditor {
+        private static VEditor instance;
+
+        private VEditor() {
+        }
+
+        public static VEditor getInstance() {
+            if (instance == null) {
+                instance = new VEditor();
+            }
+            return instance;
+        }
+
+        private double zoom = 100D;
+        private Dimension editorSize = new Dimension();
+        private VCoordinate editorPosition = new VCoordinate();
+        public VPhysicsConstants.SystemUnit SystemUnit = VPhysicsConstants.SystemUnit.Metric;
+
+        public int getZoom() {
+            return (int) zoom;
+        }
+
+        public double getRelativeZoom() {
+            return zoom / 100;
+        }
+
+        public VEditor incrementZoom(double increment) {
+            this.zoom = Math.min(Math.max(zoom + increment, UIConstants.Editor.MINIMAL_ZOOM), UIConstants.Editor.MAXIMAL_ZOOM);
+            return this;
+        }
+
+        public VEditor setZoom(int zoom) {
+            this.zoom = Math.min(Math.max(zoom, UIConstants.Editor.MINIMAL_ZOOM), UIConstants.Editor.MAXIMAL_ZOOM);
+            return this;
+        }
+
+        public void setPosition(double longitude, double latitude) {
+            editorPosition.longitude = longitude;
+            editorPosition.latitude = latitude;
+        }
+
+        public VCoordinate getEditorPosition() {
+            return editorPosition;
+        }
+
+        public void setSize(int width, int height) {
+            editorSize.width = width;
+            editorSize.height = height;
+        }
+
+        public Dimension getSize() {
+            return editorSize;
+        }
     }
 }

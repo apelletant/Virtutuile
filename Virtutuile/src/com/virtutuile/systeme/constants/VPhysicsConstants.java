@@ -122,6 +122,11 @@ public final class VPhysicsConstants {
         }
     }
 
+    public enum SystemUnit {
+        Metric,
+        Imperial,
+    }
+
     public enum Units {
         Millimeter,
         Centimeter,
