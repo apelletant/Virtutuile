@@ -2,18 +2,14 @@ package com.virtutuile.domaine.managers;
 
 import com.virtutuile.domaine.interfaces.IVEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
-import com.virtutuile.systeme.components.VTile;
 import com.virtutuile.systeme.components.pattern.VPatternSpec;
-import com.virtutuile.systeme.components.VShape;
 import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.tools.UnorderedMap;
 import com.virtutuile.systeme.units.VCoordinate;
 import com.virtutuile.systeme.units.VProperties;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.Vector;
 
 public class VPatternEditorManager implements IVEditorManager {
     private UnorderedMap<UUID, VPatternSpec> _patternList;
@@ -65,6 +61,4 @@ public class VPatternEditorManager implements IVEditorManager {
         return this.shapeEditorManager.getDrawableShapes();
     }
 
-    public void resync() {
-    }
 }

@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.components.pattern;
 
-import com.virtutuile.systeme.components.VTile;
+import com.virtutuile.systeme.components.shape.VTile;
 
 import java.util.Vector;
 

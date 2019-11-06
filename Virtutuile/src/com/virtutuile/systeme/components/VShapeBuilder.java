@@ -1,7 +1,7 @@
 package com.virtutuile.systeme.components;
 
 
-import com.virtutuile.systeme.components.VShape;
+import com.virtutuile.systeme.components.shape.VShape;
 import com.virtutuile.systeme.units.VCoordinate;
 
 public abstract class VShapeBuilder {

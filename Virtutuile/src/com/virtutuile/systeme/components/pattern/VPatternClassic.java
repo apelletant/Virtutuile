@@ -1,6 +1,6 @@
 package com.virtutuile.systeme.components.pattern;
 
-import com.virtutuile.systeme.components.VTile;
+import com.virtutuile.systeme.components.shape.VTile;
 import com.virtutuile.systeme.units.VDimensions;
 
 public class VPatternClassic extends VPattern {
@@ -9,6 +9,7 @@ public class VPatternClassic extends VPattern {
     public VPatternClassic() {
         this._adjust = new double[]{0, 0};
         this._tiles.add(new VTile());
-        this._tiles.get(0).setDimensions(new VDimensions(100, 50));
+        this._tiles.get(0).getPolygon().getBounds().width = 100;
+        this._tiles.get(0).getPolygon().getBounds().height = 50;
     }
 }

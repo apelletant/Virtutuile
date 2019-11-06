@@ -5,7 +5,6 @@ import com.virtutuile.domaine.managers.VPainterManager;
 import com.virtutuile.domaine.managers.VPatternEditorManager;
 import com.virtutuile.domaine.managers.VShapeEditorManager;
 import com.virtutuile.systeme.components.VDrawableShape;
-import com.virtutuile.systeme.components.VShape;
 import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.singletons.VApplicationStatus;
 import com.virtutuile.systeme.tools.UnorderedMap;
@@ -81,9 +80,6 @@ public class VEditorEngine {
 
             VShapeEditorManager manager = (VShapeEditorManager) _managers.get(VApplicationStatus.VActionManager.Shape);
             manager.deleteSelectedShape();
-
-            //TODO VPatternEditorManager::resync -> Revérifie les liens entre les shapes et les patterns.
-            ((VPatternEditorManager) _managers.get(VApplicationStatus.VActionManager.Pattern)).resync();
         }
     }
 }

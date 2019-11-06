@@ -1,7 +1,7 @@
 package com.virtutuile.systeme.components.pattern;
 
-import com.virtutuile.systeme.components.VShape;
-import com.virtutuile.systeme.components.VTile;
+import com.virtutuile.systeme.components.shape.VShape;
+import com.virtutuile.systeme.components.shape.VTile;
 import com.virtutuile.systeme.shared.PatternType;
 import com.virtutuile.systeme.units.VCoordinate;
 
@@ -26,18 +26,16 @@ public class VPatternSpec {
     }
 
     private void buildPattern(VShape shape) {
-        double[] adjust = this._pattern._adjust;
+       /* double[] adjust = this._pattern._adjust;
         double[] origin = new double[]{shape.getBounds().getX(), shape.getBounds().getY()};
-        double[] tileSize = {this._pattern.getTiles().get(0).getDimensions().width, this._pattern.getTiles().get(0).getDimensions().height};
-        double widthPerLine = 0;
+        double[] tileSize = {this._pattern.getTiles().get(0).getPolygon().getBounds().width, this._pattern.getTiles().get(0).getPolygon().getBounds().height};
         double y = 0;
         double x = 0;
 
-        /*System.out.println("Shape Origin: { " + origin[0] + ", " + origin[1] + " }");
+        System.out.println("Shape Origin: { " + origin[0] + ", " + origin[1] + " }");
         System.out.println("Shape Dimensions: " + shape.getBounds().getWidth() + "x" + shape.getBounds().getHeight());
-        System.out.println("   ");*/
+        System.out.println("   ");
         while(y < shape.getBounds().getHeight() + shape.getGrout().getThickness()) {
-            widthPerLine = 0;
             y = y + shape.getGrout().getThickness();
             while (x < shape.getBounds().getWidth() + shape.getGrout().getThickness()) {
                 int i = 0;
@@ -49,7 +47,7 @@ public class VPatternSpec {
 
                     if ((tileX + shape.getGrout().getThickness() + tileSize[0]) > origin[0] + shape.getBounds().getWidth()) {
                         double size = (origin[0] + shape.getBounds().getWidth()) - (x + origin[0] + shape.getGrout().getThickness());
-                        tile.setWidth(size);
+                        *//*tile.getPolygon().getBounds().width = size;*//*
                     }
 
                     if ((tileY + shape.getGrout().getThickness() + tileSize[1]) > origin[1] + shape.getBounds().getHeight()) {
@@ -65,7 +63,7 @@ public class VPatternSpec {
             }
             y = y + tileSize[1] + adjust[1];
             x = adjust[0];
-        }
+        }*/
     }
 
     public VPattern getPattern() {
