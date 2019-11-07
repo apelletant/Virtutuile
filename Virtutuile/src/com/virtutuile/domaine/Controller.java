@@ -20,11 +20,14 @@ public class Controller {
     }
 
     public void paint(Graphics graphics) {
-        Vector vector = meta.getSurfaces().toVector();
+        Vector vector = new Vector();
         Surface currentCreatingSurface = surfaceEditor.getCurrentCreatingSurface();
         if (currentCreatingSurface != null) {
             vector.add(currentCreatingSurface);
         }
+        meta.getSurfaces().toVector().forEach((surface) -> {
+            vector.add(surface);
+        });
         painter.paintAll(vector, graphics);
     }
 
@@ -80,7 +83,7 @@ public class Controller {
     }
 
     public void applyPattern(String patternName) {
-
+        surfaceEditor.applyPattern(patternName);
     }
 
 }

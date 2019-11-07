@@ -15,7 +15,6 @@ public class Surface extends PrimarySurface {
     protected boolean isHole;
     protected PatternGroup patternGroup;
     protected Vector<Surface> subSurfaces;
-
     protected Grout grout;
 
     public Surface(Point[] points) {
@@ -124,8 +123,15 @@ public class Surface extends PrimarySurface {
         return patternGroup;
     }
 
+    public void applyPattern(String patterName) {
+        patternGroup = new PatternGroup(patterName, this);
+    }
+
     public Vector<Surface> getSubSurfaces() {
         return subSurfaces;
     }
 
+    public Grout getGrout() {
+        return grout;
+    }
 }

@@ -224,4 +224,11 @@ public class SurfaceEditor {
         }
         return null;
     }
+
+    public void applyPattern(String patternName) {
+        Surface surface = meta.getSelectedSurface();
+        if (surface != null) {
+            surface.applyPattern(patternName);
+        }
+    }
 }
