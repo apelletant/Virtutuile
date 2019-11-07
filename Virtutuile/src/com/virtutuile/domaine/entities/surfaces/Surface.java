@@ -7,6 +7,7 @@ import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 
@@ -20,6 +21,14 @@ public class Surface extends PrimarySurface {
     public Surface(Point[] points) {
         super(points);
         isHole = false;
+        patternGroup = null;
+        subSurfaces = new Vector<>();
+        grout = new Grout();
+    }
+
+    public Surface(Path2D.Double polygon, boolean isHole) {
+        super(polygon);
+        this.isHole = isHole;
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
