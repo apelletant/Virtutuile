@@ -22,7 +22,7 @@ public class MainWindow extends JFrame {
         canvas = new Canvas(controller, this);
         editionPanel = new EditionPanel(controller);
         toolBar = new Toolbar(controller);
-        bottomToolbar = new BottomToolbar(controller);
+        bottomToolbar = new BottomToolbar(controller, canvas);
 
         setUpWindow();
         setUpContainer();

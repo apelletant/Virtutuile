@@ -1,5 +1,6 @@
 package com.virtutuile.domaine;
 
+import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.PrimarySurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.shared.Vector2D;
@@ -16,9 +17,19 @@ public class Painter {
     private int gizmos;
     private Dimension size;
 
+    private Meta meta;
+
+    public Painter (Meta meta) {
+        this.meta = meta;
+    }
+
     public void paintAll(Vector<Surface> surfaces, Graphics gfx) {
         graphics = gfx;
         graphics2D = (Graphics2D) gfx;
+
+        if (meta.isGridActivated()) {
+            drawMagneticGrid();
+        }
 
         surfaces.forEach((surface) -> {
             paint(surface);
@@ -34,6 +45,7 @@ public class Painter {
     public void paint(PrimarySurface surface) {
         if (surface == null)
             return;
+
         graphics2D.setColor(surface.fillColor());
         fillPolygon(surface.getPolygonFromPath2D());
         graphics2D.setColor(surface.getBorderColor());
@@ -73,6 +85,25 @@ public class Painter {
             graphics2D.setColor(Constants.Gizmos.Handles.BORDER_COLOR);
             graphics2D.drawRect(anchor.x, anchor.y, size.width, size.height);
         }
+    }
+
+    private void drawMagneticGrid() {
+
+
+//        Color col = new Color(0, 0, 0);
+//        graphics2D.setColor(col);
+//        graphics2D.setStroke(new BasicStroke(1));
+//
+//        for (int i = 0; i <= canvasDim.width; i++) {
+//            for (int j = 0; j <= canvasDim.height; j++) {
+//                //TODO Modify to use zoom
+//                // zoomSize / 2 to get 4 sqares by zoom level
+//                if (i % 25 == 0 && j % 25 == 0) {
+//                    graphics2D.drawLine(i, j, i, canvasDim.width);
+//                    graphics2D.drawLine(canvasDim.height, j, i, j);
+//                }
+//            }
+//        }
     }
 
     /**

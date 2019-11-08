@@ -22,6 +22,7 @@ public class Meta {
     private Point clicked;
     private Point hover;
     private boolean mousePressed;
+    private boolean isGridActivated;
 
     public Meta() {
         selectedSurface = null;
@@ -31,6 +32,7 @@ public class Meta {
         clicked = null;
         hover = null;
         mousePressed = false;
+        isGridActivated = false;
 
         Surface surface = new RectangularSurface(new Rectangle2D.Double(30, 30, 70, 70), false);
         Path2D.Double polygon = new Path2D.Double();
@@ -108,6 +110,15 @@ public class Meta {
     public void setHoveredSurface(Surface hoveredSurface) {
         this.hoveredSurface = hoveredSurface;
     }
+
+    public boolean isGridActivated() {
+        return isGridActivated;
+    }
+
+    public void changeGridStatus () {
+        isGridActivated = !isGridActivated;
+    }
+
 
     public enum EditionAction {
         Idle,

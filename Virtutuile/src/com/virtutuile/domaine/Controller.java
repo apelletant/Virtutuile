@@ -15,7 +15,7 @@ public class Controller {
 
     public Controller() {
         meta = new Meta();
-        painter = new Painter();
+        painter = new Painter(meta);
         surfaceEditor = new SurfaceEditor(meta);
     }
 
@@ -80,6 +80,10 @@ public class Controller {
 
     public void drawSurface() {
 
+    }
+
+    public void drawGrid() {
+        meta.changeGridStatus();
     }
 
     public void applyPattern(String patternName) {
