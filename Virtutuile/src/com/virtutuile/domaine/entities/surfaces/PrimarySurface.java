@@ -150,6 +150,10 @@ public abstract class PrimarySurface implements Serializable {
         return polygon;
     }
 
+    public void setPolygon(Path2D.Double polygon) {
+        this.polygon = polygon;
+    }
+
     public Color fillColor() {
         return fillColor;
     }

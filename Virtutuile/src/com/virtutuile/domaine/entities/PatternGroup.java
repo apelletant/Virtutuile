@@ -9,6 +9,7 @@ import com.virtutuile.shared.CustomPoint;
 import com.virtutuile.shared.Vecteur;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 
@@ -69,14 +70,14 @@ public class PatternGroup {
             y = y + tileSize[1] + adjust[1];
             x = adjust[0];
         }
-        removeTileOutOfSurface(surface);
+        removeTileOutOfSurface(surface, surface.getGrout());
     }
 
-    private void removeTileOutOfSurface(Surface surface) {
+    private void removeTileOutOfSurface(Surface surface, Grout grout) {
         Vector<Tile> tilesToRemove = new Vector<>();
         tiles.forEach((tile) -> {
             if (!surface.getPolygon().contains(tile.getPolygon().getBounds2D())) {
-                if (!adjustTileIfIntersect(surface, tile)) {
+                if (!adjustTileIfIntersect(surface, tile, grout)) {
                     tilesToRemove.add(tile);
                 }
             }
@@ -86,54 +87,102 @@ public class PatternGroup {
         });
     }
 
-    private boolean adjustTileIfIntersect(Surface surface, Tile tile) {
+    private boolean adjustTileIfIntersect(Surface surface, Tile tile, Grout grout) {
         Point2D[] tileVertices = tile.getVertices();
         Point2D[] surfaceVertices = surface.getVertices();
 
-        Point2D ATile;
-        Point2D BTile;
+        Point2D aTile;
+        Point2D bTile;
 
-        Point2D ASurface;
-        Point2D BSurface;
+        Point2D aSurface;
+        Point2D bSurface;
 
         boolean returnedValue = false;
+        boolean restart = false;
 
         int verticesSurfaceIterator = 0;
         int verticesTileIterator = 0;
 
-        while (verticesSurfaceIterator < surfaceVertices.length - 1) {
-            ASurface = surfaceVertices[verticesSurfaceIterator];
-            if (verticesSurfaceIterator == surface.getVertices().length) {
-                BSurface = surfaceVertices[0];
+        System.out.println("   ");
+        System.out.println("New tile");
+
+        while (verticesSurfaceIterator < surfaceVertices.length) {
+            aSurface = surfaceVertices[verticesSurfaceIterator];
+            if (verticesSurfaceIterator == surface.getVertices().length - 1) {
+                bSurface = surfaceVertices[0];
             } else {
-                BSurface = surfaceVertices[verticesSurfaceIterator + 1];
+                bSurface = surfaceVertices[verticesSurfaceIterator + 1];
             }
             while (verticesTileIterator < tile.getVertices().length) {
-                ATile = tileVertices[verticesTileIterator];
+                aTile = tileVertices[verticesTileIterator];
                 if (verticesTileIterator == tile.getVertices().length - 1) {
-                    BTile = tileVertices[0];
-
+                    bTile = tileVertices[0];
                 } else {
-                    BTile = tileVertices[verticesTileIterator + 1];
+                    bTile = tileVertices[verticesTileIterator + 1];
                 }
                 CustomPoint intersection = Intersection.intersectionPoint(
                         new Vecteur(
-                                new CustomPoint(ATile.getX(), ATile.getY()),
-                                new CustomPoint(BTile.getX(), BTile.getY())),
+                                new CustomPoint(aTile.getX(), aTile.getY()),
+                                new CustomPoint(bTile.getX(), bTile.getY())),
                         new Vecteur(
-                                new CustomPoint(ASurface.getX(), ASurface.getY()),
-                                new CustomPoint(BSurface.getX(), BSurface.getY())));
-                if (intersection != null) {
+                                new CustomPoint(aSurface.getX(), aSurface.getY()),
+                                new CustomPoint(bSurface.getX(), bSurface.getY())));
+                /*if (intersection != null) {
+                    System.out.println("if ((" + intersection.x + " != " + aTile.getX() + " || " + intersection.y + " != " + aTile.getY()
+                    + ") && (" + intersection.x + " != " + bTile.getX() + " || " + intersection.y + " != " + bTile.getY() + ")");
+                }*/
+                if (intersection != null
+                        && (intersection.x != aTile.getX() || intersection.y != aTile.getY())
+                        && (intersection.x != bTile.getX() || intersection.y != bTile.getY())) {
+                    System.out.println("test passed");
                     tile.setFillColor(Color.RED);
                     tile.setBorderColor(Color.RED);
+                    adjustTile(tile, aTile, bTile, intersection);
+                    tileVertices = tile.getVertices();
+                    /*System.out.println("vertices length : " + tileVertices.length);*/
                     returnedValue = true;
+                    restart = true;
+                    break;
                 }
                 verticesTileIterator++;
+            }
+            if (restart) {
+                verticesSurfaceIterator = -1;
+                restart = false;
             }
             verticesSurfaceIterator++;
             verticesTileIterator = 0;
         }
+        System.out.println(returnedValue);
         return returnedValue;
+    }
+
+    public void adjustTile(Tile tile, Point2D aTile, Point2D bTile, CustomPoint newVertice) {
+        Point2D[] vertices = tile.getVertices();
+
+        if (vertices.length > 10) {
+            System.exit(0);
+        }
+        int i = 1;
+
+        tile.setPolygon(new Path2D.Double());
+        tile.getPolygon().moveTo(vertices[0].getX(), vertices[0].getY());
+
+        while (vertices[i].getX() != aTile.getX() && vertices[i].getY() != aTile.getY()) {
+            tile.getPolygon().lineTo(vertices[i].getX(), vertices[i].getY());
+            i++;
+        }
+
+        tile.getPolygon().lineTo(aTile.getX(), aTile.getY());
+        tile.getPolygon().lineTo(newVertice.x, newVertice.y);
+        tile.getPolygon().lineTo(bTile.getX(), bTile.getY());
+        i++;
+
+        while (i != vertices.length) {
+            tile.getPolygon().lineTo(vertices[i].getX(), vertices[i].getY());
+            i++;
+        }
+        tile.getPolygon().closePath();
     }
 
     public PatternGroup copy() {

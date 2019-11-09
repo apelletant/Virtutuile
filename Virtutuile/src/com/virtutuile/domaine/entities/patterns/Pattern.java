@@ -12,7 +12,7 @@ public abstract class Pattern {
     protected Vector<Tile> tiles = new Vector<>();
 
     //TODO: Définir les dimensions de la tuile ailleurs #edtion type de materiau
-    protected Point2D defaultDimensions = new Point2D.Double(50, 25);
+    protected Point2D defaultDimensions = new Point2D.Double(100, 50);
 
     public Vector<Tile> getTiles() {
         return tiles;
