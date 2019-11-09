@@ -4,11 +4,12 @@ import com.virtutuile.domaine.entities.patterns.Classic;
 import com.virtutuile.domaine.entities.patterns.Pattern;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
+import com.virtutuile.domaine.entities.tools.Intersection;
+import com.virtutuile.shared.CustomPoint;
+import com.virtutuile.shared.Vecteur;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.Vector;
 
 public class PatternGroup {
@@ -75,9 +76,6 @@ public class PatternGroup {
         Vector<Tile> tilesToRemove = new Vector<>();
         tiles.forEach((tile) -> {
             if (!surface.getPolygon().contains(tile.getPolygon().getBounds2D())) {
-                System.out.println(" ");
-                /*System.out.println(Arrays.toString(tile.getVertices()));*/
-                System.out.println(" ");
                 if (!adjustTileIfIntersect(surface, tile)) {
                     tilesToRemove.add(tile);
                 }
@@ -91,7 +89,6 @@ public class PatternGroup {
     private boolean adjustTileIfIntersect(Surface surface, Tile tile) {
         Point2D[] tileVertices = tile.getVertices();
         Point2D[] surfaceVertices = surface.getVertices();
-        System.out.println("new Tile check");
 
         Point2D ATile;
         Point2D BTile;
@@ -105,72 +102,38 @@ public class PatternGroup {
         int verticesTileIterator = 0;
 
         while (verticesSurfaceIterator < surfaceVertices.length - 1) {
-
             ASurface = surfaceVertices[verticesSurfaceIterator];
             if (verticesSurfaceIterator == surface.getVertices().length) {
                 BSurface = surfaceVertices[0];
             } else {
                 BSurface = surfaceVertices[verticesSurfaceIterator + 1];
             }
-
             while (verticesTileIterator < tile.getVertices().length) {
-
                 ATile = tileVertices[verticesTileIterator];
-                System.out.println(verticesTileIterator);
-                System.out.println(tile.getVertices().length - 1);
-
                 if (verticesTileIterator == tile.getVertices().length - 1) {
                     BTile = tileVertices[0];
 
                 } else {
                     BTile = tileVertices[verticesTileIterator + 1];
                 }
-
-
-                Point2D intersection = lineIntersection(ATile, BTile, ASurface, BSurface);
+                CustomPoint intersection = Intersection.intersectionPoint(
+                        new Vecteur(
+                                new CustomPoint(ATile.getX(), ATile.getY()),
+                                new CustomPoint(BTile.getX(), BTile.getY())),
+                        new Vecteur(
+                                new CustomPoint(ASurface.getX(), ASurface.getY()),
+                                new CustomPoint(BSurface.getX(), BSurface.getY())));
                 if (intersection != null) {
-                    //ajouter le point à la tuile
-                    //update tileVertices
-
-                    /*tileVertices = tile.getVertices();*/
                     tile.setFillColor(Color.RED);
+                    tile.setBorderColor(Color.RED);
                     returnedValue = true;
-                    verticesTileIterator++;
-                } else  {
-                    verticesTileIterator++;
                 }
+                verticesTileIterator++;
             }
-
             verticesSurfaceIterator++;
+            verticesTileIterator = 0;
         }
-        System.out.print(returnedValue);
         return returnedValue;
-    }
-
-    //https://www.geeksforgeeks.org/program-for-point-of-intersection-of-two-lines/
-    private Point2D lineIntersection(Point2D A, Point2D B, Point2D C, Point2D D)
-    {
-        // Line AB represented as a1x + b1y = c1
-        double a1 = B.getY() - A.getY();
-        double b1 = A.getX() - B.getX();
-        double c1 = a1*(A.getX()) + b1*(A.getY());
-
-        // Line CD represented as a2x + b2y = c2
-        double a2 = D.getY() - C.getY();
-        double b2 = C.getX() - D.getX();
-        double c2 = a2*(C.getX())+ b2*(C.getY());
-
-        double determinant = a1*b2 - a2*b1;
-
-        if (determinant == 0) {
-            System.out.println("No Intersect");
-            return null;
-        } else {
-            double x = (b2*c1 - b1*c2)/determinant;
-            double y = (a1*c2 - a2*c1)/determinant;
-            System.out.println("Intersect here: " + x + " " + y);
-            return new Point2D.Double(x, y);
-        }
     }
 
     public PatternGroup copy() {
