@@ -113,6 +113,7 @@ public class PatternGroup {
             } else {
                 bSurface = surfaceVertices[verticesSurfaceIterator + 1];
             }
+            System.out.println("Surface Line: " + aSurface.getX() + ", " + aSurface.getY() + " - " + bSurface.getX() + ", " + bSurface.getY());
             while (verticesTileIterator < tile.getVertices().length) {
                 aTile = tileVertices[verticesTileIterator];
                 if (verticesTileIterator == tile.getVertices().length - 1) {
@@ -120,6 +121,7 @@ public class PatternGroup {
                 } else {
                     bTile = tileVertices[verticesTileIterator + 1];
                 }
+                System.out.println("Tile Line: " + aTile.getX() + ", " + aTile.getY() + " - " + bTile.getX() + ", " + bTile.getY());
                 CustomPoint intersection = Intersection.intersectionPoint(
                         new Vecteur(
                                 new CustomPoint(aTile.getX(), aTile.getY()),
@@ -127,21 +129,22 @@ public class PatternGroup {
                         new Vecteur(
                                 new CustomPoint(aSurface.getX(), aSurface.getY()),
                                 new CustomPoint(bSurface.getX(), bSurface.getY())));
-                /*if (intersection != null) {
-                    System.out.println("if ((" + intersection.x + " != " + aTile.getX() + " || " + intersection.y + " != " + aTile.getY()
-                    + ") && (" + intersection.x + " != " + bTile.getX() + " || " + intersection.y + " != " + bTile.getY() + ")");
-                }*/
+                if (intersection != null) {
+                    System.out.println("Intersection: " + intersection.x + ", " + intersection.y);
+                    /*System.out.println("if ((" + intersection.x + " != " + aTile.getX() + " || " + intersection.y + " != " + aTile.getY()
+                    + ") && (" + intersection.x + " != " + bTile.getX() + " || " + intersection.y + " != " + bTile.getY() + ")");*/
+                }
                 if (intersection != null
-                        && (intersection.x != aTile.getX() || intersection.y != aTile.getY())
-                        && (intersection.x != bTile.getX() || intersection.y != bTile.getY())) {
-                    System.out.println("test passed");
+                        /*&& (intersection.x != aTile.getX() || intersection.y != aTile.getY())
+                        && (intersection.x != bTile.getX() || intersection.y != bTile.getY())*/) {
+                    /*System.out.println("test passed");*/
                     tile.setFillColor(Color.RED);
                     tile.setBorderColor(Color.RED);
-                    adjustTile(tile, aTile, bTile, intersection);
+                    /*adjustTile(tile, aTile, bTile, intersection);*/
                     tileVertices = tile.getVertices();
                     /*System.out.println("vertices length : " + tileVertices.length);*/
                     returnedValue = true;
-                    restart = true;
+                    /*restart = true;*/
                     break;
                 }
                 verticesTileIterator++;
@@ -153,7 +156,6 @@ public class PatternGroup {
             verticesSurfaceIterator++;
             verticesTileIterator = 0;
         }
-        System.out.println(returnedValue);
         return returnedValue;
     }
 
