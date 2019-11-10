@@ -2,6 +2,7 @@ package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.Button;
 import com.virtutuile.afficheur.swing.BorderedPanel;
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
@@ -18,7 +19,7 @@ public class BottomToolbar extends BorderedPanel {
         super();
         this.controller = controller;
         this.canvas = canvas;
-        
+
         sizingPolicy(SizingPolicy.ContentBox);
 
         Button button = new Button("Show Bounds");
@@ -28,8 +29,18 @@ public class BottomToolbar extends BorderedPanel {
         buttons.forEach((key, value) -> {
             add(value);
         });
+        setEvent();
         add(Box.createHorizontalGlue());
         add(Box.createVerticalGlue());
+    }
+
+    private void setEvent() {
+        Button buttonMG = buttons.get(TargetButton.MagneticGrid);
+
+        buttonMG.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            controller.drawGrid();
+            repaint();
+        });
     }
 
     public Button getButton(TargetButton name) {

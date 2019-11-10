@@ -23,6 +23,7 @@ public class Meta {
     private Point hover;
     private boolean mousePressed;
     private boolean isGridActivated;
+    private Dimension canvasSize;
 
     public Meta() {
         selectedSurface = null;
@@ -33,6 +34,7 @@ public class Meta {
         hover = null;
         mousePressed = false;
         isGridActivated = false;
+        canvasSize = null;
 
         Surface surface = new RectangularSurface(new Rectangle2D.Double(30, 30, 70, 70), false);
         Path2D.Double polygon = new Path2D.Double();
@@ -117,6 +119,14 @@ public class Meta {
 
     public void changeGridStatus () {
         isGridActivated = !isGridActivated;
+    }
+
+    public void setCanvasSize(Dimension size) {
+        canvasSize = size;
+    }
+
+    public Dimension getCanvasSize() {
+        return canvasSize;
     }
 
 

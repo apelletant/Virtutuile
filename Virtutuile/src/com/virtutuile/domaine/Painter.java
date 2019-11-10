@@ -88,22 +88,23 @@ public class Painter {
     }
 
     private void drawMagneticGrid() {
+        Color col = new Color(0, 0, 0);
+        graphics2D.setColor(col);
+        graphics2D.setStroke(new BasicStroke(1));
 
-
-//        Color col = new Color(0, 0, 0);
-//        graphics2D.setColor(col);
-//        graphics2D.setStroke(new BasicStroke(1));
-//
-//        for (int i = 0; i <= canvasDim.width; i++) {
-//            for (int j = 0; j <= canvasDim.height; j++) {
-//                //TODO Modify to use zoom
-//                // zoomSize / 2 to get 4 sqares by zoom level
-//                if (i % 25 == 0 && j % 25 == 0) {
-//                    graphics2D.drawLine(i, j, i, canvasDim.width);
-//                    graphics2D.drawLine(canvasDim.height, j, i, j);
-//                }
-//            }
-//        }
+        Dimension canvasDim = meta.getCanvasSize();
+        //System.out.println(canvasDim);
+        //System.out.println(canvasDim.width);
+        for (int i = 0; i <= canvasDim.width; i++) {
+            for (int j = 0; j <= canvasDim.height; j++) {
+                //TODO Modify to use zoom
+                // zoomSize / 2 to get 4 squares by zoom level
+                if (i % 25 == 0 && j % 25 == 0) {
+                    graphics2D.drawLine(i, j, i, canvasDim.width);
+                    graphics2D.drawLine(canvasDim.height, j, i, j);
+                }
+            }
+        }
     }
 
     /**

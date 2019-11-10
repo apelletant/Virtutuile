@@ -72,6 +72,7 @@ public class Canvas extends PanelEvents {
     public void paint(Graphics graphics) {
         super.paint(graphics);
         this.controller.paint(graphics);
+        controller.setCanvasSize(this.getSize());
     }
 
     public Controller getController() {
