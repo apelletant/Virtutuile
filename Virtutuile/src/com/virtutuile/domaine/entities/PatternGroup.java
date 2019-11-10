@@ -103,8 +103,8 @@ public class PatternGroup {
         int verticesSurfaceIterator = 0;
         int verticesTileIterator = 0;
 
-        System.out.println("   ");
-        System.out.println("New tile");
+        /*System.out.println("   ");
+        System.out.println("New tile");*/
 
         while (verticesSurfaceIterator < surfaceVertices.length) {
             aSurface = surfaceVertices[verticesSurfaceIterator];
@@ -113,7 +113,7 @@ public class PatternGroup {
             } else {
                 bSurface = surfaceVertices[verticesSurfaceIterator + 1];
             }
-            System.out.println("Surface Line: " + aSurface.getX() + ", " + aSurface.getY() + " - " + bSurface.getX() + ", " + bSurface.getY());
+            /*System.out.println("Surface Line: " + aSurface.getX() + ", " + aSurface.getY() + " - " + bSurface.getX() + ", " + bSurface.getY());*/
             while (verticesTileIterator < tile.getVertices().length) {
                 aTile = tileVertices[verticesTileIterator];
                 if (verticesTileIterator == tile.getVertices().length - 1) {
@@ -121,7 +121,7 @@ public class PatternGroup {
                 } else {
                     bTile = tileVertices[verticesTileIterator + 1];
                 }
-                System.out.println("Tile Line: " + aTile.getX() + ", " + aTile.getY() + " - " + bTile.getX() + ", " + bTile.getY());
+                /*System.out.println("Tile Line: " + aTile.getX() + ", " + aTile.getY() + " - " + bTile.getX() + ", " + bTile.getY());*/
                 CustomPoint intersection = Intersection.intersectionPoint(
                         new Vecteur(
                                 new CustomPoint(aTile.getX(), aTile.getY()),
@@ -130,18 +130,18 @@ public class PatternGroup {
                                 new CustomPoint(aSurface.getX(), aSurface.getY()),
                                 new CustomPoint(bSurface.getX(), bSurface.getY())));
                 if (intersection != null) {
-                    System.out.println("Intersection: " + intersection.x + ", " + intersection.y);
+                    /*System.out.println("Intersection: " + intersection.x + ", " + intersection.y);
                     System.out.println("if ((intersection.x " + intersection.x + " != aTile.x " + aTile.getX() + " || intersection.y " + intersection.y + " != aTile.y " + aTile.getY()
                     + ") && ( intersection.x " + intersection.x + " != bTile.x " + bTile.getX() + " || intersection.y " + intersection.y + " != bTile.y " + bTile.getY() + ")");
-                    System.out.println(" ");
+                    System.out.println(" ");*/
                 }
                 if (intersection != null
                         && (intersection.x != aTile.getX() || intersection.y != aTile.getY())
                         && (intersection.x != bTile.getX() || intersection.y != bTile.getY())) {
-                    System.out.println("test passed");
+                    /*System.out.println("test passed");*/
                     tile.setFillColor(Color.RED);
                     tile.setBorderColor(Color.RED);
-                    adjustTile(tile, aTile, bTile, intersection);
+                    addNewVertexOnTile(tile, aTile, bTile, intersection);
                     tileVertices = tile.getVertices();
                     /*System.out.println("vertices length : " + tileVertices.length);*/
                     returnedValue = true;
@@ -157,17 +157,15 @@ public class PatternGroup {
             verticesSurfaceIterator++;
             verticesTileIterator = 0;
         }
+        if (returnedValue) {
+            removeUselessPoints(tile, surface);
+        }
         return returnedValue;
     }
 
-    public void adjustTile(Tile tile, Point2D aTile, Point2D bTile, CustomPoint newVertice) {
+    private void addNewVertexOnTile(Tile tile, Point2D aTile, Point2D bTile, CustomPoint newVertex) {
         Point2D[] vertices = tile.getVertices();
         Path2D.Double newTile = new Path2D.Double();
-
-        if (vertices.length > 10) {
-            System.exit(0);
-        }
-
         int i = 0;
 
         newTile.moveTo(vertices[0].getX(), vertices[0].getY());
@@ -175,19 +173,16 @@ public class PatternGroup {
         if ( !(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY()) ) {
             i++;
         }
-
         while ( !(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY()) ) {
             newTile.lineTo(vertices[i].getX(), vertices[i].getY());
             i++;
         }
-
         if ( !(vertices[0].getX() == aTile.getX() && vertices[0].getY() == aTile.getY()) ) {
             newTile.lineTo(aTile.getX(), aTile.getY());
         }
-        newTile.lineTo(newVertice.x, newVertice.y);
+        newTile.lineTo(newVertex.x, newVertex.y);
         newTile.lineTo(bTile.getX(), bTile.getY());
         ++i;
-
         if (i == vertices.length - 1) {
             newTile.closePath();
             tile.setPolygon(newTile);
@@ -195,14 +190,32 @@ public class PatternGroup {
         } else {
             ++i;
         }
-
         while (i < vertices.length) {
             newTile.lineTo(vertices[i].getX(), vertices[i].getY());
             i++;
         }
-
         newTile.closePath();
         tile.setPolygon(newTile);
+    }
+
+    private void removeUselessPoints(Tile tile, Surface surface) {
+        Point2D[] tileVertices = tile.getVertices();
+        Vector<Point2D> vertices = new Vector<>();
+        Path2D.Double cuttedTile = new Path2D.Double();
+
+        for (int i = 0; i < tileVertices.length; i++) {
+            if (surface.getPolygon().contains(tileVertices[i])) {
+                vertices.add(tileVertices[i]);
+            }
+        }
+
+        cuttedTile.moveTo(vertices.get(0).getX(), vertices.get(0).getY());
+        for (int i = 1; i < vertices.size(); i++) {
+            cuttedTile.lineTo(vertices.get(i).getX(), vertices.get(i).getY());
+        }
+        cuttedTile.closePath();
+        tile.setPolygon(cuttedTile);
+
     }
 
     public PatternGroup copy() {
