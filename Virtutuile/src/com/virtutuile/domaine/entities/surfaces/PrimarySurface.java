@@ -1,6 +1,9 @@
 package com.virtutuile.domaine.entities.surfaces;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.domaine.entities.tools.Intersection;
+import com.virtutuile.shared.CustomPoint;
+import com.virtutuile.shared.Vecteur;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -208,5 +211,59 @@ public abstract class PrimarySurface implements Serializable {
 
     public void setMouseHover(boolean isMouseHover) {
         this.isMouseHover = isMouseHover;
+    }
+
+    public boolean containsOrIntersect(Point2D point) {
+        if (polygon.contains(point)) {
+            return true;
+        }
+        Point2D[] vertices = getVertices();
+
+        for (int i = 0; i < vertices.length; ++i) {
+            Vecteur a = new Vecteur(vertices[i]);
+            Vecteur b = null;
+            if (i != vertices.length - 1) {
+                b = new Vecteur(vertices[i + 1]);
+            } else {
+                b = new Vecteur(vertices[0]);
+            }
+
+            Vecteur ab = new Vecteur(new CustomPoint(a.x, a.y), new CustomPoint(b.x, b.y));
+            Vecteur pp = new Vecteur(new CustomPoint(point.getX(), point.getY()), new CustomPoint(point.getX(), point.getY()));
+
+            CustomPoint intersect = Intersection.intersectionPoint(ab, pp);
+            if (intersect != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void resize(double newWidth, double newHeight) {
+        Rectangle2D.Double bounds = (Rectangle2D.Double) polygon.getBounds2D();
+        double xRatio = newWidth / bounds.width;
+        double yRatio = newHeight / bounds.height;
+        System.out.println("xRatio " + xRatio + " yRatio " + yRatio);
+
+        AffineTransform transform = new AffineTransform();
+        transform.scale(xRatio, yRatio);
+        polygon.transform(transform);
+        Rectangle2D.Double newBounds = (Rectangle2D.Double) polygon.getBounds2D();
+        double xDisplacement = (bounds.x - newBounds.x);
+        double yDisplacement = (bounds.y - newBounds.y);
+        System.out.println("xDisplacement " + xDisplacement + " yDisplacement " + yDisplacement);
+        polygon.moveTo(xDisplacement, yDisplacement);
+    }
+
+    public void setWidth(double newWidth) {
+        resize(newWidth, polygon.getBounds2D().getHeight());
+    }
+
+    public void setHeight(double newHeight) {
+        resize(polygon.getBounds2D().getWidth(), newHeight);
+    }
+
+    public Rectangle2D.Double getBounds() {
+        return (Rectangle2D.Double) polygon.getBounds2D();
     }
 }

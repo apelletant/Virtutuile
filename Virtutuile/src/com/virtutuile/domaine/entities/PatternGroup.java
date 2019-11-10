@@ -11,6 +11,7 @@ import com.virtutuile.shared.Vecteur;
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 public class PatternGroup {
@@ -28,23 +29,30 @@ public class PatternGroup {
                 break;
         }
         if (this.pattern != null) {
-            this.buildPattern(surface);
+//            this.buildPattern(surface);
+            Rectangle2D.Double bounds = surface.getBounds();
+            double groutThickness = surface.getGrout().getThickness();
+            Surface groutedSurface = new Surface(surface);
+            System.out.println("Current bounds " + bounds.toString());
+            groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
+            System.out.println("New bounds " + groutedSurface.getBounds().toString());
+            this.buildPattern(surface, groutedSurface);
         }
     }
 
     public PatternGroup(PatternGroup patternGroup) {
     }
 
-    private void buildPattern(Surface surface) {
+    private void buildPattern(Surface surface, Surface groutedSurface) {
         double[] adjust = pattern.getAdjust();
         double[] origin = new double[]{surface.getPolygon().getBounds().getX(), surface.getPolygon().getBounds2D().getY()};
         double[] tileSize = {pattern.getTiles().get(0).getPolygon().getBounds().width, pattern.getTiles().get(0).getPolygon().getBounds().height};
         double y = 0;
         double x = 0;
 
-        while(y < surface.getPolygon().getBounds().getHeight() + surface.getGrout().getThickness()) {
+        while (y < groutedSurface.getPolygon().getBounds().getHeight()) {
             y = y + surface.getGrout().getThickness();
-            while (x < surface.getPolygon().getBounds().getWidth() + surface.getGrout().getThickness()) {
+            while (x < groutedSurface.getPolygon().getBounds().getWidth()) {
                 int i = 0;
                 x = x + surface.getGrout().getThickness();
                 while (i != pattern.getTiles().size()) {
@@ -70,14 +78,14 @@ public class PatternGroup {
             y = y + tileSize[1] + adjust[1];
             x = adjust[0];
         }
-        removeTileOutOfSurface(surface, surface.getGrout());
+        removeTileOutOfSurface(surface, groutedSurface);
     }
 
-    private void removeTileOutOfSurface(Surface surface, Grout grout) {
+    private void removeTileOutOfSurface(Surface surface, Surface groutedSurface) {
         Vector<Tile> tilesToRemove = new Vector<>();
         tiles.forEach((tile) -> {
             if (!surface.getPolygon().contains(tile.getPolygon().getBounds2D())) {
-                if (!adjustTileIfIntersect(surface, tile, grout)) {
+                if (!adjustTileIfIntersect(surface, tile, groutedSurface)) {
                     tilesToRemove.add(tile);
                 }
             }
@@ -87,7 +95,7 @@ public class PatternGroup {
         });
     }
 
-    private boolean adjustTileIfIntersect(Surface surface, Tile tile, Grout grout) {
+    private boolean adjustTileIfIntersect(Surface surface, Tile tile, Surface groutedSurface) {
         Point2D[] tileVertices = tile.getVertices();
         Point2D[] surfaceVertices = surface.getVertices();
 
@@ -158,7 +166,7 @@ public class PatternGroup {
             verticesTileIterator = 0;
         }
         if (returnedValue) {
-            removeUselessPoints(tile, surface);
+            removeUselessPoints(tile, groutedSurface);
         }
         return returnedValue;
     }
@@ -170,14 +178,14 @@ public class PatternGroup {
 
         newTile.moveTo(vertices[0].getX(), vertices[0].getY());
 
-        if ( !(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY()) ) {
+        if (!(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY())) {
             i++;
         }
-        while ( !(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY()) ) {
+        while (!(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY())) {
             newTile.lineTo(vertices[i].getX(), vertices[i].getY());
             i++;
         }
-        if ( !(vertices[0].getX() == aTile.getX() && vertices[0].getY() == aTile.getY()) ) {
+        if (!(vertices[0].getX() == aTile.getX() && vertices[0].getY() == aTile.getY())) {
             newTile.lineTo(aTile.getX(), aTile.getY());
         }
         newTile.lineTo(newVertex.x, newVertex.y);
@@ -198,13 +206,13 @@ public class PatternGroup {
         tile.setPolygon(newTile);
     }
 
-    private void removeUselessPoints(Tile tile, Surface surface) {
+    private void removeUselessPoints(Tile tile, Surface groutedSurface) {
         Point2D[] tileVertices = tile.getVertices();
         Vector<Point2D> vertices = new Vector<>();
         Path2D.Double cuttedTile = new Path2D.Double();
 
         for (int i = 0; i < tileVertices.length; i++) {
-            if (surface.getPolygon().contains(tileVertices[i])) {
+            if (groutedSurface.containsOrIntersect(tileVertices[i])) {
                 vertices.add(tileVertices[i]);
             }
         }
@@ -215,7 +223,6 @@ public class PatternGroup {
         }
         cuttedTile.closePath();
         tile.setPolygon(cuttedTile);
-
     }
 
     public PatternGroup copy() {
