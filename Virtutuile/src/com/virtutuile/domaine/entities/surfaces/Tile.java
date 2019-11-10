@@ -55,9 +55,9 @@ public class Tile extends PrimarySurface {
     private void regenerate() {
         polygon = new Path2D.Double();
         polygon.moveTo(origin.getX(), origin.getY());
-        polygon.lineTo(origin.getX(), opposite.getY());
-        polygon.lineTo(opposite.getX(), opposite.getY());
         polygon.lineTo(opposite.getX(), origin.getY());
+        polygon.lineTo(opposite.getX(), opposite.getY());
+        polygon.lineTo(origin.getX(), opposite.getY());
         polygon.closePath();
     }
 
@@ -66,9 +66,9 @@ public class Tile extends PrimarySurface {
         polygon = new Path2D.Double();
 
         polygon.moveTo(vertices[0].getX(), vertices[0].getY());
-        polygon.lineTo(vertices[0].getX(), vertices[2].getY()); // Vertice[1]
-        polygon.lineTo(vertices[0].getX() + width, vertices[2].getY()); // Vertice[2]
         polygon.lineTo(vertices[0].getX() + width, vertices[0].getY()); // Vertice[3]
+        polygon.lineTo(vertices[0].getX() + width, vertices[2].getY()); // Vertice[2]
+        polygon.lineTo(vertices[0].getX(), vertices[2].getY()); // Vertice[1]
         polygon.closePath();
 
     }
@@ -78,9 +78,9 @@ public class Tile extends PrimarySurface {
         polygon = new Path2D.Double();
 
         polygon.moveTo(vertices[0].getX(), vertices[0].getY());
-        polygon.lineTo(vertices[0].getX(), vertices[0].getY() + height);
-        polygon.lineTo(vertices[2].getX(), vertices[0].getY() + height);
         polygon.lineTo(vertices[2].getX(), vertices[0].getY());
+        polygon.lineTo(vertices[2].getX(), vertices[0].getY() + height);
+        polygon.lineTo(vertices[0].getX(), vertices[0].getY() + height);
         polygon.closePath();
     }
 }
