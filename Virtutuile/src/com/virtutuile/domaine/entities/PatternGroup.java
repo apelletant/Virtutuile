@@ -131,20 +131,21 @@ public class PatternGroup {
                                 new CustomPoint(bSurface.getX(), bSurface.getY())));
                 if (intersection != null) {
                     System.out.println("Intersection: " + intersection.x + ", " + intersection.y);
-                    /*System.out.println("if ((" + intersection.x + " != " + aTile.getX() + " || " + intersection.y + " != " + aTile.getY()
-                    + ") && (" + intersection.x + " != " + bTile.getX() + " || " + intersection.y + " != " + bTile.getY() + ")");*/
+                    System.out.println("if ((intersection.x " + intersection.x + " != aTile.x " + aTile.getX() + " || intersection.y " + intersection.y + " != aTile.y " + aTile.getY()
+                    + ") && ( intersection.x " + intersection.x + " != bTile.x " + bTile.getX() + " || intersection.y " + intersection.y + " != bTile.y " + bTile.getY() + ")");
+                    System.out.println(" ");
                 }
                 if (intersection != null
-                        /*&& (intersection.x != aTile.getX() || intersection.y != aTile.getY())
-                        && (intersection.x != bTile.getX() || intersection.y != bTile.getY())*/) {
-                    /*System.out.println("test passed");*/
+                        && (intersection.x != aTile.getX() || intersection.y != aTile.getY())
+                        && (intersection.x != bTile.getX() || intersection.y != bTile.getY())) {
+                    System.out.println("test passed");
                     tile.setFillColor(Color.RED);
                     tile.setBorderColor(Color.RED);
-                    /*adjustTile(tile, aTile, bTile, intersection);*/
+                    adjustTile(tile, aTile, bTile, intersection);
                     tileVertices = tile.getVertices();
                     /*System.out.println("vertices length : " + tileVertices.length);*/
                     returnedValue = true;
-                    /*restart = true;*/
+                    restart = true;
                     break;
                 }
                 verticesTileIterator++;
@@ -161,30 +162,47 @@ public class PatternGroup {
 
     public void adjustTile(Tile tile, Point2D aTile, Point2D bTile, CustomPoint newVertice) {
         Point2D[] vertices = tile.getVertices();
+        Path2D.Double newTile = new Path2D.Double();
 
         if (vertices.length > 10) {
             System.exit(0);
         }
-        int i = 1;
 
-        tile.setPolygon(new Path2D.Double());
-        tile.getPolygon().moveTo(vertices[0].getX(), vertices[0].getY());
+        int i = 0;
 
-        while (vertices[i].getX() != aTile.getX() && vertices[i].getY() != aTile.getY()) {
-            tile.getPolygon().lineTo(vertices[i].getX(), vertices[i].getY());
+        newTile.moveTo(vertices[0].getX(), vertices[0].getY());
+
+        if ( !(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY()) ) {
             i++;
         }
 
-        tile.getPolygon().lineTo(aTile.getX(), aTile.getY());
-        tile.getPolygon().lineTo(newVertice.x, newVertice.y);
-        tile.getPolygon().lineTo(bTile.getX(), bTile.getY());
-        i++;
-
-        while (i != vertices.length) {
-            tile.getPolygon().lineTo(vertices[i].getX(), vertices[i].getY());
+        while ( !(vertices[i].getX() == aTile.getX() && vertices[i].getY() == aTile.getY()) ) {
+            newTile.lineTo(vertices[i].getX(), vertices[i].getY());
             i++;
         }
-        tile.getPolygon().closePath();
+
+        if ( !(vertices[0].getX() == aTile.getX() && vertices[0].getY() == aTile.getY()) ) {
+            newTile.lineTo(aTile.getX(), aTile.getY());
+        }
+        newTile.lineTo(newVertice.x, newVertice.y);
+        newTile.lineTo(bTile.getX(), bTile.getY());
+        ++i;
+
+        if (i == vertices.length - 1) {
+            newTile.closePath();
+            tile.setPolygon(newTile);
+            return;
+        } else {
+            ++i;
+        }
+
+        while (i < vertices.length) {
+            newTile.lineTo(vertices[i].getX(), vertices[i].getY());
+            i++;
+        }
+
+        newTile.closePath();
+        tile.setPolygon(newTile);
     }
 
     public PatternGroup copy() {
