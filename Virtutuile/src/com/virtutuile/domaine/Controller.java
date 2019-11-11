@@ -66,16 +66,10 @@ public class Controller {
                 return;
             }
             Rectangle2D bounds = currentshape.getPolygon().getBounds2D();
-            System.out.println("bonds before");
-            System.out.println(bounds);
             Point oldShapePos = Constants.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
             point = coordToMagneticCoord(oldShapePos);
-            System.out.println("point");
-            System.out.println(point);
             currentshape.getPolygon().moveTo(point.x, point.y);
-            System.out.println("bonds after");
-            System.out.println(currentshape.getPolygon().getBounds());
-        }
+            }
     }
 
     public void mouseRClick(Point point) {
@@ -150,22 +144,8 @@ public class Controller {
         System.out.println(newCoord);
         return newCoord;
     }
+
+//    public Rectangle2D getHoveredSurfaceBounds() {
+//        return meta.getHoveredSurface().getPolygon().getBounds2D();
+//    }
 }
-
-//Quand click sur surface avec grille ON => encrer dans le coin le plus proche
-// et bouger par rapport a la souris
-// Point => pixel
-// Point2D.Double => cm
-
-//
-// if (meta.isGridActivated()) {
-//         Surface surface = meta.getSelectedSurface();
-//         if (surface == null) { return;}
-//         Rectangle2D bounds = surface.getPolygon().getBounds2D();
-//         Point oldShapePos = Constants.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
-//         Point newShapePos = coordToMagneticCoord(oldShapePos);
-//
-//         point.x += oldShapePos.x - newShapePos.x;
-//         point.y += oldShapePos.y - newShapePos.y;
-//         }
-//

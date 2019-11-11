@@ -1,7 +1,6 @@
 package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.Constants;
-import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.afficheur.swing.events.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
@@ -13,12 +12,12 @@ import java.awt.event.MouseWheelEvent;
 public class Canvas extends PanelEvents {
 
     private Controller controller;
-    private MainWindow mainWindow;
+    private BottomToolbar bottomToolbar;
 
-    public Canvas(Controller controller, MainWindow mainWindow) {
+    public Canvas(Controller controller, BottomToolbar bottomToolbar) {
         super();
         this.controller = controller;
-        this.mainWindow = mainWindow;
+        this.bottomToolbar = bottomToolbar;
 
         setFocusable(true);
         setOpaque(true);
@@ -50,6 +49,7 @@ public class Canvas extends PanelEvents {
 
         addMouseEventListener(MouseEventKind.MouseMove, (mouseEvent) -> {
             controller.mouseHover(mouseEvent.getPoint());
+//            bottomToolbar.setSurfaceBounds();
             repaint();
         });
 

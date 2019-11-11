@@ -13,12 +13,11 @@ public class BottomToolbar extends BorderedPanel {
 
     private Controller controller;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
-    private Canvas canvas;
+    //private hoveredSurface
 
-    public BottomToolbar(Controller controller, Canvas canvas) {
+    public BottomToolbar(Controller controller) {
         super();
         this.controller = controller;
-        this.canvas = canvas;
 
         sizingPolicy(SizingPolicy.ContentBox);
 
@@ -31,6 +30,12 @@ public class BottomToolbar extends BorderedPanel {
         });
         setEvent();
         add(Box.createHorizontalGlue());
+
+//        JLabel label = setUpLabel();
+//        if (label != null) {
+//            add(label);
+//            repaint();
+//        }
         add(Box.createVerticalGlue());
     }
 
@@ -47,8 +52,21 @@ public class BottomToolbar extends BorderedPanel {
         return buttons.get(name);
     }
 
+//    public void setSurfaceBounds() {
+//        controller.getHoveredSurfaceBounds();
+//    }
+
     public enum TargetButton {
         ShowBounds,
         MagneticGrid
     }
+
+//    private JLabel setUpLabel() {
+//        Surface hoveredSurface = controller.getHoveredSurface();
+//        if (hoveredSurface != null) {
+//            JLabel label = new JLabel("width", SwingConstants.CENTER);
+//            return label;
+//        }
+//        return null;
+//    }
 }
