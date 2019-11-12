@@ -177,7 +177,6 @@ public class SurfaceEditor {
 
     public void mouseLClick(Point2D point) {
         meta.setMousePressed(true);
-        meta.setClicked(point);
         if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
             builder = RectangularSurface.getBuilder();
             builder.placePoint(point);

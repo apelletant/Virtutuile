@@ -51,7 +51,7 @@ public class Controller {
     }
 
     public void mouseHover(Point point) {
-        meta.setHover(point);
+        meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseHover(meta.pointToPoints2D(point));
     }
 
@@ -59,13 +59,14 @@ public class Controller {
         if (meta.isGridActivated()) {
             point = coordToMagneticCoord(point);
         }
-        meta.setHover(point);
+        meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseRelease(meta.pointToPoints2D(point));
     }
 
     public void mouseLClick(Point point) {
         this.surfaceEditor.mouseLClick(meta.pointToPoints2D(point));
 
+        meta.setClicked(meta.pointToPoints2D(point));
         if (meta.isGridActivated()) {
             Surface currentshape = meta.getSelectedSurface();
             if (currentshape == null) {
@@ -88,8 +89,8 @@ public class Controller {
             point = coordToMagneticCoord(point);
             //System.out.println(point);
         }
-        meta.setHover(point);
         this.surfaceEditor.mouseDrag(meta.pointToPoints2D(point));
+        meta.setHover(meta.pointToPoints2D(point));
     }
 
     public void setDrawRectangularSurface(boolean doing) {

@@ -100,7 +100,7 @@ public class Meta {
         return hover;
     }
 
-    public void setHover(Point hover) {
+    public void setHover(Point2D hover) {
         this.hover = hover;
     }
 
