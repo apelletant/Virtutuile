@@ -181,10 +181,11 @@ public class SurfaceEditor {
             builder = RectangularSurface.getBuilder();
             builder.placePoint(point);
         } else {
-            if (meta.getSelectedSurface() != null
-                    && meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)) {
-                meta.setSelectedSurfaceCanBeResized(true);
-                System.out.println("eho coucou je suis dans tes bounds");
+            if (meta.getSelectedSurface() != null) {
+                if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point2D)) {
+                    meta.setSelectedSurfaceCanBeResized(true);
+                    System.out.println("eho coucou je suis dans tes bounds");
+                }
             } else {
                 System.out.println(point);
                 if (meta.getSelectedSurface() != null) {
