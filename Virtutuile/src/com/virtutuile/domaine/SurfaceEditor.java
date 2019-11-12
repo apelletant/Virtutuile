@@ -17,10 +17,6 @@ public class SurfaceEditor {
     private Meta meta;
     private SurfaceBuilder builder;
 
-    /*private HashMap<Meta.EditionAction, Consumer<Point2D>> _actions = new HashMap<>() {{
-        put(Meta.EditionAction.Idle, SurfaceEditor.this::selectShape);
-    }};*/
-
     public SurfaceEditor(Meta meta) {
         this.meta = meta;
         builder = null;
@@ -137,15 +133,30 @@ public class SurfaceEditor {
         Surface surface = getSurfaceAt(point2D);
         boolean outOfShape = false;
 
+        if (meta.getSelectedSurface() == null) {
+            meta.setSelectedSurfaceCanBeResized(false);
+        }
+
         if (surface == null) {
             outOfShape = true;
             surface = getShapeNear(point2D);
-            Point2D[] lineFromPoints = getLineFromShape(surface, point2D);
-
         }
         if (meta.getHoveredSurface() != null) {
             meta.getHoveredSurface().setMouseHover(false);
         }
+
+        /*if (meta.getSelectedSurface() != null) {
+            System.out.println(meta.getSelectedSurface().getBounds());
+            System.out.println(point2D.getX() + " " + point2D.getY());
+        }*/
+
+        if (meta.getSelectedSurface() != null
+                && meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point2D)
+                && !meta.getSelectedSurface().getPolygon().contains(point2D)) {
+            System.out.println("ouiiiiiii");
+            meta.setSelectedSurfaceCanBeResized(true);
+        }
+
 
         if (surface != null) {
             hoverShapeHandling(point2D, surface, outOfShape);
@@ -169,14 +180,25 @@ public class SurfaceEditor {
     }
 
     public void mouseLClick(Point point) {
-        meta.setClicked(point);
         Point2D point2D = Constants.pointToPoints2D(point);
+        meta.setClicked(point2D);
         meta.setMousePressed(true);
         if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
             builder = RectangularSurface.getBuilder();
             builder.placePoint(point2D);
+        } else {
+            if (meta.getSelectedSurface() != null
+                    && meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point2D)) {
+                meta.setSelectedSurfaceCanBeResized(true);
+                System.out.println("eho coucou je suis dans tes bounds");
+            } else {
+                System.out.println(point2D);
+                if (meta.getSelectedSurface() != null) {
+                    System.out.println(meta.getSelectedSurface().getBounds());
+                }
+                selectShape(point2D);
+            }
         }
-        selectShape(point2D);
     }
 
     public void mouseRClick(Point point) {
@@ -184,21 +206,26 @@ public class SurfaceEditor {
     }
 
     public void mouseDrag(Point point) {
+        Point2D point2D = Constants.pointToPoints2D(point);
         if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
-            builder.movePoint(point);
+            builder.movePoint(point2D);
         } else {
             if (meta.getSelectedSurface() != null) {
-                meta.getSelectedSurface().move(meta.getHover(), point);
+                meta.getSelectedSurface().move(meta.getHover(), point2D);
                 if (meta.getSelectedSurface().getPatternGroup() != null
                         && meta.getSelectedSurface().getPatternGroup().getTiles().size() > 0) {
                     meta.getSelectedSurface().getPatternGroup().getTiles().forEach((tile) -> {
-                        tile.move(meta.getHover(), point);
+                        tile.move(meta.getHover(), point2D);
                     });
+                }
+                if (meta.isSelectedSurfaceCanBeResized()) {
+                    Point2D ratio = calcResizeRatio(point2D);
+                    meta.getSelectedSurface().rescale(ratio.getX(), ratio.getY());
                 }
             } else if (meta.getHoveredSurface() != null) {
                 Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
                 Vector2D origin = Vector2D.from(meta.getHover());
-                Vector2D target = Vector2D.from(point);
+                Vector2D target = Vector2D.from(point2D);
 
 
                 meta.getHoveredSurface().rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
@@ -208,6 +235,10 @@ public class SurfaceEditor {
             }*/
         }
         meta.setHover(point);
+    }
+
+    private Point2D calcResizeRatio(Point2D newPosition) {
+        return new Point2D.Double(newPosition.getX()/meta.getClicked().getX(), newPosition.getY()/meta.getClicked().getY());
     }
 
     public void deleteSelectedShape() {

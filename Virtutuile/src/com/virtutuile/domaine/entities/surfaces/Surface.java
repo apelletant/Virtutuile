@@ -1,6 +1,5 @@
 package com.virtutuile.domaine.entities.surfaces;
 
-import com.virtutuile.afficheur.Constants;
 import com.virtutuile.domaine.entities.Grout;
 import com.virtutuile.domaine.entities.PatternGroup;
 import com.virtutuile.shared.Vector2D;
@@ -33,6 +32,7 @@ public class Surface extends PrimarySurface {
         subSurfaces = new Vector<>();
         grout = new Grout();
     }
+
 
     public Surface(Surface surface) {
         super(surface);

@@ -16,6 +16,7 @@ public abstract class PrimarySurface implements Serializable {
     protected Path2D.Double polygon;
     protected boolean isSelected;
     protected boolean isMouseHover;
+    protected Bounds bounds;
 
     protected Color borderColor;
     protected Color fillColor;
@@ -37,6 +38,16 @@ public abstract class PrimarySurface implements Serializable {
             }
         }
         polygon.closePath();
+        bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
+    }
+
+    public PrimarySurface(double x, double y, double width, double height) {
+        polygon = new Path2D.Double();
+        polygon.moveTo(x,y);
+        polygon.lineTo(x + width, height);
+        polygon.lineTo(x + width, y + height);
+        polygon.lineTo(x, y + height);
+        polygon.closePath();
     }
 
     public PrimarySurface(PrimarySurface surface) {
@@ -46,6 +57,7 @@ public abstract class PrimarySurface implements Serializable {
         isMouseHover = surface.isMouseHover;
         fillColor = new Color(surface.fillColor.getRGB());
         borderColor = new Color(surface.borderColor.getRGB());
+        bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);;
     }
 
     public PrimarySurface() {
@@ -55,6 +67,7 @@ public abstract class PrimarySurface implements Serializable {
         isMouseHover = false;
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
         borderColor = new Color(~fillColor.getRGB());
+        bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
     }
 
     public PrimarySurface(Path2D.Double polygon) {
@@ -64,6 +77,7 @@ public abstract class PrimarySurface implements Serializable {
         isMouseHover = false;
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
         borderColor = new Color(~fillColor.getRGB());
+        bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
     }
 
     public PrimarySurface(double[] pointsX, double[] pointsY) {
@@ -81,6 +95,7 @@ public abstract class PrimarySurface implements Serializable {
         id = UUID.randomUUID();
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
         borderColor = new Color(~fillColor.getRGB());
+        bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
     }
 
     public Point2D getCenter() {
@@ -239,6 +254,12 @@ public abstract class PrimarySurface implements Serializable {
         return false;
     }
 
+    public void rescale(double ratioX, double ratioY) {
+        AffineTransform transform = new AffineTransform();
+        transform.scale(ratioX, ratioY);
+        polygon.transform(transform);
+    }
+
     public void resize(double newWidth, double newHeight) {
         Rectangle2D.Double bounds = (Rectangle2D.Double) polygon.getBounds2D();
         double xRatio = newWidth / bounds.width;
@@ -265,5 +286,9 @@ public abstract class PrimarySurface implements Serializable {
 
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) polygon.getBounds2D();
+    }
+
+    public Bounds getBoundsAsSurface() {
+        return bounds;
     }
 }

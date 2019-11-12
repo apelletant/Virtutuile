@@ -7,6 +7,7 @@ import com.virtutuile.shared.UnorderedMap;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.UUID;
 
@@ -18,9 +19,10 @@ public class Meta {
 
     private Surface selectedSurface;
     private Surface hoveredSurface;
+    private boolean isSelectedSurfaceCanBeResized;
 
-    private Point clicked;
-    private Point hover;
+    private Point2D clicked;
+    private Point2D hover;
     private boolean mousePressed;
     private boolean isGridActivated;
     private Dimension canvasSize;
@@ -81,15 +83,15 @@ public class Meta {
         }
     }
 
-    public Point getClicked() {
+    public Point2D getClicked() {
         return clicked;
     }
 
-    public void setClicked(Point clicked) {
+    public void setClicked(Point2D clicked) {
         this.clicked = clicked;
     }
 
-    public Point getHover() {
+    public Point2D getHover() {
         return hover;
     }
 
@@ -127,6 +129,14 @@ public class Meta {
 
     public Dimension getCanvasSize() {
         return canvasSize;
+    }
+
+    public boolean isSelectedSurfaceCanBeResized() {
+        return isSelectedSurfaceCanBeResized;
+    }
+
+    public void setSelectedSurfaceCanBeResized(boolean selectedSurfaceCanBeResized) {
+        isSelectedSurfaceCanBeResized = selectedSurfaceCanBeResized;
     }
 
 
