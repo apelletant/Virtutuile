@@ -1,6 +1,5 @@
 package com.virtutuile.shared;
 
-import javafx.util.Pair;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

@@ -7,6 +7,7 @@ import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.domaine.Controller;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class Canvas extends PanelEvents {
@@ -55,8 +56,7 @@ public class Canvas extends PanelEvents {
 
         //TODO: zoom mouse event
         addMouseEventListener(MouseEventKind.MouseWheel, (mouseEvent) -> {
-            MouseWheelEvent event = (MouseWheelEvent) mouseEvent;
-            /*VApplicationStatus.VEditor.getInstance().incrementZoom(evt.getPreciseWheelRotation() * UIConstants.Editor.ZOOM_FACTOR);*/
+            controller.updateZoom(((MouseWheelEvent) mouseEvent).getPreciseWheelRotation(), mouseEvent.getPoint());
             repaint();
         });
     }
@@ -71,6 +71,7 @@ public class Canvas extends PanelEvents {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
+        controller.setCanvasSize(getWidth(), getHeight());
         this.controller.paint(graphics);
         controller.setCanvasSize(this.getSize());
     }

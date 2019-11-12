@@ -35,4 +35,8 @@ public class Constants {
 
     public static final Color DEFAULT_SHAPE_FILL_COLOR = new Color(255, 215, 171);
     public static final int DEFAULT_SHAPE_BORDER_THICKNESS = 2;
+
+    // At 100% zoom -> 1px equals to 10cm
+    public static final double NORMAL_ZOOM = 10d;
+    public static final double WHEEL_TICK_RATIO = 5d;
 }

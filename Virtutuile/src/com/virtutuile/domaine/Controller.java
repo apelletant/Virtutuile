@@ -1,12 +1,17 @@
 package com.virtutuile.domaine;
 
+import com.virtutuile.afficheur.Constants;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.Surface;
+import javafx.scene.transform.Affine;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
 import java.util.Vector;
 
 public class Controller {
@@ -45,19 +50,21 @@ public class Controller {
 
     }
 
-    public void mouseHover(Point point){
-       this.surfaceEditor.mouseHover(point);
+    public void mouseHover(Point point) {
+        meta.setHover(point);
+        this.surfaceEditor.mouseHover(meta.pointToPoints2D(point));
     }
 
     public void mouseRelease(Point point) {
         if (meta.isGridActivated()) {
             point = coordToMagneticCoord(point);
         }
-        this.surfaceEditor.mouseRelease(point);
+        meta.setHover(point);
+        this.surfaceEditor.mouseRelease(meta.pointToPoints2D(point));
     }
 
     public void mouseLClick(Point point) {
-        this.surfaceEditor.mouseLClick(point);
+        this.surfaceEditor.mouseLClick(meta.pointToPoints2D(point));
 
         if (meta.isGridActivated()) {
             Surface currentshape = meta.getSelectedSurface();
@@ -66,14 +73,14 @@ public class Controller {
                 return;
             }
             Rectangle2D bounds = currentshape.getPolygon().getBounds2D();
-            Point oldShapePos = Constants.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
+            Point oldShapePos = meta.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
             point = coordToMagneticCoord(oldShapePos);
             currentshape.getPolygon().moveTo(point.x, point.y);
             }
     }
 
     public void mouseRClick(Point point) {
-        this.surfaceEditor.mouseRClick(point);
+        this.surfaceEditor.mouseRClick(meta.pointToPoints2D(point));
     }
 
     public void mouseDrag(Point point) {
@@ -81,7 +88,8 @@ public class Controller {
             point = coordToMagneticCoord(point);
             //System.out.println(point);
         }
-        this.surfaceEditor.mouseDrag(point);
+        meta.setHover(point);
+        this.surfaceEditor.mouseDrag(meta.pointToPoints2D(point));
     }
 
     public void setDrawRectangularSurface(boolean doing) {
@@ -143,6 +151,14 @@ public class Controller {
 
         System.out.println(newCoord);
         return newCoord;
+    }
+
+    public void updateZoom(double preciseWheelRotation, Point point) {
+        meta.updateZoom(preciseWheelRotation, point);
+    }
+
+    public void setCanvasSize(int width, int height) {
+        meta.setCanvasSize(width, height);
     }
 
 //    public Rectangle2D getHoveredSurfaceBounds() {

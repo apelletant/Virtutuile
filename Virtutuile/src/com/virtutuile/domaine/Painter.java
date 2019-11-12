@@ -19,7 +19,7 @@ public class Painter {
 
     private Meta meta;
 
-    public Painter (Meta meta) {
+    public Painter(Meta meta) {
         this.meta = meta;
     }
 
@@ -46,28 +46,24 @@ public class Painter {
         if (surface == null)
             return;
 
+        int[][] polygonPoints = meta.points2DToRawPoints(surface.getVertices());
+        Polygon poly = new Polygon(polygonPoints[0], polygonPoints[1], polygonPoints[0].length);
+
         graphics2D.setColor(surface.fillColor());
-        fillPolygon(surface.getPolygonFromPath2D());
+        graphics2D.fillPolygon(poly.xpoints, poly.ypoints, poly.npoints);
+
         graphics2D.setColor(surface.getBorderColor());
-        paintPolygon(surface.getPolygonFromPath2D(), surface.getBorderThickness());
+        graphics2D.setStroke(new BasicStroke(surface.getBorderThickness()));
+        graphics2D.drawPolygon(poly.xpoints, poly.ypoints, poly.npoints);
+
         if (surface.isMouseHover() || surface.isSelected()) {
-            drawGizmos(surface);
+            drawBoundingBox(poly.getBounds());
+            drawHandles(poly.xpoints, poly.ypoints);
         }
-    }
-
-    public void fillPolygon(Polygon polygon) {
-        graphics2D.fillPolygon(polygon);
-    }
-
-    public void paintPolygon(Polygon polygon, int thickness) {
-        graphics2D.setStroke(new BasicStroke(thickness));
-        graphics2D.drawPolygon(polygon);
     }
 
     public void drawGizmos(PrimarySurface surface) {
-        if ((getGizmos() & GIZ_BOUNDS) != 0) {
-            drawBoundingBox(surface.getPolygon().getBounds());
-        }
+        drawBoundingBox(surface.getPolygon().getBounds());
         drawHandles(surface.getPolygonFromPath2D().xpoints, surface.getPolygonFromPath2D().ypoints);
     }
 
@@ -109,18 +105,18 @@ public class Painter {
 
     /**
      * Draw the bounding boxes like following :
-     * A--------------------B
-     * |                    |
-     * |                    |
-     * D--------------------C
+     *   A--------------------B
+     *   |                    |
+     *   |                    |
+     *   D--------------------C
      * <p>
      * Began
-     * |                    |
-     * -A--------------------B-
-     * |                    |
-     * |                    |
-     * -D--------------------C-
-     * |                    |
+     *   |                    |
+     * --A--------------------B--
+     *   |                    |
+     *   |                    |
+     * --D--------------------C--
+     *   |                    |
      *
      * @param box
      */

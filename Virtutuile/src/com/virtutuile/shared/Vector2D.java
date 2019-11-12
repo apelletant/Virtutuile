@@ -16,6 +16,11 @@ public class Vector2D {
         y = cpy.y;
     }
 
+    public Vector2D(Point2D point) {
+        x = point.getX();
+        y = point.getY();
+    }
+
     public Vector2D(Point a, Point b) {
         x = b.x - a.x;
         y = b.y - a.y;
@@ -345,6 +350,10 @@ public class Vector2D {
 
     public Vector2D copy() {
         return new Vector2D(this);
+    }
+
+    public Point2D.Double toPoint2D() {
+        return new Point2D.Double(x, y);
     }
 }
 

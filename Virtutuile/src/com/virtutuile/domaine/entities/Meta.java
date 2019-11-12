@@ -1,11 +1,14 @@
 package com.virtutuile.domaine.entities;
 
+import com.virtutuile.afficheur.Constants;
 import com.virtutuile.domaine.entities.surfaces.FreeSurface;
 import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.shared.UnorderedMap;
+import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -25,7 +28,10 @@ public class Meta {
     private Point2D hover;
     private boolean mousePressed;
     private boolean isGridActivated;
-    private Dimension canvasSize;
+    private Dimension canvasSize = new Dimension();
+
+    private double zoomFactor = Constants.NORMAL_ZOOM;
+    private Point2D.Double canvasPosition = new Point2D.Double();
 
     public Meta() {
         selectedSurface = null;
@@ -36,7 +42,6 @@ public class Meta {
         hover = null;
         mousePressed = false;
         isGridActivated = false;
-        canvasSize = null;
 
         Surface surface = new RectangularSurface(new Rectangle2D.Double(30, 30, 70, 70), false);
         Path2D.Double polygon = new Path2D.Double();
@@ -119,8 +124,13 @@ public class Meta {
         return isGridActivated;
     }
 
-    public void changeGridStatus () {
+    public void changeGridStatus() {
         isGridActivated = !isGridActivated;
+    }
+
+    public void setCanvasSize(int width, int height) {
+        canvasSize.width = width;
+        canvasSize.height = height;
     }
 
     public void setCanvasSize(Dimension size) {
@@ -139,6 +149,97 @@ public class Meta {
         isSelectedSurfaceCanBeResized = selectedSurfaceCanBeResized;
     }
 
+    //TODO: Développer la méthode
+    public Point2D pointToPoints2D(Point point) {
+        Vector2D ret = new Vector2D(point.x, point.y);
+        return ret.add(canvasPosition).multiply(zoomFactor).toPoint2D();
+    }
+
+    public Point point2DToPoint(Point2D coordinates) {
+        return new Vector2D(coordinates).divide(zoomFactor).subtract(canvasPosition).toPoint();
+    }
+
+    //TODO: Développer la méthode
+    public Point[] points2DToPoints(Point2D[] point2D) {
+        Point[] points = new Point[point2D.length];
+
+        for (int i = 0; i < point2D.length; ++i) {
+            points[i] = point2DToPoint(point2D[i]);
+        }
+        return points;
+    }
+
+    public int[][] points2DToRawPoints(Point2D[] point2D) {
+        int[][] ret = new int[2][point2D.length];
+
+        for (int i = 0; i < point2D.length; ++i) {
+            Point p = point2DToPoint(point2D[i]);
+            ret[0][i] = p.x;
+            ret[1][i] = p.y;
+        }
+        return ret;
+    }
+
+    public double pixelsToCentimeters(int pixels) {
+        return (double) pixels * zoomFactor;
+    }
+
+    public int centimetersToPixels(double centimeters) {
+        return (int) (centimeters / zoomFactor);
+    }
+
+    public Point2D.Double getCanvasPosition() {
+        return canvasPosition;
+    }
+
+    public Meta setCanvasPosition(double posX, double posY) {
+        return setCanvasPosition(new Point2D.Double(posX, posY));
+    }
+
+    public Meta setCanvasPosition(Point2D.Double canvasPosition) {
+        this.canvasPosition = canvasPosition;
+        return this;
+    }
+
+    public double getZoomFactor() {
+        return zoomFactor;
+    }
+
+    public Meta setZoomFactor(double zoomFactor) {
+        this.zoomFactor = zoomFactor;
+        return this;
+    }
+
+    public void updateZoom(double zoom, Point cursor) {
+        double oldWidth = pixelsToCentimeters(getCanvasSize().width);
+        double oldHeight = pixelsToCentimeters(getCanvasSize().height);
+        double newCanvasSize = pixelsToCentimeters((int) ((double) getCanvasSize().width - (zoom * Constants.WHEEL_TICK_RATIO)));
+        double zoomFactor = (newCanvasSize / oldWidth);
+        Point2D.Double pos = getCanvasPosition();
+        if (zoomFactor == 1) {
+            return;
+        }
+
+        Path2D.Double rect = new Path2D.Double();
+
+        rect.moveTo(pos.x, pos.y);
+        rect.lineTo(pos.x + oldWidth, pos.y);
+        rect.lineTo(pos.x + oldWidth, pos.y + oldHeight);
+        rect.lineTo(pos.x, pos.y + oldHeight);
+        rect.closePath();
+
+        cursor.x -= getCanvasSize().width / 4;
+        cursor.y -= getCanvasSize().height / 4;
+
+        AffineTransform at = new AffineTransform();
+        at.translate(cursor.x, cursor.y);
+        at.scale(zoomFactor, zoomFactor);
+        at.translate(-cursor.x, -cursor.y);
+        rect.transform(at);
+
+        setCanvasPosition(rect.getBounds2D().getX(), rect.getBounds2D().getY());
+        setZoomFactor(getZoomFactor() * zoomFactor);
+    }
 
     public enum EditionAction {
         Idle,
