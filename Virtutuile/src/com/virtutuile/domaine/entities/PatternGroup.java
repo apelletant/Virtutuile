@@ -111,9 +111,9 @@ public class PatternGroup {
         int verticesSurfaceIterator = 0;
         int verticesTileIterator = 0;
 
-        System.out.println("   ");
+        /*System.out.println("   ");
         System.out.println("New tile");
-
+*/
         while (verticesSurfaceIterator < groutedSurfaceVertices.length) {
             aSurface = groutedSurfaceVertices[verticesSurfaceIterator];
             if (verticesSurfaceIterator == groutedSurface.getVertices().length - 1) {
@@ -121,7 +121,7 @@ public class PatternGroup {
             } else {
                 bSurface = groutedSurfaceVertices[verticesSurfaceIterator + 1];
             }
-            System.out.println("Surface Line: " + aSurface.getX() + ", " + aSurface.getY() + " - " + bSurface.getX() + ", " + bSurface.getY());
+            /*System.out.println("Surface Line: " + aSurface.getX() + ", " + aSurface.getY() + " - " + bSurface.getX() + ", " + bSurface.getY());*/
             while (verticesTileIterator < tile.getVertices().length) {
                 aTile = tileVertices[verticesTileIterator];
                 if (verticesTileIterator == tile.getVertices().length - 1) {
@@ -129,7 +129,7 @@ public class PatternGroup {
                 } else {
                     bTile = tileVertices[verticesTileIterator + 1];
                 }
-                System.out.println("Tile Line: " + aTile.getX() + ", " + aTile.getY() + " - " + bTile.getX() + ", " + bTile.getY());
+                /*System.out.println("Tile Line: " + aTile.getX() + ", " + aTile.getY() + " - " + bTile.getX() + ", " + bTile.getY());*/
                 CustomPoint intersection = Intersection.intersectionPoint(
                         new Vecteur(
                                 new CustomPoint(aTile.getX(), aTile.getY()),
@@ -138,15 +138,15 @@ public class PatternGroup {
                                 new CustomPoint(aSurface.getX(), aSurface.getY()),
                                 new CustomPoint(bSurface.getX(), bSurface.getY())));
                 if (intersection != null) {
-                    System.out.println("Intersection: " + intersection.x + ", " + intersection.y);
+                    /*System.out.println("Intersection: " + intersection.x + ", " + intersection.y);
                     System.out.println("if ((intersection.x " + intersection.x + " != aTile.x " + aTile.getX() + " || intersection.y " + intersection.y + " != aTile.y " + aTile.getY()
                     + ") && ( intersection.x " + intersection.x + " != bTile.x " + bTile.getX() + " || intersection.y " + intersection.y + " != bTile.y " + bTile.getY() + ")");
-                    System.out.println(" ");
+                    System.out.println(" ");*/
                 }
                 if (intersection != null
                         && (intersection.x != aTile.getX() || intersection.y != aTile.getY())
                         && (intersection.x != bTile.getX() || intersection.y != bTile.getY())) {
-                    System.out.println("test passed");
+
                     tile.setFillColor(Color.RED);
                     addNewVertexOnTile(tile, aTile, bTile, intersection);
                     tileVertices = tile.getVertices();

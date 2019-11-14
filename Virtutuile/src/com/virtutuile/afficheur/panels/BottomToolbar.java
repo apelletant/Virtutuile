@@ -1,6 +1,6 @@
 package com.virtutuile.afficheur.panels;
 
-import com.virtutuile.afficheur.Button;
+import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.BorderedPanel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;

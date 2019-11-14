@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.panels.subEdition.GroutPanel;
 import com.virtutuile.afficheur.panels.subEdition.PatternPanel;
 import com.virtutuile.afficheur.panels.subEdition.ShapePanel;
 import com.virtutuile.afficheur.panels.subEdition.SubPanel;
@@ -28,12 +29,13 @@ public class EditionPanel extends PanelEvents {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         subPanels = new UnorderedMap<>() {{
-           add(new ShapePanel("Shape", controller), PanelType.Shape);
+           add(new ShapePanel("Surface", controller), PanelType.Surface);
            add(new PatternPanel("Pattern", controller), PanelType.Pattern);
+           add(new GroutPanel("Grout", controller), PanelType.Grout);
         }};
 
         activePanels = new Vector<>();
-        activePanels.add(subPanels.get(PanelType.Shape));
+        activePanels.add(subPanels.get(PanelType.Surface));
     }
 
     //TODO: Développer la méthode en fonction d'une variable qui sera renvoyé par qlq d'autre
@@ -42,8 +44,9 @@ public class EditionPanel extends PanelEvents {
     }
 
     enum PanelType {
-        Shape,
+        Surface,
         Pattern,
+        Grout,
     }
 
 }

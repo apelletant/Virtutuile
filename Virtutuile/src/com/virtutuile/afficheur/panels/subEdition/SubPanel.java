@@ -41,4 +41,5 @@ public abstract class SubPanel extends PanelEvents {
 
     protected abstract void setEvents();
 
+    protected abstract void setButtonsOnPanel();
 }

@@ -1,6 +1,6 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
-import com.virtutuile.afficheur.Button;
+import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
@@ -8,7 +8,6 @@ import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
-import java.util.Vector;
 
 public class PatternPanel extends SubPanel {
 

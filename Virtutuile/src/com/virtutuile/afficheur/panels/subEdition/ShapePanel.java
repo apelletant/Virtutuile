@@ -1,6 +1,6 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
-import com.virtutuile.afficheur.Button;
+import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
@@ -16,7 +16,7 @@ public class ShapePanel extends SubPanel {
 
     public ShapePanel(String name, Controller controller) {
         super(name, controller);
-        setButtonsOnDrawShape();
+        setButtonsOnPanel();
         persistLayout();
         setEvents();
     }
@@ -36,7 +36,7 @@ public class ShapePanel extends SubPanel {
         });
     }
 
-    private void setButtonsOnDrawShape() {
+    protected void setButtonsOnPanel() {
         JPanel line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setDrawShapesButtons(line);

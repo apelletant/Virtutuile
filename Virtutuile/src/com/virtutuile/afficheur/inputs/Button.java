@@ -1,5 +1,6 @@
-package com.virtutuile.afficheur;
+package com.virtutuile.afficheur.inputs;
 
+import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.swing.BorderedEventPanel;
 import com.virtutuile.afficheur.tools.ImageManipulator;
 

@@ -182,7 +182,7 @@ public class SurfaceEditor {
             builder.placePoint(point);
         } else {
             if (meta.getSelectedSurface() != null) {
-                if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point2D)) {
+                if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)) {
                     meta.setSelectedSurfaceCanBeResized(true);
                     System.out.println("eho coucou je suis dans tes bounds");
                 }
