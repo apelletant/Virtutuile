@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.inputs.Button;
+import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
@@ -9,12 +10,13 @@ import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
 
-public class ShapePanel extends SubPanel {
+public class SurfacePanel extends SubPanel {
 
     private UnorderedMap<DrawShapeButtonType, Button> addSurface = new UnorderedMap<>();
     private UnorderedMap<DrawShapeButtonType, Button> removeSurface = new UnorderedMap<>();
+    private UnorderedMap<InputContextType, UnitInput> inputs = new UnorderedMap<>();
 
-    public ShapePanel(String name, Controller controller) {
+    public SurfacePanel(String name, Controller controller) {
         super(name, controller);
         setButtonsOnPanel();
         persistLayout();
@@ -44,6 +46,10 @@ public class ShapePanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setRemoveShapesButtons(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setInputsOnPanel(line);
     }
 
     private void setDrawShapesButtons(JPanel line) {
@@ -67,10 +73,26 @@ public class ShapePanel extends SubPanel {
         rows.add(line);
     }
 
+    private void setInputsOnPanel(JPanel line) {
+        inputs.put(InputContextType.Width, new UnitInput("Width"));
+        inputs.put(InputContextType.Height, new UnitInput("Height"));
+
+        inputs.forEach((key, value) -> {
+            line.add(value);
+        });
+
+        rows.add(line);
+    }
+
     public enum DrawShapeButtonType {
         AddRectangularSurface,
         AddFreeSurface,
         RemoveRectangularSurface,
         RemoveFreeSurface,
+    }
+
+    public enum InputContextType {
+        Width,
+        Height
     }
 }

@@ -3,7 +3,7 @@ package com.virtutuile.afficheur.panels;
 import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.panels.subEdition.GroutPanel;
 import com.virtutuile.afficheur.panels.subEdition.PatternPanel;
-import com.virtutuile.afficheur.panels.subEdition.ShapePanel;
+import com.virtutuile.afficheur.panels.subEdition.SurfacePanel;
 import com.virtutuile.afficheur.panels.subEdition.SubPanel;
 import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.domaine.Controller;
@@ -29,7 +29,7 @@ public class EditionPanel extends PanelEvents {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         subPanels = new UnorderedMap<>() {{
-           add(new ShapePanel("Surface", controller), PanelType.Surface);
+           add(new SurfacePanel("Surface", controller), PanelType.Surface);
            add(new PatternPanel("Pattern", controller), PanelType.Pattern);
            add(new GroutPanel("Grout", controller), PanelType.Grout);
         }};
