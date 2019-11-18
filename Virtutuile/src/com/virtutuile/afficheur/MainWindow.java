@@ -27,7 +27,6 @@ public class MainWindow extends JFrame {
         setUpWindow();
         setUpContainer();
         setVisible(true);
-
     }
 
     private void setUpWindow() {
@@ -44,8 +43,8 @@ public class MainWindow extends JFrame {
         container.setBackground(new Color(39, 39, 39));
 
         container.add(toolBar, BorderLayout.NORTH);
-        container.add(canvas);
         container.add(BorderLayout.EAST, new JScrollPane(editionPanel));
+        container.add(canvas);
         container.add(bottomToolbar, BorderLayout.SOUTH);
     }
 

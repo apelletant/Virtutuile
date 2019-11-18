@@ -9,6 +9,7 @@ import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class SurfacePanel extends SubPanel {
 
