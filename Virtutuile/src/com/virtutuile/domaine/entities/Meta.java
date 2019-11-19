@@ -33,6 +33,8 @@ public class Meta {
     private double zoomFactor = Constants.NORMAL_ZOOM;
     private Point2D.Double canvasPosition = new Point2D.Double();
 
+    private int gridSize = 10;
+
     public Meta() {
         selectedSurface = null;
         hoveredSurface = null;
@@ -257,6 +259,14 @@ public class Meta {
         } else {
             return null;
         }
+    }
+
+    public int getGridSize() {
+        return gridSize;
+    }
+
+    public void setGridSize(int gridSize) {
+        this.gridSize = gridSize;
     }
 
     public enum EditionAction {

@@ -1,17 +1,12 @@
 package com.virtutuile.domaine;
 
-import com.virtutuile.afficheur.Constants;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.Surface;
-import javafx.scene.transform.Affine;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.util.Vector;
 
 public class Controller {
@@ -173,4 +168,12 @@ public class Controller {
 //    public Rectangle2D getHoveredSurfaceBounds() {
 //        return meta.getHoveredSurface().getPolygon().getBounds2D();
 //    }
+
+    public int getGridSize() {
+        return meta.getGridSize();
+    }
+
+    public void setGridSize(int gridSize) {
+        meta.setGridSize(gridSize);
+    }
 }

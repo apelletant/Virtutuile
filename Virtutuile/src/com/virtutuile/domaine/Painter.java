@@ -95,7 +95,10 @@ public class Painter {
             for (int j = 0; j <= canvasDim.height; j++) {
                 //TODO Modify to use zoom
                 // zoomSize / 2 to get 4 squares by zoom level
-                if (i % 25 == 0 && j % 25 == 0) {
+                if (i % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0
+                    && j % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0)
+                {
+                    System.out.println(meta.pixelsToCentimeters(meta.getGridSize()));
                     graphics2D.drawLine(i, j, i, canvasDim.width);
                     graphics2D.drawLine(canvasDim.height, j, i, j);
                 }
