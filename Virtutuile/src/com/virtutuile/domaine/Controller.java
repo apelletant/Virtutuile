@@ -77,7 +77,7 @@ public class Controller {
             Point oldShapePos = meta.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
             point = coordToMagneticCoord(oldShapePos);
             currentshape.getPolygon().moveTo(point.x, point.y);
-            }
+        }
     }
 
     public void mouseRClick(Point point) {
@@ -160,6 +160,14 @@ public class Controller {
 
     public void setCanvasSize(int width, int height) {
         meta.setCanvasSize(width, height);
+    }
+
+    public Double[] getSelectedSurfaceDimensions() {
+        return meta.getSelectedSurfaceDimensions();
+    }
+
+    public Double getSurfaceThickness() {
+        return meta.getSelectedSurfaceGroutThickness();
     }
 
 //    public Rectangle2D getHoveredSurfaceBounds() {

@@ -7,18 +7,19 @@ import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.domaine.Controller;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class Canvas extends PanelEvents {
 
     private Controller controller;
     private BottomToolbar bottomToolbar;
+    private EditionPanel editionPanel;
 
-    public Canvas(Controller controller, BottomToolbar bottomToolbar) {
+    public Canvas(Controller controller, BottomToolbar bottomToolbar, EditionPanel editionPanel) {
         super();
         this.controller = controller;
         this.bottomToolbar = bottomToolbar;
+        this.editionPanel = editionPanel;
 
         setFocusable(true);
         setOpaque(true);
@@ -36,6 +37,8 @@ public class Canvas extends PanelEvents {
         addMouseEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
             requestFocusInWindow();
             controller.mouseLClick(mouseEvent.getPoint());
+            editionPanel.surfaceGetSurfaceDimensions();
+            editionPanel.surfaceGetGroutThickness();
             repaint();
         });
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {

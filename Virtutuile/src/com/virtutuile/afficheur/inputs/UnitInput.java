@@ -31,7 +31,7 @@ public class UnitInput extends TextInput {
     @Override
     protected void validateInput(DocumentEvent documentEvent) {
         try {
-            isNumber(field.getText());
+            isDouble(field.getText());
             setValid(true);
             errorLabel.setText(" ");
         } catch (ValidationsException except) {
@@ -65,6 +65,15 @@ public class UnitInput extends TextInput {
     public static final boolean isNumber(String test) throws ValidationsException {
         try {
             Integer.parseInt(test);
+        } catch (NumberFormatException except) {
+            throw new ValidationsException("Bad number format");
+        }
+        return true;
+    }
+
+    public static final boolean isDouble(String test) throws ValidationsException {
+        try {
+            Double.parseDouble(test);
         } catch (NumberFormatException except) {
             throw new ValidationsException("Bad number format");
         }

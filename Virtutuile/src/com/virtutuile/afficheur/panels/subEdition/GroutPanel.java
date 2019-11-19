@@ -4,6 +4,7 @@ import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.domaine.Controller;
+import com.virtutuile.domaine.entities.Grout;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -49,12 +50,12 @@ public class GroutPanel extends SubPanel{
 
     }
 
-    private void setColorPickerOnPanel(JPanel line) {
+    public void retrieveGroutThickness() {
+        Double thickness =  controller.getSurfaceThickness();
 
-    }
-
-    private void setThicknessInputOnPanel(JPanel line) {
-
+        if (thickness != null) {
+            this.thickness.setText(thickness.toString());
+        }
     }
 
     enum GroutButtonType {

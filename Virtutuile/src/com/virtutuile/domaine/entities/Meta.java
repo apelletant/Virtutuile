@@ -241,6 +241,24 @@ public class Meta {
         setZoomFactor(getZoomFactor() * zoomFactor);
     }
 
+    public Double[] getSelectedSurfaceDimensions() {
+        if (selectedSurface != null) {
+            Double[] dimensions = new Double[2];
+            dimensions[0] = selectedSurface.getBounds().width;
+            dimensions[1] = selectedSurface.getBounds().height;
+            return dimensions;
+        }
+        return null;
+    }
+
+    public Double getSelectedSurfaceGroutThickness() {
+        if (selectedSurface != null) {
+            return selectedSurface.getGrout().getThickness();
+        } else {
+            return null;
+        }
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,

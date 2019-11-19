@@ -20,13 +20,16 @@ public class EditionPanel extends PanelEvents {
 
     public EditionPanel(Controller controller) {
         super();
-
         subPanels = new UnorderedMap<>() {{
-            add(new SurfacePanel("Surface", controller), PanelType.Surface);
-            add(new GroutPanel("Grout", controller), PanelType.Grout);
-            add(new TilePanel("Tile", controller), PanelType.Tile);
-            add(new PatternPanel(   "Pattern", controller), PanelType.Pattern);
+            put(PanelType.Surface, new SurfacePanel("Surface", controller));
+            put(PanelType.Grout, new GroutPanel("Grout", controller));
+            put(PanelType.Tile, new TilePanel("Tile", controller));
+            put(PanelType.Pattern, new PatternPanel("Pattern", controller));
         }};
+        System.out.println("size ok: " + subPanels.size());
+        subPanels.forEach((key, value) -> {
+            add(value, key);
+        });
 
         setOpaque(true);
         setName("Edition Panel");
@@ -36,17 +39,41 @@ public class EditionPanel extends PanelEvents {
         setPreferredSize(new Dimension(600, 1080));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        /*
-        activePanels.add(subPanels.get(PanelType.Surface));
+        /*activePanels.add(subPanels.get(PanelType.Surface));
         activePanels = new Vector<>();*/
+    }
+
+    public void surfaceGetSurfaceDimensions() {
+        SurfacePanel surface = (SurfacePanel) subPanels.get(PanelType.Surface);
+        if (surface != null) {
+            surface.retrieveSurfaceDimensions();
+        }
+    }
+
+    public void surfaceGetGroutThickness() {
+        GroutPanel grout = (GroutPanel) subPanels.get(PanelType.Grout);
+        if (grout != null) {
+            grout.retrieveGroutThickness();
+        }
+    }
+
+    public void persistPanels() {
+        subPanels.forEach((key, value) -> {
+            if (activePanels.contains(key)) {
+                if (!activePanels.contains(key)) {
+                    add(value);
+                }
+            } else {
+                remove(value);
+            }
+        });
     }
 
     enum PanelType {
         Surface,
         Pattern,
         Grout,
-        Tile,
-        Test
+        Tile
     }
 
 }

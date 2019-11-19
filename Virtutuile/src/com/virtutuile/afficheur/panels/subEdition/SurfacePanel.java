@@ -10,6 +10,7 @@ import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 public class SurfacePanel extends SubPanel {
 
@@ -37,6 +38,8 @@ public class SurfacePanel extends SubPanel {
                 addRectangularSurface.setActive(true);
             }
         });
+
+
     }
 
     protected void setButtonsOnPanel() {
@@ -83,6 +86,14 @@ public class SurfacePanel extends SubPanel {
         });
 
         rows.add(line);
+    }
+
+    public void retrieveSurfaceDimensions() {
+        Double[] selectedSurfaceDimensions = controller.getSelectedSurfaceDimensions();
+        if (selectedSurfaceDimensions != null) {
+            inputs.get(InputContextType.Width).setText(selectedSurfaceDimensions[0].toString());
+            inputs.get(InputContextType.Height).setText(selectedSurfaceDimensions[1].toString());
+        }
     }
 
     public enum DrawShapeButtonType {
