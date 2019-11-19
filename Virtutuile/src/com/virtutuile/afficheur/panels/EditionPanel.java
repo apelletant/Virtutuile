@@ -23,7 +23,7 @@ public class EditionPanel extends PanelEvents {
         subPanels = new UnorderedMap<>() {{
             put(PanelType.Surface, new SurfacePanel("Surface", controller));
             put(PanelType.Grout, new GroutPanel("Grout", controller));
-            put(PanelType.Tile, new TilePanel("Tile", controller));
+            /*put(PanelType.Tile, new TilePanel("Tile", controller));*/
             put(PanelType.Pattern, new PatternPanel("Pattern", controller));
         }};
         System.out.println("size ok: " + subPanels.size());
