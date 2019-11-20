@@ -1,5 +1,6 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
@@ -14,11 +15,11 @@ public class PatternPanel extends SubPanel {
     private UnorderedMap<String, Button> patterns = new UnorderedMap<>();
     private UnorderedMap<String, Button> options = new UnorderedMap<>();
 
-    public PatternPanel(String name, Controller controller) {
-        super(name, controller);
-        this.setButtonsOnPanel();
-        this.setEvents();
-        this.persistLayout();
+    public PatternPanel(String name, MainWindow mainWindow) {
+        super(name, mainWindow);
+        setButtonsOnPanel();
+        setEvents();
+        persistLayout();
     }
 
     public void setButtonsOnPanel() {
@@ -57,7 +58,7 @@ public class PatternPanel extends SubPanel {
         Button classic = patterns.get("Classic");
 
         classic.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
-            controller.applyPattern("Classic");
+            mainWindow.getController().applyPattern("Classic");
             revalidate();
             repaint();
         });

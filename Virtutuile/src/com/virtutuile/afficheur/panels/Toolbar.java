@@ -14,17 +14,13 @@ import java.awt.*;
 public class Toolbar extends BorderedPanel {
 
     private MainWindow mainWindow;
-    private EditionPanel editionPanel;
-    private Controller controller;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
 
     /**
      * VTopToolbar constructor
      */
-    public Toolbar(Controller controller, EditionPanel editionPanel, MainWindow mainWindow) {
+    public Toolbar(MainWindow mainWindow) {
         super();
-        this.controller = controller;
-        this.editionPanel = editionPanel;
         this.mainWindow = mainWindow;
         setName("Toolbar");
         setBackground(new Color(66, 66, 66));
@@ -42,12 +38,12 @@ public class Toolbar extends BorderedPanel {
         edition.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             if (edition.isActive()) {
                 edition.setActive(false);
-                editionPanel.removeAllSurfacePanels();
+                mainWindow.getEditionPanel().removeAllSurfacePanels();
             } else {
                 edition.setActive(true);
                 tileSettings.setActive(false);
-                editionPanel.removeTileSettingsPanel();
-                editionPanel.addAllPanels();
+                mainWindow.getEditionPanel().removeTileSettingsPanel();
+                mainWindow.getEditionPanel().addAllPanels();
             }
             mainWindow.revalidate();
             mainWindow.repaint();
@@ -56,12 +52,12 @@ public class Toolbar extends BorderedPanel {
         tileSettings.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             if (tileSettings.isActive()) {
                 tileSettings.setActive(false);
-                editionPanel.removeTileSettingsPanel();
+                mainWindow.getEditionPanel().removeTileSettingsPanel();
             } else {
                 tileSettings.setActive(true);
                 edition.setActive(false);
-                editionPanel.removeAllSurfacePanels();
-                editionPanel.addTileSettingsPanel();
+                mainWindow.getEditionPanel().removeAllSurfacePanels();
+                mainWindow.getEditionPanel().addTileSettingsPanel();
             }
             mainWindow.revalidate();
             mainWindow.repaint();

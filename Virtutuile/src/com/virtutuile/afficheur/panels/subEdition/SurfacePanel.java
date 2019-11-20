@@ -1,5 +1,6 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.inputs.UnitInput;
@@ -20,8 +21,8 @@ public class SurfacePanel extends SubPanel {
     private UnorderedMap<DrawShapeButtonType, Button> removeSurface = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> inputs = new UnorderedMap<>();
 
-    public SurfacePanel(String name, Controller controller) {
-        super(name, controller);
+    public SurfacePanel(String name, MainWindow mainWindow) {
+        super(name, mainWindow);
         setButtonsOnPanel();
         persistLayout();
         setEvents();
@@ -33,22 +34,22 @@ public class SurfacePanel extends SubPanel {
 
         addRectangularSurface.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             if (addRectangularSurface.isActive()) {
-                controller.setDrawRectangularSurface(false);
+                mainWindow.getController().setDrawRectangularSurface(false);
                 addRectangularSurface.setActive(false);
             } else {
-                controller.setDrawRectangularSurface(true);
+                mainWindow.getController().setDrawRectangularSurface(true);
                 addRectangularSurface.setActive(true);
             }
         });
 
         inputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
-            controller.setSurfaceWidth(Double.parseDouble(value));
-            System.out.println("change w");
+            mainWindow.getController().setSurfaceWidth(Double.parseDouble(value));
+            mainWindow.repaint();
         });
 
         inputs.get(InputContextType.Height).addInputListener(InputEventKind.OnChange, (value, self) -> {
-            controller.setSurfaceHeight(Double.parseDouble(value));
-            System.out.println("change h");
+            mainWindow.getController().setSurfaceHeight(Double.parseDouble(value));
+            mainWindow.repaint();
         });
 
     }
@@ -100,7 +101,7 @@ public class SurfacePanel extends SubPanel {
     }
 
     public void retrieveSurfaceDimensions() {
-        Double[] selectedSurfaceDimensions = controller.getSelectedSurfaceDimensions();
+        Double[] selectedSurfaceDimensions = mainWindow.getController().getSelectedSurfaceDimensions();
         if (selectedSurfaceDimensions != null) {
             inputs.get(InputContextType.Width).setText(selectedSurfaceDimensions[0].toString());
             inputs.get(InputContextType.Height).setText(selectedSurfaceDimensions[1].toString());

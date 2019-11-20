@@ -19,10 +19,10 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         controller = new Controller();
-        editionPanel = new EditionPanel(controller);
-        bottomToolbar = new BottomToolbar(controller);
-        canvas = new Canvas(controller, bottomToolbar, editionPanel);
-        toolBar = new Toolbar(controller, editionPanel, this);
+        editionPanel = new EditionPanel(this);
+        bottomToolbar = new BottomToolbar(this);
+        canvas = new Canvas(this);
+        toolBar = new Toolbar(this);
 
         controller.setBottomToolbar(bottomToolbar);
         setUpWindow();
@@ -51,5 +51,21 @@ public class MainWindow extends JFrame {
 
     public Controller getController() {
         return controller;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public EditionPanel getEditionPanel() {
+        return editionPanel;
+    }
+
+    public Toolbar getToolBar() {
+        return toolBar;
+    }
+
+    public BottomToolbar getBottomToolbar() {
+        return bottomToolbar;
     }
 }

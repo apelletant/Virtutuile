@@ -1,5 +1,6 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
@@ -14,8 +15,8 @@ public class TileSettingsPanel extends SubPanel {
     private UnitInput height;
     private JColorChooser colorPicker;
 
-    public TileSettingsPanel(String name, Controller controller) {
-        super(name, controller);
+    public TileSettingsPanel(String name, MainWindow mainWindow) {
+        super(name, mainWindow);
         setButtonsOnPanel();
         setEvents();
     }

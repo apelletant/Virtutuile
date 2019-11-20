@@ -1,5 +1,6 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
@@ -18,8 +19,8 @@ public class TilePanel extends SubPanel {
     private UnitInput height = null;
     private UnorderedMap<String, Button> tilesType = new UnorderedMap<>();
 
-    public TilePanel(String name, Controller controller) {
-        super(name, controller);
+    public TilePanel(String name, MainWindow mainWindow) {
+        super(name, mainWindow);
         this.setButtonsOnPanel();
         this.setEvents();
         this.persistLayout();

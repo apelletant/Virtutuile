@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.BorderedPanel;
@@ -18,14 +19,14 @@ import java.awt.*;
 
 public class BottomToolbar extends BorderedPanel {
 
-    private Controller controller;
+    private MainWindow mainWindow;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
     private UnitInput[] hoveredSurfaceDim = new UnitInput[2];
 
 
-    public BottomToolbar(Controller controller) {
+    public BottomToolbar(MainWindow mainWindow) {
         super();
-        this.controller = controller;
+        this.mainWindow = mainWindow;
 
         sizingPolicy(SizingPolicy.ContentBox);
 
@@ -54,10 +55,10 @@ public class BottomToolbar extends BorderedPanel {
 
     public void setHoveredSurfaceDimension(Double[] dimensions) {
         if (dimensions[0] != null && dimensions[0] != null) {
-            System.out.println("**********");
+/*            System.out.println("**********");
             System.out.println(dimensions[0]);
             System.out.println(dimensions[1]);
-            System.out.println("**********");
+            System.out.println("**********");*/
 //            this.hoveredSurfaceDim[0] = dimensions[0];
 //            this.hoveredSurfaceDim[1] = dimensions[1];
         }
@@ -66,7 +67,7 @@ public class BottomToolbar extends BorderedPanel {
         Button buttonMG = buttons.get(TargetButton.MagneticGrid);
 
         buttonMG.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
-            controller.drawGrid();
+            mainWindow.getController().drawGrid();
             repaint();
         });
     }
@@ -76,7 +77,7 @@ public class BottomToolbar extends BorderedPanel {
     }
 
     public void setSurfaceBounds() {
-        Double[] dim = controller.getHoveredSurfaceDimesions();
+        Double[] dim = mainWindow.getController().getHoveredSurfaceDimesions();
 //        this.hoveredSurfaceDim[0] = dim[0];
 //        this.hoveredSurfaceDim[1] = dim[1];
     }
@@ -101,7 +102,7 @@ public class BottomToolbar extends BorderedPanel {
 
     private Panel setUpGridPanel() {
         UnitInput gridSizeValue = new UnitInput("Grid size");
-        gridSizeValue.setValue(controller.getGridSize());
+        gridSizeValue.setValue(mainWindow.getController().getGridSize());
 
         Panel gridSizePanel = new Panel();
 
@@ -135,8 +136,8 @@ public class BottomToolbar extends BorderedPanel {
         surfaceHeight.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
 
         if (hoveredSurfaceDim[0] != null && hoveredSurfaceDim[1] != null) {
-            System.out.println(hoveredSurfaceDim[0]);
-            System.out.println(hoveredSurfaceDim[1]);
+            /*System.out.println(hoveredSurfaceDim[0]);
+            System.out.println(hoveredSurfaceDim[1]);*/
 
 //            surfaceWidth.setValue(hoveredSurfaceDim[0]);
 //            surfaceHeight.setValue(hoveredSurfaceDim[1]);

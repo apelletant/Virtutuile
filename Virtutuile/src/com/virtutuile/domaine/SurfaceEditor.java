@@ -170,8 +170,8 @@ public class SurfaceEditor {
             Surface surface = builder.getSurface();
             meta.getSurfaces().put(surface.getId(), surface);
             builder = null;
-            System.out.println("Surface Origin : {" + surface.getVertices()[0].getX() + ", " + surface.getVertices()[0].getY());
-            System.out.println("Surface Dimensions : Width: " + surface.getPolygon().getBounds2D().getWidth() + ", Height: " + surface.getPolygon().getBounds2D().getHeight());
+            /*System.out.println("Surface Origin : {" + surface.getVertices()[0].getX() + ", " + surface.getVertices()[0].getY());
+            System.out.println("Surface Dimensions : Width: " + surface.getPolygon().getBounds2D().getWidth() + ", Height: " + surface.getPolygon().getBounds2D().getHeight());*/
         }
         mouseHover(point);
     }

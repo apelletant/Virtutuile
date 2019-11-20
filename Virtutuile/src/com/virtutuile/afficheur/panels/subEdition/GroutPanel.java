@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.domaine.Controller;
@@ -15,11 +16,11 @@ public class GroutPanel extends SubPanel{
     private JColorChooser colorPicker = null;
     private UnitInput thickness = null;
 
-    public GroutPanel(String name, Controller controller) {
-        super(name, controller);
-        this.setButtonsOnPanel();
-        this.setEvents();
-        this.persistLayout();
+    public GroutPanel(String name, MainWindow mainWindow) {
+        super(name, mainWindow);
+        setButtonsOnPanel();
+        setEvents();
+        persistLayout();
     }
 
     @Override
@@ -51,7 +52,7 @@ public class GroutPanel extends SubPanel{
     }
 
     public void retrieveGroutThickness() {
-        Double thickness =  controller.getSurfaceThickness();
+        Double thickness =  mainWindow.getController().getSurfaceThickness();
 
         if (thickness != null) {
             this.thickness.setText(thickness.toString());

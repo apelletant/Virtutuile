@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.panels.subEdition.*;
 import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.domaine.Controller;
@@ -13,22 +14,23 @@ import java.util.Vector;
 
 public class EditionPanel extends PanelEvents {
 
+    private MainWindow mainWindow;
     private TileSettingsPanel tileSettingsPanel;
-
     private UnorderedMap<PanelType, SubPanel> subPanels;
 
-    public EditionPanel(Controller controller) {
+    public EditionPanel(MainWindow mainWindow) {
         super();
+        this.mainWindow = mainWindow;
         subPanels = new UnorderedMap<>() {{
-            put(PanelType.Surface, new SurfacePanel("Surface", controller));
-            put(PanelType.Grout, new GroutPanel("Grout", controller));
-            put(PanelType.Tile, new TilePanel("Tile", controller));
-            put(PanelType.Pattern, new PatternPanel("Pattern", controller));
+            put(PanelType.Surface, new SurfacePanel("Surface", mainWindow));
+            put(PanelType.Grout, new GroutPanel("Grout", mainWindow));
+            put(PanelType.Tile, new TilePanel("Tile", mainWindow));
+            put(PanelType.Pattern, new PatternPanel("Pattern", mainWindow));
         }};
         subPanels.forEach((key, value) -> {
             add(value, key);
         });
-        tileSettingsPanel = new TileSettingsPanel("Tile Settings", controller);
+        tileSettingsPanel = new TileSettingsPanel("Tile Settings", mainWindow);
 
         setOpaque(true);
         setName("Edition Panel");

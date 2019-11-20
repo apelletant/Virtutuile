@@ -261,8 +261,6 @@ public abstract class PrimarySurface implements Serializable {
     }
 
     public void resize(double newWidth, double newHeight) {
-        System.out.println("old size: " + this.getBounds().width + " " + this.getBounds().height);
-        System.out.println("new size: " + newWidth + " " + newHeight);
         Rectangle2D.Double bounds = (Rectangle2D.Double) polygon.getBounds2D();
         double xRatio = newWidth / bounds.width;
         double yRatio = newHeight / bounds.height;

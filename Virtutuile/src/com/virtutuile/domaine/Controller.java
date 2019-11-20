@@ -54,14 +54,14 @@ public class Controller {
         if (meta.getHoveredSurface() != null && meta.getHoveredSurface().getBounds() != null) {
             Double[] dim = new Double[2];
 
-            System.out.println(meta.getHoveredSurface().getBounds().width);
-            System.out.println(meta.getHoveredSurface().getBounds().height);
+            /*System.out.println(meta.getHoveredSurface().getBounds().width);
+            System.out.println(meta.getHoveredSurface().getBounds().height);*/
             dim[0] = meta.getHoveredSurface().getBounds().width;
             dim[1] = meta.getHoveredSurface().getBounds().height;
 
-            System.out.println("////////////////");
+            /*System.out.println("////////////////");
             System.out.println(dim[0]);
-            System.out.println(dim[1]);
+            System.out.println(dim[1]);*/
             this.bottomToolbar.setHoveredSurfaceDimension(dim);
         }
     }

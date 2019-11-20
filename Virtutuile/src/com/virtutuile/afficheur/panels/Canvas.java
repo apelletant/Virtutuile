@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.afficheur.swing.events.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
@@ -11,15 +12,11 @@ import java.awt.event.MouseWheelEvent;
 
 public class Canvas extends PanelEvents {
 
-    private Controller controller;
-    private BottomToolbar bottomToolbar;
-    private EditionPanel editionPanel;
+    private MainWindow mainWindow;
 
-    public Canvas(Controller controller, BottomToolbar bottomToolbar, EditionPanel editionPanel) {
+    public Canvas(MainWindow mainWindow) {
         super();
-        this.controller = controller;
-        this.bottomToolbar = bottomToolbar;
-        this.editionPanel = editionPanel;
+        this.mainWindow = mainWindow;
 
         setFocusable(true);
         setOpaque(true);
@@ -36,37 +33,37 @@ public class Canvas extends PanelEvents {
     private void setMouseEvents() {
         addMouseEventListener(MouseEventKind.MousePress, (mouseEvent) -> {
             requestFocusInWindow();
-            controller.mouseLClick(mouseEvent.getPoint());
-            editionPanel.surfaceGetSurfaceDimensions();
-            editionPanel.surfaceGetGroutThickness();
+            mainWindow.getController().mouseLClick(mouseEvent.getPoint());
+            mainWindow.getEditionPanel().surfaceGetSurfaceDimensions();
+            mainWindow.getEditionPanel().surfaceGetGroutThickness();
             repaint();
         });
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
-            controller.mouseDrag(mouseEvent.getPoint());
+            mainWindow.getController().mouseDrag(mouseEvent.getPoint());
             repaint();
         });
 
         addMouseEventListener(MouseEventKind.MouseRelease, (mouseEvent -> {
-            controller.mouseRelease(mouseEvent.getPoint());
+            mainWindow.getController().mouseRelease(mouseEvent.getPoint());
             repaint();
         }));
 
         addMouseEventListener(MouseEventKind.MouseMove, (mouseEvent) -> {
-            controller.mouseHover(mouseEvent.getPoint());
-            bottomToolbar.setSurfaceBounds();
+            mainWindow.getController().mouseHover(mouseEvent.getPoint());
+            mainWindow.getBottomToolbar().setSurfaceBounds();
             repaint();
         });
 
         //TODO: zoom mouse event
         addMouseEventListener(MouseEventKind.MouseWheel, (mouseEvent) -> {
-            controller.updateZoom(((MouseWheelEvent) mouseEvent).getPreciseWheelRotation(), mouseEvent.getPoint());
+            mainWindow.getController().updateZoom(((MouseWheelEvent) mouseEvent).getPreciseWheelRotation(), mouseEvent.getPoint());
             repaint();
         });
     }
 
     private void setKeyboardEvents() {
         addKeyboardEventListener(KeyboardEventKind.KeyPressed, (keyboardEventKind) -> {
-            controller.keyEvent(keyboardEventKind);
+            mainWindow.getController().keyEvent(keyboardEventKind);
             repaint();
         });
     }
@@ -74,13 +71,9 @@ public class Canvas extends PanelEvents {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
-        controller.setCanvasSize(getWidth(), getHeight());
-        this.controller.paint(graphics);
-        controller.setCanvasSize(this.getSize());
-    }
-
-    public Controller getController() {
-        return controller;
+        mainWindow.getController().setCanvasSize(getWidth(), getHeight());
+        mainWindow.getController().paint(graphics);
+        mainWindow.getController().setCanvasSize(getSize());
     }
 
 }

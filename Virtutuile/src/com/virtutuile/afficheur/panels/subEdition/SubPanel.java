@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.domaine.Controller;
 
@@ -11,12 +12,12 @@ import java.util.Vector;
 
 public abstract class SubPanel extends PanelEvents {
 
-    protected Controller controller;
+    protected MainWindow mainWindow;
     protected Vector<JPanel> rows = new Vector<>();
 
-    SubPanel(String name, Controller controller) {
+    SubPanel(String name, MainWindow mainWindow) {
         setName(name);
-        this.controller = controller;
+        this.mainWindow = mainWindow;
 
         TitledBorder border = new TitledBorder(name);
         border.setTitleColor(Constants.EDITIONPANEL_FONT_COLOR);
