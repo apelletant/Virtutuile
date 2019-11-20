@@ -68,7 +68,7 @@ public class BottomToolbar extends BorderedPanel {
 
         buttonMG.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().drawGrid();
-            repaint();
+            mainWindow.repaint();
         });
     }
 

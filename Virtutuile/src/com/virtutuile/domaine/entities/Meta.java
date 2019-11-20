@@ -303,6 +303,13 @@ public class Meta {
         }
     }
 
+    public void recalcPattern() {
+        if (selectedSurface != null
+                && selectedSurface.getPatternGroup() != null) {
+            selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
+        }
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,

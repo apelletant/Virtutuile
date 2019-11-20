@@ -59,8 +59,7 @@ public class PatternPanel extends SubPanel {
 
         classic.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().applyPattern("Classic");
-            revalidate();
-            repaint();
+            mainWindow.repaint();
         });
     }
 }

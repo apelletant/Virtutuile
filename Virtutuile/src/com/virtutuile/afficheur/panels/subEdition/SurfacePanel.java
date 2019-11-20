@@ -44,11 +44,13 @@ public class SurfacePanel extends SubPanel {
 
         inputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setSurfaceWidth(Double.parseDouble(value));
+            mainWindow.getController().recalcPattern();
             mainWindow.repaint();
         });
 
         inputs.get(InputContextType.Height).addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setSurfaceHeight(Double.parseDouble(value));
+            mainWindow.getController().recalcPattern();
             mainWindow.repaint();
         });
 

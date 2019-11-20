@@ -29,18 +29,26 @@ public class PatternGroup {
                 break;
         }
         if (this.pattern != null) {
-//            this.buildPattern(surface);
-            Rectangle2D.Double bounds = surface.getBounds();
-            double groutThickness = surface.getGrout().getThickness();
-            Surface groutedSurface = new Surface(surface);
-            /*System.out.println("Current bounds " + bounds.toString());*/
-            groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
-            /*System.out.println("New bounds " + groutedSurface.getBounds().toString());*/
-            this.buildPattern(surface, groutedSurface);
+            this.buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
         }
     }
 
     public PatternGroup(PatternGroup patternGroup) {
+    }
+
+    public void recalcPattern(Surface surface) {
+        buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
+    }
+
+    private Surface transformToSurfaceWithoutSideGrout(Surface surface) {
+        if (this.pattern != null) {
+            Rectangle2D.Double bounds = surface.getBounds();
+            double groutThickness = surface.getGrout().getThickness();
+            Surface groutedSurface = new Surface(surface);
+            groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
+            return groutedSurface;
+        }
+        return null;
     }
 
     private void buildPattern(Surface surface, Surface groutedSurface) {
@@ -50,35 +58,39 @@ public class PatternGroup {
         double y = 0;
         double x = 0;
 
-        while (y < surface.getPolygon().getBounds().getHeight() + surface.getGrout().getThickness()) {
-            y = y + surface.getGrout().getThickness();
-            while (x < surface.getPolygon().getBounds().getWidth() + surface.getGrout().getThickness()) {
-                int i = 0;
-                x = x + surface.getGrout().getThickness();
-                while (i != pattern.getTiles().size()) {
-                    Tile tile = pattern.getTiles().get(i).copy();
-                    double tileX = x + origin[0];
-                    double tileY = y + origin[1];
+        if (surface != null && groutedSurface != null) {
 
-                    if ((tileX + surface.getGrout().getThickness() + tileSize[0]) > origin[0] + surface.getPolygon().getBounds().getWidth()) {
-                        double size = (origin[0] + surface.getPolygon().getBounds().getWidth()) - (x + origin[0] + surface.getGrout().getThickness());
-                        tile.setWidthForRectTile(size);
-                    }
 
-                    if ((tileY + surface.getGrout().getThickness() + tileSize[1]) > origin[1] + surface.getPolygon().getBounds().getHeight()) {
-                        double size = (origin[1] + surface.getPolygon().getBounds().getHeight()) - (y + origin[1] + surface.getGrout().getThickness());
-                        tile.setHeightForRectTile(size);
+            while (y < surface.getPolygon().getBounds().getHeight() + surface.getGrout().getThickness()) {
+                y = y + surface.getGrout().getThickness();
+                while (x < surface.getPolygon().getBounds().getWidth() + surface.getGrout().getThickness()) {
+                    int i = 0;
+                    x = x + surface.getGrout().getThickness();
+                    while (i != pattern.getTiles().size()) {
+                        Tile tile = pattern.getTiles().get(i).copy();
+                        double tileX = x + origin[0];
+                        double tileY = y + origin[1];
+
+                        if ((tileX + surface.getGrout().getThickness() + tileSize[0]) > origin[0] + surface.getPolygon().getBounds().getWidth()) {
+                            double size = (origin[0] + surface.getPolygon().getBounds().getWidth()) - (x + origin[0] + surface.getGrout().getThickness());
+                            tile.setWidthForRectTile(size);
+                        }
+
+                        if ((tileY + surface.getGrout().getThickness() + tileSize[1]) > origin[1] + surface.getPolygon().getBounds().getHeight()) {
+                            double size = (origin[1] + surface.getPolygon().getBounds().getHeight()) - (y + origin[1] + surface.getGrout().getThickness());
+                            tile.setHeightForRectTile(size);
+                        }
+                        tile.setOrigin(new Point2D.Double(tileX, tileY));
+                        tiles.add(tile);
+                        i++;
                     }
-                    tile.setOrigin(new Point2D.Double(tileX, tileY));
-                    tiles.add(tile);
-                    i++;
+                    x = x + tileSize[0] + adjust[0];
                 }
-                x = x + tileSize[0] + adjust[0];
+                y = y + tileSize[1] + adjust[1];
+                x = adjust[0];
             }
-            y = y + tileSize[1] + adjust[1];
-            x = adjust[0];
+            removeTileOutOfSurface(surface, groutedSurface);
         }
-        removeTileOutOfSurface(surface, groutedSurface);
     }
 
     private void removeTileOutOfSurface(Surface surface, Surface groutedSurface) {

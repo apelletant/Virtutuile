@@ -207,4 +207,8 @@ public class Controller {
     public void setSurfaceHeight(double value) {
         meta.setSelectedSurfaceHeight(value);
     }
+
+    public void recalcPattern() {
+        meta.recalcPattern();
+    }
 }
