@@ -10,7 +10,8 @@ import java.awt.*;
 
 public class UnitInput extends TextInput {
 
-    int value;
+    int valueInt;
+    Double valueDouble;
     Label unitLabel = new Label();
     Constants.Units unit;
 
@@ -41,12 +42,20 @@ public class UnitInput extends TextInput {
     }
 
     public int getValue() {
-        return value;
+        return valueInt;
     }
 
     public UnitInput setValue(int value) {
-        this.value = value;
-        field.setText(String.valueOf(this.value));
+        this.valueInt = value;
+        field.setText(String.valueOf(this.valueInt));
+        repaint();
+        return this;
+    }
+
+    public UnitInput setValue(Double value) {
+
+        this.valueDouble = value;
+        field.setText(String.valueOf(this.valueDouble));
         repaint();
         return this;
     }

@@ -93,8 +93,6 @@ public class Painter {
         //System.out.println(canvasDim.width);
         for (int i = 0; i <= canvasDim.width; i++) {
             for (int j = 0; j <= canvasDim.height; j++) {
-                //TODO Modify to use zoom
-                // zoomSize / 2 to get 4 squares by zoom level
                 if (i % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0
                     && j % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0)
                 {
