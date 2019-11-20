@@ -1,7 +1,9 @@
 package com.virtutuile.afficheur.panels;
 
+import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.BorderedPanel;
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
@@ -11,20 +13,60 @@ import java.awt.*;
 
 public class Toolbar extends BorderedPanel {
 
+    private MainWindow mainWindow;
+    private EditionPanel editionPanel;
     private Controller controller;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
 
     /**
      * VTopToolbar constructor
      */
-    public Toolbar(Controller controller) {
+    public Toolbar(Controller controller, EditionPanel editionPanel, MainWindow mainWindow) {
         super();
         this.controller = controller;
+        this.editionPanel = editionPanel;
+        this.mainWindow = mainWindow;
         setName("Toolbar");
         setBackground(new Color(66, 66, 66));
 
         setBorder(null);
         setButtonOnToolbar();
+        setEvents();
+    }
+
+    private void setEvents() {
+        Button edition = buttons.get(TargetButton.SurfaceManagement);
+        Button tileSettings = buttons.get(TargetButton.TileSettings);
+
+        edition.setActive(true);
+        edition.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            if (edition.isActive()) {
+                edition.setActive(false);
+                editionPanel.removeAllSurfacePanels();
+            } else {
+                edition.setActive(true);
+                tileSettings.setActive(false);
+                editionPanel.removeTileSettingsPanel();
+                editionPanel.addAllPanels();
+            }
+            mainWindow.revalidate();
+            mainWindow.repaint();
+        }));
+
+        tileSettings.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            if (tileSettings.isActive()) {
+                tileSettings.setActive(false);
+                editionPanel.removeTileSettingsPanel();
+            } else {
+                tileSettings.setActive(true);
+                edition.setActive(false);
+                editionPanel.removeAllSurfacePanels();
+                editionPanel.addTileSettingsPanel();
+            }
+            mainWindow.revalidate();
+            mainWindow.repaint();
+        }));
+
     }
 
     /**
@@ -49,7 +91,10 @@ public class Toolbar extends BorderedPanel {
         buttons.put(TargetButton.Redo, new Button("Redo", AssetLoader.loadImage("/icons/redo-alt.png")));
 
         //Canvas Settings Button
-        buttons.put(TargetButton.CanvasSettings, new Button("Canvas Settings", AssetLoader.loadImage("/icons/cog.png")));
+        buttons.put(TargetButton.SurfaceManagement, new Button("Surfaces", AssetLoader.loadImage("/icons/pencil-alt.png")));
+
+        //Canvas Settings Button
+        buttons.put(TargetButton.TileSettings, new Button("Tile Settings", AssetLoader.loadImage("/icons/cog.png")));
 
         //Canvas infos button
         buttons.put(TargetButton.CanvasInfos, new Button("Canvas Infos", AssetLoader.loadImage("/icons/info.png")));
@@ -74,8 +119,8 @@ public class Toolbar extends BorderedPanel {
         SaveCanvas,
         Undo,
         Redo,
-        DrawShape,
-        CanvasSettings,
+        SurfaceManagement,
+        TileSettings,
         CanvasInfos,
     }
 }

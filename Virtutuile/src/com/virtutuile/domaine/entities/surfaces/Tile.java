@@ -9,6 +9,9 @@ public class Tile extends PrimarySurface {
 
     private Point2D origin;
     private Point2D opposite;
+    private Color color;
+    private String name;
+    private boolean deletable;
 
     public Tile(double[] pointsX, double[] pointsY) {
         super(pointsX, pointsY);
@@ -25,14 +28,22 @@ public class Tile extends PrimarySurface {
 
     public Tile(Tile tile) {
         super(tile);
-        this.origin = tile.origin;
+        origin = tile.origin;
     }
 
     public Tile(Rectangle.Double rect) {
         super();
-        this.origin = new Point2D.Double(rect.x, rect.y);
-        this.opposite = new Point2D.Double(rect.x + rect.width, rect.y + rect.height);
+        origin = new Point2D.Double(rect.x, rect.y);
+        opposite = new Point2D.Double(rect.x + rect.width, rect.y + rect.height);
         regenerate();
+    }
+
+    public Tile(double width, double height, Color color, String name, boolean deletable) {
+        origin = new Point2D.Double(0, 0);
+        opposite = new Point2D.Double(width, height);
+        setFillColor(color);
+        setName(name);
+        this.deletable = deletable;
     }
 
     public Tile() {
@@ -50,6 +61,13 @@ public class Tile extends PrimarySurface {
     public void setOrigin(Point2D origin) {
         this.moveOf(origin);
         this.origin = origin;
+    }
+
+    public void setOriginAndAdjustOpposite(Point2D.Double origin) {
+        double width =  opposite.getX() - this.origin.getX();
+        double height = opposite.getY() - this.origin.getY();
+        this.origin = origin;
+        this.opposite = new Point2D.Double(origin.getX() + width, origin.getY() + height);
     }
 
     private void regenerate() {
@@ -82,5 +100,25 @@ public class Tile extends PrimarySurface {
         polygon.lineTo(vertices[2].getX(), vertices[0].getY() + height);
         polygon.lineTo(vertices[0].getX(), vertices[0].getY() + height);
         polygon.closePath();
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isDeletable() {
+        return deletable;
     }
 }

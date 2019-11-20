@@ -20,9 +20,9 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         controller = new Controller();
         editionPanel = new EditionPanel(controller);
-        toolBar = new Toolbar(controller);
         bottomToolbar = new BottomToolbar(controller);
         canvas = new Canvas(controller, bottomToolbar, editionPanel);
+        toolBar = new Toolbar(controller, editionPanel, this);
 
         setUpWindow();
         setUpContainer();

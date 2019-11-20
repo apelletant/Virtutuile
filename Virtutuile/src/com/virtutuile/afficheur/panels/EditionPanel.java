@@ -13,8 +13,7 @@ import java.util.Vector;
 
 public class EditionPanel extends PanelEvents {
 
-    private Controller controller;
-    private Vector<SubPanel> activePanels;
+    private TileSettingsPanel tileSettingsPanel;
 
     private UnorderedMap<PanelType, SubPanel> subPanels;
 
@@ -26,10 +25,10 @@ public class EditionPanel extends PanelEvents {
             /*put(PanelType.Tile, new TilePanel("Tile", controller));*/
             put(PanelType.Pattern, new PatternPanel("Pattern", controller));
         }};
-        System.out.println("size ok: " + subPanels.size());
         subPanels.forEach((key, value) -> {
             add(value, key);
         });
+        tileSettingsPanel = new TileSettingsPanel("Tile Settings", controller);
 
         setOpaque(true);
         setName("Edition Panel");
@@ -39,8 +38,6 @@ public class EditionPanel extends PanelEvents {
         setPreferredSize(new Dimension(600, 1080));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        /*activePanels.add(subPanels.get(PanelType.Surface));
-        activePanels = new Vector<>();*/
     }
 
     public void surfaceGetSurfaceDimensions() {
@@ -57,16 +54,28 @@ public class EditionPanel extends PanelEvents {
         }
     }
 
-    public void persistPanels() {
+    public void removeAllSurfacePanels() {
         subPanels.forEach((key, value) -> {
-            if (activePanels.contains(key)) {
-                if (!activePanels.contains(key)) {
-                    add(value);
-                }
-            } else {
-                remove(value);
-            }
+            remove(value);
         });
+    }
+
+    public void addAllPanels() {
+        subPanels.forEach((key, value) -> {
+            add(value);
+        });
+    }
+
+    public TileSettingsPanel getTileSettingsPanel() {
+        return tileSettingsPanel;
+    }
+
+    public void addTileSettingsPanel() {
+        add(tileSettingsPanel);
+    }
+
+    public void removeTileSettingsPanel() {
+        remove(tileSettingsPanel);
     }
 
     enum PanelType {

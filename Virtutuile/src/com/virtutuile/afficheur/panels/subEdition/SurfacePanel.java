@@ -93,7 +93,14 @@ public class SurfacePanel extends SubPanel {
         if (selectedSurfaceDimensions != null) {
             inputs.get(InputContextType.Width).setText(selectedSurfaceDimensions[0].toString());
             inputs.get(InputContextType.Height).setText(selectedSurfaceDimensions[1].toString());
+        } else {
+            setSurfaceDimensions(0.0,0.0);
         }
+    }
+
+    private void setSurfaceDimensions(Double width, Double height) {
+        inputs.get(InputContextType.Width).setText(width.toString());
+        inputs.get(InputContextType.Height).setText(height.toString());
     }
 
     public enum DrawShapeButtonType {

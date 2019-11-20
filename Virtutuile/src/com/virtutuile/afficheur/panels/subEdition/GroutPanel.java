@@ -55,6 +55,8 @@ public class GroutPanel extends SubPanel{
 
         if (thickness != null) {
             this.thickness.setText(thickness.toString());
+        } else {
+            this.thickness.setText("0");
         }
     }
 
