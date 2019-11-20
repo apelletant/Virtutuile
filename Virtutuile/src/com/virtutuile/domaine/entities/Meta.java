@@ -310,6 +310,26 @@ public class Meta {
         }
     }
 
+    public void setGroutColor(Color color) {
+        if (selectedSurface != null
+                && selectedSurface.getGrout() != null) {
+            selectedSurface.getGrout().setColor(color);
+            if (selectedSurface.getPatternGroup() != null) {
+                selectedSurface.setFillColor(color);
+            }
+        }
+    }
+
+    public void setGroutThickness(String value) {
+        if (selectedSurface != null
+                && selectedSurface.getGrout() != null) {
+            selectedSurface.getGrout().setThickness(Double.parseDouble(value));
+            if (selectedSurface.getPatternGroup() != null) {
+                selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
+            }
+        }
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,

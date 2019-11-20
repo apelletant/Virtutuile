@@ -30,6 +30,7 @@ public class PatternGroup {
         }
         if (this.pattern != null) {
             this.buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
+            surface.setFillColor(surface.getGrout().getColor());
         }
     }
 
@@ -37,6 +38,7 @@ public class PatternGroup {
     }
 
     public void recalcPattern(Surface surface) {
+        tiles.clear();
         buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
     }
 
@@ -59,7 +61,7 @@ public class PatternGroup {
         double x = 0;
 
         if (surface != null && groutedSurface != null) {
-
+            System.out.println("Rebuild begin");
 
             while (y < surface.getPolygon().getBounds().getHeight() + surface.getGrout().getThickness()) {
                 y = y + surface.getGrout().getThickness();
@@ -89,17 +91,23 @@ public class PatternGroup {
                 y = y + tileSize[1] + adjust[1];
                 x = adjust[0];
             }
+            System.out.println("Remove begin");
             removeTileOutOfSurface(surface, groutedSurface);
+            System.out.println("Remove end");
+            System.out.println("Rebuild end");
         }
     }
 
     private void removeTileOutOfSurface(Surface surface, Surface groutedSurface) {
         Vector<Tile> tilesToRemove = new Vector<>();
+
         tiles.forEach((tile) -> {
             if (!surface.getPolygon().contains(tile.getPolygon().getBounds2D())) {
+                System.out.println("adjust begin");
                 if (!adjustTileIfIntersect(surface, tile, groutedSurface)) {
                     tilesToRemove.add(tile);
                 }
+                System.out.println("adjust end");
             }
         });
         tilesToRemove.forEach((tileToRemove) -> {
@@ -108,6 +116,9 @@ public class PatternGroup {
     }
 
     private boolean adjustTileIfIntersect(Surface surface, Tile tile, Surface groutedSurface) {
+        /*if (true) {
+            return true;
+        }*/
         Point2D[] tileVertices = tile.getVertices();
         Point2D[] groutedSurfaceVertices = groutedSurface.getVertices();
 
@@ -160,7 +171,7 @@ public class PatternGroup {
                         && (intersection.x != bTile.getX() || intersection.y != bTile.getY())) {
 
                     tile.setFillColor(Color.RED);
-                    addNewVertexOnTile(tile, aTile, bTile, intersection);
+                    /*addNewVertexOnTile(tile, aTile, bTile, intersection);*/
                     tileVertices = tile.getVertices();
                     returnedValue = true;
                     restart = true;

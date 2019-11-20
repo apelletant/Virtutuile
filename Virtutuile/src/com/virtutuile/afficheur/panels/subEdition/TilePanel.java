@@ -2,6 +2,7 @@ package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
+import com.virtutuile.afficheur.inputs.ColorPicker;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.tools.AssetLoader;
@@ -14,7 +15,7 @@ import java.awt.*;
 
 public class TilePanel extends SubPanel {
 
-    private JColorChooser colorPicker = null;
+    private ColorPicker colorPicker = null;
     private UnitInput width = null;
     private UnitInput height = null;
     private UnorderedMap<String, Button> tilesType = new UnorderedMap<>();
@@ -61,7 +62,7 @@ public class TilePanel extends SubPanel {
     }
 
     private void setColorPickerOnPanel(JPanel line) {
-        colorPicker = new JColorChooser();
+        colorPicker = new ColorPicker();
         colorPicker.setMaximumSize(new Dimension(500,200));
         colorPicker.setMinimumSize(new Dimension(500,200));
         colorPicker.setPreferredSize(new Dimension(500,200));

@@ -211,4 +211,12 @@ public class Controller {
     public void recalcPattern() {
         meta.recalcPattern();
     }
+
+    public void setGroutColor(Color color) {
+        meta.setGroutColor(color);
+    }
+
+    public void setGroutThickness(String value) {
+        meta.setGroutThickness(value);
+    }
 }

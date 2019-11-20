@@ -1,6 +1,7 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.MainWindow;
+import com.virtutuile.afficheur.inputs.ColorPicker;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
@@ -13,7 +14,7 @@ public class TileSettingsPanel extends SubPanel {
 
     private UnitInput width;
     private UnitInput height;
-    private JColorChooser colorPicker;
+    private ColorPicker colorPicker;
 
     public TileSettingsPanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -30,12 +31,16 @@ public class TileSettingsPanel extends SubPanel {
     protected void setButtonsOnPanel() {
         width = new UnitInput("Width");
         height = new UnitInput("Height");
-        colorPicker = new JColorChooser();
+        colorPicker = new ColorPicker();
         colorPicker.setMaximumSize(new Dimension(500,200));
         colorPicker.setMinimumSize(new Dimension(500,200));
         colorPicker.setPreferredSize(new Dimension(500,200));
         AbstractColorChooserPanel[] panels = colorPicker.getChooserPanels();
         colorPicker.setChooserPanels(new AbstractColorChooserPanel[] { panels[0] });
+
+        add(width);
+        add(height);
+        add(width);
     }
 
 }
