@@ -98,7 +98,7 @@ public class Painter {
                 if (i % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0
                     && j % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0)
                 {
-                    System.out.println(meta.pixelsToCentimeters(meta.getGridSize()));
+                    /*System.out.println(meta.pixelsToCentimeters(meta.getGridSize()));*/
                     graphics2D.drawLine(i, j, i, canvasDim.width);
                     graphics2D.drawLine(canvasDim.height, j, i, j);
                 }

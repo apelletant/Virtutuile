@@ -48,11 +48,10 @@ public class Meta {
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
 
-        createNewTile(20, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Square", false);
+
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
         createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
-        createNewTile(140, 80, Constants.DEFAULT_SHAPE_FILL_COLOR, "Extra Large", false);
 
         Surface surface = new RectangularSurface(new Rectangle2D.Double(30, 30, 70, 70), false);
         Path2D.Double polygon = new Path2D.Double();
@@ -280,6 +279,18 @@ public class Meta {
 
     public void setGridSize(int gridSize) {
         this.gridSize = gridSize;
+    }
+
+    public void setSelectedSurfaceWidth(double value) {
+        if (selectedSurface != null) {
+            selectedSurface.setWidth(value);
+        }
+    }
+
+    public void setSelectedSurfaceHeight(double value) {
+        if (selectedSurface != null) {
+            selectedSurface.setHeight(value);
+        }
     }
 
     public enum EditionAction {

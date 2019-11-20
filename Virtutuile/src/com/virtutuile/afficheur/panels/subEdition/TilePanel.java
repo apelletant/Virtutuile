@@ -37,13 +37,26 @@ public class TilePanel extends SubPanel {
 
         setColorPickerOnPanel(line);
         setThicknessInputOnPanel(line);
-        setTypeOfTileButtonsOnPanel(line);
+        setTypeOfTileButtonsOnPanel();
     }
 
-    private void setTypeOfTileButtonsOnPanel(JPanel line) {
+    private void setTypeOfTileButtonsOnPanel() {
+        JPanel line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+
+        /*createNewTile(20, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Square", false);
+        createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
+        createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
+        createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
+        createNewTile(140, 80, Constants.DEFAULT_SHAPE_FILL_COLOR, "Extra Large", false);*/
+
         tilesType.put("Small", new Button("Small", AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
         tilesType.put("Medium", new Button("Medium", AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
         tilesType.put("Large", new Button("Large", AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
+
+        tilesType.forEach((key, value) -> {
+            line.add(value);
+        });
     }
 
     private void setColorPickerOnPanel(JPanel line) {

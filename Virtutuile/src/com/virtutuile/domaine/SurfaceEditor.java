@@ -151,7 +151,6 @@ public class SurfaceEditor {
         if (meta.getSelectedSurface() != null
                 && meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)
                 && !meta.getSelectedSurface().getPolygon().contains(point)) {
-            System.out.println("ouiiiiiii");
             meta.setSelectedSurfaceCanBeResized(true);
         }
 
@@ -171,6 +170,8 @@ public class SurfaceEditor {
             Surface surface = builder.getSurface();
             meta.getSurfaces().put(surface.getId(), surface);
             builder = null;
+            System.out.println("Surface Origin : {" + surface.getVertices()[0].getX() + ", " + surface.getVertices()[0].getY());
+            System.out.println("Surface Dimensions : Width: " + surface.getPolygon().getBounds2D().getWidth() + ", Height: " + surface.getPolygon().getBounds2D().getHeight());
         }
         mouseHover(point);
     }
@@ -212,10 +213,10 @@ public class SurfaceEditor {
                         tile.move(meta.getHover(), point);
                     });
                 }
-                if (meta.isSelectedSurfaceCanBeResized()) {
+                /*if (meta.isSelectedSurfaceCanBeResized()) {
                     Point2D ratio = calcResizeRatio(point);
                     meta.getSelectedSurface().rescale(ratio.getX(), ratio.getY());
-                }
+                }*/
             } else if (meta.getHoveredSurface() != null) {
                 Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
                 Vector2D origin = Vector2D.from(meta.getHover());

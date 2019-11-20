@@ -261,10 +261,11 @@ public abstract class PrimarySurface implements Serializable {
     }
 
     public void resize(double newWidth, double newHeight) {
+        System.out.println("old size: " + this.getBounds().width + " " + this.getBounds().height);
+        System.out.println("new size: " + newWidth + " " + newHeight);
         Rectangle2D.Double bounds = (Rectangle2D.Double) polygon.getBounds2D();
         double xRatio = newWidth / bounds.width;
         double yRatio = newHeight / bounds.height;
-        System.out.println("xRatio " + xRatio + " yRatio " + yRatio);
 
         AffineTransform transform = new AffineTransform();
         transform.scale(xRatio, yRatio);
@@ -272,8 +273,10 @@ public abstract class PrimarySurface implements Serializable {
         Rectangle2D.Double newBounds = (Rectangle2D.Double) polygon.getBounds2D();
         double xDisplacement = (bounds.x - newBounds.x);
         double yDisplacement = (bounds.y - newBounds.y);
-        System.out.println("xDisplacement " + xDisplacement + " yDisplacement " + yDisplacement);
-        polygon.moveTo(xDisplacement, yDisplacement);
+
+        transform = new AffineTransform();
+        transform.translate(xDisplacement, yDisplacement);
+        polygon.transform(transform);
     }
 
     public void setWidth(double newWidth) {

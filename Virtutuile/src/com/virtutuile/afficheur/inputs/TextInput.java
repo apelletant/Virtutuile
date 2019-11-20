@@ -99,11 +99,9 @@ public class TextInput extends Panel implements DocumentListener {
                     validator.apply(a, b, finalStart);
                     setValid(true);
                     errorLabel.setText(" ");
-                    System.out.println("  Validate");
                 } catch (ValidationsException except) {
                     setValid(false);
                     errorLabel.setText(except.getMessage());
-                    System.out.println("  No validate");
                 }
             };
         }

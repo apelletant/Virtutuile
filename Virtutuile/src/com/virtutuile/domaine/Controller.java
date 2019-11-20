@@ -65,7 +65,7 @@ public class Controller {
         if (meta.isGridActivated()) {
             Surface currentshape = meta.getSelectedSurface();
             if (currentshape == null) {
-                System.out.println("null");
+                /*System.out.println("null");*/
                 return;
             }
             Rectangle2D bounds = currentshape.getPolygon().getBounds2D();
@@ -145,7 +145,7 @@ public class Controller {
             newCoord.x = (int)(x + ( (zoom / 4) - (x % (zoom /4))));
         }
 
-        System.out.println(newCoord);
+        /*System.out.println(newCoord);*/
         return newCoord;
     }
 
@@ -175,5 +175,14 @@ public class Controller {
 
     public void setGridSize(int gridSize) {
         meta.setGridSize(gridSize);
+    }
+
+    public void setSurfaceWidth(double value) {
+        meta.setSelectedSurfaceWidth(value);
+
+    }
+
+    public void setSurfaceHeight(double value) {
+        meta.setSelectedSurfaceHeight(value);
     }
 }

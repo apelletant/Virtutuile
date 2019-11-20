@@ -33,9 +33,9 @@ public class PatternGroup {
             Rectangle2D.Double bounds = surface.getBounds();
             double groutThickness = surface.getGrout().getThickness();
             Surface groutedSurface = new Surface(surface);
-            System.out.println("Current bounds " + bounds.toString());
+            /*System.out.println("Current bounds " + bounds.toString());*/
             groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
-            System.out.println("New bounds " + groutedSurface.getBounds().toString());
+            /*System.out.println("New bounds " + groutedSurface.getBounds().toString());*/
             this.buildPattern(surface, groutedSurface);
         }
     }

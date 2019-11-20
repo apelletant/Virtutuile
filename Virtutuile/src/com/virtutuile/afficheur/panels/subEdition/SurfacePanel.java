@@ -4,6 +4,7 @@ import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.afficheur.tools.ValidationsException;
@@ -40,6 +41,15 @@ public class SurfacePanel extends SubPanel {
             }
         });
 
+        inputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
+            controller.setSurfaceWidth(Double.parseDouble(value));
+            System.out.println("change w");
+        });
+
+        inputs.get(InputContextType.Height).addInputListener(InputEventKind.OnChange, (value, self) -> {
+            controller.setSurfaceHeight(Double.parseDouble(value));
+            System.out.println("change h");
+        });
 
     }
 
@@ -81,9 +91,6 @@ public class SurfacePanel extends SubPanel {
     private void setInputsOnPanel(JPanel line) {
         inputs.put(InputContextType.Width, new UnitInput("Width"));
         inputs.put(InputContextType.Height, new UnitInput("Height"));
-        inputs.get(InputContextType.Height).addInputListener(TextInput.InputEventKind.OnChange, (val, self) -> {
-            System.out.println(val);
-        });
 
         inputs.forEach((key, value) -> {
             line.add(value);

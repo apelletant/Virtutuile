@@ -82,7 +82,7 @@ public class BottomToolbar extends BorderedPanel {
 
     private Panel setUpGridPanel() {
         UnitInput gridSizeValue = new UnitInput("Grid size");
-        System.out.println(controller.getGridSize());
+        /*System.out.println(controller.getGridSize());*/
         gridSizeValue.setValue(controller.getGridSize());
 
         Panel gridSizePanel = new Panel();
