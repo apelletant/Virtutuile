@@ -43,7 +43,7 @@ public class PatternPanel extends SubPanel {
 
     private void setPatternOptionsButtonOnPanel(JPanel line) {
         options.put("Center", new Button("Center", AssetLoader.loadImage("/icons/center-pattern.png")));
-        options.put("Top Right", new Button("Top Right", AssetLoader.loadImage("/icons/top-right-pattern.png")));
+        options.put("Top Left", new Button("Top Right", AssetLoader.loadImage("/icons/top-right-pattern.png")));
 
         options.forEach((key, value) -> {
             line.add(value);

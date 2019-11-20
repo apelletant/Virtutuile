@@ -4,6 +4,7 @@ import com.virtutuile.afficheur.Constants;
 import com.virtutuile.domaine.entities.surfaces.FreeSurface;
 import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
+import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.shared.UnorderedMap;
 import com.virtutuile.shared.Vector2D;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class Meta {
 
     private UnorderedMap<UUID, Surface> surfaces;
+    private UnorderedMap<String, Tile> typeOfTiles;
 
     private EditionAction doing;
 
@@ -44,6 +46,13 @@ public class Meta {
         hover = null;
         mousePressed = false;
         isGridActivated = false;
+        typeOfTiles = new UnorderedMap<>();
+
+        createNewTile(20, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Square", false);
+        createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
+        createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
+        createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
+        createNewTile(140, 80, Constants.DEFAULT_SHAPE_FILL_COLOR, "Extra Large", false);
 
         Surface surface = new RectangularSurface(new Rectangle2D.Double(30, 30, 70, 70), false);
         Path2D.Double polygon = new Path2D.Double();
@@ -60,6 +69,10 @@ public class Meta {
         surface = new FreeSurface(polygon);
         surfaces.put(surface.getId(), surface);
 
+    }
+
+    public void createNewTile(double width, double height, Color color, String name, boolean deletable) {
+        typeOfTiles.put(name, new Tile(width, height, color, name, deletable));
     }
 
     public Surface getSelectedSurface() {
