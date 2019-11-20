@@ -20,7 +20,8 @@ public class BottomToolbar extends BorderedPanel {
 
     private Controller controller;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
-    //private hoveredSurface
+    private UnitInput[] hoveredSurfaceDim = new UnitInput[2];
+
 
     public BottomToolbar(Controller controller) {
         super();
@@ -38,9 +39,11 @@ public class BottomToolbar extends BorderedPanel {
 
         setEvent();
         Panel gridSizePanel = setUpGridPanel();
+        Panel hoveredSurfacePanel = setUpSurfaceDataPanel();
+
         add(gridSizePanel);
         add(Box.createHorizontalGlue());
-
+        add(hoveredSurfacePanel);
 //        JLabel label = setUpLabel();
 //        if (label != null) {
 //            add(label);
@@ -49,6 +52,16 @@ public class BottomToolbar extends BorderedPanel {
         add(Box.createVerticalGlue());
     }
 
+    public void setHoveredSurfaceDimension(Double[] dimensions) {
+        if (dimensions[0] != null && dimensions[0] != null) {
+            System.out.println("**********");
+            System.out.println(dimensions[0]);
+            System.out.println(dimensions[1]);
+            System.out.println("**********");
+//            this.hoveredSurfaceDim[0] = dimensions[0];
+//            this.hoveredSurfaceDim[1] = dimensions[1];
+        }
+    }
     private void setEvent() {
         Button buttonMG = buttons.get(TargetButton.MagneticGrid);
 
@@ -60,6 +73,12 @@ public class BottomToolbar extends BorderedPanel {
 
     public Button getButton(TargetButton name) {
         return buttons.get(name);
+    }
+
+    public void setSurfaceBounds() {
+        Double[] dim = controller.getHoveredSurfaceDimesions();
+//        this.hoveredSurfaceDim[0] = dim[0];
+//        this.hoveredSurfaceDim[1] = dim[1];
     }
 
 //    public void setSurfaceBounds() {
@@ -82,7 +101,6 @@ public class BottomToolbar extends BorderedPanel {
 
     private Panel setUpGridPanel() {
         UnitInput gridSizeValue = new UnitInput("Grid size");
-        /*System.out.println(controller.getGridSize());*/
         gridSizeValue.setValue(controller.getGridSize());
 
         Panel gridSizePanel = new Panel();
@@ -102,4 +120,41 @@ public class BottomToolbar extends BorderedPanel {
         gridSizePanel.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
         return gridSizePanel;
     }
+
+    private Panel setUpSurfaceDataPanel() {
+        Panel surfaceDataPanel = new Panel();
+
+        UnitInput surfaceWidth = new UnitInput("Width:");
+        surfaceWidth.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+        surfaceWidth.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+        surfaceWidth.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+
+        UnitInput surfaceHeight = new UnitInput("Height:");
+        surfaceHeight.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+        surfaceHeight.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+        surfaceHeight.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+
+        if (hoveredSurfaceDim[0] != null && hoveredSurfaceDim[1] != null) {
+            System.out.println(hoveredSurfaceDim[0]);
+            System.out.println(hoveredSurfaceDim[1]);
+
+//            surfaceWidth.setValue(hoveredSurfaceDim[0]);
+//            surfaceHeight.setValue(hoveredSurfaceDim[1]);
+        }
+
+        surfaceDataPanel.add(surfaceWidth);
+        surfaceDataPanel.add(surfaceHeight);
+
+        surfaceDataPanel.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+        surfaceDataPanel.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+        surfaceDataPanel.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+        repaint();
+
+        return surfaceDataPanel;
+    }
 }
+
+
+//surfaceDataPanel.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+//surfaceDataPanel.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));
+//surfaceDataPanel.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 2, Constants.BUTTON_SIZE.height));

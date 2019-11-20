@@ -1,5 +1,6 @@
 package com.virtutuile.domaine;
 
+import com.virtutuile.afficheur.panels.BottomToolbar;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 
@@ -14,6 +15,7 @@ public class Controller {
     private Meta meta;
     private Painter painter;
     private SurfaceEditor surfaceEditor;
+    private BottomToolbar bottomToolbar;
 
     public Controller() {
         meta = new Meta();
@@ -48,6 +50,20 @@ public class Controller {
     public void mouseHover(Point point) {
         meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseHover(meta.pointToPoints2D(point));
+
+        if (meta.getHoveredSurface() != null && meta.getHoveredSurface().getBounds() != null) {
+            Double[] dim = new Double[2];
+
+            System.out.println(meta.getHoveredSurface().getBounds().width);
+            System.out.println(meta.getHoveredSurface().getBounds().height);
+            dim[0] = meta.getHoveredSurface().getBounds().width;
+            dim[1] = meta.getHoveredSurface().getBounds().height;
+
+            System.out.println("////////////////");
+            System.out.println(dim[0]);
+            System.out.println(dim[1]);
+            this.bottomToolbar.setHoveredSurfaceDimension(dim);
+        }
     }
 
     public void mouseRelease(Point point) {
@@ -175,6 +191,12 @@ public class Controller {
 
     public void setGridSize(int gridSize) {
         meta.setGridSize(gridSize);
+    }
+
+    public Double[] getHoveredSurfaceDimesions() {return meta.getHoveredSurfaceDimesions(); }
+
+    public void setBottomToolbar(BottomToolbar bottomToolbar) {
+        this.bottomToolbar = bottomToolbar;
     }
 
     public void setSurfaceWidth(double value) {

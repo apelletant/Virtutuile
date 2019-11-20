@@ -24,6 +24,7 @@ public class MainWindow extends JFrame {
         canvas = new Canvas(controller, bottomToolbar, editionPanel);
         toolBar = new Toolbar(controller, editionPanel, this);
 
+        controller.setBottomToolbar(bottomToolbar);
         setUpWindow();
         setUpContainer();
         setVisible(true);

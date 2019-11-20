@@ -53,7 +53,7 @@ public class Canvas extends PanelEvents {
 
         addMouseEventListener(MouseEventKind.MouseMove, (mouseEvent) -> {
             controller.mouseHover(mouseEvent.getPoint());
-//            bottomToolbar.setSurfaceBounds();
+            bottomToolbar.setSurfaceBounds();
             repaint();
         });
 

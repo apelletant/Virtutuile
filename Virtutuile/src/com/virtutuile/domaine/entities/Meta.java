@@ -281,6 +281,16 @@ public class Meta {
         this.gridSize = gridSize;
     }
 
+    public Double[] getHoveredSurfaceDimesions() {
+        if (hoveredSurface != null) {
+            Double[] dim = new Double[2];
+            dim[0] = hoveredSurface.getBounds().width;
+            dim[1] = hoveredSurface.getBounds().height;
+            return dim;
+        }
+        return null;
+    }
+
     public void setSelectedSurfaceWidth(double value) {
         if (selectedSurface != null) {
             selectedSurface.setWidth(value);
