@@ -5,7 +5,6 @@ import com.virtutuile.afficheur.tools.ValidationsException;
 import com.virtutuile.domaine.Constants;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.util.function.BiConsumer;
 
@@ -78,5 +77,9 @@ public class UnitInput extends TextInput {
             throw new ValidationsException("Bad number format");
         }
         return true;
+    }
+
+    public void setEditableFalse() {
+        field.setEditable(false);
     }
 }

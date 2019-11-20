@@ -5,7 +5,6 @@ import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.afficheur.swing.events.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
-import com.virtutuile.domaine.Controller;
 
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
@@ -50,7 +49,7 @@ public class Canvas extends PanelEvents {
 
         addMouseEventListener(MouseEventKind.MouseMove, (mouseEvent) -> {
             mainWindow.getController().mouseHover(mouseEvent.getPoint());
-            mainWindow.getBottomToolbar().setSurfaceBounds();
+            mainWindow.getBottomToolbar().getHoverSurfaceBound();
             repaint();
         });
 
