@@ -1,16 +1,17 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.inputs.Button;
+import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
+import com.virtutuile.afficheur.tools.ValidationsException;
 import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyListener;
+import java.util.function.BiConsumer;
 
 public class SurfacePanel extends SubPanel {
 
@@ -69,7 +70,7 @@ public class SurfacePanel extends SubPanel {
 
     private void setRemoveShapesButtons(JPanel line) {
         removeSurface.put(DrawShapeButtonType.RemoveRectangularSurface, new Button("Rectangle", AssetLoader.loadImage("/icons/shape-edit-remove-square.png")));
-        removeSurface.put(DrawShapeButtonType.RemoveFreeSurface, new Button("Free",  AssetLoader.loadImage("/icons/shape-edit-remove-free.png")));
+        removeSurface.put(DrawShapeButtonType.RemoveFreeSurface, new Button("Free", AssetLoader.loadImage("/icons/shape-edit-remove-free.png")));
 
         removeSurface.forEach((key, value) -> {
             line.add(value);
@@ -80,6 +81,9 @@ public class SurfacePanel extends SubPanel {
     private void setInputsOnPanel(JPanel line) {
         inputs.put(InputContextType.Width, new UnitInput("Width"));
         inputs.put(InputContextType.Height, new UnitInput("Height"));
+        inputs.get(InputContextType.Height).addInputListener(TextInput.InputEventKind.OnChange, (val, self) -> {
+            System.out.println(val);
+        });
 
         inputs.forEach((key, value) -> {
             line.add(value);

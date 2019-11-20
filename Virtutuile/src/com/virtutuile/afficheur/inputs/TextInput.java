@@ -3,15 +3,21 @@ package com.virtutuile.afficheur.inputs;
 import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.swing.Label;
 import com.virtutuile.afficheur.swing.Panel;
-import com.virtutuile.afficheur.tools.IDocumentListener;
+import com.virtutuile.afficheur.swing.events.InputEventKind;
+import com.virtutuile.afficheur.tools.ValidationsException;
+import com.virtutuile.shared.TriConsumer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.function.BiConsumer;
 
-public class TextInput extends Panel {
+public class TextInput extends Panel implements DocumentListener {
     protected Label label = new Label();
     protected Panel fieldMargin = new Panel();
     protected Panel fieldBorder = new Panel(new BorderLayout());
@@ -20,6 +26,10 @@ public class TextInput extends Panel {
     protected Border validBorder = BorderFactory.createLineBorder(Constants.INPUT_COLOR, 1, false);
     protected Border invalidBorder = BorderFactory.createLineBorder(Constants.INPUT_COLOR_INVALID, 1, false);
     protected boolean isValid;
+    protected HashMap<InputEventKind, Vector<BiConsumer<String, TextInput>>> events = new HashMap<>();
+    protected BiConsumer<String, TextInput> inputValidator = (a, b) -> {
+        invoke(InputEventKind.OnChange);
+    };
 
     public TextInput(String label) {
         this(label, true);
@@ -41,7 +51,7 @@ public class TextInput extends Panel {
         field.setOpaque(false);
         field.setForeground(Constants.EDITIONPANEL_FONT_COLOR);
         field.setCaretColor(Constants.EDITIONPANEL_FONT_COLOR);
-        field.getDocument().addDocumentListener((IDocumentListener) this::validateInput);
+        field.getDocument().addDocumentListener(this);
 
         fieldBorder.setBorder(validBorder);
         fieldBorder.add(field);
@@ -56,9 +66,6 @@ public class TextInput extends Panel {
         this.setBorder(new EmptyBorder(5, 7, 5, 7));
         this.setBackground(Constants.SUBPANEL_BACKGROUND);
         setOpaque(true);
-    }
-
-    protected void validateInput(DocumentEvent documentEvent) {
     }
 
     public String getText() {
@@ -79,5 +86,58 @@ public class TextInput extends Panel {
         fieldBorder.setBorder(isValid ? validBorder : invalidBorder);
         repaint();
         return this;
+    }
+
+    public TextInput setValidator(TriConsumer<String, TextInput, BiConsumer<String, TextInput>>... validators) {
+
+        for (int i = 0; i < validators.length; ++i) {
+            TriConsumer<String, TextInput, BiConsumer<String, TextInput>> validator = validators[i];
+
+            BiConsumer<String, TextInput> finalStart = inputValidator;
+            inputValidator = (a, b) -> {
+                try {
+                    validator.apply(a, b, finalStart);
+                    setValid(true);
+                    errorLabel.setText(" ");
+                    System.out.println("  Validate");
+                } catch (ValidationsException except) {
+                    setValid(false);
+                    errorLabel.setText(except.getMessage());
+                    System.out.println("  No validate");
+                }
+            };
+        }
+
+        return this;
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        inputValidator.accept(getText(), this);
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        inputValidator.accept(getText(), this);
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        inputValidator.accept(getText(), this);
+    }
+
+    public void addInputListener(InputEventKind evt, BiConsumer<String, TextInput> callback) {
+        if (!events.containsKey(evt)) {
+            events.put(evt, new Vector<>());
+        }
+        events.get(evt).add(callback);
+    }
+
+    private void invoke(InputEventKind evt) {
+        if (events.containsKey(evt)) {
+            for (BiConsumer<String, TextInput> consumer : events.get(evt)) {
+                consumer.accept(field.getText(), this);
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.virtutuile.domaine.Constants;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
+import java.util.function.BiConsumer;
 
 public class UnitInput extends TextInput {
 
@@ -24,20 +25,9 @@ public class UnitInput extends TextInput {
         unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
         unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         fieldBorder.add(unitLabel, BorderLayout.EAST);
+        setValidator(UnitInput::isDouble);
         revalidate();
         repaint();
-    }
-
-    @Override
-    protected void validateInput(DocumentEvent documentEvent) {
-        try {
-            isDouble(field.getText());
-            setValid(true);
-            errorLabel.setText(" ");
-        } catch (ValidationsException except) {
-            errorLabel.setText(except.getMessage());
-            setValid(false);
-        }
     }
 
     public int getValue() {
@@ -71,9 +61,10 @@ public class UnitInput extends TextInput {
         return true;
     }
 
-    public static final boolean isDouble(String test) throws ValidationsException {
+    public static final boolean isDouble(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
         try {
             Double.parseDouble(test);
+            next.accept(test, input);
         } catch (NumberFormatException except) {
             throw new ValidationsException("Bad number format");
         }
