@@ -2,8 +2,10 @@ package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
+import com.virtutuile.afficheur.inputs.ColorPicker;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.domaine.Controller;
 import com.virtutuile.domaine.entities.Grout;
 
@@ -13,7 +15,7 @@ import java.awt.*;
 
 public class GroutPanel extends SubPanel{
 
-    private JColorChooser colorPicker = null;
+    private ColorPicker colorPicker = null;
     private UnitInput thickness = null;
 
     public GroutPanel(String name, MainWindow mainWindow) {
@@ -25,7 +27,15 @@ public class GroutPanel extends SubPanel{
 
     @Override
     protected void setEvents() {
+        colorPicker.addInputListener(InputEventKind.OnChange, (color, self) -> {
+            mainWindow.getController().setGroutColor(color);
+            mainWindow.repaint();
+        });
 
+        thickness.addInputListener(InputEventKind.OnChange, (value, self) -> {
+            mainWindow.getController().setGroutThickness(value);
+            mainWindow.repaint();
+        });
     }
 
     @Override
@@ -34,7 +44,7 @@ public class GroutPanel extends SubPanel{
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setSize(100, 100);
 
-        colorPicker = new JColorChooser();
+        colorPicker = new ColorPicker();
         colorPicker.setMaximumSize(new Dimension(500,200));
         colorPicker.setMinimumSize(new Dimension(500,200));
         colorPicker.setPreferredSize(new Dimension(500,200));

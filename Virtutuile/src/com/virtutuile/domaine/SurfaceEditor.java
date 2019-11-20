@@ -135,10 +135,10 @@ public class SurfaceEditor {
             meta.setSelectedSurfaceCanBeResized(false);
         }
 
-        if (surface == null) {
+        /*if (surface == null) {
             outOfShape = true;
             surface = getShapeNear(point);
-        }
+        }*/
         if (meta.getHoveredSurface() != null) {
             meta.getHoveredSurface().setMouseHover(false);
         }
