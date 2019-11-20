@@ -3,6 +3,9 @@ package com.virtutuile.afficheur.inputs;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
 
 import javax.swing.*;
+import javax.swing.colorchooser.ColorSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -10,22 +13,21 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.function.BiConsumer;
 
-public class ColorPicker extends JColorChooser implements DocumentListener {
+public class ColorPicker extends JColorChooser implements ChangeListener {
     protected HashMap<InputEventKind, Vector<BiConsumer<Color, ColorPicker>>> events = new HashMap<>();
 
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        invoke(InputEventKind.OnChange);
+    public ColorPicker() {
+        getSelectionModel().addChangeListener(this);
     }
 
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        invoke(InputEventKind.OnChange);
+    public ColorPicker(Color initialColor) {
+        super(initialColor);
+        getSelectionModel().addChangeListener(this);
     }
 
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        invoke(InputEventKind.OnChange);
+    public ColorPicker(ColorSelectionModel model) {
+        super(model);
+        getSelectionModel().addChangeListener(this);
     }
 
     public void addInputListener(InputEventKind evt, BiConsumer<Color, ColorPicker> callback) {
@@ -43,5 +45,8 @@ public class ColorPicker extends JColorChooser implements DocumentListener {
         }
     }
 
-
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        invoke(InputEventKind.OnChange);
+    }
 }
