@@ -213,4 +213,32 @@ public class Controller {
     public void setGroutThickness(String value) {
         meta.setGroutThickness(value);
     }
+
+    public Double[] getTileDimension(String type) {
+        return meta.getTileDimension(type);
+    }
+
+    public void setWidthForTile(String value, String name) {
+        meta.setWidthForTile(value, name);
+    }
+
+    public void setHeightForTile(String value, String name) {
+        meta.setHeightForTile(value, name);
+    }
+
+    public void renameTile(String newName, String oldName) {
+        meta.renameTile(newName, oldName);
+    }
+
+    public String[] getTypeOfTiles() {
+        return meta.getTypeOfTiles();
+    }
+
+    public boolean isSurfaceSelected() {
+        return meta.isSurfaceSelected();
+    }
+
+    public void setTypeOfTileOnSurface(String typeOfTileName) {
+        meta.setTypeOfTileOnSurface(typeOfTileName);
+    }
 }

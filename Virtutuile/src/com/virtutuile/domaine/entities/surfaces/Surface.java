@@ -15,6 +15,7 @@ public class Surface extends PrimarySurface {
     protected boolean isHole;
     protected PatternGroup patternGroup;
     protected Vector<Surface> subSurfaces;
+    protected Tile typeOfTile;
     protected Grout grout;
 
     public Surface(Point[] points) {
@@ -133,7 +134,9 @@ public class Surface extends PrimarySurface {
     }
 
     public void applyPattern(String patterName) {
-        patternGroup = new PatternGroup(patterName, this);
+        if (patternGroup == null) {
+            patternGroup = new PatternGroup(patterName, this);
+        }
     }
 
     public Vector<Surface> getSubSurfaces() {
@@ -142,5 +145,13 @@ public class Surface extends PrimarySurface {
 
     public Grout getGrout() {
         return grout;
+    }
+
+    public void setTypeOfTile(Tile typeOfTile) {
+        this.typeOfTile = typeOfTile;
+    }
+
+    public Tile getTypeOfTile() {
+        return typeOfTile;
     }
 }

@@ -32,4 +32,6 @@ public abstract class Pattern {
     public double[] getAdjust() {
         return adjust;
     }
+
+    public abstract void setTileType(Tile tile);
 }

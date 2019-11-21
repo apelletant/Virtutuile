@@ -48,7 +48,6 @@ public class Meta {
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
 
-
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
         createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
@@ -328,6 +327,74 @@ public class Meta {
                 selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
             }
         }
+    }
+
+    public Double[] getTileDimension(String type) {
+        Double[] dimensions = new Double[2];
+        dimensions[0] = typeOfTiles.get(type).getBounds().getWidth();
+        dimensions[1] = typeOfTiles.get(type).getBounds().getHeight();
+        return dimensions;
+    }
+
+    public void setWidthForTile(String value, String name) {
+        System.out.println("name: " + name + ", value: " + value);
+        typeOfTiles.get(name).setWidth(Double.parseDouble(value));
+        surfaces.forEach((key, surface) -> {
+            if (surface.getPatternGroup() != null
+                    && surface.getTypeOfTile() != null
+                    && surface.getTypeOfTile().getName().equals(name)) {
+                surface.getPatternGroup().recalcPattern(surface);
+            }
+        });
+    }
+
+    public void setHeightForTile(String value, String name) {
+        typeOfTiles.get(name).setHeight(Double.parseDouble(value));
+        surfaces.forEach((key, surface) -> {
+            if (surface.getPatternGroup() != null
+                    && surface.getTypeOfTile() != null
+                    && surface.getTypeOfTile().getName().equals(name)) {
+                surface.getPatternGroup().recalcPattern(surface);
+            }
+        });
+    }
+
+    public void renameTile(String newName, String oldName) {
+        /*System.out.println("old name : " + oldName + ", new name: " + newName);
+        typeOfTiles.get(oldName).setName(newName);
+        Tile tmp = typeOfTiles.get(oldName).copy();
+        typeOfTiles.remove(oldName);
+        typeOfTiles.put(newName, tmp);*/
+    }
+
+    public String[] getTypeOfTiles() {
+        String[] types = new String[typeOfTiles.size()];
+        final int[] i = {0};
+        typeOfTiles.forEach((key, value) -> {
+            types[i[0]] = key;
+            i[0]++;
+        });
+        return types;
+    }
+
+    public void setTypeOfTileOnSurface(String typeOfTile) {
+        if (selectedSurface != null) {
+            typeOfTiles.forEach((name, tile) -> {
+                if (name.equals(typeOfTile)) {
+                    selectedSurface.setTypeOfTile(tile);
+                    if (selectedSurface.getPatternGroup() != null) {
+                        selectedSurface.getPatternGroup().changeTileType(selectedSurface, tile);
+                    }
+                }
+            });
+        }
+    }
+
+    public boolean isSurfaceSelected() {
+        if (selectedSurface != null) {
+            return true;
+        }
+        return false;
     }
 
     public enum EditionAction {
