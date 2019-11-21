@@ -241,4 +241,8 @@ public class Controller {
     public void setTypeOfTileOnSurface(String typeOfTileName) {
         meta.setTypeOfTileOnSurface(typeOfTileName);
     }
+
+    public void setTypeOfTileColor(String selectedTile, Color color) {
+        meta.setTypeOfTileColor(selectedTile, color);
+    }
 }

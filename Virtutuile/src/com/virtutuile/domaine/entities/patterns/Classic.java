@@ -9,8 +9,10 @@ public class Classic extends Pattern {
         adjust = new double[]{0, 0};
         if (tile != null) {
             tiles.add(new Tile(new Rectangle2D.Double(0,0, tile.getBounds().getWidth(), tile.getBounds().getHeight())));
+            tiles.get(0).setFillColor(tile.getFillColor());
         } else {
             tiles.add(new Tile(new Rectangle2D.Double(0,0, defaultDimensions.getX(), defaultDimensions.getY())));
+            tiles.get(0).setFillColor(tile.getFillColor());
         }
     }
 
@@ -18,5 +20,6 @@ public class Classic extends Pattern {
     public void setTileType(Tile tile) {
         tiles.clear();
         tiles.add(new Tile(new Rectangle2D.Double(0,0, tile.getBounds().getWidth(), tile.getBounds().getHeight())));
+        tiles.get(0).setFillColor(tile.getFillColor());
     }
 }

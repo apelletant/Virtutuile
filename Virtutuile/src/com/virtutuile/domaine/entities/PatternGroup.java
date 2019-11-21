@@ -41,8 +41,8 @@ public class PatternGroup {
         /*System.out.println("Tiles size before : " + tiles.size());*/
         tiles = new Vector<>();
         /*System.out.println("Tiles size after : " + tiles.size());*/
-        System.out.println(surface.getTypeOfTile().getName());
-        System.out.println(surface.getTypeOfTile().getBounds().getWidth() + ", " + surface.getTypeOfTile().getBounds().getHeight());
+        /*System.out.println(surface.getTypeOfTile().getName());
+        System.out.println(surface.getTypeOfTile().getBounds().getWidth() + ", " + surface.getTypeOfTile().getBounds().getHeight());*/
         pattern.setTileType(surface.getTypeOfTile());
         buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
     }

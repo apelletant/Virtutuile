@@ -45,6 +45,10 @@ public class TileSettingsPanel extends SubPanel {
             mainWindow.repaint();
         });
 
+        colorPicker.addInputListener(InputEventKind.OnChange, (color, self) -> {
+            mainWindow.getController().setTypeOfTileColor(selectedTile, color);
+            mainWindow.repaint();
+        });
         /*tileName.addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().renameTile(value, selectedTile);
             repaint();

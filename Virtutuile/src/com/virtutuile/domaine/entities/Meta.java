@@ -337,7 +337,6 @@ public class Meta {
     }
 
     public void setWidthForTile(String value, String name) {
-        System.out.println("name: " + name + ", value: " + value);
         typeOfTiles.get(name).setWidth(Double.parseDouble(value));
         surfaces.forEach((key, surface) -> {
             if (surface.getPatternGroup() != null
@@ -395,6 +394,23 @@ public class Meta {
             return true;
         }
         return false;
+    }
+
+    public void setTypeOfTileColor(String typeOfTile, Color color) {
+        /*System.out.println("tuile: " + typeOfTile + ", color: " + color.toString());*/
+        if (typeOfTiles != null && typeOfTiles.containsKey(typeOfTile)) {
+            typeOfTiles.get(typeOfTile).setFillColor(color);
+            typeOfTiles.get(typeOfTile).setColor(color);
+        }
+        typeOfTiles.forEach((name, tile) -> {
+            if (name.equals(typeOfTile)) {
+                /*selectedSurface.setTypeOfTile(tile);*/
+                if (selectedSurface.getPatternGroup() != null) {
+                    /*selectedSurface.getPatternGroup().changeTileType(selectedSurface, tile);*/
+                    selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
+                }
+            }
+        });
     }
 
     public enum EditionAction {
