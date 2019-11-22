@@ -224,6 +224,7 @@ public class Meta {
     }
 
     public void updateZoom(double zoom, Point cursor) {
+        zoom = zoom * -1;
         double oldWidth = pixelsToCentimeters(getCanvasSize().width);
         double oldHeight = pixelsToCentimeters(getCanvasSize().height);
         double newCanvasSize = pixelsToCentimeters((int) ((double) getCanvasSize().width - (zoom * Constants.WHEEL_TICK_RATIO)));
@@ -402,13 +403,15 @@ public class Meta {
             typeOfTiles.get(typeOfTile).setFillColor(color);
             typeOfTiles.get(typeOfTile).setColor(color);
         }
+
+        assert typeOfTiles != null;
         typeOfTiles.forEach((name, tile) -> {
             if (name.equals(typeOfTile)) {
-                /*selectedSurface.setTypeOfTile(tile);*/
-                if (selectedSurface.getPatternGroup() != null) {
-                    /*selectedSurface.getPatternGroup().changeTileType(selectedSurface, tile);*/
-                    selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
-                }
+                surfaces.forEach((surfaceName, surface) -> {
+                    if (surface.getPatternGroup() != null) {
+                        surface.getPatternGroup().recalcPattern(surface);
+                    }
+                });
             }
         });
     }
