@@ -18,7 +18,7 @@ public class BottomToolbar extends BorderedPanel {
     private MainWindow mainWindow;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
     private UnorderedMap<String, UnitInput> hoveredSurfaceDim = new UnorderedMap<>();
-
+    private UnitInput zoomLevel = new UnitInput("Zoom:");
 
     public BottomToolbar(MainWindow mainWindow) {
         super();
@@ -38,12 +38,24 @@ public class BottomToolbar extends BorderedPanel {
         hoveredSurfaceDim.put("height", setUpUnitInput("Height:"));
 
         setEvent();
-
         Panel hoveredSurfacePanel = setUpSurfaceDataPanel();
-
+        Panel zoomLvlPanel = setZoomLvlPanel();
+        
         add(Box.createHorizontalGlue());
         add(Box.createVerticalGlue());
         add(hoveredSurfacePanel);
+    }
+
+    private Panel setZoomLvlPanel() {
+        Panel pan = new Panel();
+
+        pan.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+        pan.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+        pan.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+
+        pan.add(zoomLevel);
+
+        return pan;
     }
 
     private Panel setUpSurfaceDataPanel() {

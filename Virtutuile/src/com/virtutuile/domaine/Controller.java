@@ -137,9 +137,7 @@ public class Controller {
     private Point coordToMagneticCoord(Point oldCoord) {
         Point newCoord = new Point();
 
-//        int zoom = manager.getZoom();
-        //TODO replace with real zoom value
-        double zoom = 100;
+        double zoom = meta.getZoomFactor();
 
         double y = oldCoord.getY();
         double x = oldCoord.getX();
