@@ -2,89 +2,70 @@ package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
-import com.virtutuile.afficheur.inputs.ColorPicker;
-import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
-import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-import java.awt.*;
 
-public class TilePanel extends SubPanel {
+public class TilePanel extends SubPanel  {
 
-    private ColorPicker colorPicker = null;
-    private UnitInput width = null;
-    private UnitInput height = null;
-    private UnorderedMap<String, Button> tilesType = new UnorderedMap<>();
+    private UnorderedMap<String, Button> tilesType;
 
     public TilePanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
-        this.setButtonsOnPanel();
-        this.setEvents();
-        this.persistLayout();
+        tilesType = new UnorderedMap<>();
+
+        setButtonsOnPanel();
+        setEvents();
+        persistLayout();
     }
 
-    @Override
-    protected void setEvents() {
+    public UnorderedMap<String, Button> getTilesType() {
+        return tilesType;
     }
 
     @Override
     protected void setButtonsOnPanel() {
         JPanel line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        line.setSize(100, 100);
 
-        setColorPickerOnPanel(line);
-        setThicknessInputOnPanel(line);
-        setTypeOfTileButtonsOnPanel();
-    }
-
-    private void setTypeOfTileButtonsOnPanel() {
-        JPanel line = new Panel();
-        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-
-        /*createNewTile(20, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Square", false);
-        createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
-        createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
-        createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
-        createNewTile(140, 80, Constants.DEFAULT_SHAPE_FILL_COLOR, "Extra Large", false);*/
-
-        tilesType.put("Small", new Button("Small", AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
-        tilesType.put("Medium", new Button("Medium", AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
-        tilesType.put("Large", new Button("Large", AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
-
+        String[] types = mainWindow.getController().getTypeOfTiles();
+        for (String type : types) {
+            tilesType.put(type, new Button(type, AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
+        }
         tilesType.forEach((key, value) -> {
             line.add(value);
         });
-    }
-
-    private void setColorPickerOnPanel(JPanel line) {
-        colorPicker = new ColorPicker();
-        colorPicker.setMaximumSize(new Dimension(500,200));
-        colorPicker.setMinimumSize(new Dimension(500,200));
-        colorPicker.setPreferredSize(new Dimension(500,200));
-        AbstractColorChooserPanel[] panels = colorPicker.getChooserPanels();
-        colorPicker.setChooserPanels(new AbstractColorChooserPanel[] { panels[0] });
-        line.add(colorPicker);
         rows.add(line);
     }
 
-    private void setThicknessInputOnPanel(JPanel line) {
-        width = new UnitInput("Width");
-        height = new UnitInput("Height");
+    @Override
+    protected void setEvents() {
+        tilesType.forEach((name, button) -> {
+            button.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
 
-        line = new Panel();
-        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        line.add(width);
-        line.add(height);
-        rows.add(line);
+                tilesType.forEach((nameBis, buttonBis) -> {
+                    buttonBis.setActive(false);
+                });
+
+                if (mainWindow.getController().isSurfaceSelected()) {
+                    mainWindow.getController().setTypeOfTileOnSurface(name);
+                    button.setActive(true);
+                    mainWindow.repaint();
+                }
+            });
+        });
     }
 
-    enum GroutButtonType {
-        ColorPicker,
-        Thickness
+    public void setButtonSelected(String buttonName) {
+        tilesType.forEach((name, button) -> {
+            if (name.equals(buttonName)) {
+                button.setActive(true);
+            } else {
+                button.setActive(false);
+            }
+        });
     }
 }

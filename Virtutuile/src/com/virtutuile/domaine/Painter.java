@@ -50,6 +50,7 @@ public class Painter {
         Polygon poly = new Polygon(polygonPoints[0], polygonPoints[1], polygonPoints[0].length);
 
         graphics2D.setColor(surface.fillColor());
+/*        System.out.println("in painter: " + surface.fillColor());*/
         graphics2D.fillPolygon(poly.xpoints, poly.ypoints, poly.npoints);
 
         graphics2D.setColor(surface.getBorderColor());

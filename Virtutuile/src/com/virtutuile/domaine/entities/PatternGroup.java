@@ -24,7 +24,7 @@ public class PatternGroup {
     public PatternGroup(String patternName, Surface surface) {
         switch (patternName) {
             case "Classic":
-                pattern = new Classic();
+                pattern = new Classic(surface.getTypeOfTile());
             default:
                 break;
         }
@@ -38,8 +38,18 @@ public class PatternGroup {
     }
 
     public void recalcPattern(Surface surface) {
-        tiles.clear();
+        /*System.out.println("Tiles size before : " + tiles.size());*/
+        tiles = new Vector<>();
+        /*System.out.println("Tiles size after : " + tiles.size());*/
+        /*System.out.println(surface.getTypeOfTile().getName());
+        System.out.println(surface.getTypeOfTile().getBounds().getWidth() + ", " + surface.getTypeOfTile().getBounds().getHeight());*/
+        pattern.setTileType(surface.getTypeOfTile());
         buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
+    }
+
+    public void changeTileType(Surface surface, Tile tile) {
+        pattern.setTileType(tile);
+        recalcPattern(surface);
     }
 
     private Surface transformToSurfaceWithoutSideGrout(Surface surface) {
@@ -54,6 +64,7 @@ public class PatternGroup {
     }
 
     private void buildPattern(Surface surface, Surface groutedSurface) {
+        /*System.out.println("BEGIN");*/
         double[] adjust = pattern.getAdjust();
         double[] origin = new double[]{surface.getPolygon().getBounds().getX(), surface.getPolygon().getBounds2D().getY()};
         double[] tileSize = {pattern.getTiles().get(0).getPolygon().getBounds().width, pattern.getTiles().get(0).getPolygon().getBounds().height};
@@ -61,7 +72,7 @@ public class PatternGroup {
         double x = 0;
 
         if (surface != null && groutedSurface != null) {
-            System.out.println("Rebuild begin");
+            /*System.out.println("Rebuild begin");*/
 
             while (y < surface.getPolygon().getBounds().getHeight() + surface.getGrout().getThickness()) {
                 y = y + surface.getGrout().getThickness();
@@ -91,10 +102,11 @@ public class PatternGroup {
                 y = y + tileSize[1] + adjust[1];
                 x = adjust[0];
             }
-            System.out.println("Remove begin");
+            /*System.out.println("END");*/
+            /*System.out.println("Remove begin");*/
             removeTileOutOfSurface(surface, groutedSurface);
-            System.out.println("Remove end");
-            System.out.println("Rebuild end");
+            /*System.out.println("Remove end");
+            System.out.println("Rebuild end");*/
         }
     }
 
@@ -103,11 +115,11 @@ public class PatternGroup {
 
         tiles.forEach((tile) -> {
             if (!surface.getPolygon().contains(tile.getPolygon().getBounds2D())) {
-                System.out.println("adjust begin");
+                /*System.out.println("adjust begin");*/
                 if (!adjustTileIfIntersect(surface, tile, groutedSurface)) {
                     tilesToRemove.add(tile);
                 }
-                System.out.println("adjust end");
+                /*System.out.println("adjust end");*/
             }
         });
         tilesToRemove.forEach((tileToRemove) -> {

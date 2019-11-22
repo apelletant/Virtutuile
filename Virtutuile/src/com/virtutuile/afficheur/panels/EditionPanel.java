@@ -4,13 +4,11 @@ import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.panels.subEdition.*;
 import com.virtutuile.afficheur.swing.PanelEvents;
-import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Vector;
 
 public class EditionPanel extends PanelEvents {
 
@@ -21,6 +19,8 @@ public class EditionPanel extends PanelEvents {
     public EditionPanel(MainWindow mainWindow) {
         super();
         this.mainWindow = mainWindow;
+        tileSettingsPanel = new TileSettingsPanel("Tile Settings", mainWindow);
+
         subPanels = new UnorderedMap<>() {{
             put(PanelType.Surface, new SurfacePanel("Surface", mainWindow));
             put(PanelType.Grout, new GroutPanel("Grout", mainWindow));
@@ -30,7 +30,6 @@ public class EditionPanel extends PanelEvents {
         subPanels.forEach((key, value) -> {
             add(value, key);
         });
-        tileSettingsPanel = new TileSettingsPanel("Tile Settings", mainWindow);
 
         setOpaque(true);
         setName("Edition Panel");
@@ -68,8 +67,8 @@ public class EditionPanel extends PanelEvents {
         });
     }
 
-    public TileSettingsPanel getTileSettingsPanel() {
-        return tileSettingsPanel;
+    public UnorderedMap<PanelType, SubPanel> getSubPanels() {
+        return subPanels;
     }
 
     public void addTileSettingsPanel() {
@@ -79,6 +78,7 @@ public class EditionPanel extends PanelEvents {
     public void removeTileSettingsPanel() {
         remove(tileSettingsPanel);
     }
+
 
     enum PanelType {
         Surface,

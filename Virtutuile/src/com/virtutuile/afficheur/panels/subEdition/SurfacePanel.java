@@ -24,8 +24,8 @@ public class SurfacePanel extends SubPanel {
     public SurfacePanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
         setButtonsOnPanel();
-        persistLayout();
         setEvents();
+        persistLayout();
     }
 
     @Override

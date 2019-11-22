@@ -44,6 +44,7 @@ public class Tile extends PrimarySurface {
         setFillColor(color);
         setName(name);
         this.deletable = deletable;
+        regenerate();
     }
 
     public Tile() {
