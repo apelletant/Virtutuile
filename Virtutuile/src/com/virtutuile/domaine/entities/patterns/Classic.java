@@ -12,7 +12,6 @@ public class Classic extends Pattern {
             tiles.get(0).setFillColor(tile.getFillColor());
         } else {
             tiles.add(new Tile(new Rectangle2D.Double(0,0, defaultDimensions.getX(), defaultDimensions.getY())));
-            tiles.get(0).setFillColor(tile.getFillColor());
         }
     }
 

@@ -19,6 +19,7 @@ public class SurfacePanel extends SubPanel {
 
     private UnorderedMap<DrawShapeButtonType, Button> addSurface = new UnorderedMap<>();
     private UnorderedMap<DrawShapeButtonType, Button> removeSurface = new UnorderedMap<>();
+    private UnorderedMap<DrawShapeButtonType, Button> surfaceManagement = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> inputs = new UnorderedMap<>();
 
     public SurfacePanel(String name, MainWindow mainWindow) {
@@ -68,6 +69,20 @@ public class SurfacePanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setInputsOnPanel(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setManagementButtonOnPanel(line);
+    }
+
+    private void setManagementButtonOnPanel(JPanel line) {
+        surfaceManagement.put(DrawShapeButtonType.MergeSurfaces, new Button("Merge", AssetLoader.loadImage("/icons/position-merge-shapes.png")));
+
+        surfaceManagement.forEach((key, value) -> {
+            line.add(value);
+        });
+
+        rows.add(line);
     }
 
     private void setDrawShapesButtons(JPanel line) {
@@ -122,6 +137,7 @@ public class SurfacePanel extends SubPanel {
         AddFreeSurface,
         RemoveRectangularSurface,
         RemoveFreeSurface,
+        MergeSurfaces,
     }
 
     public enum InputContextType {

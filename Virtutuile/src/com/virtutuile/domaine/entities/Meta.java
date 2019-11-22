@@ -224,6 +224,7 @@ public class Meta {
     }
 
     public void updateZoom(double zoom, Point cursor) {
+        zoom = zoom * -1;
         double oldWidth = pixelsToCentimeters(getCanvasSize().width);
         double oldHeight = pixelsToCentimeters(getCanvasSize().height);
         double newCanvasSize = pixelsToCentimeters((int) ((double) getCanvasSize().width - (zoom * Constants.WHEEL_TICK_RATIO)));
@@ -402,15 +403,40 @@ public class Meta {
             typeOfTiles.get(typeOfTile).setFillColor(color);
             typeOfTiles.get(typeOfTile).setColor(color);
         }
+
+        assert typeOfTiles != null;
         typeOfTiles.forEach((name, tile) -> {
             if (name.equals(typeOfTile)) {
-                /*selectedSurface.setTypeOfTile(tile);*/
-                if (selectedSurface.getPatternGroup() != null) {
-                    /*selectedSurface.getPatternGroup().changeTileType(selectedSurface, tile);*/
-                    selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
-                }
+                surfaces.forEach((surfaceName, surface) -> {
+                    if (surface.getPatternGroup() != null) {
+                        surface.getPatternGroup().recalcPattern(surface);
+                    }
+                });
             }
         });
+    }
+
+    public Point coordToMagneticCoord(Point oldCoord) {
+        Point newCoord = new Point();
+
+        double zoom = getZoomFactor();
+
+        double y = oldCoord.getY();
+        double x = oldCoord.getX();
+
+        if (oldCoord.getY() % (zoom /4) <= 12) {
+            newCoord.y = (int)(y - (y % (zoom /4)));
+        } else {
+            newCoord.y = (int)(y + ( (zoom / 4) - (y % (zoom /4))));
+        }
+
+        if (x % (zoom /4) <= 12) {
+            newCoord.x = (int)(x - (x % (zoom /4)));
+        } else {
+            newCoord.x = (int)(x + ( (zoom / 4) - (x % (zoom /4))));
+        }
+
+        return newCoord;
     }
 
     public enum EditionAction {
