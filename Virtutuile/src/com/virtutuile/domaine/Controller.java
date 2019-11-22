@@ -243,4 +243,8 @@ public class Controller {
     public void setTypeOfTileColor(String selectedTile, Color color) {
         meta.setTypeOfTileColor(selectedTile, color);
     }
+
+    public Double getZoomFactor() {
+        return meta.getZoomFactor();
+    }
 }
