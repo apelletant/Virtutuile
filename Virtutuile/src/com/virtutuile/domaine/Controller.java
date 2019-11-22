@@ -73,17 +73,17 @@ public class Controller {
         this.surfaceEditor.mouseLClick(meta.pointToPoints2D(point));
 
         meta.setClicked(meta.pointToPoints2D(point));
-        if (meta.isGridActivated()) {
+        /*if (meta.isGridActivated()) {
             Surface currentshape = meta.getSelectedSurface();
             if (currentshape == null) {
-                /*System.out.println("null");*/
+                *//*System.out.println("null");*//*
                 return;
             }
             Rectangle2D bounds = currentshape.getPolygon().getBounds2D();
             Point oldShapePos = meta.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
             point = coordToMagneticCoord(oldShapePos);
             currentshape.getPolygon().moveTo(point.x, point.y);
-        }
+        }*/
     }
 
     public void mouseRClick(Point point) {
@@ -135,26 +135,7 @@ public class Controller {
     };
 
     private Point coordToMagneticCoord(Point oldCoord) {
-        Point newCoord = new Point();
-
-        double zoom = meta.getZoomFactor();
-
-        double y = oldCoord.getY();
-        double x = oldCoord.getX();
-
-        if (oldCoord.getY() % (zoom /4) <= 12) {
-            newCoord.y = (int)(y - (y % (zoom /4)));
-        } else {
-            newCoord.y = (int)(y + ( (zoom / 4) - (y % (zoom /4))));
-        }
-
-        if (x % (zoom /4) <= 12) {
-            newCoord.x = (int)(x - (x % (zoom /4)));
-        } else {
-            newCoord.x = (int)(x + ( (zoom / 4) - (x % (zoom /4))));
-        }
-
-        return newCoord;
+        return meta.coordToMagneticCoord(oldCoord);
     }
 
     public void updateZoom(double preciseWheelRotation, Point point) {
@@ -173,10 +154,6 @@ public class Controller {
         return meta.getSelectedSurfaceGroutThickness();
     }
 
-//    public Rectangle2D getHoveredSurfaceBounds() {
-//        return meta.getHoveredSurface().getPolygon().getBounds2D();
-//    }
-
     public int getGridSize() {
         return meta.getGridSize();
     }
@@ -193,7 +170,6 @@ public class Controller {
 
     public void setSurfaceWidth(double value) {
         meta.setSelectedSurfaceWidth(value);
-
     }
 
     public void setSurfaceHeight(double value) {

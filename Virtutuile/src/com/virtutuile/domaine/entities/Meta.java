@@ -416,6 +416,29 @@ public class Meta {
         });
     }
 
+    public Point coordToMagneticCoord(Point oldCoord) {
+        Point newCoord = new Point();
+
+        double zoom = getZoomFactor();
+
+        double y = oldCoord.getY();
+        double x = oldCoord.getX();
+
+        if (oldCoord.getY() % (zoom /4) <= 12) {
+            newCoord.y = (int)(y - (y % (zoom /4)));
+        } else {
+            newCoord.y = (int)(y + ( (zoom / 4) - (y % (zoom /4))));
+        }
+
+        if (x % (zoom /4) <= 12) {
+            newCoord.x = (int)(x - (x % (zoom /4)));
+        } else {
+            newCoord.x = (int)(x + ( (zoom / 4) - (x % (zoom /4))));
+        }
+
+        return newCoord;
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,
