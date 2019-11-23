@@ -85,20 +85,23 @@ public class Painter {
     }
 
     private void drawMagneticGrid() {
+        if (meta.getGridSize() < 5) {
+            return;
+        }
+
         Color col = new Color(0, 0, 0);
         graphics2D.setColor(col);
         graphics2D.setStroke(new BasicStroke(1));
 
+        Double gridSize = meta.getGridSize();
+
         Dimension canvasDim = meta.getCanvasSize();
-        //System.out.println(canvasDim);
-        //System.out.println(canvasDim.width);
         for (int i = 0; i <= canvasDim.width; i++) {
             for (int j = 0; j <= canvasDim.height; j++) {
-                if (i % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0
-                    && j % (int)meta.pixelsToCentimeters(meta.getGridSize()) == 0)
-                {
-                    /*System.out.println(meta.pixelsToCentimeters(meta.getGridSize()));*/
+                if (i % meta.getGridSize() == 0) {
                     graphics2D.drawLine(i, j, i, canvasDim.width);
+                }
+                if (j % meta.getGridSize() == 0) {
                     graphics2D.drawLine(canvasDim.height, j, i, j);
                 }
             }

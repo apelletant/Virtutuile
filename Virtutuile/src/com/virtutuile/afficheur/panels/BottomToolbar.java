@@ -3,9 +3,12 @@ package com.virtutuile.afficheur.panels;
 import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
+import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.BorderedPanel;
+import com.virtutuile.afficheur.swing.Label;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.shared.UnorderedMap;
@@ -19,6 +22,7 @@ public class BottomToolbar extends BorderedPanel {
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
     private UnorderedMap<String, UnitInput> hoveredSurfaceDim = new UnorderedMap<>();
     private UnitInput zoomLevel = new UnitInput("Zoom:");
+    private TextInput gridSizeInput = new TextInput("Grid size: ");
 
     public BottomToolbar(MainWindow mainWindow) {
         super();
@@ -34,16 +38,43 @@ public class BottomToolbar extends BorderedPanel {
             add(value);
         });
 
+        Panel gridSizePanel = setUpGridSizePanel();
+        add(gridSizePanel);
+
         hoveredSurfaceDim.put("width", setUpUnitInput("Width:"));
         hoveredSurfaceDim.put("height", setUpUnitInput("Height:"));
 
         setEvent();
         Panel hoveredSurfacePanel = setUpSurfaceDataPanel();
         Panel zoomLvlPanel = setZoomLvlPanel();
+
         
         add(Box.createHorizontalGlue());
         add(Box.createVerticalGlue());
         add(hoveredSurfacePanel);
+
+        setUpInputEvent();
+    }
+
+    private Panel setUpGridSizePanel() {
+        Panel pan = new Panel();
+
+        pan.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
+        pan.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
+        pan.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
+
+        gridSizeInput.setText(mainWindow.getController().getGridSize().toString());
+
+        Panel subPan = new Panel();
+
+        Label lab = new Label("cm/pixel");
+        subPan.add(gridSizeInput);
+        subPan.setOpaque(true);
+        subPan.setBackground(Constants.SUBPANEL_BACKGROUND);
+        subPan.add(lab);
+
+        pan.add(subPan);
+        return pan;
     }
 
     private Panel setZoomLvlPanel() {
@@ -117,5 +148,14 @@ public class BottomToolbar extends BorderedPanel {
         input.setMaximumSize(dim);
         input.setEditableFalse();
         return input;
+    }
+
+    private void setUpInputEvent() {
+        gridSizeInput.addInputListener(InputEventKind.OnChange, (value, self) -> {
+            if (!value.isEmpty()) {
+                mainWindow.getController().setGridSize(Double.parseDouble(value));
+                mainWindow.repaint();
+            }
+        });
     }
 }

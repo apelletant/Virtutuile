@@ -35,7 +35,7 @@ public class Meta {
     private double zoomFactor = Constants.NORMAL_ZOOM;
     private Point2D.Double canvasPosition = new Point2D.Double();
 
-    private int gridSize = 10;
+    private Double gridSize = 100d;
 
     public Meta() {
         selectedSurface = null;
@@ -273,12 +273,13 @@ public class Meta {
         }
     }
 
-    public int getGridSize() {
+    public Double getGridSize() {
         return gridSize;
     }
 
-    public void setGridSize(int gridSize) {
+    public void setGridSize(Double gridSize) {
         this.gridSize = gridSize;
+        System.out.println(gridSize);
     }
 
     public Double[] getHoveredSurfaceDimesions() {

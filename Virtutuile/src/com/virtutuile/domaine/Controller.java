@@ -6,8 +6,6 @@ import com.virtutuile.domaine.entities.surfaces.Surface;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 public class Controller {
@@ -73,17 +71,9 @@ public class Controller {
         this.surfaceEditor.mouseLClick(meta.pointToPoints2D(point));
 
         meta.setClicked(meta.pointToPoints2D(point));
-        /*if (meta.isGridActivated()) {
-            Surface currentshape = meta.getSelectedSurface();
-            if (currentshape == null) {
-                *//*System.out.println("null");*//*
-                return;
-            }
-            Rectangle2D bounds = currentshape.getPolygon().getBounds2D();
-            Point oldShapePos = meta.point2DToPoint(new Point2D.Double(bounds.getX(), bounds.getY()));
-            point = coordToMagneticCoord(oldShapePos);
-            currentshape.getPolygon().moveTo(point.x, point.y);
-        }*/
+        if (meta.isGridActivated()) {
+           System.out.println("grid activated");
+        }
     }
 
     public void mouseRClick(Point point) {
@@ -154,11 +144,11 @@ public class Controller {
         return meta.getSelectedSurfaceGroutThickness();
     }
 
-    public int getGridSize() {
+    public Double getGridSize() {
         return meta.getGridSize();
     }
 
-    public void setGridSize(int gridSize) {
+    public void setGridSize(Double gridSize) {
         meta.setGridSize(gridSize);
     }
 
