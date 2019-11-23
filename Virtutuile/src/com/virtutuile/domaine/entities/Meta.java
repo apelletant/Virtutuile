@@ -5,6 +5,8 @@ import com.virtutuile.domaine.entities.surfaces.FreeSurface;
 import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
+import com.virtutuile.domaine.entities.tools.PolygonTransformer;
+import com.virtutuile.shared.Pair;
 import com.virtutuile.shared.UnorderedMap;
 import com.virtutuile.shared.Vector2D;
 
@@ -13,7 +15,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Meta {
 
@@ -437,6 +442,53 @@ public class Meta {
         }
 
         return newCoord;
+    }
+
+    public void mergeSurfaces() {
+        boolean merged = false;
+        Surface oldSelectedSurface = selectedSurface;
+        Surface testedSurface = null;
+        Surface mergedSurface = null;
+
+        if (selectedSurface != null) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            for (Pair<UUID, Surface> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
+                if (selectedSurface.getId() != pair.getKey()) {
+                    Point2D[] testedSurfaceVertices = pair.getValue().getVertices();
+                    for (Point2D testedSurfaceVertex : testedSurfaceVertices) {
+                        if (selectedSurface.containsOrIntersect(testedSurfaceVertex)) {
+                            Path2D.Double mergedPolygon = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
+                            mergedSurface = new Surface(mergedPolygon, false);
+                            /*selectedSurface = mergedSurface;
+                            mergedSurface.setSelected(true);*/
+                            surfaces.put(mergedSurface.getId(), mergedSurface);
+                            merged = true;
+                            testedSurface = pair.getValue();
+                            break;
+                        }
+                    }
+                    if (merged) {
+                        if (oldSelectedSurface.getPatternGroup() != null) {
+                            mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
+                            mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
+                            mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
+                            mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName());
+                        } else if (testedSurface.getPatternGroup() != null) {
+                            mergedSurface.setTypeOfTile(testedSurface.getTypeOfTile());
+                            mergedSurface.getGrout().setThickness(testedSurface.getGrout().getThickness());
+                            mergedSurface.getGrout().setColor(testedSurface.getGrout().getColor());
+                            mergedSurface.applyPattern(testedSurface.getPatternGroup().getPattern().getName());
+                        }
+                        break;
+                    }
+                }
+            }
+            if (merged) {
+                selectedSurface = null;
+                surfaces.remove(oldSelectedSurface.getId());
+                surfaces.remove(testedSurface.getId());
+            }
+        }
     }
 
     public enum EditionAction {

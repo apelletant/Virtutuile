@@ -223,4 +223,8 @@ public class Controller {
     public Double getZoomFactor() {
         return meta.getZoomFactor();
     }
+
+    public void mergeSurfaces() {
+        meta.mergeSurfaces();
+    }
 }

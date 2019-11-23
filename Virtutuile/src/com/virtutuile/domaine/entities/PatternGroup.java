@@ -23,7 +23,7 @@ public class PatternGroup {
     private Point2D point2D;
 
     public PatternGroup(String patternName, Surface surface) {
-        System.out.println("name : " + patternName);
+        /*System.out.println("name : " + patternName);*/
         switch (patternName) {
             case "Classic":
                 pattern = new Classic(surface.getTypeOfTile());
@@ -74,7 +74,7 @@ public class PatternGroup {
     }
 
     private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface, Vector2D origin) {
-        System.out.println("rebuild");
+        /*System.out.println("rebuild");*/
         final Vector<Tile> tiles = pattern.getTiles();
         final double grout = surface.getGrout().getThickness();
 
@@ -154,5 +154,9 @@ public class PatternGroup {
 
     public void setPoint2D(Point2D point2D) {
         this.point2D = point2D;
+    }
+
+    public Pattern getPattern() {
+        return pattern;
     }
 }

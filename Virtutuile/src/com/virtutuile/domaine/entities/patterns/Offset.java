@@ -30,6 +30,7 @@ public class Offset extends Pattern {
         tiles.get(1).setFillColor(tile.getFillColor());
     }*/
 public Offset(Tile tile) {
+    super("Offset");
     adjust = new double[]{0, 0};
     offsetX = new double[]{1};
     offsetY = new double[]{1};

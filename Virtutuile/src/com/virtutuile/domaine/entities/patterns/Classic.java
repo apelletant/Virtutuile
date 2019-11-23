@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 public class Classic extends Pattern {
     public Classic(Tile tile) {
+        super("Classic");
         adjust = new double[]{0, 0};
         offsetX = new double[]{1};
         offsetY = new double[]{1};

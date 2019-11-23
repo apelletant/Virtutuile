@@ -32,6 +32,7 @@ public class SurfacePanel extends SubPanel {
     @Override
     protected void setEvents() {
         Button addRectangularSurface = addSurface.get(DrawShapeButtonType.AddRectangularSurface);
+        Button merge = surfaceManagement.get(DrawShapeButtonType.MergeSurfaces);
 
         addRectangularSurface.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             if (addRectangularSurface.isActive()) {
@@ -41,6 +42,11 @@ public class SurfacePanel extends SubPanel {
                 mainWindow.getController().setDrawRectangularSurface(true);
                 addRectangularSurface.setActive(true);
             }
+        });
+
+        merge.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            mainWindow.getController().mergeSurfaces();
+            mainWindow.repaint();
         });
 
         inputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
@@ -54,6 +60,7 @@ public class SurfacePanel extends SubPanel {
             mainWindow.getController().recalcPattern();
             mainWindow.repaint();
         });
+
 
     }
 

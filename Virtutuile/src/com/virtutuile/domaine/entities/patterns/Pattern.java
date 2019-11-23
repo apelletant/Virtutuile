@@ -10,8 +10,12 @@ public abstract class Pattern {
     protected double[] offsetY;
     protected double[] adjust;
     protected Vector<Tile> tiles = new Vector<>();
+    protected String name;
 
-    //TODO: Définir les dimensions de la tuile ailleurs #edtion type de materiau
+    Pattern(String name) {
+        this.name = name;
+    }
+
     protected Point2D defaultDimensions = new Point2D.Double(100, 70);
 
     public Vector<Tile> getTiles() {
@@ -34,4 +38,8 @@ public abstract class Pattern {
     }
 
     public abstract void setTileType(Tile tile);
+
+    public String getName() {
+        return name;
+    }
 }
