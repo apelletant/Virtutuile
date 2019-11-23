@@ -34,6 +34,7 @@ public class PatternPanel extends SubPanel {
 
     private void setButtonsPatternOnPanel(JPanel line) {
         patterns.put("Classic", new Button("Classic", AssetLoader.loadImage("/icons/classic-pattern.png")));
+        patterns.put("Offset", new Button("Offset", AssetLoader.loadImage("/icons/offset-pattern.png")));
 
         patterns.forEach((key, value) -> {
             line.add(value);
@@ -55,11 +56,12 @@ public class PatternPanel extends SubPanel {
 
     @Override
     protected void setEvents() {
-        Button classic = patterns.get("Classic");
 
-        classic.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
-            mainWindow.getController().applyPattern("Classic");
-            mainWindow.repaint();
+        patterns.forEach((name, button) -> {
+            button.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+                mainWindow.getController().applyPattern(name);
+                mainWindow.repaint();
+            });
         });
     }
 }

@@ -1,6 +1,7 @@
 package com.virtutuile.domaine.entities;
 
 import com.virtutuile.domaine.entities.patterns.Classic;
+import com.virtutuile.domaine.entities.patterns.Offset;
 import com.virtutuile.domaine.entities.patterns.Pattern;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
@@ -21,9 +22,12 @@ public class PatternGroup {
     private Point2D point2D;
 
     public PatternGroup(String patternName, Surface surface) {
+        System.out.println("name : " + patternName);
         switch (patternName) {
             case "Classic":
                 pattern = new Classic(surface.getTypeOfTile());
+            case "Offset":
+                pattern = new Offset(surface.getTypeOfTile());
             default:
                 break;
         }

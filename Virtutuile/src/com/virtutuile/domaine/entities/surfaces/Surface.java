@@ -134,9 +134,7 @@ public class Surface extends PrimarySurface {
     }
 
     public void applyPattern(String patterName) {
-        if (patternGroup == null) {
-            patternGroup = new PatternGroup(patterName, this);
-        }
+        patternGroup = new PatternGroup(patterName, this);
     }
 
     public Vector<Surface> getSubSurfaces() {
