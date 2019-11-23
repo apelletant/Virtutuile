@@ -9,6 +9,7 @@ import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.NotNull;
 import com.virtutuile.shared.Vector2D;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -56,7 +57,13 @@ public class PatternGroup {
             Rectangle2D.Double bounds = surface.getBounds();
             double groutThickness = surface.getGrout().getThickness();
             Surface groutedSurface = new Surface(surface);
-            groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
+
+            AffineTransform af = new AffineTransform();
+
+            af.translate((bounds.x + bounds.width / 2) * -1, (bounds.y + bounds.height / 2) * -1);
+
+
+//            groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
             return groutedSurface;
         }
         return null;
@@ -94,32 +101,26 @@ public class PatternGroup {
 
         while (step < 4) {
 
-            while (y >= patMinY && y < patMaxY) {
-                y += grout * increments[step][1];
+            while (y >= patMinY && y <= patMaxY) {
 
-                if (y < patMinY || y >= patMaxY)
-                    break;
-
-                while (x >= patMinX && x < patMaxX) {
-                    x += grout * increments[step][0];
-
-                    if (x < patMinX || x >= patMaxX)
-                        break;
+                while (x >= patMinX && x <= patMaxX) {
 
                     for (Tile tile : tiles) {
                         Tile newTile = tile.copy();
                         newTile.moveOf(x, y);
-                        Path2D.Double cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), groutedSurface.getPolygon(), true);
+                        x += tileW * increments[step][0];
+                        Path2D.Double cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
                         if (cutedSurface == null)
                             continue;
                         newTile.setPolygon(cutedSurface);
                         this.tiles.add(newTile);
-                        x += tileW * increments[step][0];
                     }
+                    x += grout * increments[step][0];
                 }
 
                 x = origin.x;
                 y += tileH * increments[step][1];
+                y += grout * increments[step][1];
             }
 
             y = origin.y;

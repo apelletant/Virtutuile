@@ -47,9 +47,11 @@ public class PolygonTransformer {
         return ret;
     }
 
-    static public java.awt.geom.Path2D.Double subtract(java.awt.geom.Path2D polygon, java.awt.geom.Path2D cuttingPattern, boolean keepRemove) {
+    static public java.awt.geom.Path2D.Double subtract(java.awt.geom.Path2D polygon, java.awt.geom.Path2D cuttingPattern, double cuttingInline) {
         Path poly = awtPathToJavafx(polygon);
         Path cut = awtPathToJavafx(cuttingPattern);
+        cut.setStrokeWidth(cuttingInline);
+        cut.setStrokeType(StrokeType.INSIDE);
 
         Shape shape = Shape.intersect(poly, cut);
         return javafxPathToAwt((Path) shape);
