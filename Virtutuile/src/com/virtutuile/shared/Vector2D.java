@@ -59,7 +59,7 @@ public class Vector2D {
      * @param add The value of add to the vector
      * @return The added vector
      */
-    public Vector2D add(@NonNull Vector2D add) {
+    public Vector2D add(@NotNull Vector2D add) {
         x += add.x;
         y += add.y;
         return this;
@@ -69,7 +69,7 @@ public class Vector2D {
      * @param add The value of add to the vector
      * @return The added vector
      */
-    public Vector2D add(@NonNull Point add) {
+    public Vector2D add(@NotNull Point add) {
         x += add.x;
         y += add.y;
         return this;
@@ -79,7 +79,7 @@ public class Vector2D {
      * @param add The value of add to the vector
      * @return The added vector
      */
-    public Vector2D add(@NonNull Point2D add) {
+    public Vector2D add(@NotNull Point2D add) {
         x += add.getX();
         y += add.getY();
         return this;
@@ -99,7 +99,7 @@ public class Vector2D {
      * @param subtract The value of subtract to the vector
      * @return The subtracted vector
      */
-    public Vector2D subtract(@NonNull Vector2D subtract) {
+    public Vector2D subtract(@NotNull Vector2D subtract) {
         x -= subtract.x;
         y -= subtract.y;
         return this;
@@ -109,7 +109,7 @@ public class Vector2D {
      * @param subtract The value of subtract to the vector
      * @return The subtracted vector
      */
-    public Vector2D subtract(@NonNull Point subtract) {
+    public Vector2D subtract(@NotNull Point subtract) {
         x -= subtract.x;
         y -= subtract.y;
         return this;
@@ -119,7 +119,7 @@ public class Vector2D {
      * @param subtract The value of subtract to the vector
      * @return The subtracted vector
      */
-    public Vector2D subtract(@NonNull Point2D subtract) {
+    public Vector2D subtract(@NotNull Point2D subtract) {
         x -= subtract.getX();
         y -= subtract.getY();
         return this;

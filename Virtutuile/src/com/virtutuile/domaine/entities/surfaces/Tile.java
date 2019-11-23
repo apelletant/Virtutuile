@@ -1,9 +1,9 @@
 package com.virtutuile.domaine.entities.surfaces;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 public class Tile extends PrimarySurface {
 
@@ -60,7 +60,6 @@ public class Tile extends PrimarySurface {
     }
 
     public void setOrigin(Point2D origin) {
-        this.moveOf(origin);
         this.origin = origin;
     }
 
@@ -81,7 +80,7 @@ public class Tile extends PrimarySurface {
     }
 
     public void setWidthForRectTile(double width) {
-        Point2D[] vertices =  getVertices();
+        Point2D[] vertices = getVertices();
         polygon = new Path2D.Double();
 
         polygon.moveTo(vertices[0].getX(), vertices[0].getY());
@@ -93,7 +92,7 @@ public class Tile extends PrimarySurface {
     }
 
     public void setHeightForRectTile(double height) {
-        Point2D[] vertices =  getVertices();
+        Point2D[] vertices = getVertices();
         polygon = new Path2D.Double();
 
         polygon.moveTo(vertices[0].getX(), vertices[0].getY());

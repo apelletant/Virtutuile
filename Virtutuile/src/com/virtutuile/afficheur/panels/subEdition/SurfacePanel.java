@@ -120,16 +120,16 @@ public class SurfacePanel extends SubPanel {
     public void retrieveSurfaceDimensions() {
         Double[] selectedSurfaceDimensions = mainWindow.getController().getSelectedSurfaceDimensions();
         if (selectedSurfaceDimensions != null) {
-            inputs.get(InputContextType.Width).setText(selectedSurfaceDimensions[0].toString());
-            inputs.get(InputContextType.Height).setText(selectedSurfaceDimensions[1].toString());
+            inputs.get(InputContextType.Width).setValue(Math.round(selectedSurfaceDimensions[0] * 10000) / 10000D);
+            inputs.get(InputContextType.Height).setValue(Math.round(selectedSurfaceDimensions[1] * 10000) / 10000D);
         } else {
             setSurfaceDimensions(0.0,0.0);
         }
     }
 
     private void setSurfaceDimensions(Double width, Double height) {
-        inputs.get(InputContextType.Width).setText(width.toString());
-        inputs.get(InputContextType.Height).setText(height.toString());
+        inputs.get(InputContextType.Width).setValue(Math.round(width * 10000) / 10000D);
+        inputs.get(InputContextType.Height).setValue(Math.round(height * 10000) / 10000D);
     }
 
     public enum DrawShapeButtonType {

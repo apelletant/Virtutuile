@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public abstract class Pattern {
-    protected int[] offsetX;
-    protected int[] offsetY;
+    protected double[] offsetX;
+    protected double[] offsetY;
     protected double[] adjust;
     protected Vector<Tile> tiles = new Vector<>();
 
@@ -21,11 +21,11 @@ public abstract class Pattern {
     public void setTiles(Vector<Tile> tiles) {
         this.tiles = tiles;
     }
-    public int[] getOffsetX() {
+    public double[] getOffsetX() {
         return offsetX;
     }
 
-    public int[] getOffsetY() {
+    public double[] getOffsetY() {
         return offsetY;
     }
 
