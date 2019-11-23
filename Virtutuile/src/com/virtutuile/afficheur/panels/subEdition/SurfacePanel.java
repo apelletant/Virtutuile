@@ -32,6 +32,7 @@ public class SurfacePanel extends SubPanel {
     @Override
     protected void setEvents() {
         Button addRectangularSurface = addSurface.get(DrawShapeButtonType.AddRectangularSurface);
+        Button merge = surfaceManagement.get(DrawShapeButtonType.MergeSurfaces);
 
         addRectangularSurface.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             if (addRectangularSurface.isActive()) {
@@ -41,6 +42,11 @@ public class SurfacePanel extends SubPanel {
                 mainWindow.getController().setDrawRectangularSurface(true);
                 addRectangularSurface.setActive(true);
             }
+        });
+
+        merge.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            mainWindow.getController().mergeSurfaces();
+            mainWindow.repaint();
         });
 
         inputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
@@ -54,6 +60,7 @@ public class SurfacePanel extends SubPanel {
             mainWindow.getController().recalcPattern();
             mainWindow.repaint();
         });
+
 
     }
 
@@ -120,16 +127,16 @@ public class SurfacePanel extends SubPanel {
     public void retrieveSurfaceDimensions() {
         Double[] selectedSurfaceDimensions = mainWindow.getController().getSelectedSurfaceDimensions();
         if (selectedSurfaceDimensions != null) {
-            inputs.get(InputContextType.Width).setText(selectedSurfaceDimensions[0].toString());
-            inputs.get(InputContextType.Height).setText(selectedSurfaceDimensions[1].toString());
+            inputs.get(InputContextType.Width).setValue(Math.round(selectedSurfaceDimensions[0] * 10000) / 10000D);
+            inputs.get(InputContextType.Height).setValue(Math.round(selectedSurfaceDimensions[1] * 10000) / 10000D);
         } else {
             setSurfaceDimensions(0.0,0.0);
         }
     }
 
     private void setSurfaceDimensions(Double width, Double height) {
-        inputs.get(InputContextType.Width).setText(width.toString());
-        inputs.get(InputContextType.Height).setText(height.toString());
+        inputs.get(InputContextType.Width).setValue(Math.round(width * 10000) / 10000D);
+        inputs.get(InputContextType.Height).setValue(Math.round(height * 10000) / 10000D);
     }
 
     public enum DrawShapeButtonType {

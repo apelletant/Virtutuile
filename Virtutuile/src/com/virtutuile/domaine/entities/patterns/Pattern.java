@@ -6,12 +6,16 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public abstract class Pattern {
-    protected int[] offsetX;
-    protected int[] offsetY;
+    protected double[] offsetX;
+    protected double[] offsetY;
     protected double[] adjust;
     protected Vector<Tile> tiles = new Vector<>();
+    protected String name;
 
-    //TODO: Définir les dimensions de la tuile ailleurs #edtion type de materiau
+    Pattern(String name) {
+        this.name = name;
+    }
+
     protected Point2D defaultDimensions = new Point2D.Double(100, 70);
 
     public Vector<Tile> getTiles() {
@@ -21,11 +25,11 @@ public abstract class Pattern {
     public void setTiles(Vector<Tile> tiles) {
         this.tiles = tiles;
     }
-    public int[] getOffsetX() {
+    public double[] getOffsetX() {
         return offsetX;
     }
 
-    public int[] getOffsetY() {
+    public double[] getOffsetY() {
         return offsetY;
     }
 
@@ -34,4 +38,8 @@ public abstract class Pattern {
     }
 
     public abstract void setTileType(Tile tile);
+
+    public String getName() {
+        return name;
+    }
 }

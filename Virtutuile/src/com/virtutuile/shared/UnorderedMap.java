@@ -16,6 +16,10 @@ public class UnorderedMap<K, V> implements Map<K, V> {
         return vector;
     }
 
+    public Iterator<Pair<K, V>> iterator() {
+        return list.iterator();
+    }
+
     @Override
     public int size() {
         return list.size();

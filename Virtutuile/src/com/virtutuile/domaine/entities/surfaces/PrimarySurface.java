@@ -139,9 +139,13 @@ public abstract class PrimarySurface implements Serializable {
     }
 
     public void moveOf(Point2D to) {
+        moveOf(to.getX(), to.getY());
+    }
+
+    public void moveOf(double x, double y) {
         AffineTransform at = new AffineTransform();
 
-        at.setToTranslation(to.getX() - polygon.getBounds2D().getX(), to.getY() - polygon.getBounds2D().getY());
+        at.setToTranslation(x, y);
         polygon.transform(at);
     }
 
@@ -228,8 +232,16 @@ public abstract class PrimarySurface implements Serializable {
         this.isMouseHover = isMouseHover;
     }
 
+    public boolean containsOrIntersect(double[] point) {
+        return containsOrIntersect(point[0], point[1]);
+    }
+
     public boolean containsOrIntersect(Point2D point) {
-        if (polygon.contains(point)) {
+        return containsOrIntersect(point.getX(), point.getY());
+    }
+
+    public boolean containsOrIntersect(double x, double y) {
+        if (polygon.contains(x, y)) {
             return true;
         }
         Point2D[] vertices = getVertices();
@@ -244,7 +256,7 @@ public abstract class PrimarySurface implements Serializable {
             }
 
             Vecteur ab = new Vecteur(new CustomPoint(a.x, a.y), new CustomPoint(b.x, b.y));
-            Vecteur pp = new Vecteur(new CustomPoint(point.getX(), point.getY()), new CustomPoint(point.getX(), point.getY()));
+            Vecteur pp = new Vecteur(new CustomPoint(x, y), new CustomPoint(x, y));
 
             CustomPoint intersect = Intersection.intersectionPoint(ab, pp);
             if (intersect != null) {
