@@ -33,6 +33,8 @@ public class PolygonTransformer {
         java.awt.geom.Path2D.Double ret = new java.awt.geom.Path2D.Double();
 
         Iterator<PathElement> it = path.getElements().iterator();
+        if (!it.hasNext())
+            return null;
         PathElement pe = it.next();
         ret.moveTo(((MoveTo) pe).getX(), ((MoveTo) pe).getY());
         for (; it.hasNext(); pe = it.next()) {

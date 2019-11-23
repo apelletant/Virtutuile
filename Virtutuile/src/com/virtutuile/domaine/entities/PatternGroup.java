@@ -7,13 +7,10 @@ import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.NotNull;
 import com.virtutuile.shared.Vector2D;
-import javafx.scene.transform.Affine;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.NoSuchElementException;
 import java.util.Vector;
 
 public class PatternGroup {
@@ -108,13 +105,11 @@ public class PatternGroup {
                     for (Tile tile : tiles) {
                         Tile newTile = tile.copy();
                         newTile.moveOf(x, y);
-                        try {
-                            // TODO: Clean handle
-                            newTile.setPolygon(PolygonTransformer.subtract(newTile.getPolygon(), groutedSurface.getPolygon(), true));
-                            this.tiles.add(newTile);
-                        } catch (NoSuchElementException except) {
-                            System.out.println("A tile outside");
-                        }
+                        Path2D.Double cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), groutedSurface.getPolygon(), true);
+                        if (cutedSurface == null)
+                            continue;
+                        newTile.setPolygon(cutedSurface);
+                        this.tiles.add(newTile);
                         x += tileW * increments[step][0];
                     }
                 }
