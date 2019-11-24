@@ -60,9 +60,9 @@ public class Controller {
     }
 
     public void mouseRelease(Point point) {
-        if (meta.isGridActivated()) {
-            point = coordToMagneticCoord(point);
-        }
+//      if (meta.isGridActivated()) {
+//            point = coordToMagneticCoord(point);
+//      }
         meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseRelease(meta.pointToPoints2D(point));
     }
@@ -72,7 +72,7 @@ public class Controller {
 
         meta.setClicked(meta.pointToPoints2D(point));
         if (meta.isGridActivated()) {
-           System.out.println("grid activated");
+            meta.updateSurfacePosition();
         }
     }
 
@@ -82,8 +82,8 @@ public class Controller {
 
     public void mouseDrag(Point point) {
         if (meta.isGridActivated()) {
-            point = coordToMagneticCoord(point);
-            //System.out.println(point);
+//            point = coordToMagneticCoord(point);
+//            System.out.println(point);
         }
         this.surfaceEditor.mouseDrag(meta.pointToPoints2D(point));
         meta.setHover(meta.pointToPoints2D(point));

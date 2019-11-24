@@ -17,8 +17,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Meta {
 
@@ -490,6 +488,10 @@ public class Meta {
                 surfaces.remove(testedSurface.getId());
             }
         }
+    }
+
+    public void updateSurfacePosition() {
+
     }
 
     public enum EditionAction {

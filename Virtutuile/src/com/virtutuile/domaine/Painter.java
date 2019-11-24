@@ -6,6 +6,7 @@ import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public class Painter {
@@ -85,7 +86,7 @@ public class Painter {
     }
 
     private void drawMagneticGrid() {
-        if (meta.getGridSize() < 5) {
+        if (meta.centimetersToPixels(meta.getGridSize()) < 20) {
             return;
         }
 
@@ -93,15 +94,20 @@ public class Painter {
         graphics2D.setColor(col);
         graphics2D.setStroke(new BasicStroke(1));
 
-        Double gridSize = meta.getGridSize();
+        Point2D.Double canvasPos = meta.getCanvasPosition();
+        Point canvasPosInt = new Point(meta.centimetersToPixels(canvasPos.x), meta.centimetersToPixels(canvasPos.y));
 
         Dimension canvasDim = meta.getCanvasSize();
-        for (int i = 0; i <= canvasDim.width; i++) {
-            for (int j = 0; j <= canvasDim.height; j++) {
-                if (i % meta.getGridSize() == 0) {
+
+        canvasPosInt.x = canvasPosInt.x - (canvasPosInt.x % canvasDim.width);
+        canvasPosInt.y = canvasPosInt.y - (canvasPosInt.y % canvasDim.height);
+
+        for (int i = canvasPosInt.x; i <= canvasDim.width; i++) {
+            for (int j = canvasPosInt.y; j <= canvasDim.height; j++) {
+                if (i % meta.centimetersToPixels(meta.getGridSize())  == 0) {
                     graphics2D.drawLine(i, j, i, canvasDim.width);
                 }
-                if (j % meta.getGridSize() == 0) {
+                if (j % meta.centimetersToPixels(meta.getGridSize()) == 0) {
                     graphics2D.drawLine(canvasDim.height, j, i, j);
                 }
             }
