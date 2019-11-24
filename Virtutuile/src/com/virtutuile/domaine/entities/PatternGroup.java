@@ -105,30 +105,38 @@ public class PatternGroup {
 
                 while (x >= patMinX && x <= patMaxX) {
 
-                    for (Tile tile : tiles) {
+                    double tempX = x;
+                    double tempY = y;
+                    for (int i = 0; i < tiles.size(); ++i) {
+                        Tile tile = tiles.get(i);
                         Tile newTile = tile.copy();
-                        newTile.moveOf(x, y);
-                        x += tileW * increments[step][0];
+                        Rectangle2D.Double pos = newTile.getBounds();
+
+                        newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
                         Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
-                        if (cutedSurface == null || cutedSurface.length == 0)
-                            continue;
-                        if (cutedSurface.length == 1) {
-                            newTile.setPolygon(cutedSurface[0]);
-                        } else {
-                            for (Path2D.Double cut : cutedSurface) {
-                                newTile = tile.copy();
-                                newTile.setPolygon(cut);
-                                this.tiles.add(newTile);
+                        if (cutedSurface != null && cutedSurface.length != 0) {
+                            if (cutedSurface.length == 1) {
+                                newTile.setPolygon(cutedSurface[0]);
+                            } else {
+                                for (Path2D.Double cut : cutedSurface) {
+                                    newTile = tile.copy();
+                                    newTile.setPolygon(cut);
+                                    this.tiles.add(newTile);
+                                }
                             }
+                            this.tiles.add(newTile);
                         }
-                        this.tiles.add(newTile);
+                        // Calculate if grout should be applied here or outside the loop
+                        tempX += (pattern.getGroutXRules()[i] * grout) * increments[step][0];
+                        tempY += (pattern.getGroutYRules()[i] * grout) * increments[step][1];
                     }
-                    x += grout * increments[step][0];
+                    x += (tileW * pattern.getOffsetX()) * increments[step][0];
+                    x += (grout * pattern.getOffsetX()) * increments[step][0];
                 }
 
                 x = origin.x;
-                y += tileH * increments[step][1];
-                y += grout * increments[step][1];
+                y += (tileH * pattern.getOffsetY()) * increments[step][1];
+                y += (grout * pattern.getOffsetY()) * increments[step][1];
             }
 
             y = origin.y;
