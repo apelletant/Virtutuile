@@ -1,9 +1,12 @@
 package com.virtutuile.domaine.entities.tools;
 
+import com.virtutuile.shared.NotNull;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
+import java.awt.geom.Path2D;
 import java.util.Iterator;
+import java.util.Vector;
 
 public class PolygonTransformer {
 
@@ -47,14 +50,36 @@ public class PolygonTransformer {
         return ret;
     }
 
-    static public java.awt.geom.Path2D.Double subtract(java.awt.geom.Path2D polygon, java.awt.geom.Path2D cuttingPattern, double cuttingInline) {
+    static @NotNull Path2D.Double[] javafxPathsToAwt(Path path) {
+        Vector<Path2D.Double> ret = new Vector<>(2);
+
+        Iterator<PathElement> it = path.getElements().iterator();
+        if (!it.hasNext())
+            return null;
+        Path2D.Double p = new Path2D.Double();
+        for (PathElement pe = null; it.hasNext();) {
+            pe = it.next();
+            if (pe instanceof MoveTo)
+                p.moveTo(((MoveTo) pe).getX(), ((MoveTo) pe).getY());
+            else if (pe instanceof LineTo)
+                p.lineTo(((LineTo) pe).getX(), ((LineTo) pe).getY());
+            else if (pe instanceof ClosePath) {
+                p.closePath();
+                ret.add(p);
+                p = new Path2D.Double();
+            }
+        }
+        return ret.toArray(new Path2D.Double[0]);
+    }
+
+    static public Path2D.Double[] subtract(java.awt.geom.Path2D polygon, java.awt.geom.Path2D cuttingPattern, double cuttingInline) {
         Path poly = awtPathToJavafx(polygon);
         Path cut = awtPathToJavafx(cuttingPattern);
         cut.setStrokeWidth(cuttingInline);
         cut.setStrokeType(StrokeType.INSIDE);
 
         Shape shape = Shape.intersect(poly, cut);
-        return javafxPathToAwt((Path) shape);
+        return javafxPathsToAwt((Path) shape);
     }
 
     static public java.awt.geom.Path2D.Double merge(java.awt.geom.Path2D polygon1, java.awt.geom.Path2D polygon2) {

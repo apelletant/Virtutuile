@@ -109,10 +109,19 @@ public class PatternGroup {
                         Tile newTile = tile.copy();
                         newTile.moveOf(x, y);
                         x += tileW * increments[step][0];
-                        Path2D.Double cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
-                        if (cutedSurface == null)
+                        Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
+                        if (cutedSurface == null || cutedSurface.length == 0)
                             continue;
-                        newTile.setPolygon(cutedSurface);
+                        if (cutedSurface.length == 1) {
+                            newTile.setPolygon(cutedSurface[0]);
+                        } else {
+                            for (Path2D.Double cut : cutedSurface) {
+                                newTile.setPolygon(cut);
+                                this.tiles.add(newTile);
+                                newTile = tile.copy();
+                                newTile.setPolygon(cut);
+                            }
+                        }
                         this.tiles.add(newTile);
                     }
                     x += grout * increments[step][0];
