@@ -116,10 +116,9 @@ public class PatternGroup {
                             newTile.setPolygon(cutedSurface[0]);
                         } else {
                             for (Path2D.Double cut : cutedSurface) {
-                                newTile.setPolygon(cut);
-                                this.tiles.add(newTile);
                                 newTile = tile.copy();
                                 newTile.setPolygon(cut);
+                                this.tiles.add(newTile);
                             }
                         }
                         this.tiles.add(newTile);
