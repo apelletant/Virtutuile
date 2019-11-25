@@ -27,8 +27,10 @@ public class PatternGroup {
         switch (patternName) {
             case "Classic":
                 pattern = new Classic(surface.getTypeOfTile());
+                break;
             case "Offset":
                 pattern = new Offset(surface.getTypeOfTile());
+                break;
             default:
                 break;
         }
