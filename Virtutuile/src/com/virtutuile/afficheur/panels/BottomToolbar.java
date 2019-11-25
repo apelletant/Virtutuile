@@ -121,7 +121,7 @@ public class BottomToolbar extends BorderedPanel {
     }
 
     public void getHoverSurfaceBound() {
-        Double[] dim = mainWindow.getController().getHoveredSurfaceDimesions();
+        Double[] dim = mainWindow.getController().getHoveredSurfaceDimension();
 
         if (dim != null) {
             hoveredSurfaceDim.get("width").setValue(dim[0]);

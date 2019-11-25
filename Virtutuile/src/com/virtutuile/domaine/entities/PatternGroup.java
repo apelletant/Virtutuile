@@ -20,10 +20,11 @@ public class PatternGroup {
     private Pattern pattern = null;
     private Vector<Tile> tiles = new Vector<>();
     private float rotation;
-    private Point2D point2D;
 
-    public PatternGroup(String patternName, Surface surface) {
-        /*System.out.println("name : " + patternName);*/
+    public PatternGroup(String patternName, Surface surface, Tile tile) {
+        if (surface.getTypeOfTile() == null) {
+            surface.setTypeOfTile(tile);
+        }
         switch (patternName) {
             case "Classic":
                 pattern = new Classic(surface.getTypeOfTile());
@@ -164,14 +165,6 @@ public class PatternGroup {
 
     public void setRotation(float rotation) {
         this.rotation = rotation;
-    }
-
-    public Point2D getPoint2D() {
-        return point2D;
-    }
-
-    public void setPoint2D(Point2D point2D) {
-        this.point2D = point2D;
     }
 
     public Pattern getPattern() {

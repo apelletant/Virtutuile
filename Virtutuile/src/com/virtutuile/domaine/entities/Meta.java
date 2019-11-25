@@ -287,7 +287,7 @@ public class Meta {
         System.out.println(gridSize);
     }
 
-    public Double[] getHoveredSurfaceDimesions() {
+    public Double[] getHoveredSurfaceDimension() {
         if (hoveredSurface != null) {
             Double[] dim = new Double[2];
             dim[0] = hoveredSurface.getBounds().width;
@@ -450,12 +450,12 @@ public class Meta {
                             mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
                             mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
-                            mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName());
+                            mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
                         } else if (testedSurface.getPatternGroup() != null) {
                             mergedSurface.setTypeOfTile(testedSurface.getTypeOfTile());
                             mergedSurface.getGrout().setThickness(testedSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(testedSurface.getGrout().getColor());
-                            mergedSurface.applyPattern(testedSurface.getPatternGroup().getPattern().getName());
+                            mergedSurface.applyPattern(testedSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
                         }
                         break;
                     }
@@ -511,5 +511,15 @@ public class Meta {
 
     public Point getCanvasGridOffset() {
         return canvasGridOffset;
+    }
+
+    public Tile getDefaultTile() {
+        if (typeOfTiles.size() != 0) {
+            Iterator<Pair<String, Tile>> iterator = typeOfTiles.iterator();
+            for (Pair<String, Tile> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
+                return pair.getValue();
+            }
+        }
+        return null;
     }
 }

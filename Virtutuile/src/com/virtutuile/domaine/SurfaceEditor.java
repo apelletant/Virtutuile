@@ -4,6 +4,7 @@ import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.SurfaceBuilder;
+import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
@@ -95,14 +96,6 @@ public class SurfaceEditor {
 
     public Surface getShapeNear(Point2D point2D) {
         return getShapeNear(point2D, Constants.pixelsToCentimeters(Constants.Mouse.DEFAULT_PRECISION));
-    }
-
-    public Point2D[] getLineFromShape(Surface surface, Point2D point2D, double limitDistance) {
-        return null;
-    }
-
-    public Point2D[] getLineFromShape(Surface surface, Point2D point2D) {
-        return getLineFromShape(surface, point2D, Constants.pixelsToCentimeters(Constants.Mouse.DEFAULT_PRECISION));
     }
 
     private void hoverShapeHandling(Point2D point2D, Surface surface, boolean outofShape) {
@@ -230,10 +223,6 @@ public class SurfaceEditor {
         }
     }
 
-    private Point2D calcResizeRatio(Point2D newPosition) {
-        return new Point2D.Double(newPosition.getX()/meta.getClicked().getX(), newPosition.getY()/meta.getClicked().getY());
-    }
-
     public void deleteSelectedShape() {
         Surface surface = meta.getSelectedSurface();
         if (surface != null) {
@@ -249,10 +238,10 @@ public class SurfaceEditor {
         return null;
     }
 
-    public void applyPattern(String patternName) {
+    public void applyPattern(String patternName, Tile tile) {
         Surface surface = meta.getSelectedSurface();
         if (surface != null) {
-            surface.applyPattern(patternName);
+            surface.applyPattern(patternName, tile);
         }
     }
 }

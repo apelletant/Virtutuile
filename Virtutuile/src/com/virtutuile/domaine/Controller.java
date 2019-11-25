@@ -1,6 +1,5 @@
 package com.virtutuile.domaine;
 
-import com.virtutuile.afficheur.panels.BottomToolbar;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 
@@ -30,18 +29,6 @@ public class Controller {
             vector.add(surface);
         });
         painter.paintAll(vector, graphics);
-    }
-
-    public void createProject() {
-
-    }
-
-    public void loadProject() {
-
-    }
-
-    public void saveProject() {
-
     }
 
     public void mouseHover(Point point) {
@@ -95,7 +82,7 @@ public class Controller {
     }
 
     public void applyPattern(String patternName) {
-        surfaceEditor.applyPattern(patternName);
+        surfaceEditor.applyPattern(patternName, meta.getDefaultTile());
     }
 
     public void setCanvasSize(Dimension size) {
@@ -130,7 +117,7 @@ public class Controller {
         meta.setGridSize(gridSize);
     }
 
-    public Double[] getHoveredSurfaceDimesions() {return meta.getHoveredSurfaceDimesions(); }
+    public Double[] getHoveredSurfaceDimension() {return meta.getHoveredSurfaceDimension(); }
 
     public void setSurfaceWidth(double value) {
         meta.setSelectedSurfaceWidth(value);

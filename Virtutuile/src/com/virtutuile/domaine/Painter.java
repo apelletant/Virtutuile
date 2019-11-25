@@ -11,11 +11,8 @@ import java.util.Vector;
 
 public class Painter {
 
-    public static final int GIZ_BOUNDS = 0x0001;
-    private Graphics graphics;
     private Graphics2D graphics2D;
 
-    private int gizmos;
     private Dimension size;
 
     private Meta meta;
@@ -25,7 +22,6 @@ public class Painter {
     }
 
     public void paintAll(Vector<Surface> surfaces, Graphics gfx) {
-        graphics = gfx;
         graphics2D = (Graphics2D) gfx;
 
         if (meta.isGridActivated()) {
@@ -164,25 +160,6 @@ public class Painter {
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         expansion = Vector2D.from(corner).tarnslateDeg(90, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-    }
-
-
-    public boolean isGizmoActive(int gizmo) {
-        return (gizmos & gizmo) != 0;
-    }
-
-    public int activeGizmos(int active) {
-        gizmos = active;
-        return gizmos;
-    }
-
-    public int deactiveGizmos(int deactive) {
-        gizmos &= (gizmos ^ deactive);
-        return gizmos;
-    }
-
-    public int getGizmos() {
-        return gizmos;
     }
 
     public Dimension getSize() {

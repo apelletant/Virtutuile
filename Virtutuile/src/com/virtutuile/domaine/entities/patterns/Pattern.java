@@ -57,12 +57,12 @@ public abstract class Pattern {
     protected double[] groutYRules;
     protected Vector<Tile> tiles = new Vector<>();
     protected String name;
+    protected Point2D defaultDimensions = new Point2D.Double(100, 70);
 
     Pattern(String name) {
         this.name = name;
     }
 
-    protected Point2D defaultDimensions = new Point2D.Double(100, 70);
 
     public Vector<Tile> getTiles() {
         return tiles;
