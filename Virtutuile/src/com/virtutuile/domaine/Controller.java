@@ -82,8 +82,7 @@ public class Controller {
 
     public void mouseDrag(Point point) {
         if (meta.isGridActivated()) {
-//            point = coordToMagneticCoord(point);
-//            System.out.println(point);
+//            meta.updateSurfacePosition();
         }
         this.surfaceEditor.mouseDrag(meta.pointToPoints2D(point));
         meta.setHover(meta.pointToPoints2D(point));
@@ -123,10 +122,6 @@ public class Controller {
     public Dimension getCanvasSize() {
         return meta.getCanvasSize();
     };
-
-    private Point coordToMagneticCoord(Point oldCoord) {
-        return meta.coordToMagneticCoord(oldCoord);
-    }
 
     public void updateZoom(double preciseWheelRotation, Point point) {
         meta.updateZoom(preciseWheelRotation, point);
@@ -216,5 +211,13 @@ public class Controller {
 
     public void mergeSurfaces() {
         meta.mergeSurfaces();
+    }
+
+    public void setCanvasGridOffset(Point offset) {
+        meta.setCanvasGridOffset(offset);
+    }
+
+    public Point getCanvasGridOffset() {
+        return meta.getCanvasGridOffset();
     }
 }

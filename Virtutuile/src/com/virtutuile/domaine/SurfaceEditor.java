@@ -7,7 +7,6 @@ import com.virtutuile.domaine.entities.surfaces.SurfaceBuilder;
 import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;

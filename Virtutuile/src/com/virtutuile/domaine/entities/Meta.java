@@ -34,6 +34,7 @@ public class Meta {
     private boolean mousePressed;
     private boolean isGridActivated;
     private Dimension canvasSize = new Dimension();
+    private Point canvasGridOffset;
 
     private double zoomFactor = Constants.NORMAL_ZOOM;
     private Point2D.Double canvasPosition = new Point2D.Double();
@@ -50,6 +51,7 @@ public class Meta {
         mousePressed = false;
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
+        canvasGridOffset = null;
 
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
@@ -420,29 +422,6 @@ public class Meta {
         });
     }
 
-    public Point coordToMagneticCoord(Point oldCoord) {
-        Point newCoord = new Point();
-
-        double zoom = getZoomFactor();
-
-        double y = oldCoord.getY();
-        double x = oldCoord.getX();
-
-        if (oldCoord.getY() % (zoom /4) <= 12) {
-            newCoord.y = (int)(y - (y % (zoom /4)));
-        } else {
-            newCoord.y = (int)(y + ( (zoom / 4) - (y % (zoom /4))));
-        }
-
-        if (x % (zoom /4) <= 12) {
-            newCoord.x = (int)(x - (x % (zoom /4)));
-        } else {
-            newCoord.x = (int)(x + ( (zoom / 4) - (x % (zoom /4))));
-        }
-
-        return newCoord;
-    }
-
     public void mergeSurfaces() {
         boolean merged = false;
         Surface oldSelectedSurface = selectedSurface;
@@ -491,12 +470,46 @@ public class Meta {
     }
 
     public void updateSurfacePosition() {
+        Rectangle2D.Double bounds = selectedSurface.getBounds();
+        Point2D.Double oldCoords = new Point2D.Double(bounds.x, bounds.y);
+        Point2D.Double newCoords = coordsToMagneticCoords(oldCoords);
 
+        selectedSurface.move(oldCoords, newCoords);
+    }
+
+    public Point2D.Double coordsToMagneticCoords(Point2D.Double oldCoords) {
+
+        Point oldCoordsInt = point2DToPoint(oldCoords);
+
+        System.out.println(oldCoordsInt);
+        int median = (int)Math.round(gridSize) / 2;
+
+        if (oldCoordsInt.x % (int)Math.round(gridSize) > median) {
+            oldCoordsInt.x = oldCoordsInt.x + (oldCoordsInt.x % (int)Math.round(gridSize));
+        } else {
+            oldCoordsInt.x = oldCoordsInt.x - (oldCoordsInt.x % (int)Math.round(gridSize));
+        }
+
+        if (oldCoordsInt.y % (int)Math.round(gridSize) > median) {
+            oldCoordsInt.y = oldCoordsInt.y - (oldCoordsInt.y % (int)Math.round(gridSize));
+        } else {
+            oldCoordsInt.y = oldCoordsInt.y + (oldCoordsInt.y % (int)Math.round(gridSize));
+        }
+
+        return (Point2D.Double)pointToPoints2D(oldCoordsInt);
     }
 
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,
         CreatingFreeSurface,
+    }
+
+    public void setCanvasGridOffset(Point offset) {
+        canvasGridOffset = offset;
+    }
+
+    public Point getCanvasGridOffset() {
+        return canvasGridOffset;
     }
 }
