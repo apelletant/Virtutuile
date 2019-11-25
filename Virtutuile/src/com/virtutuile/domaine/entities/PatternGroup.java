@@ -65,7 +65,6 @@ public class PatternGroup {
 
             af.translate((bounds.x + bounds.width / 2) * -1, (bounds.y + bounds.height / 2) * -1);
 
-
 //            groutedSurface.resize(bounds.width - groutThickness, bounds.height - groutThickness);
             return groutedSurface;
         }
@@ -77,9 +76,9 @@ public class PatternGroup {
     }
 
     private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface, Vector2D origin) {
-        /*System.out.println("rebuild");*/
         final Vector<Tile> tiles = pattern.getTiles();
         final double grout = surface.getGrout().getThickness();
+//        final Rectangle2D.Double patBounds = pattern.getBounds();
 
         final double tileH = tiles.get(0).getBounds().height;
         final double tileW = tiles.get(0).getBounds().width;
@@ -115,11 +114,13 @@ public class PatternGroup {
                         Tile newTile = tile.copy();
                         Rectangle2D.Double pos = newTile.getBounds();
 
+                        newTile.moveOf(-pos.x, -pos.y);
                         newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
                         Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
                         if (cutedSurface != null && cutedSurface.length != 0) {
                             if (cutedSurface.length == 1) {
                                 newTile.setPolygon(cutedSurface[0]);
+                                this.tiles.add(newTile);
                             } else {
                                 for (Path2D.Double cut : cutedSurface) {
                                     newTile = tile.copy();
@@ -127,7 +128,6 @@ public class PatternGroup {
                                     this.tiles.add(newTile);
                                 }
                             }
-                            this.tiles.add(newTile);
                         }
                         // Calculate if grout should be applied here or outside the loop
                         tempX += (pattern.getGroutXRules()[i] * grout) * increments[step][0];
