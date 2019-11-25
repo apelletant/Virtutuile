@@ -13,7 +13,6 @@ public class Controller {
     private Meta meta;
     private Painter painter;
     private SurfaceEditor surfaceEditor;
-    private BottomToolbar bottomToolbar;
 
     public Controller() {
         meta = new Meta();
@@ -48,15 +47,6 @@ public class Controller {
     public void mouseHover(Point point) {
         meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseHover(meta.pointToPoints2D(point));
-
-        if (meta.getHoveredSurface() != null && meta.getHoveredSurface().getBounds() != null) {
-            Double[] dim = new Double[2];
-
-            dim[0] = meta.getHoveredSurface().getBounds().width;
-            dim[1] = meta.getHoveredSurface().getBounds().height;
-
-            this.bottomToolbar.setHoveredSurfaceDimension(dim);
-        }
     }
 
     public void mouseRelease(Point point) {
@@ -99,13 +89,6 @@ public class Controller {
 
     }
 
-    public void setCurrentShape() {
-
-    }
-
-    public void drawSurface() {
-
-    }
 
     public void drawGrid() {
         meta.changeGridStatus();
@@ -148,10 +131,6 @@ public class Controller {
     }
 
     public Double[] getHoveredSurfaceDimesions() {return meta.getHoveredSurfaceDimesions(); }
-
-    public void setBottomToolbar(BottomToolbar bottomToolbar) {
-        this.bottomToolbar = bottomToolbar;
-    }
 
     public void setSurfaceWidth(double value) {
         meta.setSelectedSurfaceWidth(value);
