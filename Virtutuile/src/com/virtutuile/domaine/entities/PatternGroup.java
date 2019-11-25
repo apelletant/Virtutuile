@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class PatternGroup {
@@ -72,79 +73,122 @@ public class PatternGroup {
     }
 
     private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface) {
-        buildPattern(surface, groutedSurface, new Vector2D(surface.getBounds().x, surface.getBounds().y));
+        buildPattern(surface, groutedSurface, (Vector2D) null);
+    }
+
+    private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface, Point2D origin) {
+        buildPattern(surface, groutedSurface, new Vector2D(origin));
     }
 
     private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface, Vector2D origin) {
         final Vector<Tile> tiles = pattern.getTiles();
         final double grout = surface.getGrout().getThickness();
-//        final Rectangle2D.Double patBounds = pattern.getBounds();
 
         final double tileH = tiles.get(0).getBounds().height;
         final double tileW = tiles.get(0).getBounds().width;
 
         // Pattern min - max
         final double patMinX = surface.getBounds().x;
-        final double patMaxX = patMinX + surface.getBounds().width;
+        final double patMaxX = patMinX + surface.getBounds().width + tileW;
         final double patMinY = surface.getBounds().y;
-        final double patMaxY = patMinY + surface.getBounds().height;
+        final double patMaxY = patMinY + surface.getBounds().height + tileH;
 
-        // To increment in the 4 directions without code duplicates (1;1), (1;-1), (-1;-1) and (-1;1)
-        final int[][] increments = new int[][]{{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
-        int step = 0;
+        if (origin == null)
+            origin = new Vector2D(surface.getBounds().x, surface.getBounds().y);
+        else
+            origin = transformOrigin(origin, surface);
 
+        System.out.println(origin);
 
         double x = origin.x;
         double y = origin.y;
+        while (y <= patMaxY) {
 
-        if (origin == null) {
-            origin = new Vector2D(surface.getBounds().x, surface.getBounds().y);
-        }
+            while (x <= patMaxX) {
 
-        while (step < 4) {
+                double tempX = x;
+                double tempY = y;
+                for (int i = 0; i < tiles.size(); ++i) {
+                    Tile tile = tiles.get(i);
+                    Tile newTile = tile.copy();
+                    Rectangle2D.Double pos = newTile.getBounds();
 
-            while (y >= patMinY && y <= patMaxY) {
-
-                while (x >= patMinX && x <= patMaxX) {
-
-                    double tempX = x;
-                    double tempY = y;
-                    for (int i = 0; i < tiles.size(); ++i) {
-                        Tile tile = tiles.get(i);
-                        Tile newTile = tile.copy();
-                        Rectangle2D.Double pos = newTile.getBounds();
-
-                        newTile.moveOf(-pos.x, -pos.y);
-                        newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
-                        Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
-                        if (cutedSurface != null && cutedSurface.length != 0) {
-                            if (cutedSurface.length == 1) {
-                                newTile.setPolygon(cutedSurface[0]);
+                    newTile.moveOf(-pos.x, -pos.y);
+                    newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
+                    Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
+                    if (cutedSurface != null && cutedSurface.length != 0) {
+                        if (cutedSurface.length == 1) {
+                            newTile.setPolygon(cutedSurface[0]);
+                            this.tiles.add(newTile);
+                        } else {
+                            for (Path2D.Double cut : cutedSurface) {
+                                newTile = tile.copy();
+                                newTile.setPolygon(cut);
                                 this.tiles.add(newTile);
-                            } else {
-                                for (Path2D.Double cut : cutedSurface) {
-                                    newTile = tile.copy();
-                                    newTile.setPolygon(cut);
-                                    this.tiles.add(newTile);
-                                }
                             }
                         }
-                        // Calculate if grout should be applied here or outside the loop
-                        tempX += (pattern.getGroutXRules()[i] * grout) * increments[step][0];
-                        tempY += (pattern.getGroutYRules()[i] * grout) * increments[step][1];
                     }
-                    x += (tileW * pattern.getOffsetX()) * increments[step][0];
-                    x += (grout * pattern.getOffsetX()) * increments[step][0];
+                    // Calculate if grout should be applied here or outside the loop
+                    tempX += (pattern.getGroutXRules()[i] * grout);
+                    tempY += (pattern.getGroutYRules()[i] * grout);
                 }
-
-                x = origin.x;
-                y += (tileH * pattern.getOffsetY()) * increments[step][1];
-                y += (grout * pattern.getOffsetY()) * increments[step][1];
+                x += (tileW * pattern.getOffsetX());
+                x += (grout * pattern.getOffsetX());
             }
 
-            y = origin.y;
-            ++step;
+            x = origin.x;
+            y += (tileH * pattern.getOffsetY());
+            y += (grout * pattern.getOffsetY());
         }
+    }
+
+    private Vector2D transformOrigin(Vector2D origin, Surface surface) {
+        Rectangle2D.Double patBounds = getPatternBounds();
+        Rectangle2D.Double surBounds = surface.getBounds();
+        final double grout = surface.getGrout().getThickness();
+
+        origin.x -= patBounds.width / 2;
+        origin.y -= patBounds.height / 2;
+        while (origin.x > surBounds.x) {
+            origin.x -= grout + patBounds.width;
+        }
+        while (origin.y > surBounds.y) {
+            origin.y -= grout + patBounds.height;
+        }
+
+        return origin;
+    }
+
+    private Rectangle2D.Double getPatternBounds() {
+        Rectangle2D.Double ret = new Rectangle2D.Double();
+        Iterator<Tile> it = pattern.getTiles().iterator();
+
+        if (!it.hasNext()) {
+            return ret;
+        }
+
+        Tile tile = it.next();
+        ret = tile.getBounds();
+
+        while (it.hasNext()) {
+            tile = it.next();
+            Rectangle2D.Double bounds = tile.getBounds();
+            final double tx = bounds.x * bounds.width;
+            final double ty = bounds.y * bounds.height;
+            final double tw = bounds.x * bounds.width + bounds.width;
+            final double th = bounds.y * bounds.height + bounds.height;
+
+            if (ret.x > bounds.x)
+                ret.x = bounds.x;
+            if (ret.y > bounds.y)
+                ret.y = bounds.y;
+            if (ret.x + ret.width > bounds.x + bounds.width)
+                ret.width += (bounds.x + bounds.width) - (ret.x + ret.width);
+            if (ret.y + ret.height > bounds.y + bounds.height)
+                ret.height += (bounds.y + bounds.height) - (ret.y + ret.height);
+        }
+
+        return ret;
     }
 
     public PatternGroup copy() {

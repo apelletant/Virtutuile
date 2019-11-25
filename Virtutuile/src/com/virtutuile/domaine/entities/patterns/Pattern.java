@@ -103,31 +103,11 @@ public abstract class Pattern {
         return name;
     }
 
-    public Rectangle2D.Double getBounds() {
-        Rectangle2D.Double ret = new Rectangle2D.Double();
-        Iterator<Tile> it = tiles.iterator();
+    public Rectangle2D.Double getCritBounds() {
+        Tile first = tiles.get(0);
+        if (first == null)
+            return null;
 
-        if (!it.hasNext()) {
-            return ret;
-        }
-
-        Tile tile = it.next();
-        ret = tile.getBounds();
-
-        while (it.hasNext()) {
-            tile = it.next();
-            Rectangle2D.Double bounds = tile.getBounds();
-
-            if (ret.x > bounds.x)
-                ret.x = bounds.x;
-            if (ret.y > bounds.y)
-                ret.y = bounds.y;
-            if (ret.x + ret.width > bounds.x + bounds.width)
-                ret.width += (bounds.x + bounds.width) - (ret.x + ret.width);
-            if (ret.y + ret.height > bounds.y + bounds.height)
-                ret.height += (bounds.y + bounds.height) - (ret.y + ret.height);
-        }
-
-        return ret;
+        return first.getBounds();
     }
 }
