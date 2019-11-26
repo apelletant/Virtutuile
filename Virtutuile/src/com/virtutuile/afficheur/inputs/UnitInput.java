@@ -82,7 +82,5 @@ public class UnitInput extends TextInput {
         return true;
     }
 
-    public void setEditableFalse() {
-        field.setEditable(false);
-    }
+
 }

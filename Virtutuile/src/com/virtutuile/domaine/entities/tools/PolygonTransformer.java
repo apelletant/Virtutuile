@@ -24,6 +24,8 @@ public class PolygonTransformer {
 
         // Making a path with all PathElement
         Path ret = new Path();
+        ret.setStrokeWidth(0.001);
+        ret.setStrokeType(StrokeType.INSIDE);
         ret.setFill(Color.RED);
         ret.getElements().addAll(elements);
 

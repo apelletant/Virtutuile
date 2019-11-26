@@ -20,9 +20,9 @@ public class BottomToolbar extends BorderedPanel {
 
     private MainWindow mainWindow;
     private UnorderedMap<TargetButton, Button> buttons = new UnorderedMap<>();
-    private UnorderedMap<String, UnitInput> hoveredSurfaceDim = new UnorderedMap<>();
-    private UnitInput zoomLevel = new UnitInput("Zoom:");
+    private UnorderedMap<String, TextInput> hoveredSurfaceDim = new UnorderedMap<>();
     private TextInput gridSizeInput = new TextInput("Grid size: ");
+    private TextInput zoom = new TextInput("Zoom ratio: ");
 
     public BottomToolbar(MainWindow mainWindow) {
         super();
@@ -48,6 +48,7 @@ public class BottomToolbar extends BorderedPanel {
         Panel hoveredSurfacePanel = setUpSurfaceDataPanel();
         Panel zoomLvlPanel = setZoomLvlPanel();
 
+        add(zoomLvlPanel);
         
         add(Box.createHorizontalGlue());
         add(Box.createVerticalGlue());
@@ -80,11 +81,23 @@ public class BottomToolbar extends BorderedPanel {
     private Panel setZoomLvlPanel() {
         Panel pan = new Panel();
 
-        pan.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
-        pan.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
-        pan.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 5, Constants.BUTTON_SIZE.height));
+        pan.setPreferredSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
+        pan.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
+        pan.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
 
-        pan.add(zoomLevel);
+        zoom.setText(mainWindow.getController().getZoomFactor().toString());
+        zoom.setEditableFalse();
+
+        Panel subPan = new Panel();
+
+        Label lab = new Label("cm/pixel");
+        subPan.add(zoom);
+        subPan.setOpaque(true);
+        subPan.setBackground(Constants.SUBPANEL_BACKGROUND);
+        subPan.add(lab);
+
+        pan.add(subPan);
+
 
         return pan;
     }
@@ -116,20 +129,29 @@ public class BottomToolbar extends BorderedPanel {
     }
 
     public void setHoveredSurfaceDimension(Double[] dim) {
-        hoveredSurfaceDim.get("width").setValue(dim[0]);
-        hoveredSurfaceDim.get("height").setValue(dim[1]);
+        hoveredSurfaceDim.get("width").setText(dim[0].toString());
+        hoveredSurfaceDim.get("height").setText(dim[1].toString());
     }
 
     public void getHoverSurfaceBound() {
         Double[] dim = mainWindow.getController().getHoveredSurfaceDimension();
 
         if (dim != null) {
-            hoveredSurfaceDim.get("width").setValue(dim[0]);
-            hoveredSurfaceDim.get("height").setValue(dim[1]);
+            hoveredSurfaceDim.get("width").setText(dim[0].toString());
+            hoveredSurfaceDim.get("height").setText(dim[1].toString());
             repaint();
         } else {
-            hoveredSurfaceDim.get("width").setValue(0);
-            hoveredSurfaceDim.get("height").setValue(0);
+            hoveredSurfaceDim.get("width").setText(("0"));
+            hoveredSurfaceDim.get("height").setText(("0"));
+        }
+    }
+
+    public void setZoomLevel() {
+        Double zoomlevel = Math.round(mainWindow.getController().getZoomFactor() * 10000) / 10000D;
+        if (zoomlevel.toString().equals("0.0")) {
+            zoom.setText("Tiny");
+        } else {
+            zoom.setText(zoomlevel.toString());
         }
     }
 
@@ -138,8 +160,8 @@ public class BottomToolbar extends BorderedPanel {
         MagneticGrid
     }
 
-    private UnitInput setUpUnitInput(String label) {
-        UnitInput input = new UnitInput(label);
+    private TextInput setUpUnitInput(String label) {
+        TextInput input = new TextInput(label);
 
         Dimension dim = new Dimension(Constants.BUTTON_SIZE.width * 2, Constants.BUTTON_SIZE.height);
 

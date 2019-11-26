@@ -138,4 +138,8 @@ public class TextInput extends Panel implements DocumentListener {
             }
         }
     }
+
+    public void setEditableFalse() {
+        field.setEditable(false);
+    }
 }

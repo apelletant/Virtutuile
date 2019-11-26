@@ -55,6 +55,8 @@ public class Canvas extends PanelEvents {
 
         addMouseEventListener(MouseEventKind.MouseWheel, (mouseEvent) -> {
             mainWindow.getController().updateZoom(((MouseWheelEvent) mouseEvent).getPreciseWheelRotation(), mouseEvent.getPoint());
+            mainWindow.getBottomToolbar().setZoomLevel();
+
             repaint();
         });
     }

@@ -55,21 +55,6 @@ public class Meta {
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
         createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
 
-        Surface surface = new RectangularSurface(new Rectangle2D.Double(30, 30, 70, 70), false);
-        Path2D.Double polygon = new Path2D.Double();
-
-        polygon.moveTo(100, 100);
-        polygon.lineTo(300, 100);
-        polygon.lineTo(300, 300);
-        polygon.lineTo(400, 400);
-        polygon.lineTo(400, 500);
-        polygon.lineTo(200, 500);
-        polygon.lineTo(200, 350);
-        polygon.lineTo(100, 350);
-        polygon.closePath();
-        surface = new FreeSurface(polygon);
-        surfaces.put(surface.getId(), surface);
-
     }
 
     public void createNewTile(double width, double height, Color color, String name, boolean deletable) {
