@@ -470,11 +470,11 @@ public class Meta {
     public Point2D updatePosToMagnetic(Point point) {
         Point2D.Double mousePosCM = (Point2D.Double) pointToPoints2D(point);
 
-        hover = updateCoordsToMAgnetic((Point2D.Double) hover);
-        return updateCoordsToMAgnetic(mousePosCM);
+        hover = updateCoordsToMagnetic((Point2D.Double) hover);
+        return updateCoordsToMagnetic(mousePosCM);
     }
 
-    private Point2D updateCoordsToMAgnetic(Point2D.Double point) {
+    private Point2D updateCoordsToMagnetic(Point2D.Double point) {
         if (point.x % gridSize <= gridSize / 2) {
             point.x -= point.x % gridSize;
         } else {
@@ -488,6 +488,17 @@ public class Meta {
         }
 
         return point;
+    }
+
+    public Surface updateSurfacePosToMagneticPos() {
+        Surface surf = selectedSurface;
+
+        Rectangle2D.Double bounds = surf.getBounds();
+
+        Point2D newBounds = updateCoordsToMagnetic(new Point2D.Double(bounds.x, bounds.y));
+
+        selectedSurface.move(new Point2D.Double(bounds.x, bounds.y), newBounds);
+        return surf;
     }
 
     public enum EditionAction {

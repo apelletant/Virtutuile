@@ -56,9 +56,18 @@ public class Controller {
         Point2D.Double canvasCursor = (Point2D.Double) meta.pointToPoints2D(point);
         if (meta.isGridActivated()) {
             canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
+            if (meta.getSelectedSurface() != null) {
+                meta.setSelectedSurface(updateSurfacePosToMagneticPos());
+                System.out.println(meta.getSelectedSurface().getBounds().x);
+                System.out.println(meta.getSelectedSurface().getBounds().y);
+            }
         }
         this.surfaceEditor.mouseLClick(canvasCursor);
         meta.setClicked(canvasCursor);
+    }
+
+    private Surface updateSurfacePosToMagneticPos() {
+        return meta.updateSurfacePosToMagneticPos();
     }
 
     public void mouseRClick(Point point) {
