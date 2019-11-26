@@ -467,13 +467,11 @@ public class Meta {
         }
     }
 
-    public Point updatePosToMagnetic(Point point) {
+    public Point2D updatePosToMagnetic(Point point) {
         Point2D.Double mousePosCM = (Point2D.Double) pointToPoints2D(point);
 
         hover = updateCoordsToMAgnetic((Point2D.Double) hover);
-        System.out.println(point2DToPoint(updateCoordsToMAgnetic(mousePosCM)));
-
-        return point2DToPoint(updateCoordsToMAgnetic(mousePosCM));
+        return updateCoordsToMAgnetic(mousePosCM);
     }
 
     private Point2D updateCoordsToMAgnetic(Point2D.Double point) {

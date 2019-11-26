@@ -5,6 +5,7 @@ import com.virtutuile.domaine.entities.surfaces.Surface;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public class Controller {
@@ -32,30 +33,32 @@ public class Controller {
     }
 
     public void mouseHover(Point point) {
-        meta.setHover(meta.pointToPoints2D(point));
-        this.surfaceEditor.mouseHover(meta.pointToPoints2D(point));
+        Point2D.Double canvasCursor = (Point2D.Double) meta.pointToPoints2D(point);
+        meta.setHover(canvasCursor);
+        this.surfaceEditor.mouseHover(canvasCursor);
 
         if (meta.isGridActivated()) {
-          point = meta.updatePosToMagnetic(point);
+          canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
         }
     }
 
     public void mouseRelease(Point point) {
-      if (meta.isGridActivated()) {
-          point = meta.updatePosToMagnetic(point);
-      }
+        Point2D.Double canvasCursor = (Point2D.Double) meta.pointToPoints2D(point);
+        if (meta.isGridActivated()) {
+            canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
+        }
 
-        meta.setHover(meta.pointToPoints2D(point));
-        this.surfaceEditor.mouseRelease(meta.pointToPoints2D(point));
+        meta.setHover(canvasCursor);
+        this.surfaceEditor.mouseRelease(canvasCursor);
     }
 
     public void mouseLClick(Point point) {
-        this.surfaceEditor.mouseLClick(meta.pointToPoints2D(point));
-
-        meta.setClicked(meta.pointToPoints2D(point));
+        Point2D.Double canvasCursor = (Point2D.Double) meta.pointToPoints2D(point);
         if (meta.isGridActivated()) {
-            point = meta.updatePosToMagnetic(point);
+            canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
         }
+        this.surfaceEditor.mouseLClick(canvasCursor);
+        meta.setClicked(canvasCursor);
     }
 
     public void mouseRClick(Point point) {
@@ -63,13 +66,12 @@ public class Controller {
     }
 
     public void mouseDrag(Point point) {
-        if (meta.isGridActivated()) {
+        Point2D.Double canvasCursor = (Point2D.Double) meta.pointToPoints2D(point);
+        if (meta.isGridActivated())
+            canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
 
-            point = meta.updatePosToMagnetic(point);
-        }
-
-        this.surfaceEditor.mouseDrag(meta.pointToPoints2D(point));
-        meta.setHover(meta.pointToPoints2D(point));
+        this.surfaceEditor.mouseDrag(canvasCursor);
+        meta.setHover(canvasCursor);
     }
 
     public void setDrawRectangularSurface(boolean doing) {
