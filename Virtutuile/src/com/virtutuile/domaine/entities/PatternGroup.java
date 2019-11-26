@@ -8,6 +8,7 @@ import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.NotNull;
 import com.virtutuile.shared.Vector2D;
+import org.w3c.dom.css.Rect;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
@@ -38,7 +39,7 @@ public class PatternGroup {
                 break;
         }
         if (this.pattern != null) {
-            this.buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
+            this.buildPattern(surface);
             surface.setFillColor(surface.getGrout().getColor());
         }
     }
@@ -49,7 +50,7 @@ public class PatternGroup {
     public void recalcPattern(Surface surface) {
         tiles = new Vector<>();
         pattern.setTileType(surface.getTypeOfTile());
-        buildPattern(surface, transformToSurfaceWithoutSideGrout(surface));
+        buildPattern(surface);
     }
 
     public void changeTileType(Surface surface, Tile tile) {
@@ -73,15 +74,7 @@ public class PatternGroup {
         return null;
     }
 
-    private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface) {
-        buildPattern(surface, groutedSurface, (Vector2D) null);
-    }
-
-    private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface, Point2D origin) {
-        buildPattern(surface, groutedSurface, new Vector2D(origin));
-    }
-
-    private void buildPattern(@NotNull Surface surface, @NotNull Surface groutedSurface, Vector2D origin) {
+    private void buildPattern(@NotNull Surface surface) {
         final Vector<Tile> tiles = pattern.getTiles();
         final double grout = surface.getGrout().getThickness();
 
@@ -94,12 +87,13 @@ public class PatternGroup {
         final double patMinY = surface.getBounds().y;
         final double patMaxY = patMinY + surface.getBounds().height + tileH;
 
-        if (origin == null)
-            origin = new Vector2D(surface.getBounds().x, surface.getBounds().y);
-        else
+        Rectangle2D.Double bounds = surface.getBounds();
+        Vector2D origin = new Vector2D(bounds.x, bounds.y);
+        if (centered) {
+            origin.x += bounds.width / 2;
+            origin.y += bounds.height / 2;
             origin = transformOrigin(origin, surface);
-
-        System.out.println(origin);
+        }
 
         double x = origin.x;
         double y = origin.y;
