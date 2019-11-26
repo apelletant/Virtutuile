@@ -203,17 +203,18 @@ public class SurfaceEditor {
                     Point2D ratio = calcResizeRatio(point);
                     meta.getSelectedSurface().rescale(ratio.getX(), ratio.getY());
                 }*/
-            } else if (meta.getHoveredSurface() != null) {
-                Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
-                Vector2D origin = Vector2D.from(meta.getHover());
-                Vector2D target = Vector2D.from(point);
-
-
-                meta.getHoveredSurface().rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
-            }/* else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
-                actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
-                //ancien code, gérer le resize à l'aide des curseurs #cursor pas réimplémenté pour le moment
-            }*/
+            }
+//            else if (meta.getHoveredSurface() != null) {
+//                Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
+//                Vector2D origin = Vector2D.from(meta.getHover());
+//                Vector2D target = Vector2D.from(point);
+//
+//
+//                meta.getHoveredSurface().rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
+//            }/* else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
+//                actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
+//                //ancien code, gérer le resize à l'aide des curseurs #cursor pas réimplémenté pour le moment
+//            }*/
         }
     }
 

@@ -466,9 +466,16 @@ public class Meta {
 
     public Point2D updatePosToMagnetic(Point point) {
         Point2D.Double mousePosCM = (Point2D.Double) pointToPoints2D(point);
+        Point2D.Double screen = (Point2D.Double) updateCoordsToMagnetic(canvasPosition);
 
         hover = updateCoordsToMagnetic((Point2D.Double) hover);
-        return updateCoordsToMagnetic(mousePosCM);
+        hover = new Point2D.Double(hover.getX() + canvasPosition.x - screen.x, hover.getY() + canvasPosition.y - screen.y);
+
+        Point2D.Double ret = (Point2D.Double) updateCoordsToMagnetic(mousePosCM);
+        ret.x += canvasPosition.x - screen.x;
+        ret.y += canvasPosition.y - screen.y;
+
+        return ret;
     }
 
     private Point2D updateCoordsToMagnetic(Point2D.Double point) {
