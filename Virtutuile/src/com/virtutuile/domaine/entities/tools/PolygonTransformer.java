@@ -24,8 +24,6 @@ public class PolygonTransformer {
 
         // Making a path with all PathElement
         Path ret = new Path();
-//        ret.setStrokeWidth(0.001);
-//        ret.setStrokeType(StrokeType.INSIDE);
         ret.setFill(Color.RED);
         ret.getElements().addAll(elements);
 
@@ -75,8 +73,6 @@ public class PolygonTransformer {
     static public Path2D.Double[] subtract(java.awt.geom.Path2D polygon, java.awt.geom.Path2D cuttingPattern, double cuttingInline) {
         Path poly = awtPathToJavafx(polygon);
         Path cut = awtPathToJavafx(cuttingPattern);
-//        cut.setStrokeWidth(cuttingInline);
-//        cut.setStrokeType(StrokeType.INSIDE);
 
         Shape shape = Shape.intersect(poly, cut);
         return javafxPathsToAwt((Path) shape);

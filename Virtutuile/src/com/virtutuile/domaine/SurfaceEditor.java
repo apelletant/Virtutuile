@@ -42,7 +42,7 @@ public class SurfaceEditor {
         meta.getSurfaces().forEach((key, value) -> {
             if (value != null
                     && value.getPolygon() != null
-                    && value.getPolygon().contains(Constants.point2DToPoint(point2D))) {
+                    && value.getPolygon().contains(point2D)) {
                 surface.set(value);
             }
         });
@@ -67,7 +67,7 @@ public class SurfaceEditor {
         meta.getSurfaces().forEach((key, value) -> {
             if (value != null
                     && value.getPolygon() != null
-                    && value.getPolygon().contains(Constants.point2DToPoint(point2D))) {
+                    && value.getPolygon().contains(point2D)) {
                 shapeId.set(key);
             }
         });
@@ -95,7 +95,7 @@ public class SurfaceEditor {
     }
 
     public Surface getShapeNear(Point2D point2D) {
-        return getShapeNear(point2D, Constants.pixelsToCentimeters(Constants.Mouse.DEFAULT_PRECISION));
+        return getShapeNear(point2D, meta.pixelsToCentimeters(Constants.Mouse.DEFAULT_PRECISION));
     }
 
     private void hoverShapeHandling(Point2D point2D, Surface surface, boolean outofShape) {
@@ -104,16 +104,10 @@ public class SurfaceEditor {
                 meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface)) {
             builder.movePoint(point2D);
         } else {
-
-            // TODO
-            // Logic pour afficher les data de la surface
-            // dans la bottom toolBar
-
             surface.setMouseHover(true);
             meta.setHoveredSurface(surface);
             if (outofShape) {
-                Point2D vertice = surface.getVerticeNear(point2D, Constants.pixelsToCentimeters(Constants.Mouse.DEFAULT_PRECISION));
-                //rotate
+                Point2D vertice = surface.getVerticeNear(point2D, meta.pixelsToCentimeters(Constants.Mouse.DEFAULT_PRECISION));
             }
         }
     }

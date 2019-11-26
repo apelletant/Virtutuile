@@ -95,8 +95,8 @@ public class PatternGroup {
             origin = transformOrigin(origin, surface);
         }
 
-        double x = origin.x;
-        double y = origin.y;
+        double x = origin.x + .5;
+        double y = origin.y + .5;
         while (y <= patMaxY) {
 
             while (x <= patMaxX) {
@@ -131,7 +131,7 @@ public class PatternGroup {
                 x += (grout * pattern.getOffsetX());
             }
 
-            x = origin.x;
+            x = origin.x + .5d;
             y += (tileH * pattern.getOffsetY());
             y += (grout * pattern.getOffsetY());
         }

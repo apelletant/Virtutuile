@@ -9,11 +9,7 @@ public class Grout {
     private Color color;
     private double thickness;
 
-    //TODO: déplacer la défiition du thickness #edition du coulis
-    public Grout(/*Color color, float thickness, float height*/) {
-        /*_color = color;
-        _thickness = thickness;
-        _height = height;*/
+    public Grout() {
         color = Constants.INPUT_COLOR_INVALID;
         this.thickness = 3;
     }

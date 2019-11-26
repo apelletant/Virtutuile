@@ -165,17 +165,14 @@ public class Meta {
         isSelectedSurfaceCanBeResized = selectedSurfaceCanBeResized;
     }
 
-    //TODO: Développer la méthode
     public Point2D pointToPoints2D(Point point) {
-        Vector2D ret = new Vector2D(point.x, point.y);
-        return ret.add(canvasPosition).multiply(zoomFactor).toPoint2D();
+        return new Vector2D(point).add(canvasPosition).multiply(zoomFactor).toPoint2D();
     }
 
     public Point point2DToPoint(Point2D coordinates) {
         return new Vector2D(coordinates).divide(zoomFactor).subtract(canvasPosition).toPoint();
     }
 
-    //TODO: Développer la méthode
     public Point[] points2DToPoints(Point2D[] point2D) {
         Point[] points = new Point[point2D.length];
 

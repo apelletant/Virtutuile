@@ -101,38 +101,6 @@ public class Constants {
         }
     }
 
-    //TODO: Développer la méthode
-    public static Point2D pointToPoints2D(Point point) {
-        return new Point2D.Double(point.x, point.y);
-    }
-
-    //TODO: Développer la méthode
-    public static Point[] points2DToPoints(Point2D[] point2D) {
-        Point[] points = new Point[point2D.length];
-
-        for (int i = 0; i < point2D.length; ++i) {
-            Point point = new Point((int) point2D[i].getX(), (int) point2D[i].getY());
-            points[i] = point2DToPoint(point);
-        }
-        return points;
-    }
-
-    //TODO: Développer la méthode
-    public static Point point2DToPoint(Point2D coordinates) {
-        return new Point() {{
-            x = (int) coordinates.getX();
-            y = (int) coordinates.getY();
-        }};
-    }
-
-    public static double pixelsToCentimeters(int pixels) {
-        return pixels;
-    }
-
-    public static int centimetersToPixels(double centimeters) {
-        return (int) centimeters;
-    }
-
     public static final class Mouse {
 
         // Determine the max distance from the mouse to detect and interact with a shape.
