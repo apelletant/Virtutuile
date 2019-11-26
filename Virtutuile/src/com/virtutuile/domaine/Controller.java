@@ -186,4 +186,8 @@ public class Controller {
     public void mergeSurfaces() {
         meta.mergeSurfaces();
     }
+
+    public void setPatternStartPosition(String name) {
+        meta.setPatternStartPosition(name);
+    }
 }

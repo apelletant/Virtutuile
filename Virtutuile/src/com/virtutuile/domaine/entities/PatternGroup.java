@@ -21,6 +21,7 @@ public class PatternGroup {
     private Pattern pattern = null;
     private Vector<Tile> tiles = new Vector<>();
     private float rotation;
+    private boolean centered = false;
 
     public PatternGroup(String patternName, Surface surface, Tile tile) {
         if (surface.getTypeOfTile() == null) {
@@ -213,5 +214,9 @@ public class PatternGroup {
 
     public Pattern getPattern() {
         return pattern;
+    }
+
+    public void setCentered(boolean centered) {
+        this.centered = centered;
     }
 }

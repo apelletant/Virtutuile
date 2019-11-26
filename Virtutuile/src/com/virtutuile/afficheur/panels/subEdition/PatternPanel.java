@@ -63,5 +63,12 @@ public class PatternPanel extends SubPanel {
                 mainWindow.repaint();
             });
         });
+
+        options.forEach((name, button) -> {
+            button.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+                mainWindow.getController().setPatternStartPosition(name);
+                mainWindow.repaint();
+            });
+        });
     }
 }

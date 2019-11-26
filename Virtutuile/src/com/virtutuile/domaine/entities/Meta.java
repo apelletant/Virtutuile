@@ -490,6 +490,18 @@ public class Meta {
         return point;
     }
 
+    public void setPatternStartPosition(String name) {
+        if (selectedSurface != null
+                && selectedSurface.getPatternGroup() != null) {
+            if (name.equals("Center")) {
+                selectedSurface.getPatternGroup().setCentered(true);
+            } else {
+                selectedSurface.getPatternGroup().setCentered(false);
+            }
+            selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
+        }
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,
