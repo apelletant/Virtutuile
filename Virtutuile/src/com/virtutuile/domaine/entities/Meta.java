@@ -34,7 +34,6 @@ public class Meta {
     private boolean mousePressed;
     private boolean isGridActivated;
     private Dimension canvasSize = new Dimension();
-    private Point canvasGridOffset;
 
     private double zoomFactor = Constants.NORMAL_ZOOM;
     private Point2D.Double canvasPosition = new Point2D.Double();
@@ -51,7 +50,6 @@ public class Meta {
         mousePressed = false;
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
-        canvasGridOffset = null;
 
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
@@ -469,48 +467,35 @@ public class Meta {
         }
     }
 
-    public void updateSurfacePosition() {
-        Rectangle2D.Double bounds = selectedSurface.getBounds();
-        Point2D.Double oldCoords = new Point2D.Double(bounds.x, bounds.y);
-        Point2D.Double newCoords = coordsToMagneticCoords(oldCoords);
+    public Point updatePosToMagnetic(Point point) {
+        Point2D.Double mousePosCM = (Point2D.Double) pointToPoints2D(point);
 
-        selectedSurface.move(oldCoords, newCoords);
+        hover = updateCoordsToMAgnetic((Point2D.Double) hover);
+        System.out.println(point2DToPoint(updateCoordsToMAgnetic(mousePosCM)));
+
+        return point2DToPoint(updateCoordsToMAgnetic(mousePosCM));
     }
 
-    public Point2D.Double coordsToMagneticCoords(Point2D.Double oldCoords) {
-
-        Point oldCoordsInt = point2DToPoint(oldCoords);
-
-        System.out.println(oldCoordsInt);
-        int median = (int)Math.round(gridSize) / 2;
-
-        if (oldCoordsInt.x % (int)Math.round(gridSize) > median) {
-            oldCoordsInt.x = oldCoordsInt.x + (oldCoordsInt.x % (int)Math.round(gridSize));
+    private Point2D updateCoordsToMAgnetic(Point2D.Double point) {
+        if (point.x % gridSize <= gridSize / 2) {
+            point.x -= point.x % gridSize;
         } else {
-            oldCoordsInt.x = oldCoordsInt.x - (oldCoordsInt.x % (int)Math.round(gridSize));
+            point.x += gridSize - point.x % gridSize;
         }
 
-        if (oldCoordsInt.y % (int)Math.round(gridSize) > median) {
-            oldCoordsInt.y = oldCoordsInt.y - (oldCoordsInt.y % (int)Math.round(gridSize));
+        if (point.y % gridSize <= gridSize / 2) {
+            point.y -= point.y % gridSize;
         } else {
-            oldCoordsInt.y = oldCoordsInt.y + (oldCoordsInt.y % (int)Math.round(gridSize));
+            point.y += gridSize - point.y % gridSize;
         }
 
-        return (Point2D.Double)pointToPoints2D(oldCoordsInt);
+        return point;
     }
 
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,
         CreatingFreeSurface,
-    }
-
-    public void setCanvasGridOffset(Point offset) {
-        canvasGridOffset = offset;
-    }
-
-    public Point getCanvasGridOffset() {
-        return canvasGridOffset;
     }
 
     public Tile getDefaultTile() {

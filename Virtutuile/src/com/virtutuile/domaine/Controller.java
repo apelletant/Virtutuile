@@ -34,12 +34,17 @@ public class Controller {
     public void mouseHover(Point point) {
         meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseHover(meta.pointToPoints2D(point));
+
+        if (meta.isGridActivated()) {
+          point = meta.updatePosToMagnetic(point);
+        }
     }
 
     public void mouseRelease(Point point) {
-//      if (meta.isGridActivated()) {
-//            point = coordToMagneticCoord(point);
-//      }
+      if (meta.isGridActivated()) {
+          point = meta.updatePosToMagnetic(point);
+      }
+
         meta.setHover(meta.pointToPoints2D(point));
         this.surfaceEditor.mouseRelease(meta.pointToPoints2D(point));
     }
@@ -49,7 +54,7 @@ public class Controller {
 
         meta.setClicked(meta.pointToPoints2D(point));
         if (meta.isGridActivated()) {
-            meta.updateSurfacePosition();
+            point = meta.updatePosToMagnetic(point);
         }
     }
 
@@ -59,8 +64,10 @@ public class Controller {
 
     public void mouseDrag(Point point) {
         if (meta.isGridActivated()) {
-//            meta.updateSurfacePosition();
+
+            point = meta.updatePosToMagnetic(point);
         }
+
         this.surfaceEditor.mouseDrag(meta.pointToPoints2D(point));
         meta.setHover(meta.pointToPoints2D(point));
     }
@@ -73,7 +80,6 @@ public class Controller {
         if (keyEvent.getKeyCode() == KeyEvent.VK_BACK_SPACE || keyEvent.getKeyCode() == KeyEvent.VK_DELETE) {
             surfaceEditor.deleteSelectedShape();
         }
-
     }
 
 
@@ -177,13 +183,5 @@ public class Controller {
 
     public void mergeSurfaces() {
         meta.mergeSurfaces();
-    }
-
-    public void setCanvasGridOffset(Point offset) {
-        meta.setCanvasGridOffset(offset);
-    }
-
-    public Point getCanvasGridOffset() {
-        return meta.getCanvasGridOffset();
     }
 }

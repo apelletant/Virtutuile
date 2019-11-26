@@ -98,8 +98,6 @@ public class Painter {
         canvasPosInt.x = canvasPosInt.x - (canvasPosInt.x % canvasDim.width);
         canvasPosInt.y = canvasPosInt.y - (canvasPosInt.y % canvasDim.height);
 
-        meta.setCanvasGridOffset(canvasPosInt);
-
         for (int i = canvasPosInt.x; i <= canvasDim.width; i++) {
             for (int j = canvasPosInt.y; j <= canvasDim.height; j++) {
                 if (i % meta.centimetersToPixels(meta.getGridSize())  == 0) {
