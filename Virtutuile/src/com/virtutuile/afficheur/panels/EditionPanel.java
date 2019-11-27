@@ -21,7 +21,7 @@ public class EditionPanel extends PanelEvents {
         this.mainWindow = mainWindow;
         tileSettingsPanel = new TileSettingsPanel("Tile Settings", mainWindow);
 
-        subPanels = new UnorderedMap<>() {{
+        subPanels = new UnorderedMap<PanelType, SubPanel>() {{
             put(PanelType.Surface, new SurfacePanel("Surface", mainWindow));
             put(PanelType.Grout, new GroutPanel("Grout", mainWindow));
             put(PanelType.Tile, new TilePanel("Tile", mainWindow));

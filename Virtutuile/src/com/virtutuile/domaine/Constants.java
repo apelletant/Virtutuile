@@ -1,8 +1,7 @@
 package com.virtutuile.domaine;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.Map;
+import java.util.HashMap;
 
 public class Constants {
 
@@ -35,23 +34,23 @@ public class Constants {
     public static final int METRIC = 0;
     public static final int IMPERIAL = 1;
 
-    public static final Map<Constants.Units, String> UnitNames = Map.of(
-            Constants.Units.Millimeter, "Millimeter",
-            Constants.Units.Centimeter, "Centimeter",
-            Constants.Units.Meter, "Meter",
-            Constants.Units.Inches, "Inches",
-            Constants.Units.Foot, "Foot",
-            Constants.Units.Yard, "Yards"
-    );
+    public static final HashMap<Units, String> UnitNames = new HashMap<Units, String>() {{
+        put(Units.Millimeter, "Millimeter");
+        put(Units.Centimeter, "Centimeter");
+        put(Units.Meter, "Meter");
+        put(Units.Inches, "Inches");
+        put(Units.Foot, "Foot");
+        put(Units.Yard, "Yards");
+    }};
 
-    public static final Map<Units, String> UnitLabels = Map.of(
-            Constants.Units.Millimeter, "mm",
-            Constants.Units.Centimeter, "cm",
-            Constants.Units.Meter, "m",
-            Constants.Units.Inches, "in",
-            Constants.Units.Foot, "ft",
-            Constants.Units.Yard, "yd"
-    );
+    public static final HashMap<Units, String> UnitLabels = new HashMap<Units, String>() {{
+        put(Constants.Units.Millimeter, "mm");
+        put(Constants.Units.Centimeter, "cm");
+        put(Constants.Units.Meter, "m");
+        put(Constants.Units.Inches, "in");
+        put(Constants.Units.Foot, "ft");
+        put(Constants.Units.Yard, "yd");
+    }};
 
     // Converting table from https://metricunitconversion.globefeed.com/length_conversion_table.asp
     public static final double MILLIMETER_RATIO = 10D;
