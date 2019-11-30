@@ -118,8 +118,8 @@ public class Controller {
         meta.setCanvasSize(width, height);
     }
 
-    public Double[] getSelectedSurfaceDimensions() {
-        return meta.getSelectedSurfaceDimensions();
+    public Double[] getSelectedSurfaceProperties() {
+        return meta.getSelectedSurfaceProperties();
     }
 
     public Double getSurfaceThickness() {
@@ -198,5 +198,13 @@ public class Controller {
 
     public void setPatternStartPosition(String name) {
         meta.setPatternStartPosition(name);
+    }
+
+    public void setSurfaceLongitude(Double longitude) {
+        meta.setSelectedSurfaceLongitude(longitude);
+    }
+
+    public void setSurfaceLatitude(Double latitude) {
+        meta.setSelectedSurfaceLatitude(latitude);
     }
 }

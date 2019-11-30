@@ -8,19 +8,18 @@ import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
-import com.virtutuile.afficheur.tools.ValidationsException;
-import com.virtutuile.domaine.Controller;
+import com.virtutuile.domaine.Constants;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
-import java.util.function.BiConsumer;
 
 public class SurfacePanel extends SubPanel {
 
     private UnorderedMap<DrawShapeButtonType, Button> addSurface = new UnorderedMap<>();
     private UnorderedMap<DrawShapeButtonType, Button> removeSurface = new UnorderedMap<>();
     private UnorderedMap<DrawShapeButtonType, Button> surfaceManagement = new UnorderedMap<>();
-    private UnorderedMap<InputContextType, UnitInput> inputs = new UnorderedMap<>();
+    private UnorderedMap<InputContextType, UnitInput> unitInputs = new UnorderedMap<>();
+    private UnorderedMap<InputContextType, UnitInput> positionInputs = new UnorderedMap<>();
 
     public SurfacePanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -49,16 +48,32 @@ public class SurfacePanel extends SubPanel {
             mainWindow.repaint();
         });
 
-        inputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
+        unitInputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setSurfaceWidth(Double.parseDouble(value));
             mainWindow.getController().recalcPattern();
             mainWindow.repaint();
         });
 
-        inputs.get(InputContextType.Height).addInputListener(InputEventKind.OnChange, (value, self) -> {
+        unitInputs.get(InputContextType.Height).addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setSurfaceHeight(Double.parseDouble(value));
             mainWindow.getController().recalcPattern();
             mainWindow.repaint();
+        });
+
+        positionInputs.get(InputContextType.Longitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
+            if (!value.isEmpty()) {
+                mainWindow.getController().setSurfaceLongitude(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern();
+                mainWindow.repaint();
+            }
+        });
+
+        positionInputs.get(InputContextType.Latitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
+            if (!value.isEmpty()) {
+                mainWindow.getController().setSurfaceLatitude(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern();
+                mainWindow.repaint();
+            }
         });
 
 
@@ -75,7 +90,11 @@ public class SurfacePanel extends SubPanel {
 
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        setInputsOnPanel(line);
+        setUnitInputsOnPanel(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setPositionInputsOnPanel(line);
 
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
@@ -113,30 +132,52 @@ public class SurfacePanel extends SubPanel {
         rows.add(line);
     }
 
-    private void setInputsOnPanel(JPanel line) {
-        inputs.put(InputContextType.Width, new UnitInput("Width"));
-        inputs.put(InputContextType.Height, new UnitInput("Height"));
+    private void setUnitInputsOnPanel(JPanel line) {
+        unitInputs.put(InputContextType.Width, new UnitInput("Width"));
+        unitInputs.put(InputContextType.Height, new UnitInput("Height"));
 
-        inputs.forEach((key, value) -> {
+        unitInputs.forEach((key, value) -> {
             line.add(value);
         });
 
         rows.add(line);
     }
 
-    public void retrieveSurfaceDimensions() {
-        Double[] selectedSurfaceDimensions = mainWindow.getController().getSelectedSurfaceDimensions();
+    private void setPositionInputsOnPanel(JPanel line) {
+        positionInputs.put(InputContextType.Longitude, new UnitInput("Longitude", true, false));
+        positionInputs.put(InputContextType.Latitude, new UnitInput("Latitude", true, false));
+
+        positionInputs.get(InputContextType.Longitude).setUnitLabel("cm to 0");
+        positionInputs.get(InputContextType.Latitude).setUnitLabel("cm to 0");
+
+        positionInputs.forEach((key, value) -> {
+            line.add(value);
+        });
+
+        rows.add(line);
+    }
+
+    public void retrieveSelectedSurfaceProperties() {
+        Double[] selectedSurfaceDimensions = mainWindow.getController().getSelectedSurfaceProperties();
         if (selectedSurfaceDimensions != null) {
-            inputs.get(InputContextType.Width).setValue(Math.round(selectedSurfaceDimensions[0] * 10000) / 10000D);
-            inputs.get(InputContextType.Height).setValue(Math.round(selectedSurfaceDimensions[1] * 10000) / 10000D);
+            unitInputs.get(InputContextType.Width).setValue(Math.round(selectedSurfaceDimensions[0] * 10000) / 10000D);
+            unitInputs.get(InputContextType.Height).setValue(Math.round(selectedSurfaceDimensions[1] * 10000) / 10000D);
+            positionInputs.get(InputContextType.Longitude).setText(selectedSurfaceDimensions[2].toString());
+            positionInputs.get(InputContextType.Latitude).setText(selectedSurfaceDimensions[3].toString());
         } else {
             setSurfaceDimensions(0.0,0.0);
+            setSurfacePosition(0.0,0.0);
         }
     }
 
     private void setSurfaceDimensions(Double width, Double height) {
-        inputs.get(InputContextType.Width).setValue(Math.round(width * 10000) / 10000D);
-        inputs.get(InputContextType.Height).setValue(Math.round(height * 10000) / 10000D);
+        unitInputs.get(InputContextType.Width).setValue(Math.round(width * 10000) / 10000D);
+        unitInputs.get(InputContextType.Height).setValue(Math.round(height * 10000) / 10000D);
+    }
+
+    private void setSurfacePosition(Double width, Double height) {
+        positionInputs.get(InputContextType.Longitude).setValue(Math.round(width * 10000) / 10000D);
+        positionInputs.get(InputContextType.Latitude).setValue(Math.round(height * 10000) / 10000D);
     }
 
     public enum DrawShapeButtonType {
@@ -149,6 +190,8 @@ public class SurfacePanel extends SubPanel {
 
     public enum InputContextType {
         Width,
-        Height
+        Height,
+        Longitude,
+        Latitude
     }
 }

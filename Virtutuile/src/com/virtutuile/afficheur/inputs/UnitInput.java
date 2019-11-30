@@ -30,6 +30,16 @@ public class UnitInput extends TextInput {
         repaint();
     }
 
+    public UnitInput(String label, boolean horizontalFlex, boolean validator) {
+        super(label, horizontalFlex);
+        setUnit(Constants.Units.Centimeter);
+        unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
+        unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        fieldBorder.add(unitLabel, BorderLayout.EAST);
+        revalidate();
+        repaint();
+    }
+
     public int getValue() {
         return valueInt;
     }
@@ -51,6 +61,10 @@ public class UnitInput extends TextInput {
 
     public Constants.Units getUnit() {
         return unit;
+    }
+
+    public void setUnitLabel(String unitLabel) {
+        this.unitLabel.setText(unitLabel);
     }
 
     public UnitInput setUnit(Constants.Units unit) {

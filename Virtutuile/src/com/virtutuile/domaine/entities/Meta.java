@@ -240,11 +240,13 @@ public class Meta {
         setZoomFactor(getZoomFactor() * zoomFactor);
     }
 
-    public Double[] getSelectedSurfaceDimensions() {
+    public Double[] getSelectedSurfaceProperties() {
         if (selectedSurface != null) {
-            Double[] dimensions = new Double[2];
+            Double[] dimensions = new Double[4];
             dimensions[0] = selectedSurface.getBounds().width;
             dimensions[1] = selectedSurface.getBounds().height;
+            dimensions[2] = selectedSurface.getBounds().x;
+            dimensions[3] = selectedSurface.getBounds().y;
             return dimensions;
         }
         return null;
@@ -499,6 +501,18 @@ public class Meta {
                 selectedSurface.getPatternGroup().setCentered(false);
             }
             selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
+        }
+    }
+
+    public void setSelectedSurfaceLongitude(Double longitude) {
+        if (selectedSurface != null) {
+            selectedSurface.move(selectedSurface.getVertices()[0], new Point2D.Double(longitude, selectedSurface.getVertices()[0].getY()));
+        }
+    }
+
+    public void setSelectedSurfaceLatitude(Double latitude) {
+        if (selectedSurface != null) {
+            selectedSurface.move(selectedSurface.getVertices()[0], new Point2D.Double(selectedSurface.getVertices()[0].getX(), latitude));
         }
     }
 

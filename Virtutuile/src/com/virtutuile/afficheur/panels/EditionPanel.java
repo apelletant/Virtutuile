@@ -41,10 +41,10 @@ public class EditionPanel extends PanelEvents {
 
     }
 
-    public void surfaceGetSurfaceDimensions() {
+    public void surfaceGetSurfaceProperties() {
         SurfacePanel surface = (SurfacePanel) subPanels.get(PanelType.Surface);
         if (surface != null) {
-            surface.retrieveSurfaceDimensions();
+            surface.retrieveSelectedSurfaceProperties();
         }
     }
 
