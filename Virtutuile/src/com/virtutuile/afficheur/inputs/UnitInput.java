@@ -25,7 +25,7 @@ public class UnitInput extends TextInput {
         unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
         unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         fieldBorder.add(unitLabel, BorderLayout.EAST);
-        setValidator(UnitInput::isDouble);
+        setValidator(TextInput::isDouble);
         revalidate();
         repaint();
     }
@@ -74,27 +74,6 @@ public class UnitInput extends TextInput {
         return this;
     }
 
-    public static final boolean isNumber(String test) throws ValidationsException {
-        try {
-            Integer.parseInt(test);
-        } catch (NumberFormatException except) {
-            throw new ValidationsException("Bad number format");
-        }
-        return true;
-    }
-
-    public static final boolean isDouble(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
-        try {
-            Double value = Double.parseDouble(test);
-            if (value.isNaN() || value.isInfinite() || value <= 0 ) {
-                throw new ValidationsException("NaN, infinite or smaller than / equal to 0 is not accepted");
-            }
-            next.accept(test, input);
-        } catch (NumberFormatException except) {
-            throw new ValidationsException("Bad number format");
-        }
-        return true;
-    }
 
 
 }

@@ -11,6 +11,7 @@ public class Tile extends PrimarySurface {
     private Point2D opposite;
     private Color color;
     private String name;
+    private int packageSize;
     private boolean deletable;
 
     public Tile(double[] pointsX, double[] pointsY) {
@@ -19,36 +20,41 @@ public class Tile extends PrimarySurface {
 
     public Tile(Point2D[] points2D) {
         super((Point[]) points2D);
-
+        packageSize = 10;
     }
 
     public Tile(Path2D.Double polygon) {
         super(polygon);
+        packageSize = 10;
     }
 
     public Tile(Tile tile) {
         super(tile);
         origin = tile.origin;
+        packageSize = 10;
     }
 
     public Tile(Rectangle.Double rect) {
         super();
         origin = new Point2D.Double(rect.x, rect.y);
         opposite = new Point2D.Double(rect.x + rect.width, rect.y + rect.height);
+        packageSize = 10;
         regenerate();
     }
 
-    public Tile(double width, double height, Color color, String name, boolean deletable) {
+    public Tile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
         origin = new Point2D.Double(0, 0);
         opposite = new Point2D.Double(width, height);
         setFillColor(color);
         setName(name);
         this.deletable = deletable;
+        this.packageSize = packageSize;
         regenerate();
     }
 
     public Tile() {
         super();
+        packageSize = 10;
     }
 
     public Tile copy() {
@@ -120,5 +126,13 @@ public class Tile extends PrimarySurface {
 
     public boolean isDeletable() {
         return deletable;
+    }
+
+    public int getPackageSize() {
+        return packageSize;
+    }
+
+    public void setPackageSize(int packageSize) {
+        this.packageSize = packageSize;
     }
 }

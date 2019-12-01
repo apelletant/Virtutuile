@@ -51,14 +51,14 @@ public class Meta {
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
 
-        createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false);
-        createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false);
-        createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false);
+        createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false, 10);
+        createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false, 10);
+        createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false, 10);
 
     }
 
-    public void createNewTile(double width, double height, Color color, String name, boolean deletable) {
-        typeOfTiles.put(name, new Tile(width, height, color, name, deletable));
+    public void createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
+        typeOfTiles.put(name, new Tile(width, height, color, name, deletable, packageSize));
     }
 
     public Surface getSelectedSurface() {
@@ -530,5 +530,18 @@ public class Meta {
             }
         }
         return null;
+    }
+
+    public int getPackageSizeFor(String tileName) {
+        if (typeOfTiles.get(tileName) != null) {
+            return typeOfTiles.get(tileName).getPackageSize();
+        }
+        return 0;
+    }
+
+    public void setPackageSizeFor(String tileName, int packageSize) {
+        if (typeOfTiles.get(tileName) != null) {
+            typeOfTiles.get(tileName).setPackageSize(packageSize);
+        }
     }
 }
