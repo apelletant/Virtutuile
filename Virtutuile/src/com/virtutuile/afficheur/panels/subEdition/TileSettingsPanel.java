@@ -1,6 +1,5 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
-import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.ColorPicker;
@@ -10,11 +9,13 @@ import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
+import com.virtutuile.afficheur.tools.ValidationsException;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
+import java.util.Vector;
 
 public class TileSettingsPanel extends SubPanel {
 
@@ -27,13 +28,16 @@ public class TileSettingsPanel extends SubPanel {
     private UnorderedMap<String, Button> tilesType = new UnorderedMap<>();
     private UnorderedMap<String, Button> creationButtons = new UnorderedMap<>();
 
-    private TileCreation tileCreation = null;
     private JFrame creationFrame = null;
-
+    private Vector<JPanel> creationFrameRows = new Vector<>();
+    private TextInput tileNameCreation = null;
+    private UnitInput tileNumberPerPackCreation = null;
+    private ColorPicker tileColorPickerCreation = null;
+    private UnitInput tileWidthCreation = null;
+    private UnitInput tileHeightCreation = null;
 
     public TileSettingsPanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
-        tileCreation = new TileCreation("Create a Tile", mainWindow);
         setUpCreationFrame();
         setButtonsOnPanel();
         setEvents();
@@ -43,11 +47,41 @@ public class TileSettingsPanel extends SubPanel {
     private void setUpCreationFrame() {
         creationFrame = new JFrame();
         creationFrame.setTitle("Creation Frame");
-        creationFrame.setSize(600, 520);
-        creationFrame.setBounds(0, 0, 600, 520);
-        creationFrame.setBackground(Constants.EDITIONPANEL_BACKGROUND);
-        creationFrame.setForeground(Constants.EDITIONPANEL_BACKGROUND);
-        creationFrame.add(tileCreation);
+        creationFrame.setSize(600, 400);
+        creationFrame.setBounds(0, 0, 600, 400);
+
+
+
+        tileNameCreation = new TextInput("Name");
+        tileColorPickerCreation = new ColorPicker();
+        tileWidthCreation = new UnitInput("Width");
+        tileHeightCreation = new UnitInput("Height");
+
+        JPanel line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.add(tileColorPickerCreation);
+        creationFrameRows.add(line);
+
+        line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.add(tileNameCreation);
+        creationFrameRows.add(line);
+
+        line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.add(tileWidthCreation);
+        line.add(tileHeightCreation);
+        creationFrameRows.add(line);
+
+        for (JPanel layout : creationFrameRows) {
+            if (!isAncestorOf(layout)) {
+                creationFrame.add(layout);
+            }
+        }
+        /*creationFrame.add(tileNameCreation);
+        creationFrame.add(tileColorPickerCreation);
+        creationFrame.add(tileWidthCreation);
+        creationFrame.add(tileHeightCreation);*/
     }
 
     @Override
@@ -68,7 +102,6 @@ public class TileSettingsPanel extends SubPanel {
         });
 
         creationButtons.get("Create").addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
-            tileCreation = new TileCreation("Create a Tile", mainWindow);
             creationFrame.setVisible(true);
         });
 
@@ -175,9 +208,5 @@ public class TileSettingsPanel extends SubPanel {
 
     public UnorderedMap<String, Button> getTilesType() {
         return tilesType;
-    }
-
-    public JFrame getCreationFrame() {
-        return creationFrame;
     }
 }
