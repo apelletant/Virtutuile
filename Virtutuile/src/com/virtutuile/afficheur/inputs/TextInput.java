@@ -32,10 +32,14 @@ public class TextInput extends Panel implements DocumentListener {
     };
 
     public TextInput(String label) {
-        this(label, true);
+        this(label, true, false);
     }
 
-    public TextInput(String label, boolean horizontalFlex) {
+    public TextInput(String label, boolean integer) {
+        this(label, true, integer);
+    }
+
+    public TextInput(String label, boolean horizontalFlex, boolean integer) {
         super(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
         if (horizontalFlex)
@@ -45,7 +49,9 @@ public class TextInput extends Panel implements DocumentListener {
         errorLabel.setFontSize(10);
         errorLabel.setForeground(Constants.INPUT_COLOR_INVALID);
         errorLabel.setText(" ");
-        setValidator(TextInput::isNumber);
+        if (integer) {
+            setValidator(TextInput::isNumber);
+        }
 
         field.setLayout(new BorderLayout());
         field.setBorder(new EmptyBorder(3, 8, 3, 8));
