@@ -38,7 +38,7 @@ public class Controller {
         this.surfaceEditor.mouseHover(canvasCursor);
 
         if (meta.isGridActivated()) {
-            canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
+          canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
         }
     }
 
@@ -108,9 +108,7 @@ public class Controller {
 
     public Dimension getCanvasSize() {
         return meta.getCanvasSize();
-    }
-
-    ;
+    };
 
     public void updateZoom(double preciseWheelRotation, Point point) {
         meta.updateZoom(preciseWheelRotation, point);
@@ -136,9 +134,7 @@ public class Controller {
         meta.setGridSize(gridSize);
     }
 
-    public Double[] getHoveredSurfaceDimension() {
-        return meta.getHoveredSurfaceDimension();
-    }
+    public Double[] getHoveredSurfaceDimension() {return meta.getHoveredSurfaceDimension(); }
 
     public void setSurfaceWidth(double value) {
         meta.setSelectedSurfaceWidth(value);
@@ -210,13 +206,5 @@ public class Controller {
 
     public void setSurfaceLatitude(Double latitude) {
         meta.setSelectedSurfaceLatitude(latitude);
-    }
-
-    public void setPackageSizeFor(String tileName, int packageSize) {
-        meta.setPackageSizeFor(tileName, packageSize);
-    }
-
-    public int getPackageSizeFor(String tileName) {
-        return meta.getPackageSizeFor(tileName);
     }
 }
