@@ -1,8 +1,6 @@
 package com.virtutuile.domaine.entities;
 
 import com.virtutuile.afficheur.Constants;
-import com.virtutuile.domaine.entities.surfaces.FreeSurface;
-import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
@@ -27,6 +25,7 @@ public class Meta {
 
     private Surface selectedSurface;
     private Surface hoveredSurface;
+    private Tile hoveredTile;
     private boolean isSelectedSurfaceCanBeResized;
 
     private Point2D clicked;
@@ -43,6 +42,7 @@ public class Meta {
     public Meta() {
         selectedSurface = null;
         hoveredSurface = null;
+        hoveredTile = null;
         surfaces = new UnorderedMap<>();
         doing = EditionAction.Idle;
         clicked = null;
@@ -562,4 +562,13 @@ public class Meta {
             typeOfTiles.get(tileName).setPackageSize(packageSize);
         }
     }
+
+    public Tile getHoveredTile() {
+        return hoveredTile;
+    }
+
+    public void setHoveredTile(Tile tile) {
+        this.hoveredTile = tile;
+    }
+
 }

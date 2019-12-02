@@ -3,6 +3,7 @@ package com.virtutuile.domaine.entities;
 import com.virtutuile.domaine.entities.patterns.Classic;
 import com.virtutuile.domaine.entities.patterns.Offset;
 import com.virtutuile.domaine.entities.patterns.Pattern;
+import com.virtutuile.domaine.entities.surfaces.PrimarySurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
@@ -23,6 +24,7 @@ public class PatternGroup {
     private Vector<Tile> tiles = new Vector<>();
     private float rotation;
     private boolean centered = false;
+    private int cuttedTiles = 0;
 
     public PatternGroup(String patternName, Surface surface, Tile tile) {
         if (surface.getTypeOfTile() == null) {
@@ -95,6 +97,7 @@ public class PatternGroup {
             origin = transformOrigin(origin, surface);
         }
 
+        int cuttedTiles = 0;
         double x = origin.x + .5;
         double y = origin.y + .5;
         while (y <= patMaxY) {
@@ -110,6 +113,8 @@ public class PatternGroup {
 
                     newTile.moveOf(-pos.x, -pos.y);
                     newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
+                    if (tileWillBeCuted(newTile, surface.getPolygon()))
+                        ++cuttedTiles;
                     Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
                     if (cutedSurface != null && cutedSurface.length != 0) {
                         if (cutedSurface.length == 1) {
@@ -135,6 +140,17 @@ public class PatternGroup {
             y += (tileH * pattern.getOffsetY());
             y += (grout * pattern.getOffsetY());
         }
+        surface.getPatternGroup().cuttedTiles = cuttedTiles;
+    }
+
+    private boolean tileWillBeCuted(PrimarySurface tile, Path2D.Double surface) {
+        Point2D[] vertices = tile.getVertices();
+
+        for (Point2D vertice : vertices) {
+            if (!surface.contains(vertice))
+                return true;
+        }
+        return false;
     }
 
     private Vector2D transformOrigin(Vector2D origin, Surface surface) {
@@ -212,5 +228,9 @@ public class PatternGroup {
 
     public void setCentered(boolean centered) {
         this.centered = centered;
+    }
+
+    public int getCuttedTiles() {
+        return cuttedTiles;
     }
 }

@@ -5,11 +5,12 @@ import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.SurfaceBuilder;
 import com.virtutuile.domaine.entities.surfaces.Tile;
-import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.UUID;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class SurfaceEditor {
@@ -47,6 +48,32 @@ public class SurfaceEditor {
             }
         });
         return surface.get();
+    }
+
+    public Tile getTileAt(Point2D mousePos) {
+        AtomicReference<Tile> tile = new AtomicReference<>();
+        Vector<Tile> tiles = null;
+
+        if (meta.getHoveredSurface() != null &&
+            meta.getHoveredSurface().getPatternGroup() != null &&
+            meta.getHoveredSurface().getPatternGroup().getTiles() != null) {
+            tiles = meta.getHoveredSurface().getPatternGroup().getTiles();
+        }
+
+        if (tiles != null) {
+            tiles.forEach((hoveredTile) -> {
+                Rectangle2D.Double bounds = hoveredTile.getBounds();
+                if ((mousePos.getX() >= bounds.x && mousePos.getX() <= bounds.x + bounds.width) &&
+                    (mousePos.getY() >= bounds.y && mousePos.getY() <= bounds.y + bounds.height)) {
+                        tile.set(hoveredTile);
+                }
+
+            });
+        }
+        if (tile != null) {
+            return tile.get();
+        }
+        return null;
     }
 
     public Surface getShapeById(UUID id) {
@@ -127,6 +154,7 @@ public class SurfaceEditor {
         }*/
         if (meta.getHoveredSurface() != null) {
             meta.getHoveredSurface().setMouseHover(false);
+            meta.setHoveredTile(getTileAt(point));
         }
 
         /*if (meta.getSelectedSurface() != null) {
