@@ -119,17 +119,16 @@ public class TileSettingsPanel extends SubPanel {
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setSize(100, 100);
 
-        setTypeOfTileButtonsOnPanel();
         setColorPickerOnPanel(line);
         setTextInputsOnPanel(line);
         setCreationButtonsOnPanel();
+        setTypeOfTileButtonsOnPanel();
         setEvents();
     }
 
     private void setCreationButtonsOnPanel() {
         JPanel line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        line.setSize(100, 100);
 
         creationButtons.put("Create", new Button("Create", AssetLoader.loadImage("/icons/add-type-tile.png")));
         creationButtons.put("Delete", new Button("Delete", AssetLoader.loadImage("/icons/remove-type-tile.png")));
@@ -193,7 +192,10 @@ public class TileSettingsPanel extends SubPanel {
     }
 
     public void rethinkMenu() {
-        String[] tiles = mainWindow.getController().getTypeOfTiles();
+        removeLayout();
+        revalidate();
+        repaint();
+        /*String[] tiles = mainWindow.getController().getTypeOfTiles();
         JPanel line = new JPanel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setSize(100, 100);
@@ -204,9 +206,9 @@ public class TileSettingsPanel extends SubPanel {
         tilesType.forEach((key, value) -> {
             remove(value);
         });
+        *//*tilesType.clear();*//*
         tilesType = new UnorderedMap<>();
 
-        removeLayout();
         rows.clear();
 
         while (i != 4) {
@@ -230,15 +232,8 @@ public class TileSettingsPanel extends SubPanel {
         }
         removeLayout();
         setTilesTypeEvents();
-        line = new Panel();
-        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        line.setSize(100, 100);
-
-        setColorPickerOnPanel(line);
-        setTextInputsOnPanel(line);
-        setCreationButtonsOnPanel();
         revalidate();
         repaint();
-        persistLayout();
+        persistLayout();*/
     }
 }
