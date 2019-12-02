@@ -127,7 +127,7 @@ public class PanelEvents extends Panel implements MouseListener, MouseMotionList
     public void mouseClicked(MouseEvent me) {
         if (me.getButton() == MouseEvent.BUTTON1) {
             invokeMouseEvent(MouseEventKind.MouseLClick, me);
-        } else if (me.getButton() == MouseEvent.BUTTON2) {
+        } else if (me.getButton() == MouseEvent.BUTTON3) {
             invokeMouseEvent(MouseEventKind.MouseRClick, me);
         }
     }
