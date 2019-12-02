@@ -40,9 +40,7 @@ public abstract class SubPanel extends PanelEvents {
     }
     protected void removeLayout() {
         for (JPanel layout : rows) {
-            if (!isAncestorOf(layout)) {
-                remove(layout);
-            }
+            remove(layout);
         }
     }
 
