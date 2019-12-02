@@ -7,6 +7,7 @@ import com.virtutuile.afficheur.inputs.ColorPicker;
 import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -35,7 +36,25 @@ public class TileCreation extends SubPanel {
 
     @Override
     protected void setEvents() {
-
+        validateButton.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            if (tileName.getText() != null
+                    && Double.parseDouble(tileHeight.getText())  > 0.0
+                    && Double.parseDouble(tileWidth.getText()) > 0.0
+                    && Integer.parseInt(tileNumberPerPack.getText()) > 0) {
+                boolean success = mainWindow.getController().createNewTile(
+                        tileWidth.getValue(),
+                        tileHeight.getValue(),
+                        tileColorPicker.getColor(),
+                        tileName.getText(),
+                        true,
+                        Integer.parseInt(tileNumberPerPack.getText())
+                );
+                if (success) {
+                    mainWindow.getEditionPanel().getTileSettingsPanel().getCreationFrame().setVisible(false);
+                    mainWindow.getEditionPanel().getTileSettingsPanel().rethinkMenu();
+                }
+            }
+        });
     }
 
     @Override
@@ -64,8 +83,8 @@ public class TileCreation extends SubPanel {
         line = new Panel();
         line.setBackground(Constants.EDITIONPANEL_BACKGROUND);
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        tileWidth = new UnitInput("Width");
-        tileHeight = new UnitInput("Height");
+        tileWidth = new UnitInput("Width", true, false);
+        tileHeight = new UnitInput("Height", true, false);
         line.add(tileWidth);
         line.add(tileHeight);
         rows.add(line);

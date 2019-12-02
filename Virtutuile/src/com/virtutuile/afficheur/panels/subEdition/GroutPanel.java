@@ -53,7 +53,7 @@ public class GroutPanel extends SubPanel{
         line.add(colorPicker);
         rows.add(line);
 
-        thickness = new UnitInput("Thickness");
+        thickness = new UnitInput("Thickness", true, false);
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.add(thickness);

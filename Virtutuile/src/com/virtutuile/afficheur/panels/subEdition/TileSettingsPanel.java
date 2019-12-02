@@ -72,6 +72,13 @@ public class TileSettingsPanel extends SubPanel {
             creationFrame.setVisible(true);
         });
 
+        creationButtons.get("Delete").addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            if (mainWindow.getController().deleteTile(selectedTile)) {
+                rethinkMenu();
+            }
+        });
+
+
         numberPerPack.addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setPackageSizeFor(selectedTile, Integer.parseInt(value));
         });
@@ -80,7 +87,10 @@ public class TileSettingsPanel extends SubPanel {
             mainWindow.getController().renameTile(value, selectedTile);
             repaint();
         });*/
+        setTilesTypeEvents();
+    }
 
+    private void setTilesTypeEvents() {
         tilesType.forEach((name, value) -> {
             value.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
                 if (!value.isActive()) {
@@ -109,10 +119,10 @@ public class TileSettingsPanel extends SubPanel {
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setSize(100, 100);
 
-        setTypeOfTileButtonsOnPanel();
         setColorPickerOnPanel(line);
         setTextInputsOnPanel(line);
         setCreationButtonsOnPanel();
+        setTypeOfTileButtonsOnPanel();
         setEvents();
     }
 
@@ -155,8 +165,8 @@ public class TileSettingsPanel extends SubPanel {
     }
 
     private void setTextInputsOnPanel(JPanel line) {
-        width = new UnitInput("Width");
-        height = new UnitInput("Height");
+        width = new UnitInput("Width", true, false);
+        height = new UnitInput("Height", true, false);
         numberPerPack = new TextInput("Package Size", true);
         /*tileName = new TextInput("Tile name");*/
 
@@ -179,5 +189,51 @@ public class TileSettingsPanel extends SubPanel {
 
     public JFrame getCreationFrame() {
         return creationFrame;
+    }
+
+    public void rethinkMenu() {
+        removeLayout();
+        revalidate();
+        repaint();
+        /*String[] tiles = mainWindow.getController().getTypeOfTiles();
+        JPanel line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.setSize(100, 100);
+        line.setOpaque(false);
+        int i = 0;
+        int j = 0;
+
+        tilesType.forEach((key, value) -> {
+            remove(value);
+        });
+        *//*tilesType.clear();*//*
+        tilesType = new UnorderedMap<>();
+
+        rows.clear();
+
+        while (i != 4) {
+            if (j == tiles.length) {
+                if (i != 0) {
+                    rows.add(line);
+                }
+                break;
+            }
+            if (i == 3) {
+                rows.add(line);
+                line = new JPanel();
+                line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+                line.setOpaque(false);
+                i = 0;
+            }
+            tilesType.put(tiles[j], new Button(tiles[j], AssetLoader.loadImage("/icons/shape-edit-add-square.png")));
+            line.add(tilesType.get(tiles[j]));
+            j++;
+            i++;
+        }
+        removeLayout();
+        setTilesTypeEvents();
+        revalidate();
+        repaint();
+        persistLayout();*/
     }
 }
