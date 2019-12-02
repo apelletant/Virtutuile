@@ -25,16 +25,13 @@ public class UnitInput extends TextInput {
         unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
         unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         fieldBorder.add(unitLabel, BorderLayout.EAST);
-        setValidator(UnitInput::isDouble);
+        setValidator(TextInput::isDouble);
         revalidate();
         repaint();
     }
 
     public UnitInput(String label, boolean horizontalFlex, boolean validator) {
-        super(label, horizontalFlex, validator);
-        if (!validator) {
-            setValidator(TextInput::isDouble);
-        }
+        super(label, horizontalFlex);
         setUnit(Constants.Units.Centimeter);
         unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
         unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);

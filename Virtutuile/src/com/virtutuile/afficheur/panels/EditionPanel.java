@@ -79,9 +79,6 @@ public class EditionPanel extends PanelEvents {
         remove(tileSettingsPanel);
     }
 
-    public TileSettingsPanel getTileSettingsPanel() {
-        return tileSettingsPanel;
-    }
 
     enum PanelType {
         Surface,

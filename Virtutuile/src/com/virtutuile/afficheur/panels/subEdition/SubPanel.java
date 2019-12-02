@@ -18,6 +18,7 @@ public abstract class SubPanel extends PanelEvents {
     SubPanel(String name, MainWindow mainWindow) {
         setName(name);
         this.mainWindow = mainWindow;
+
         TitledBorder border = new TitledBorder(name);
         border.setTitleColor(Constants.EDITIONPANEL_FONT_COLOR);
         border.setTitleJustification(TitledBorder.LEFT);
@@ -27,8 +28,8 @@ public abstract class SubPanel extends PanelEvents {
         Dimension dimension = getPreferredSize();
         dimension.width = Constants.SUBPANEL_SIZE.width;
         setPreferredSize(dimension);
+        setBackground(Constants.SUBPANEL_BACKGROUND);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
     }
 
     protected void persistLayout() {
@@ -38,14 +39,6 @@ public abstract class SubPanel extends PanelEvents {
             }
         }
     }
-    protected void removeLayout() {
-        for (JPanel layout : rows) {
-            if (!isAncestorOf(layout)) {
-                remove(layout);
-            }
-        }
-    }
-
 
     protected abstract void setEvents();
 

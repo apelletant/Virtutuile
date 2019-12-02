@@ -219,12 +219,4 @@ public class Controller {
     public int getPackageSizeFor(String tileName) {
         return meta.getPackageSizeFor(tileName);
     }
-
-    public boolean createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
-        return meta.createNewTile(width, height, color, name, deletable, packageSize);
-    }
-
-    public boolean deleteTile(String selectedTile) {
-        return meta.deleteTile(selectedTile);
-    }
 }

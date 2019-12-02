@@ -133,8 +133,8 @@ public class SurfacePanel extends SubPanel {
     }
 
     private void setUnitInputsOnPanel(JPanel line) {
-        unitInputs.put(InputContextType.Width, new UnitInput("Width", true, false));
-        unitInputs.put(InputContextType.Height, new UnitInput("Height", true, false));
+        unitInputs.put(InputContextType.Width, new UnitInput("Width"));
+        unitInputs.put(InputContextType.Height, new UnitInput("Height"));
 
         unitInputs.forEach((key, value) -> {
             line.add(value);

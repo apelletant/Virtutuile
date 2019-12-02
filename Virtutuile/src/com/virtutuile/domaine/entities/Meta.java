@@ -57,15 +57,8 @@ public class Meta {
 
     }
 
-    public boolean createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
-        if (typeOfTiles.containsKey(name)) {
-            return false;
-        }
-        if (color == null) {
-            color = Constants.DEFAULT_SHAPE_FILL_COLOR;
-        }
+    public void createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
         typeOfTiles.put(name, new Tile(width, height, color, name, deletable, packageSize));
-        return true;
     }
 
     public Surface getSelectedSurface() {
@@ -521,14 +514,6 @@ public class Meta {
         if (selectedSurface != null) {
             selectedSurface.move(selectedSurface.getVertices()[0], new Point2D.Double(selectedSurface.getVertices()[0].getX(), latitude));
         }
-    }
-
-    public boolean deleteTile(String selectedTile) {
-        if (typeOfTiles.get(selectedTile).isDeletable()) {
-            typeOfTiles.remove(selectedTile);
-            return true;
-        }
-        return false;
     }
 
     public enum EditionAction {
