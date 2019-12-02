@@ -130,8 +130,8 @@ public class TileSettingsPanel extends SubPanel {
         JPanel line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
 
-        creationButtons.put("Create", new Button("Create"/*, AssetLoader.loadImage("/icons/add-type-tile.png")*/));
-        creationButtons.put("Delete", new Button("Delete"/*, AssetLoader.loadImage("/icons/remove-type-tile.png")*/));
+        creationButtons.put("Create", new Button("Create", AssetLoader.loadImage("/icons/add-type-tile.png")));
+        creationButtons.put("Delete", new Button("Delete", AssetLoader.loadImage("/icons/remove-type-tile.png")));
 
         creationButtons.forEach((key, value) -> {
             line.add(value);
