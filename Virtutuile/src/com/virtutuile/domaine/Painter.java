@@ -3,6 +3,7 @@ package com.virtutuile.domaine;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.PrimarySurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
+import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
@@ -26,6 +27,10 @@ public class Painter {
 
         if (meta.isGridActivated()) {
             drawMagneticGrid();
+        }
+
+        if (meta.getHoveredSurface() != null) {
+            drawHoveredTile();
         }
 
         surfaces.forEach((surface) -> {
@@ -82,10 +87,6 @@ public class Painter {
     }
 
     private void drawMagneticGrid() {
-        if (meta.centimetersToPixels(meta.getGridSize()) < 20) {
-            return;
-        }
-
         Color col = new Color(0, 0, 0);
         graphics2D.setColor(col);
         graphics2D.setStroke(new BasicStroke(1));
@@ -98,6 +99,7 @@ public class Painter {
         canvasPosInt.x = canvasPosInt.x - (canvasPosInt.x % canvasDim.width);
         canvasPosInt.y = canvasPosInt.y - (canvasPosInt.y % canvasDim.height);
 
+        //TODO ne plus utiliser de pixel pour le calcul car on doit pouvoir etre entre o et 1
         for (int i = canvasPosInt.x; i <= canvasDim.width; i++) {
             for (int j = canvasPosInt.y; j <= canvasDim.height; j++) {
                 if (i % meta.centimetersToPixels(meta.getGridSize())  == 0) {
@@ -109,6 +111,102 @@ public class Painter {
             }
         }
     }
+
+
+    private void drawHoveredTile() {
+        Tile tile = meta.getHoveredTile();
+
+        Color color = Constants.Gizmos.TileHOverDisplayBox.BORDER_COLOR;
+        graphics2D.setColor(color);
+        graphics2D.setStroke(new BasicStroke(10));
+
+        if (tile != null) {
+            graphics2D.drawRect(Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_X,
+                                Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_Y,
+                                Constants.Gizmos.TileHOverDisplayBox.WIDTH,
+                                Constants.Gizmos.TileHOverDisplayBox.HEIGHT);
+            graphics2D.setColor(Constants.Gizmos.TileHOverDisplayBox.BACKGROUND_COLOR);
+            graphics2D.fillRect(Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_X,
+                                Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_Y,
+                                Constants.Gizmos.TileHOverDisplayBox.WIDTH,
+                                Constants.Gizmos.TileHOverDisplayBox.HEIGHT);
+
+            Tile hoveredShadow = movePolygonToHoveredDIsplayBox(true, new Tile(tile));
+
+            Point2D[] tileVertices = hoveredShadow.getVertices();
+            int[] pointsX = new int[tileVertices.length];
+            int[] pointsY = new int[tileVertices.length];
+
+            for (int i = 0; i < tileVertices.length; i++) {
+                pointsX[i] = (int)hoveredShadow.getVertices()[i].getX();
+                pointsY[i] = (int)hoveredShadow.getVertices()[i].getY();
+            }
+
+
+            graphics2D.setColor(Constants.Gizmos.TileHOverDisplayBox.LINE_COLOR);
+            graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.drawPolygon(pointsX, pointsY, pointsX.length);
+
+//            for (int i = 0; i < pointsX.length; i++) {
+//                System.out.println("points X:");
+//                System.out.println(pointsX[i]);
+//                System.out.println("points Y:");
+//                System.out.println(pointsY[i]);
+//            }
+        }
+    }
+
+    private Tile movePolygonToHoveredDIsplayBox(boolean verticesX, Tile tile) {
+        /**
+        AffineTransform transform = new AffineTransform();
+
+        transform.translate(0, 0);
+        tile.getPolygon().transform(transform);
+
+
+        int maxWidth = Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_X + Constants.Gizmos.TileHOverDisplayBox.WIDTH;
+        int maxHeight = Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_Y + Constants.Gizmos.TileHOverDisplayBox.HEIGHT;
+
+        Double width = tile.getBounds().width;
+        Double height = tile.getBounds().height;
+
+        Double ratio = maxWidth / width;
+        Double ratioY = maxHeight / height;
+
+        if (ratio > ratioY) {
+            ratio = ratioY;
+        }
+
+        System.out.printf("width before = %f\n", width);
+        System.out.printf("height before = %f\n", height);
+
+        width = width * ratio;
+        height = height * ratio;
+
+        System.out.printf("width after = %f\n", width);
+        System.out.printf("height after = %f\n", height);
+        transform.scale(width, height);
+        transform.translate(Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_X + 25, Constants.Gizmos.TileHOverDisplayBox.ORIGIN_POS_Y + 25);
+        tile.getPolygon().transform(transform);
+        */
+        return tile;
+    }
+
+/**
+    let width, height;
+
+    ratio = maxX / width;
+    ratioY = maxY / height;
+
+    if (ratio > ratioY) {
+        ratio = ratioY;
+    }
+
+    return {
+        w: width * ratio,
+                h: height * ratio,
+    }
+*/
 
     /**
      * Draw the bounding boxes like following :

@@ -25,6 +25,16 @@ public class Constants {
             }
         }
 
+        public static class TileHOverDisplayBox {
+            public static final int ORIGIN_POS_X = 1080;
+            public static final int ORIGIN_POS_Y = 645;
+            public static final int WIDTH = 200;
+            public static final int HEIGHT = 200;
+            public static final Color BACKGROUND_COLOR = new Color(66, 66, 66);
+            public static final Color FONT_COLOR = new Color(255, 255, 255);
+            public static final Color LINE_COLOR = new Color(250, 120, 250);
+            public static final Color BORDER_COLOR = new Color(50,50,50);
+        }
         private Gizmos() {
             throw new AssertionError();
         }

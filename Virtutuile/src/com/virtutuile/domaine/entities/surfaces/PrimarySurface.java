@@ -274,12 +274,16 @@ public abstract class PrimarySurface implements Serializable {
 
     public void resize(double newWidth, double newHeight) {
         Rectangle2D.Double bounds = (Rectangle2D.Double) polygon.getBounds2D();
-        double xRatio = newWidth / bounds.width;
+        double xRatio = newWidth / bounds.width;  // retour de fonction algo lombard
         double yRatio = newHeight / bounds.height;
+
 
         AffineTransform transform = new AffineTransform();
         transform.scale(xRatio, yRatio);
-        polygon.transform(transform);
+        //transform.translate(); // << == a utiliser pour move
+        polygon.transform(transform); // << apply transfo
+
+        //
         Rectangle2D.Double newBounds = (Rectangle2D.Double) polygon.getBounds2D();
         double xDisplacement = (bounds.x - newBounds.x);
         double yDisplacement = (bounds.y - newBounds.y);
