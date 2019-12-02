@@ -77,6 +77,7 @@ public class TileSettingsPanel extends SubPanel {
         creationButtons.get("Delete").addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             if (mainWindow.getController().deleteTile(selectedTile)) {
                 rethinkMenu();
+                mainWindow.getEditionPanel().getTilePanel().rethinkMenu();
             }
         });
 

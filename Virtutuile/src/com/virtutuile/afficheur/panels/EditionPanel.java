@@ -83,6 +83,10 @@ public class EditionPanel extends PanelEvents {
         return tileSettingsPanel;
     }
 
+    public TilePanel getTilePanel(){
+        return (TilePanel) subPanels.get(PanelType.Tile);
+    }
+
     enum PanelType {
         Surface,
         Pattern,
