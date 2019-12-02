@@ -74,7 +74,6 @@ public class SurfacePanel extends SubPanel {
             }
         });
 
-
     }
 
     protected void setButtonsOnPanel() {
@@ -131,8 +130,8 @@ public class SurfacePanel extends SubPanel {
     }
 
     private void setUnitInputsOnPanel(JPanel line) {
-        unitInputs.put(InputContextType.Width, new UnitInput("Width"));
-        unitInputs.put(InputContextType.Height, new UnitInput("Height"));
+        unitInputs.put(InputContextType.Width, new UnitInput("Width", true, "double"));
+        unitInputs.put(InputContextType.Height, new UnitInput("Height", true, "double"));
 
         unitInputs.forEach((key, value) -> {
             line.add(value);
@@ -142,8 +141,8 @@ public class SurfacePanel extends SubPanel {
     }
 
     private void setPositionInputsOnPanel(JPanel line) {
-        positionInputs.put(InputContextType.Longitude, new UnitInput("Longitude", true, false));
-        positionInputs.put(InputContextType.Latitude, new UnitInput("Latitude", true, false));
+        positionInputs.put(InputContextType.Longitude, new UnitInput("Longitude", true, "doubleInf"));
+        positionInputs.put(InputContextType.Latitude, new UnitInput("Latitude", true, "doubleInf"));
 
         positionInputs.get(InputContextType.Longitude).setUnitLabel("cm to 0");
         positionInputs.get(InputContextType.Latitude).setUnitLabel("cm to 0");

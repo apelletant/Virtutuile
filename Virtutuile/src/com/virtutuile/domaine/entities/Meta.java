@@ -526,9 +526,10 @@ public class Meta {
     }
 
     public boolean deleteTile(String selectedTile) {
-        if (typeOfTiles.get(selectedTile).isDeletable()) {
-            typeOfTiles.remove(selectedTile);
-            return true;
+        if (typeOfTiles.containsKey(selectedTile)
+                && typeOfTiles.get(selectedTile).isDeletable()) {
+                typeOfTiles.remove(selectedTile);
+                return true;
         }
         return false;
     }

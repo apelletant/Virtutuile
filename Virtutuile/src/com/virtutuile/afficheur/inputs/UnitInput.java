@@ -15,23 +15,22 @@ public class UnitInput extends TextInput {
     Label unitLabel = new Label();
     Constants.Units unit;
 
-    public UnitInput(String label) {
+    /*public UnitInput(String label) {
         this(label, true);
     }
 
     public UnitInput(String label, boolean horizontalFlex) {
-        super(label, horizontalFlex);
+        super(label, horizontalFlex, null);
         setUnit(Constants.Units.Centimeter);
         unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
         unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         fieldBorder.add(unitLabel, BorderLayout.EAST);
-        setValidator(UnitInput::isDouble);
         revalidate();
         repaint();
-    }
+    }*/
 
-    public UnitInput(String label, boolean horizontalFlex, boolean validator) {
-        super(label, horizontalFlex);
+    public UnitInput(String label, boolean horizontalFlex, String validator) {
+        super(label, horizontalFlex, validator);
         setUnit(Constants.Units.Centimeter);
         unitLabel.setPreferredSize(new Dimension(50, unitLabel.getPreferredSize().height));
         unitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -73,28 +72,5 @@ public class UnitInput extends TextInput {
         repaint();
         return this;
     }
-
-    public static final boolean isNumber(String test) throws ValidationsException {
-        try {
-            Integer.parseInt(test);
-        } catch (NumberFormatException except) {
-            throw new ValidationsException("Bad number format");
-        }
-        return true;
-    }
-
-    public static final boolean isDouble(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
-        try {
-            Double value = Double.parseDouble(test);
-            if (value.isNaN() || value.isInfinite() || value <= 0 ) {
-                throw new ValidationsException("NaN, infinite or smaller than / equal to 0 is not accepted");
-            }
-            next.accept(test, input);
-        } catch (NumberFormatException except) {
-            throw new ValidationsException("Bad number format");
-        }
-        return true;
-    }
-
 
 }

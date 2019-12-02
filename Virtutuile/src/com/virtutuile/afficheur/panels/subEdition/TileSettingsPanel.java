@@ -15,6 +15,7 @@ import com.virtutuile.shared.UnorderedMap;
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
+import java.util.Vector;
 
 public class TileSettingsPanel extends SubPanel {
 
@@ -26,6 +27,7 @@ public class TileSettingsPanel extends SubPanel {
     private String selectedTile = null;
     private UnorderedMap<String, Button> tilesType = new UnorderedMap<>();
     private UnorderedMap<String, Button> creationButtons = new UnorderedMap<>();
+    private Vector<JPanel> tileLines = new Vector<>();
 
     private TileCreation tileCreation = null;
     private JFrame creationFrame = null;
@@ -150,6 +152,7 @@ public class TileSettingsPanel extends SubPanel {
         tilesType.forEach((key, value) -> {
             line.add(value);
         });
+        tileLines.add(line);
         rows.add(line);
     }
 
@@ -165,9 +168,9 @@ public class TileSettingsPanel extends SubPanel {
     }
 
     private void setTextInputsOnPanel(JPanel line) {
-        width = new UnitInput("Width", true, false);
-        height = new UnitInput("Height", true, false);
-        numberPerPack = new TextInput("Package Size", true);
+        width = new UnitInput("Width", true, "double");
+        height = new UnitInput("Height", true, "double");
+        numberPerPack = new TextInput("Package Size", true, "integer");
         /*tileName = new TextInput("Tile name");*/
 
         line = new Panel();
@@ -192,34 +195,36 @@ public class TileSettingsPanel extends SubPanel {
     }
 
     public void rethinkMenu() {
-        /*removeLayout();*/
-        revalidate();
-        repaint();
-        /*String[] tiles = mainWindow.getController().getTypeOfTiles();
+        String[] tiles = mainWindow.getController().getTypeOfTiles();
+
         JPanel line = new JPanel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setSize(100, 100);
         line.setOpaque(false);
+
         int i = 0;
         int j = 0;
 
         tilesType.forEach((key, value) -> {
             remove(value);
         });
-        *//*tilesType.clear();*//*
+
+        tileLines.forEach(this::removeLayout);
+
         tilesType = new UnorderedMap<>();
-
-        rows.clear();
-
+        tileLines.clear();
+        tileLines = new Vector<>();
         while (i != 4) {
             if (j == tiles.length) {
                 if (i != 0) {
+                    tileLines.add(line);
                     rows.add(line);
                 }
                 break;
             }
             if (i == 3) {
                 rows.add(line);
+                tileLines.add(line);
                 line = new JPanel();
                 line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
                 line.setOpaque(false);
@@ -230,10 +235,16 @@ public class TileSettingsPanel extends SubPanel {
             j++;
             i++;
         }
-        removeLayout();
         setTilesTypeEvents();
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.setSize(100, 100);
+
+        /*setColorPickerOnPanel(line);
+        setTextInputsOnPanel(line);
+        setCreationButtonsOnPanel();*/
         revalidate();
         repaint();
-        persistLayout();*/
+        persistLayout();
     }
 }

@@ -40,6 +40,15 @@ public abstract class SubPanel extends PanelEvents {
         }
     }
 
+    protected void removeLayout() {
+        removeAll();
+    }
+
+    protected void removeLayout(JPanel line) {
+        remove(line);
+        rows.remove(line);
+    }
+
     protected abstract void setEvents();
 
     protected abstract void setButtonsOnPanel();

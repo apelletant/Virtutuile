@@ -32,10 +32,10 @@ public class TextInput extends Panel implements DocumentListener {
     };
 
     public TextInput(String label) {
-        this(label, true);
+        this(label, true, null);
     }
 
-    public TextInput(String label, boolean horizontalFlex) {
+    public TextInput(String label, boolean horizontalFlex, String validator) {
         super(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
         if (horizontalFlex)
@@ -45,6 +45,22 @@ public class TextInput extends Panel implements DocumentListener {
         errorLabel.setFontSize(10);
         errorLabel.setForeground(Constants.INPUT_COLOR_INVALID);
         errorLabel.setText(" ");
+
+        if (validator != null) {
+            switch (validator) {
+                case "integer":
+                    setValidator(UnitInput::isInteger);
+                    break;
+                case "double":
+                    setValidator(UnitInput::isDouble);
+                    break;
+                case "doubleInf":
+                    setValidator(UnitInput::isDoubleInf);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         field.setLayout(new BorderLayout());
         field.setBorder(new EmptyBorder(3, 8, 3, 8));
@@ -141,5 +157,47 @@ public class TextInput extends Panel implements DocumentListener {
 
     public void setEditableFalse() {
         field.setEditable(false);
+    }
+
+
+    public static final boolean isInteger(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
+        try {
+            Integer value = Integer.parseInt(test);
+            if (value <= 0 ) {
+                throw new ValidationsException("Must be > 0");
+            }
+            next.accept(test, input);
+        } catch (NumberFormatException except) {
+            throw new ValidationsException("Bad number format");
+        }
+        return true;
+    }
+
+
+    public static final boolean isDoubleInf(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
+        try {
+            Double value = Double.parseDouble(test);
+            if (value.isNaN()) {
+                throw new ValidationsException("Must be a number");
+            }
+            next.accept(test, input);
+        } catch (NumberFormatException except) {
+            throw new ValidationsException("Bad number format");
+        }
+        return true;
+    }
+
+
+    public static final boolean isDouble(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
+        try {
+            Double value = Double.parseDouble(test);
+            if (value.isNaN() || value.isInfinite() || value <= 0 ) {
+                throw new ValidationsException("NaN, infinite or smaller than / equal to 0 is not accepted");
+            }
+            next.accept(test, input);
+        } catch (NumberFormatException except) {
+            throw new ValidationsException("Bad number format");
+        }
+        return true;
     }
 }
