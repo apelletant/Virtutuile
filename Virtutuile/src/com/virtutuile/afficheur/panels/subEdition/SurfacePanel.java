@@ -62,17 +62,17 @@ public class SurfacePanel extends SubPanel {
 
         positionInputs.get(InputContextType.Longitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
-                mainWindow.getController().setSurfaceLongitude(Double.parseDouble(value));
+               /* mainWindow.getController().setSurfaceLongitude(Double.parseDouble(value));
                 mainWindow.getController().recalcPattern();
-                mainWindow.repaint();
+                mainWindow.repaint();*/
             }
         });
 
         positionInputs.get(InputContextType.Latitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
-                mainWindow.getController().setSurfaceLatitude(Double.parseDouble(value));
+               /* mainWindow.getController().setSurfaceLatitude(Double.parseDouble(value));
                 mainWindow.getController().recalcPattern();
-                mainWindow.repaint();
+                mainWindow.repaint();*/
             }
         });
 
