@@ -12,7 +12,7 @@ public class Tile extends PrimarySurface {
     private Color color;
     private String name;
     private int packageSize;
-    private boolean deletable;
+    private boolean deletable = true;
 
     public Tile(double[] pointsX, double[] pointsY) {
         super(pointsX, pointsY);

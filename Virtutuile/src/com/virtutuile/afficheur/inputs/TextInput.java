@@ -32,14 +32,10 @@ public class TextInput extends Panel implements DocumentListener {
     };
 
     public TextInput(String label) {
-        this(label, true, false);
+        this(label, true, null);
     }
 
-    public TextInput(String label, boolean integer) {
-        this(label, true, integer);
-    }
-
-    public TextInput(String label, boolean horizontalFlex, boolean integer) {
+    public TextInput(String label, boolean horizontalFlex, String validator) {
         super(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
         if (horizontalFlex)
@@ -49,8 +45,21 @@ public class TextInput extends Panel implements DocumentListener {
         errorLabel.setFontSize(10);
         errorLabel.setForeground(Constants.INPUT_COLOR_INVALID);
         errorLabel.setText(" ");
-        if (integer) {
-            setValidator(TextInput::isNumber);
+
+        if (validator != null) {
+            switch (validator) {
+                case "integer":
+                    setValidator(UnitInput::isInteger);
+                    break;
+                case "double":
+                    setValidator(UnitInput::isDouble);
+                    break;
+                case "doubleInf":
+                    setValidator(UnitInput::isDoubleInf);
+                    break;
+                default:
+                    break;
+            }
         }
 
         field.setLayout(new BorderLayout());
@@ -74,7 +83,6 @@ public class TextInput extends Panel implements DocumentListener {
         this.setBackground(Constants.SUBPANEL_BACKGROUND);
         setOpaque(true);
     }
-
 
     public String getText() {
         return field.getText();
@@ -152,27 +160,33 @@ public class TextInput extends Panel implements DocumentListener {
     }
 
 
-    public static final boolean isNumber(String test) throws ValidationsException {
+    public static final boolean isInteger(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
         try {
-            Integer.parseInt(test);
+            Integer value = Integer.parseInt(test);
+            if (value <= 0 ) {
+                throw new ValidationsException("Must be > 0");
+            }
+            next.accept(test, input);
         } catch (NumberFormatException except) {
             throw new ValidationsException("Bad number format");
         }
         return true;
     }
 
-    private static final boolean isNumber(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
+
+    public static final boolean isDoubleInf(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
         try {
-            Integer value = Integer.parseInt(test);
-            if (value <= 0 ) {
-                throw new ValidationsException("0 ? Get a refund !");
+            Double value = Double.parseDouble(test);
+            if (value.isNaN()) {
+                throw new ValidationsException("Must be a number");
             }
             next.accept(test, input);
-        } catch (NumberFormatException | ValidationsException except) {
+        } catch (NumberFormatException except) {
             throw new ValidationsException("Bad number format");
         }
         return true;
     }
+
 
     public static final boolean isDouble(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
         try {
