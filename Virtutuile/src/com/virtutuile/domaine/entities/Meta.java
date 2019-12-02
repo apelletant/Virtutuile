@@ -513,13 +513,15 @@ public class Meta {
 
     public void setSelectedSurfaceLongitude(Double longitude) {
         if (selectedSurface != null) {
-            selectedSurface.move(selectedSurface.getVertices()[0], new Point2D.Double(longitude, selectedSurface.getVertices()[0].getY()));
+            Rectangle2D.Double b = selectedSurface.getBounds();
+            selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(longitude, b.y));
         }
     }
 
     public void setSelectedSurfaceLatitude(Double latitude) {
         if (selectedSurface != null) {
-            selectedSurface.move(selectedSurface.getVertices()[0], new Point2D.Double(selectedSurface.getVertices()[0].getX(), latitude));
+            Rectangle2D.Double b = selectedSurface.getBounds();
+            selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(b.x, latitude));
         }
     }
 
