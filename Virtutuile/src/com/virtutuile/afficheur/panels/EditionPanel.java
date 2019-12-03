@@ -14,12 +14,14 @@ public class EditionPanel extends PanelEvents {
 
     private MainWindow mainWindow;
     private TileSettingsPanel tileSettingsPanel;
+    private InfoPanel infoPanel;
     private UnorderedMap<PanelType, SubPanel> subPanels;
 
     public EditionPanel(MainWindow mainWindow) {
         super();
         this.mainWindow = mainWindow;
         tileSettingsPanel = new TileSettingsPanel("Tile Settings", mainWindow);
+        infoPanel = new InfoPanel("Information", mainWindow);
 
         subPanels = new UnorderedMap<PanelType, SubPanel>() {{
             put(PanelType.Surface, new SurfacePanel("Surface", mainWindow));
@@ -36,7 +38,7 @@ public class EditionPanel extends PanelEvents {
         setBackground(Constants.EDITIONPANEL_BACKGROUND);
         setForeground(Constants.EDITIONPANEL_FONT_COLOR);
         setBorder(new EmptyBorder(0, 0, 0, 0));
-        setPreferredSize(new Dimension(600, 1080));
+        setPreferredSize(new Dimension(600, 1300));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     }
@@ -79,8 +81,20 @@ public class EditionPanel extends PanelEvents {
         remove(tileSettingsPanel);
     }
 
+    public void addInfoPanel() {
+        add(infoPanel);
+    }
+
+    public void removeInfoPanel() {
+        remove(infoPanel);
+    }
+
     public TileSettingsPanel getTileSettingsPanel() {
         return tileSettingsPanel;
+    }
+
+    public InfoPanel getInfoPanel() {
+        return infoPanel;
     }
 
     public TilePanel getTilePanel(){

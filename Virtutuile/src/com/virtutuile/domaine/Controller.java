@@ -233,4 +233,25 @@ public class Controller {
     public boolean deleteTile(String selectedTile) {
         return meta.deleteTile(selectedTile);
     }
+
+    public Integer[] getSurfaceTileProperties() {
+        return meta.getSurfaceTileProperties();
+    }
+
+    public int[] getAllSurfaceTileProperties() {
+        return meta.getAllSurfaceTileProperties();
+    }
+
+    public Integer getUsedPackageOnSurface() {
+        return meta.getUsedPackageOnSurface();
+    }
+
+    public Integer[] getTotalTileFor(String tileName) {
+        return meta.getTotalTileFor(tileName);
+    }
+
+    public Integer getUsedPackageFor(String tileName) {
+        return meta.getUsedPackageFor(tileName);
+    }
+
 }

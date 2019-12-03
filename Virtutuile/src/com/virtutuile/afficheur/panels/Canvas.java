@@ -35,6 +35,8 @@ public class Canvas extends PanelEvents {
             mainWindow.getController().mouseLClick(mouseEvent.getPoint());
             mainWindow.getEditionPanel().surfaceGetSurfaceProperties();
             mainWindow.getEditionPanel().surfaceGetGroutThickness();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             repaint();
         });
 
