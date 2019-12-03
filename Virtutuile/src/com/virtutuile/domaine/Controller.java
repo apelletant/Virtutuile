@@ -58,8 +58,6 @@ public class Controller {
             canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
             if (meta.getSelectedSurface() != null) {
                 meta.setSelectedSurface(updateSurfacePosToMagneticPos());
-                System.out.println(meta.getSelectedSurface().getBounds().x);
-                System.out.println(meta.getSelectedSurface().getBounds().y);
             }
         }
         this.surfaceEditor.mouseLClick(canvasCursor);
@@ -228,6 +226,10 @@ public class Controller {
 
     public boolean createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
         return meta.createNewTile(width, height, color, name, deletable, packageSize);
+    }
+
+    public void setHighlightCuttedTiles(boolean highlight) {
+        meta.displayCuttedTiles(highlight);
     }
 
     public boolean deleteTile(String selectedTile) {

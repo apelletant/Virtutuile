@@ -6,6 +6,7 @@ import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.swing.Label;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.shared.Pair;
 import com.virtutuile.shared.UnorderedMap;
@@ -74,6 +75,12 @@ public class InfoPanel extends SubPanel {
         cuttedTilesSelected = new TextInput("Tiles cutted on the selected surface");
         highlight = new Button("Highlight cutted tiles", AssetLoader.loadImage("/icons/highlight.png"));
         highlight.fixSize(new Dimension(200, 80));
+
+        highlight.addMouseEventListener(MouseEventKind.MouseLClick, (evt) -> {
+            mainWindow.getController().setHighlightCuttedTiles(!highlight.isActive());
+            highlight.setActive(!highlight.isActive());
+            mainWindow.repaint();
+        });
 
         packageUsedSelected.setEditableFalse();
         tileUsedSelected.setEditableFalse();

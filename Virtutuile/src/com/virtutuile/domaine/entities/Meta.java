@@ -27,6 +27,7 @@ public class Meta {
     private Surface hoveredSurface;
     private Tile hoveredTile;
     private boolean isSelectedSurfaceCanBeResized;
+    private boolean shouldDisplayCuttedTiles = false;
 
     private Point2D clicked;
     private Point2D hover;
@@ -273,7 +274,6 @@ public class Meta {
 
     public void setGridSize(Double gridSize) {
         this.gridSize = gridSize;
-        System.out.println(gridSize);
     }
 
     public Double[] getHoveredSurfaceDimension() {
@@ -610,6 +610,14 @@ public class Meta {
             } while (iterator.hasNext());
         }
         return result;
+    }
+
+    public boolean displayCuttedTiles() {
+        return shouldDisplayCuttedTiles;
+    }
+
+    public void displayCuttedTiles(boolean value) {
+        shouldDisplayCuttedTiles = value;
     }
 
     public enum EditionAction {

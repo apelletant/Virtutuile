@@ -198,7 +198,6 @@ public class SurfaceEditor {
                 builder = RectangularSurface.getBuilder();
             builder.placePoint(point);
         } else if (meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
-            System.out.println("Place");
             if (builder == null)
                 builder = FreeSurface.getBuilder();
             builder.placePoint(point);
@@ -221,7 +220,6 @@ public class SurfaceEditor {
     public void mouseRClick(Point2D point) {
         if (meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
             if (builder != null && (builder instanceof FreeSurface.Builder)) {
-                System.out.println("Close");
                 Surface surface = builder.getSurface();
                 meta.getSurfaces().put(surface.getId(), surface);
                 builder = null;
@@ -231,7 +229,6 @@ public class SurfaceEditor {
 
     public void mouseDrag(Point2D point) {
         if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
-            System.out.println("Move");
             builder.movePoint(point);
         } else {
             if (meta.getSelectedSurface() != null) {
@@ -263,7 +260,6 @@ public class SurfaceEditor {
 
     public void endBuildingSurface() {
         if (builder != null && (builder instanceof FreeSurface.Builder)) {
-            System.out.println("Close2");
             builder.movePoint(null);
             Surface surface = builder.getSurface();
             meta.getSurfaces().put(surface.getId(), surface);

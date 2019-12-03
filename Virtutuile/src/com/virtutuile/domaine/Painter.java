@@ -4,6 +4,8 @@ import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.PrimarySurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
+import com.virtutuile.domaine.entities.tools.ColorTransformer;
+import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
@@ -34,35 +36,50 @@ public class Painter {
         }
 
         surfaces.forEach((surface) -> {
-            paint(surface);
+            Polygon poly = paintSurface(surface);
             if (surface.getPatternGroup() != null
                     && surface.getPatternGroup().getTiles().size() > 0) {
-                surface.getPatternGroup().getTiles().forEach((tile) -> {
-                    paint(tile);
-                });
+                paintTiles(surface.getPatternGroup().getTiles());
             }
+            paintSurfaceGizmos(surface, poly);
         });
     }
 
-    public void paint(PrimarySurface surface) {
+    public void paintTiles(Vector<Tile> tiles) {
+        for (Tile tile : tiles) {
+            int[][] tilePts = meta.points2DToRawPoints(tile.getVertices());
+            Polygon poly = new Polygon(tilePts[0], tilePts[1], tilePts[0].length);
+            if (meta.displayCuttedTiles() && tile.isCutted())
+                paintPolygon(poly, ColorTransformer.Invert(tile.getFillColor()), tile.getBorderColor());
+            else
+                paintPolygon(poly, tile.getFillColor(), tile.getBorderColor());
+        }
+    }
+
+    public Polygon paintSurface(PrimarySurface surface) {
         if (surface == null)
-            return;
+            return null;
 
         int[][] polygonPoints = meta.points2DToRawPoints(surface.getVertices());
         Polygon poly = new Polygon(polygonPoints[0], polygonPoints[1], polygonPoints[0].length);
 
-        graphics2D.setColor(surface.fillColor());
-/*        System.out.println("in painter: " + surface.fillColor());*/
-        graphics2D.fillPolygon(poly.xpoints, poly.ypoints, poly.npoints);
+        paintPolygon(poly, surface.getFillColor(), surface.getBorderColor());
+        return poly;
+    }
 
-        graphics2D.setColor(surface.getBorderColor());
-        graphics2D.setStroke(new BasicStroke(surface.getBorderThickness()));
-        graphics2D.drawPolygon(poly.xpoints, poly.ypoints, poly.npoints);
-
+    public void paintSurfaceGizmos(PrimarySurface surface, Polygon poly) {
         if (surface.isMouseHover() || surface.isSelected()) {
             drawBoundingBox(poly.getBounds());
             drawHandles(poly.xpoints, poly.ypoints);
         }
+    }
+
+    public void paintPolygon(Polygon poly, Color fill, Color stroke) {
+        graphics2D.setColor(fill);
+        graphics2D.fillPolygon(poly);
+        graphics2D.setColor(stroke);
+        graphics2D.setStroke(new BasicStroke(com.virtutuile.afficheur.Constants.DEFAULT_SHAPE_BORDER_THICKNESS));
+        graphics2D.drawPolygon(poly);
     }
 
     public void drawGizmos(PrimarySurface surface) {

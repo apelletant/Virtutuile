@@ -103,7 +103,7 @@ public class PatternGroup {
         while (y <= patMaxY) {
 
             while (x <= patMaxX) {
-
+                boolean isCutted = false;
                 double tempX = x;
                 double tempY = y;
                 for (int i = 0; i < tiles.size(); ++i) {
@@ -113,20 +113,26 @@ public class PatternGroup {
 
                     newTile.moveOf(-pos.x, -pos.y);
                     newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
-                    if (tileWillBeCuted(newTile, surface.getPolygon()))
+                    if (tileWillBeCuted(newTile, surface.getPolygon())) {
+                        isCutted = true;
                         ++cuttedTiles;
+                    }
                     Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
                     if (cutedSurface != null && cutedSurface.length != 0) {
                         if (cutedSurface.length == 1) {
                             newTile.setPolygon(cutedSurface[0]);
+                            newTile.setCutted(isCutted);
                             this.tiles.add(newTile);
                         } else {
                             for (Path2D.Double cut : cutedSurface) {
                                 newTile = tile.copy();
                                 newTile.setPolygon(cut);
+                                newTile.setCutted(isCutted);
                                 this.tiles.add(newTile);
                             }
                         }
+                    } else if (isCutted) {
+                        --cuttedTiles;
                     }
                     // Calculate if grout should be applied here or outside the loop
                     tempX += (pattern.getGroutXRules()[i] * grout);
@@ -140,7 +146,7 @@ public class PatternGroup {
             y += (tileH * pattern.getOffsetY());
             y += (grout * pattern.getOffsetY());
         }
-        surface.getPatternGroup().cuttedTiles = cuttedTiles;
+        this.cuttedTiles = cuttedTiles;
     }
 
     private boolean tileWillBeCuted(PrimarySurface tile, Path2D.Double surface) {
