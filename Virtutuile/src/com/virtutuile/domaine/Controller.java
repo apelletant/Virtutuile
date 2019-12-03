@@ -21,12 +21,12 @@ public class Controller {
     }
 
     public void paint(Graphics graphics) {
-        Vector vector = new Vector();
+        Vector<Surface> vector = new Vector<>();
         Surface currentCreatingSurface = surfaceEditor.getCurrentCreatingSurface();
         if (currentCreatingSurface != null) {
             vector.add(currentCreatingSurface);
         }
-        meta.getSurfaces().toVector().forEach((surface) -> {
+        meta.getSurfaces().forEach((key, surface) -> {
             vector.add(surface);
         });
         painter.paintAll(vector, graphics);
@@ -85,6 +85,12 @@ public class Controller {
 
     public void setDrawRectangularSurface(boolean doing) {
         meta.setDoing(Meta.EditionAction.CreatingRectangularSurface, doing);
+    }
+
+    public void setDrawFreeSurface(boolean doing) {
+        if (!doing)
+            this.surfaceEditor.endBuildingSurface();
+        meta.setDoing(Meta.EditionAction.CreatingFreeSurface, doing);
     }
 
     public void keyEvent(KeyEvent keyEvent) {
