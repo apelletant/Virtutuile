@@ -25,7 +25,7 @@ public class Constants {
             }
         }
 
-        public static class TileHOverDisplayBox {
+        public static class TileHoverDisplayBox {
             public static final int ORIGIN_POS_X = 1080;
             public static final int ORIGIN_POS_Y = 645;
             public static final int WIDTH = 200;
@@ -35,6 +35,7 @@ public class Constants {
             public static final Color LINE_COLOR = new Color(250, 120, 250);
             public static final Color BORDER_COLOR = new Color(50,50,50);
         }
+
         private Gizmos() {
             throw new AssertionError();
         }
