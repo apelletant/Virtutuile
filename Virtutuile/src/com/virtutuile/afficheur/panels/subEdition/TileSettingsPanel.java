@@ -78,6 +78,7 @@ public class TileSettingsPanel extends SubPanel {
             if (mainWindow.getController().deleteTile(selectedTile)) {
                 rethinkMenu();
                 mainWindow.getEditionPanel().getTilePanel().rethinkMenu();
+                mainWindow.getEditionPanel().getInfoPanel().rethinkMenu();
             }
         });
 

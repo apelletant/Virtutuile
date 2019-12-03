@@ -131,9 +131,13 @@ public class InfoPanel extends SubPanel {
         if (tiles != null) {
             if (tiles[0] != null) {
                 tileUsedSelected.setText(tiles[0].toString());
+            } else {
+                tileUsedSelected.setText("0");
             }
             if (tiles[1] != null) {
                 cuttedTilesSelected.setText(tiles[1].toString());
+            } else {
+                cuttedTilesSelected.setText("0");
             }
         } else {
             tileUsedSelected.setText("0");
@@ -161,13 +165,22 @@ public class InfoPanel extends SubPanel {
                     totalTiles.get(pair.getKey()).setText(tiles[0].toString());
                 }
                 if (tiles[1] != null) {
-                    totalCuttedTiles.get(pair.getKey()).setText(tiles[0].toString());
+                    totalCuttedTiles.get(pair.getKey()).setText(tiles[1].toString());
                 }
             }
         } while (iterator.hasNext());
     }
 
-    public void rethink() {
-        /*String[] typeOfTiles = mainWindow.getController().getTypeOfTiles();*/
+    public void rethinkMenu() {
+        lineAdded.forEach(this::removeLayout);
+        totalPackage.clear();
+        totalTiles.clear();
+        totalCuttedTiles.clear();
+        initTotal();
+        setTotal();
+
+        revalidate();
+        repaint();
+        persistLayout();
     }
 }

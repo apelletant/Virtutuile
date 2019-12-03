@@ -54,6 +54,7 @@ public class TileCreation extends SubPanel {
                         mainWindow.getEditionPanel().getTileSettingsPanel().getCreationFrame().setVisible(false);
                         mainWindow.getEditionPanel().getTileSettingsPanel().rethinkMenu();
                         mainWindow.getEditionPanel().getTilePanel().rethinkMenu();
+                        mainWindow.getEditionPanel().getInfoPanel().rethinkMenu();
                     }
                 }
             }

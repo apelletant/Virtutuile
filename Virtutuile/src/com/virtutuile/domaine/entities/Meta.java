@@ -528,8 +528,8 @@ public class Meta {
     public boolean deleteTile(String selectedTile) {
         if (typeOfTiles.containsKey(selectedTile)
                 && typeOfTiles.get(selectedTile).isDeletable()) {
-                typeOfTiles.remove(selectedTile);
-                return true;
+            typeOfTiles.remove(selectedTile);
+            return true;
         }
         return false;
     }
@@ -555,13 +555,13 @@ public class Meta {
     }
 
     private Integer[] getSurfaceTileProperties(Surface surface) {
-        int[] result = new int[2];
+        Integer[] result = new Integer[2];
         if (surface != null
                 && surface.getPatternGroup() != null) {
             result[0] = surface.getPatternGroup().getTiles().size();
             result[1] = surface.getPatternGroup().getCuttedTiles();
         }
-        return null;
+        return result;
     }
 
     public Integer getUsedPackageOnSurface() {
@@ -569,16 +569,16 @@ public class Meta {
                 && selectedSurface.getPatternGroup() != null
                 && selectedSurface.getTypeOfTile() != null) {
             double resDouble =  (double)selectedSurface.getPatternGroup().getTiles().size() / (double)selectedSurface.getTypeOfTile().getPackageSize();
-            return (int) Math.ceil(resDouble / 100);
+            return (int) Math.ceil(resDouble);
         }
         return 0;
     }
 
-        public Integer getUsedPackageFor(String tileType) {
+    public Integer getUsedPackageFor(String tileType) {
         int res = 0;
         double resDouble = 0;
 
-        if (surfaces.size() != 0) {
+        /*if (surfaces.size() != 0) {
             Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
             for (Pair<UUID, Surface> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
                 if (pair.getValue().getTypeOfTile().getName().equals(tileType)
@@ -586,7 +586,21 @@ public class Meta {
                     resDouble += (double)pair.getValue().getPatternGroup().getTiles().size() / (double)pair.getValue().getTypeOfTile().getPackageSize();
                 }
             }
-            res = (int) Math.ceil(resDouble / 100);
+            res = (int) Math.ceil(resDouble);
+        }
+        return res;*/
+        if (surfaces != null
+                && surfaces.size() != 0
+                && typeOfTiles.containsKey(tileType)) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
+                if (pair.getValue().getTypeOfTile() != null && pair.getValue().getTypeOfTile().getName().equals(tileType)
+                        && pair.getValue().getPatternGroup() != null) {
+                    resDouble += (double) pair.getValue().getPatternGroup().getTiles().size() / (double) pair.getValue().getTypeOfTile().getPackageSize();
+                }
+            } while (iterator.hasNext());
+            res = (int) Math.ceil(resDouble);
         }
         return res;
     }

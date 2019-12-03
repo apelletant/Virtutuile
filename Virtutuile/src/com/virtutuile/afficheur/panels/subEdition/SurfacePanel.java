@@ -58,6 +58,8 @@ public class SurfacePanel extends SubPanel {
 
         merge.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().mergeSurfaces();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             mainWindow.repaint();
         });
 
@@ -76,6 +78,7 @@ public class SurfacePanel extends SubPanel {
         positionInputs.get(InputContextType.Longitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
                 mainWindow.getController().setSurfaceLongitude(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern();
                 mainWindow.repaint();
             }
         });
@@ -83,6 +86,7 @@ public class SurfacePanel extends SubPanel {
         positionInputs.get(InputContextType.Latitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
                 mainWindow.getController().setSurfaceLatitude(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern();
                 mainWindow.repaint();
             }
         });

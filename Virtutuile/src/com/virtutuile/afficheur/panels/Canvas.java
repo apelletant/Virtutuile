@@ -73,6 +73,8 @@ public class Canvas extends PanelEvents {
     private void setKeyboardEvents() {
         addKeyboardEventListener(KeyboardEventKind.KeyPressed, (keyboardEventKind) -> {
             mainWindow.getController().keyEvent(keyboardEventKind);
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             repaint();
         });
     }
