@@ -133,6 +133,10 @@ public class Surface extends PrimarySurface {
         return patternGroup;
     }
 
+    public void setPatternGroup(PatternGroup patternGroup) {
+        this.patternGroup = patternGroup;
+    }
+
     public void applyPattern(String patterName, Tile tile) {
         patternGroup = new PatternGroup(patterName, this, tile);
     }

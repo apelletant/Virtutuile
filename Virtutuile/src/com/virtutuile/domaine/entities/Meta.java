@@ -634,10 +634,19 @@ public class Meta {
         shouldDisplayCuttedTiles = value;
     }
 
-    public enum EditionAction {
-        Idle,
-        CreatingRectangularSurface,
-        CreatingFreeSurface,
+    public void deleteThisTile(String tileName) {
+        if (surfaces != null
+                && surfaces.size() != 0) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
+                if (pair.getValue().getTypeOfTile() != null && pair.getValue().getTypeOfTile().getName().equals(tileName)) {
+                    pair.getValue().setPatternGroup(null);
+                    pair.getValue().setTypeOfTile(getDefaultTile());
+                    pair.getValue().setFillColor(pair.getValue().getFillColor());
+                }
+            } while (iterator.hasNext());
+        }
     }
 
     public Tile getDefaultTile() {
@@ -669,6 +678,12 @@ public class Meta {
 
     public void setHoveredTile(Tile tile) {
         this.hoveredTile = tile;
+    }
+
+    public enum EditionAction {
+        Idle,
+        CreatingRectangularSurface,
+        CreatingFreeSurface,
     }
 
 }

@@ -256,4 +256,7 @@ public class Controller {
         return meta.getUsedPackageFor(tileName);
     }
 
+    public void deleteThisTile(String tileName) {
+        meta.deleteThisTile(tileName);
+    }
 }
