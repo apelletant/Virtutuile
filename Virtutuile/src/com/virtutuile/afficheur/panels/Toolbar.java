@@ -33,6 +33,7 @@ public class Toolbar extends BorderedPanel {
     private void setEvents() {
         Button edition = buttons.get(TargetButton.SurfaceManagement);
         Button tileSettings = buttons.get(TargetButton.TileSettings);
+        Button infos = buttons.get(TargetButton.CanvasInfos);
 
         edition.setActive(true);
         edition.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
@@ -42,7 +43,9 @@ public class Toolbar extends BorderedPanel {
             } else {
                 edition.setActive(true);
                 tileSettings.setActive(false);
+                infos.setActive(false);
                 mainWindow.getEditionPanel().removeTileSettingsPanel();
+                mainWindow.getEditionPanel().removeInfoPanel();
                 mainWindow.getEditionPanel().addAllPanels();
             }
             mainWindow.revalidate();
@@ -56,8 +59,26 @@ public class Toolbar extends BorderedPanel {
             } else {
                 tileSettings.setActive(true);
                 edition.setActive(false);
+                infos.setActive(false);
                 mainWindow.getEditionPanel().removeAllSurfacePanels();
+                mainWindow.getEditionPanel().removeInfoPanel();
                 mainWindow.getEditionPanel().addTileSettingsPanel();
+            }
+            mainWindow.revalidate();
+            mainWindow.repaint();
+        }));
+
+        infos.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            if (infos.isActive()) {
+                infos.setActive(false);
+                mainWindow.getEditionPanel().removeInfoPanel();
+            } else {
+                infos.setActive(true);
+                edition.setActive(false);
+                tileSettings.setActive(false);
+                mainWindow.getEditionPanel().removeAllSurfacePanels();
+                mainWindow.getEditionPanel().removeTileSettingsPanel();
+                mainWindow.getEditionPanel().addInfoPanel();
             }
             mainWindow.revalidate();
             mainWindow.repaint();

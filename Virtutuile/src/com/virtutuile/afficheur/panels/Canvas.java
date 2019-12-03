@@ -35,8 +35,16 @@ public class Canvas extends PanelEvents {
             mainWindow.getController().mouseLClick(mouseEvent.getPoint());
             mainWindow.getEditionPanel().surfaceGetSurfaceProperties();
             mainWindow.getEditionPanel().surfaceGetGroutThickness();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             repaint();
         });
+
+        addMouseEventListener(MouseEventKind.MouseRClick, (mouseEvent) -> {
+            mainWindow.getController().mouseRClick(mouseEvent.getPoint());
+            repaint();
+        });
+
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
             mainWindow.getController().mouseDrag(mouseEvent.getPoint());
             mainWindow.getEditionPanel().surfaceGetSurfaceProperties();
@@ -65,6 +73,8 @@ public class Canvas extends PanelEvents {
     private void setKeyboardEvents() {
         addKeyboardEventListener(KeyboardEventKind.KeyPressed, (keyboardEventKind) -> {
             mainWindow.getController().keyEvent(keyboardEventKind);
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             repaint();
         });
     }

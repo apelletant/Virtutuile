@@ -27,6 +27,7 @@ public class Meta {
     private Surface hoveredSurface;
     private Tile hoveredTile;
     private boolean isSelectedSurfaceCanBeResized;
+    private boolean shouldDisplayCuttedTiles = false;
 
     private Point2D clicked;
     private Point2D hover;
@@ -273,7 +274,6 @@ public class Meta {
 
     public void setGridSize(Double gridSize) {
         this.gridSize = gridSize;
-        System.out.println(gridSize);
     }
 
     public Double[] getHoveredSurfaceDimension() {
@@ -528,16 +528,125 @@ public class Meta {
     public boolean deleteTile(String selectedTile) {
         if (typeOfTiles.containsKey(selectedTile)
                 && typeOfTiles.get(selectedTile).isDeletable()) {
-                typeOfTiles.remove(selectedTile);
-                return true;
+            typeOfTiles.remove(selectedTile);
+            return true;
         }
         return false;
     }
 
-    public enum EditionAction {
-        Idle,
-        CreatingRectangularSurface,
-        CreatingFreeSurface,
+    public Integer[] getSurfaceTileProperties() {
+        return getSurfaceTileProperties(selectedSurface);
+    }
+
+    public int[] getAllSurfaceTileProperties() {
+        int[] result = new int[]{0, 0};
+
+        if (surfaces.size() != 0) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            for (Pair<UUID, Surface> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
+                Integer[] resCase = getSurfaceTileProperties(pair.getValue());
+                if (resCase != null) {
+                    result[0] += resCase[0];
+                    result[1] += resCase[1];
+                }
+            }
+        }
+        return result;
+    }
+
+    private Integer[] getSurfaceTileProperties(Surface surface) {
+        Integer[] result = new Integer[2];
+        if (surface != null
+                && surface.getPatternGroup() != null) {
+            result[0] = surface.getPatternGroup().getTiles().size();
+            result[1] = surface.getPatternGroup().getCuttedTiles();
+        }
+        return result;
+    }
+
+    public Integer getUsedPackageOnSurface() {
+        if (selectedSurface != null
+                && selectedSurface.getPatternGroup() != null
+                && selectedSurface.getTypeOfTile() != null) {
+            double resDouble =  (double)selectedSurface.getPatternGroup().getTiles().size() / (double)selectedSurface.getTypeOfTile().getPackageSize();
+            return (int) Math.ceil(resDouble);
+        }
+        return 0;
+    }
+
+    public Integer getUsedPackageFor(String tileType) {
+        int res = 0;
+        double resDouble = 0;
+
+        /*if (surfaces.size() != 0) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            for (Pair<UUID, Surface> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
+                if (pair.getValue().getTypeOfTile().getName().equals(tileType)
+                        && pair.getValue().getPatternGroup() != null) {
+                    resDouble += (double)pair.getValue().getPatternGroup().getTiles().size() / (double)pair.getValue().getTypeOfTile().getPackageSize();
+                }
+            }
+            res = (int) Math.ceil(resDouble);
+        }
+        return res;*/
+        if (surfaces != null
+                && surfaces.size() != 0
+                && typeOfTiles.containsKey(tileType)) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
+                if (pair.getValue().getTypeOfTile() != null && pair.getValue().getTypeOfTile().getName().equals(tileType)
+                        && pair.getValue().getPatternGroup() != null) {
+                    resDouble += (double) pair.getValue().getPatternGroup().getTiles().size() / (double) pair.getValue().getTypeOfTile().getPackageSize();
+                }
+            } while (iterator.hasNext());
+            res = (int) Math.ceil(resDouble);
+        }
+        return res;
+    }
+
+    public Integer[] getTotalTileFor(String tileName) {
+        //getSurfaceTileProperties
+
+        Integer[] result = new Integer[]{0, 0};
+
+        if (surfaces != null
+                && surfaces.size() != 0
+                && typeOfTiles.containsKey(tileName)) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
+                if (pair.getValue().getTypeOfTile() != null && pair.getValue().getTypeOfTile().getName().equals(tileName)
+                        && pair.getValue().getPatternGroup() != null) {
+                    result[0] += pair.getValue().getPatternGroup().getTiles().size();
+                    result[1] += pair.getValue().getPatternGroup().getCuttedTiles();
+                }
+            } while (iterator.hasNext());
+        }
+        return result;
+    }
+
+    public boolean displayCuttedTiles() {
+        return shouldDisplayCuttedTiles;
+    }
+
+    public void displayCuttedTiles(boolean value) {
+        shouldDisplayCuttedTiles = value;
+    }
+
+    public void deleteThisTile(String tileName) {
+        if (surfaces != null
+                && surfaces.size() != 0) {
+            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
+                if (pair.getValue().getTypeOfTile() != null && pair.getValue().getTypeOfTile().getName().equals(tileName)) {
+                    pair.getValue().setPatternGroup(null);
+                    pair.getValue().setTypeOfTile(getDefaultTile());
+                    pair.getValue().setFillColor(pair.getValue().getFillColor());
+                }
+            } while (iterator.hasNext());
+        }
     }
 
     public Tile getDefaultTile() {
@@ -569,6 +678,12 @@ public class Meta {
 
     public void setHoveredTile(Tile tile) {
         this.hoveredTile = tile;
+    }
+
+    public enum EditionAction {
+        Idle,
+        CreatingRectangularSurface,
+        CreatingFreeSurface,
     }
 
 }

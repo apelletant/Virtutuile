@@ -55,7 +55,7 @@ public class Button extends BorderedEventPanel {
      *
      * @param size The desired size
      */
-    private void fixSize(Dimension size) {
+    public void fixSize(Dimension size) {
         setMaximumSize(size);
         setPreferredSize(size);
         setMinimumSize(size);

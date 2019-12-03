@@ -13,6 +13,7 @@ public class Tile extends PrimarySurface {
     private String name;
     private int packageSize;
     private boolean deletable = true;
+    private boolean cutted = false;
 
     public Tile(double[] pointsX, double[] pointsY) {
         super(pointsX, pointsY);
@@ -134,5 +135,13 @@ public class Tile extends PrimarySurface {
 
     public void setPackageSize(int packageSize) {
         this.packageSize = packageSize;
+    }
+
+    public boolean isCutted() {
+        return cutted;
+    }
+
+    public void setCutted(boolean cutted) {
+        this.cutted = cutted;
     }
 }

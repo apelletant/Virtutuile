@@ -21,12 +21,12 @@ public class Controller {
     }
 
     public void paint(Graphics graphics) {
-        Vector vector = new Vector();
+        Vector<Surface> vector = new Vector<>();
         Surface currentCreatingSurface = surfaceEditor.getCurrentCreatingSurface();
         if (currentCreatingSurface != null) {
             vector.add(currentCreatingSurface);
         }
-        meta.getSurfaces().toVector().forEach((surface) -> {
+        meta.getSurfaces().forEach((key, surface) -> {
             vector.add(surface);
         });
         painter.paintAll(vector, graphics);
@@ -58,8 +58,6 @@ public class Controller {
             canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
             if (meta.getSelectedSurface() != null) {
                 meta.setSelectedSurface(updateSurfacePosToMagneticPos());
-                System.out.println(meta.getSelectedSurface().getBounds().x);
-                System.out.println(meta.getSelectedSurface().getBounds().y);
             }
         }
         this.surfaceEditor.mouseLClick(canvasCursor);
@@ -85,6 +83,12 @@ public class Controller {
 
     public void setDrawRectangularSurface(boolean doing) {
         meta.setDoing(Meta.EditionAction.CreatingRectangularSurface, doing);
+    }
+
+    public void setDrawFreeSurface(boolean doing) {
+        if (!doing)
+            this.surfaceEditor.endBuildingSurface();
+        meta.setDoing(Meta.EditionAction.CreatingFreeSurface, doing);
     }
 
     public void keyEvent(KeyEvent keyEvent) {
@@ -224,7 +228,35 @@ public class Controller {
         return meta.createNewTile(width, height, color, name, deletable, packageSize);
     }
 
+    public void setHighlightCuttedTiles(boolean highlight) {
+        meta.displayCuttedTiles(highlight);
+    }
+
     public boolean deleteTile(String selectedTile) {
         return meta.deleteTile(selectedTile);
+    }
+
+    public Integer[] getSurfaceTileProperties() {
+        return meta.getSurfaceTileProperties();
+    }
+
+    public int[] getAllSurfaceTileProperties() {
+        return meta.getAllSurfaceTileProperties();
+    }
+
+    public Integer getUsedPackageOnSurface() {
+        return meta.getUsedPackageOnSurface();
+    }
+
+    public Integer[] getTotalTileFor(String tileName) {
+        return meta.getTotalTileFor(tileName);
+    }
+
+    public Integer getUsedPackageFor(String tileName) {
+        return meta.getUsedPackageFor(tileName);
+    }
+
+    public void deleteThisTile(String tileName) {
+        meta.deleteThisTile(tileName);
     }
 }

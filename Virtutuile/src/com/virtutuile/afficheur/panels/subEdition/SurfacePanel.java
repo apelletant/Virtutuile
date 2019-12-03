@@ -31,6 +31,7 @@ public class SurfacePanel extends SubPanel {
     @Override
     protected void setEvents() {
         Button addRectangularSurface = addSurface.get(DrawShapeButtonType.AddRectangularSurface);
+        Button addFreeSurface = addSurface.get(DrawShapeButtonType.AddFreeSurface);
         Button merge = surfaceManagement.get(DrawShapeButtonType.MergeSurfaces);
 
         addRectangularSurface.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
@@ -40,11 +41,25 @@ public class SurfacePanel extends SubPanel {
             } else {
                 mainWindow.getController().setDrawRectangularSurface(true);
                 addRectangularSurface.setActive(true);
+                addFreeSurface.setActive(false);
+            }
+        });
+
+        addFreeSurface.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            if (addFreeSurface.isActive()) {
+                mainWindow.getController().setDrawFreeSurface(false);
+                addFreeSurface.setActive(false);
+            } else {
+                mainWindow.getController().setDrawFreeSurface(true);
+                addRectangularSurface.setActive(false);
+                addFreeSurface.setActive(true);
             }
         });
 
         merge.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().mergeSurfaces();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             mainWindow.repaint();
         });
 
@@ -63,6 +78,7 @@ public class SurfacePanel extends SubPanel {
         positionInputs.get(InputContextType.Longitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
                 mainWindow.getController().setSurfaceLongitude(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern();
                 mainWindow.repaint();
             }
         });
@@ -70,6 +86,7 @@ public class SurfacePanel extends SubPanel {
         positionInputs.get(InputContextType.Latitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
                 mainWindow.getController().setSurfaceLatitude(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern();
                 mainWindow.repaint();
             }
         });

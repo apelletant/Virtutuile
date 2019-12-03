@@ -60,6 +60,8 @@ public class PatternPanel extends SubPanel {
         patterns.forEach((name, button) -> {
             button.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
                 mainWindow.getController().applyPattern(name);
+                mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+                mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
                 mainWindow.repaint();
             });
         });
@@ -67,6 +69,8 @@ public class PatternPanel extends SubPanel {
         options.forEach((name, button) -> {
             button.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
                 mainWindow.getController().setPatternStartPosition(name);
+                mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+                mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
                 mainWindow.repaint();
             });
         });

@@ -1,10 +1,7 @@
 package com.virtutuile.domaine;
 
 import com.virtutuile.domaine.entities.Meta;
-import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
-import com.virtutuile.domaine.entities.surfaces.Surface;
-import com.virtutuile.domaine.entities.surfaces.SurfaceBuilder;
-import com.virtutuile.domaine.entities.surfaces.Tile;
+import com.virtutuile.domaine.entities.surfaces.*;
 import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
@@ -139,10 +136,14 @@ public class SurfaceEditor {
         }
     }
 
-    public void mouseHover(Point2D point){
+    public void mouseHover(Point2D point) {
 
         Surface surface = getSurfaceAt(point);
         boolean outOfShape = false;
+
+        if (builder != null && meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
+            builder.movePoint(point);
+        }
 
         if (meta.getSelectedSurface() == null) {
             meta.setSelectedSurfaceCanBeResized(false);
@@ -193,7 +194,12 @@ public class SurfaceEditor {
     public void mouseLClick(Point2D point) {
         meta.setMousePressed(true);
         if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
-            builder = RectangularSurface.getBuilder();
+            if (builder == null)
+                builder = RectangularSurface.getBuilder();
+            builder.placePoint(point);
+        } else if (meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
+            if (builder == null)
+                builder = FreeSurface.getBuilder();
             builder.placePoint(point);
         } else {
             /*if (meta.getSelectedSurface() != null) {
@@ -212,7 +218,13 @@ public class SurfaceEditor {
     }
 
     public void mouseRClick(Point2D point) {
-
+        if (meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
+            if (builder != null && (builder instanceof FreeSurface.Builder)) {
+                Surface surface = builder.getSurface();
+                meta.getSurfaces().put(surface.getId(), surface);
+                builder = null;
+            }
+        }
     }
 
     public void mouseDrag(Point2D point) {
@@ -245,6 +257,16 @@ public class SurfaceEditor {
 //            }*/
         }
     }
+
+    public void endBuildingSurface() {
+        if (builder != null && (builder instanceof FreeSurface.Builder)) {
+            builder.movePoint(null);
+            Surface surface = builder.getSurface();
+            meta.getSurfaces().put(surface.getId(), surface);
+            builder = null;
+        }
+    }
+
 
     public void deleteSelectedShape() {
         Surface surface = meta.getSelectedSurface();
