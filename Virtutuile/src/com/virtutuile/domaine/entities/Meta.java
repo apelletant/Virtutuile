@@ -769,10 +769,10 @@ public class Meta {
             mainSurface = getSurfaceIntersected(selectedSurface);
             if (mainSurface != null
                     && mainSurface.contains(selectedSurface)) {
-                mainSurface.addPath(selectedSurface.getVertices());
-                surfaces.put(mainSurface.getId(), mainSurface);
+                mainSurface.setPolygon(PolygonTransformer.hardSubtract(mainSurface.getPolygon(), selectedSurface.getPolygon()));
+//                mainSurface.addPath(selectedSurface.getVertices());
             } else {
-
+                mainSurface.setPolygon(PolygonTransformer.subtract(mainSurface.getPolygon(), selectedSurface.getPolygon()));
             }
             selectedSurface.setSelected(false);
             selectedSurface = null;

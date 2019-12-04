@@ -117,7 +117,7 @@ public class PatternGroup {
                         isCutted = true;
                         ++cuttedTiles;
                     }
-                    Path2D.Double[] cutedSurface = PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon(), grout);
+                    Path2D.Double[] cutedSurface = PolygonTransformer.explodePaths(PolygonTransformer.subtract(newTile.getPolygon(), surface.getPolygon()));
                     if (cutedSurface != null && cutedSurface.length != 0) {
                         if (cutedSurface.length == 1) {
                             newTile.setPolygon(cutedSurface[0]);
