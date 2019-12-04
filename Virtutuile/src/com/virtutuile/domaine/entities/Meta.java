@@ -491,21 +491,17 @@ public class Meta {
             do {
                 Pair<UUID, Surface> pair = iterator.next();
                 if (selectedSurface.getId() != pair.getKey()) {
-                    Point2D[] secondSurfaceVertices = pair.getValue().getVertices();
-                    for (Point2D testedSurfaceVertex : secondSurfaceVertices) {
-                        if (selectedSurface.containsOrIntersect(testedSurfaceVertex)) {
+                        if (selectedSurface.containsOrIntersect(pair.getValue())) {
                             Path2D.Double[] polygons = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
                             if (polygons.length > 1) {
-                                mergedSurface = transformToOneSurface(polygons); //la
+                                mergedSurface = transformToOneSurface(polygons);
                             } else {
                                 mergedSurface = new Surface(polygons[0], false);
                             }
                             surfaces.put(mergedSurface.getId(), mergedSurface);
                             merged = true;
                             secondSurface = pair.getValue();
-                            break;
                         }
-                    }
                     if (merged) {
                         if (oldSelectedSurface.getPatternGroup() != null) {
                             mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());

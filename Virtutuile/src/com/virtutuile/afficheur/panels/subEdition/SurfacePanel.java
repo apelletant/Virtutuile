@@ -91,6 +91,8 @@ public class SurfacePanel extends SubPanel {
 
         makeHole.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
             mainWindow.getController().makeSurfaceHole();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             mainWindow.repaint();
         });
 

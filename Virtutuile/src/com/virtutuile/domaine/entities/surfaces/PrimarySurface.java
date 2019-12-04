@@ -309,7 +309,7 @@ public abstract class PrimarySurface implements Serializable {
         return bounds;
     }
 
-    public boolean contains(Surface surfaceContains) {
+    public boolean contains(PrimarySurface surfaceContains) {
         boolean contained = true;
         Point2D[] surfaceContainsVertices = surfaceContains.getVertices();
 
@@ -332,4 +332,36 @@ public abstract class PrimarySurface implements Serializable {
         }
         polygon.closePath();
     }
+
+    public boolean containsOrIntersect(PrimarySurface testSurface) {
+        Point2D[] vertices = getVertices();
+        Point2D[] testVertices = testSurface.getVertices();
+
+        for (int i = 0; i < vertices.length; ++i) {
+            Vecteur actualA = new Vecteur(vertices[i]);
+            Vecteur actualB;
+            if (i != vertices.length - 1) {
+                actualB = new Vecteur(vertices[i + 1]);
+            } else {
+                actualB = new Vecteur(vertices[0]);
+            }
+            for (int i1 = 0; i1 < testVertices.length; i1++) {
+                Vecteur testA = new Vecteur(testVertices[i1]);
+                Vecteur testB;
+                if (i1 != testVertices.length - 1) {
+                    testB = new Vecteur(testVertices[i1 + 1]);
+                } else {
+                    testB = new Vecteur(testVertices[0]);
+                }
+                Vecteur actual = new Vecteur(new CustomPoint(actualA.x, actualA.y), new CustomPoint(actualB.x, actualB.y));
+                Vecteur test = new Vecteur(new CustomPoint(testA.x, testA.y), new CustomPoint(testB.x, testB.y));
+                CustomPoint intersect = Intersection.intersectionPoint(actual, test);
+                if (intersect != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
