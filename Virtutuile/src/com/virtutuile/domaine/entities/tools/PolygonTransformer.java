@@ -15,6 +15,31 @@ public class PolygonTransformer {
         PathElement[] elements = new PathElement[vertices.length + 1];
         int i = 1;
 
+        // TODO: FIX HOLES MERGED
+//        double[] coords = new double[6];
+//        for (PathIterator pi = path.getPathIterator(null); pi.isDone(); pi.next()) {
+//            switch (pi.currentSegment(coords)) {
+//                case PathIterator.SEG_CUBICTO:
+//                    elements[i] = new CubicCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
+//                    break;
+//                case PathIterator.SEG_QUADTO:
+//                    elements[i] = new QuadCurveTo(coords[0], coords[1], coords[2], coords[3]);
+//                    break;
+//                case PathIterator.SEG_MOVETO:
+//                    elements[i] = new MoveTo(coords[0], coords[1]);
+//                    break;
+//                case PathIterator.SEG_LINETO:
+//                    elements[i] = new LineTo(coords[0], coords[1]);
+//                    break;
+//                case PathIterator.SEG_CLOSE:
+//                    elements[i] = new ClosePath();
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException();
+//            }
+//            ++i;
+//        }
+
         // Convert all vertices into PathElement
         elements[0] = new MoveTo(vertices[0][0], vertices[0][1]);
         for (; i < vertices.length; ++i) {
@@ -57,7 +82,7 @@ public class PolygonTransformer {
         if (!it.hasNext())
             return null;
         Path2D.Double p = new Path2D.Double();
-        for (PathElement pe = null; it.hasNext();) {
+        for (PathElement pe = null; it.hasNext(); ) {
             pe = it.next();
             if (pe instanceof MoveTo)
                 p.moveTo(((MoveTo) pe).getX(), ((MoveTo) pe).getY());

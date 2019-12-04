@@ -5,11 +5,12 @@ import com.virtutuile.domaine.entities.surfaces.PrimarySurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.ColorTransformer;
-import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 
@@ -37,7 +38,7 @@ public class Painter {
         }
 
         surfaces.forEach((surface) -> {
-            Polygon poly = paintSurface(surface);
+            Path2D.Double poly = paintSurface(surface);
             if (surface.getPatternGroup() != null
                     && surface.getPatternGroup().getTiles().size() > 0) {
                 paintTiles(surface.getPatternGroup().getTiles());
@@ -48,8 +49,8 @@ public class Painter {
 
     public void paintTiles(Vector<Tile> tiles) {
         for (Tile tile : tiles) {
-            int[][] tilePts = meta.points2DToRawPoints(tile.getVertices());
-            Polygon poly = new Polygon(tilePts[0], tilePts[1], tilePts[0].length);
+            Path2D.Double poly = meta.rawPathToGfxPath(tile.getPolygon());
+
             if (meta.displayCuttedTiles() && tile.isCutted())
                 paintPolygon(poly, ColorTransformer.Invert(tile.getFillColor()), tile.getBorderColor());
             else
@@ -57,52 +58,59 @@ public class Painter {
         }
     }
 
-    public Polygon paintSurface(PrimarySurface surface) {
+    public Path2D.Double paintSurface(PrimarySurface surface) {
         if (surface == null)
             return null;
 
-        int[][] polygonPoints = meta.points2DToRawPoints(surface.getVertices());
-        Polygon poly = new Polygon(polygonPoints[0], polygonPoints[1], polygonPoints[0].length);
+        Path2D.Double poly = meta.rawPathToGfxPath(surface.getPolygon());
 
         paintPolygon(poly, surface.getFillColor(), surface.getBorderColor());
         return poly;
     }
 
-    public void paintSurfaceGizmos(PrimarySurface surface, Polygon poly) {
+    public void paintSurfaceGizmos(PrimarySurface surface, Path2D.Double poly) {
         if (surface.isMouseHover() || surface.isSelected()) {
             drawBoundingBox(poly.getBounds());
-            drawHandles(poly.xpoints, poly.ypoints);
+
+            double[] coords = new double[6];
+            for (PathIterator pi = poly.getPathIterator(null); pi.isDone(); pi.next()) {
+                switch (pi.currentSegment(coords)) {
+                    case PathIterator.SEG_CUBICTO:
+                        drawHandles((int) coords[4], (int) coords[5]);
+                    case PathIterator.SEG_QUADTO:
+                        drawHandles((int) coords[2], (int) coords[3]);
+                    case PathIterator.SEG_MOVETO:
+                    case PathIterator.SEG_LINETO:
+                        drawHandles((int) coords[0], (int) coords[1]);
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            }
         }
     }
 
-    public void paintPolygon(Polygon poly, Color fill, Color stroke) {
+    public void paintPolygon(Path2D.Double poly, Color fill, Color stroke) {
         graphics2D.setColor(fill);
-        graphics2D.fillPolygon(poly);
+        graphics2D.fill(poly);
         graphics2D.setColor(stroke);
         graphics2D.setStroke(new BasicStroke(com.virtutuile.afficheur.Constants.DEFAULT_SHAPE_BORDER_THICKNESS));
-        graphics2D.drawPolygon(poly);
+        graphics2D.draw(poly);
     }
 
-    public void drawGizmos(PrimarySurface surface) {
-        drawBoundingBox(surface.getPolygon().getBounds());
-        drawHandles(surface.getPolygonFromPath2D().xpoints, surface.getPolygonFromPath2D().ypoints);
-    }
-
-    private void drawHandles(int[] xPoints, int[] yPoints) {
+    private void drawHandles(int xPoints, int yPoints) {
         final Dimension size = Constants.Gizmos.Handles.SIZE;
 
-        for (int i = 0; i < xPoints.length; ++i) {
-            Point anchor = new Point();
+        Point anchor = new Point();
 
-            anchor.x = xPoints[i] - Math.floorDiv(size.width, 2);
-            anchor.y = yPoints[i] - Math.floorDiv(size.height, 2);
-            graphics2D.setColor(Constants.Gizmos.Handles.BACKGROUND_COLOR);
-            graphics2D.fillRect(anchor.x, anchor.y, size.width, size.height);
-            graphics2D.setStroke(new BasicStroke(Constants.Gizmos.Handles.BORDER_STROKE));
-            graphics2D.setColor(Constants.Gizmos.Handles.BORDER_COLOR);
-            graphics2D.drawRect(anchor.x, anchor.y, size.width, size.height);
-        }
+        anchor.x = xPoints - Math.floorDiv(size.width, 2);
+        anchor.y = yPoints - Math.floorDiv(size.height, 2);
+        graphics2D.setColor(Constants.Gizmos.Handles.BACKGROUND_COLOR);
+        graphics2D.fillRect(anchor.x, anchor.y, size.width, size.height);
+        graphics2D.setStroke(new BasicStroke(Constants.Gizmos.Handles.BORDER_STROKE));
+        graphics2D.setColor(Constants.Gizmos.Handles.BORDER_COLOR);
+        graphics2D.drawRect(anchor.x, anchor.y, size.width, size.height);
     }
+
 
     private void drawMagneticGrid() {
         Color col = new Color(0, 0, 0);
@@ -120,7 +128,7 @@ public class Painter {
         //TODO ne plus utiliser de pixel pour le calcul car on doit pouvoir etre entre o et 1
         for (int i = canvasPosInt.x; i <= canvasDim.width; i++) {
             for (int j = canvasPosInt.y; j <= canvasDim.height; j++) {
-                if (i % meta.centimetersToPixels(meta.getGridSize())  == 0) {
+                if (i % meta.centimetersToPixels(meta.getGridSize()) == 0) {
                     graphics2D.drawLine(i, j, i, canvasDim.width);
                 }
                 if (j % meta.centimetersToPixels(meta.getGridSize()) == 0) {
@@ -156,8 +164,8 @@ public class Painter {
             int[] pointsY = new int[tileVertices.length];
 
             for (int i = 0; i < tileVertices.length; i++) {
-                pointsX[i] = (int)hoveredShadow.getVertices()[i].getX();
-                pointsY[i] = (int)hoveredShadow.getVertices()[i].getY();
+                pointsX[i] = (int) hoveredShadow.getVertices()[i].getX();
+                pointsY[i] = (int) hoveredShadow.getVertices()[i].getY();
             }
 
 
@@ -184,12 +192,12 @@ public class Painter {
         Double width = tile.getBounds().width;
         Double height = tile.getBounds().height;
 
-        Double ratio = maxWidth / width;
-        Double ratioY = maxHeight / height;
+         Double ratio = maxWidth / width;
+         Double ratioY = maxHeight / height;
 
-        if (ratio > ratioY) {
-            ratio = ratioY;
-        }
+         if (ratio > ratioY) {
+         ratio = ratioY;
+         }
 
 //        System.out.printf("width before = %f\n", width);
 //        System.out.printf("height before = %f\n", height);
@@ -218,35 +226,35 @@ public class Painter {
     }
 
 /**
-    let width, height;
+ let width, height;
 
-    ratio = maxX / width;
-    ratioY = maxY / height;
+ ratio = maxX / width;
+ ratioY = maxY / height;
 
-    if (ratio > ratioY) {
-        ratio = ratioY;
-    }
+ if (ratio > ratioY) {
+ ratio = ratioY;
+ }
 
-    return {
-        w: width * ratio,
-                h: height * ratio,
-    }
-*/
+ return {
+ w: width * ratio,
+ h: height * ratio,
+ }
+ */
 
     /**
      * Draw the bounding boxes like following :
-     *   A--------------------B
-     *   |                    |
-     *   |                    |
-     *   D--------------------C
+     * A--------------------B
+     * |                    |
+     * |                    |
+     * D--------------------C
      * <p>
      * Began
-     *   |                    |
+     * |                    |
      * --A--------------------B--
-     *   |                    |
-     *   |                    |
+     * |                    |
+     * |                    |
      * --D--------------------C--
-     *   |                    |
+     * |                    |
      *
      * @param box
      */

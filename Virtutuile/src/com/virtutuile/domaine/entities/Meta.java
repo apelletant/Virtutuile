@@ -9,10 +9,7 @@ import com.virtutuile.shared.UnorderedMap;
 import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -164,6 +161,42 @@ public class Meta {
 
     public Point point2DToPoint(Point2D coordinates) {
         return new Vector2D(coordinates).divide(zoomFactor).subtract(canvasPosition).toPoint();
+    }
+
+    public Path2D.Double rawPathToGfxPath(Path2D path) {
+        Path2D.Double ret = new Path2D.Double();
+
+        double[] coords = new double[6];
+        for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
+            int segType = pi.currentSegment(coords);
+            Point pt = point2DToPoint(new Point2D.Double(coords[0], coords[1]));
+            Point pt2, pt3;
+
+            switch (segType) {
+                case PathIterator.SEG_MOVETO:
+                    ret.moveTo(pt.x, pt.y);
+                    break;
+                case PathIterator.SEG_LINETO:
+                    ret.lineTo(pt.x, pt.y);
+                    break;
+                case PathIterator.SEG_QUADTO:
+                     pt2 = point2DToPoint(new Point2D.Double(coords[2], coords[3]));
+                    ret.quadTo(pt.x, pt.y, pt2.x, pt2.y);
+                    break;
+                case PathIterator.SEG_CUBICTO:
+                    pt2 = point2DToPoint(new Point2D.Double(coords[2], coords[3]));
+                    pt3 = point2DToPoint(new Point2D.Double(coords[4], coords[5]));
+                    ret.curveTo(pt.x, pt.y, pt2.x, pt2.y, pt3.x, pt3.y);
+                    break;
+                case PathIterator.SEG_CLOSE:
+                    ret.closePath();
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+
+        return ret;
     }
 
     public Point[] points2DToPoints(Point2D[] point2D) {
@@ -623,7 +656,7 @@ public class Meta {
             for (Pair<UUID, Surface> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
                 if (pair.getValue().getTypeOfTile().getName().equals(tileType)
                         && pair.getValue().getPatternGroup() != null) {
-                    resDouble += (double)pair.getValue().getPatternGroup().getTiles().size() / (double)pair.getValue().getTypeOfTile().getPackageSize();
+                    resDouble += (double) pair.getValue().getPatternGroup().getTiles().size() / (double) pair.getValue().getTypeOfTile().getPackageSize();
                 }
             }
             res = (int) Math.ceil(resDouble);
