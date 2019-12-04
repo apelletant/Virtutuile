@@ -259,4 +259,8 @@ public class Controller {
     public void deleteThisTile(String tileName) {
         meta.deleteThisTile(tileName);
     }
+
+    public void makeSurfaceHole() {
+        meta.makeSurfaceHole();
+    }
 }

@@ -308,4 +308,28 @@ public abstract class PrimarySurface implements Serializable {
     public Bounds getBoundsAsSurface() {
         return bounds;
     }
+
+    public boolean contains(Surface surfaceContains) {
+        boolean contained = true;
+        Point2D[] surfaceContainsVertices = surfaceContains.getVertices();
+
+        for (Point2D surfaceContainsVertex : surfaceContainsVertices) {
+            if (!polygon.contains(surfaceContainsVertex)) {
+                contained = false;
+            }
+        }
+
+        return contained;
+    }
+
+    public void addPath(Point2D[] vertices) {
+        int i = 1;
+
+        polygon.moveTo(vertices[0].getX(), vertices[0].getY());
+        while (i != vertices.length) {
+            polygon.lineTo(vertices[i].getX(), vertices[i].getY());
+            i++;
+        }
+        polygon.closePath();
+    }
 }

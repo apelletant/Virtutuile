@@ -411,26 +411,65 @@ public class Meta {
         });
     }
 
+    private Surface transformToOneSurface(Path2D.Double[] polygons) {
+        Surface[] surfaces = new Surface[polygons.length];
+        Surface returnedSurface = null;
+
+        for (int i = 0; i < polygons.length; i++) {
+            surfaces[i] = new Surface(polygons[i], false);
+        }
+
+        for (Surface surface : surfaces) {
+            for (Surface surfaceContain : surfaces) {
+                if (surface != surfaceContain) {
+                    if (surface.getId() != surfaceContain.getId()) {
+                        if (surface.contains(surfaceContain)) {
+                            surfaceContain.setHole(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Surface surface : surfaces) {
+            if (!surface.isHole()) {
+                returnedSurface = surface;
+            }
+        }
+
+        for (Surface surface : surfaces) {
+            if (surface != returnedSurface) {
+                assert returnedSurface != null;
+                returnedSurface.addPath(surface.getVertices());
+            }
+        }
+
+        return returnedSurface;
+    }
+
     public void mergeSurfaces() {
         boolean merged = false;
         Surface oldSelectedSurface = selectedSurface;
-        Surface testedSurface = null;
+        Surface secondSurface = null;
         Surface mergedSurface = null;
 
         if (selectedSurface != null) {
             Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
-            for (Pair<UUID, Surface> pair = iterator.next(); iterator.hasNext(); pair = iterator.next()) {
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
                 if (selectedSurface.getId() != pair.getKey()) {
-                    Point2D[] testedSurfaceVertices = pair.getValue().getVertices();
-                    for (Point2D testedSurfaceVertex : testedSurfaceVertices) {
+                    Point2D[] secondSurfaceVertices = pair.getValue().getVertices();
+                    for (Point2D testedSurfaceVertex : secondSurfaceVertices) {
                         if (selectedSurface.containsOrIntersect(testedSurfaceVertex)) {
-                            Path2D.Double mergedPolygon = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
-                            mergedSurface = new Surface(mergedPolygon, false);
-                            /*selectedSurface = mergedSurface;
-                            mergedSurface.setSelected(true);*/
+                            Path2D.Double[] polygons = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
+                            if (polygons.length > 1) {
+                                mergedSurface = transformToOneSurface(polygons); //la
+                            } else {
+                                mergedSurface = new Surface(polygons[0], false);
+                            }
                             surfaces.put(mergedSurface.getId(), mergedSurface);
                             merged = true;
-                            testedSurface = pair.getValue();
+                            secondSurface = pair.getValue();
                             break;
                         }
                     }
@@ -440,23 +479,24 @@ public class Meta {
                             mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
                             mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
-                        } else if (testedSurface.getPatternGroup() != null) {
-                            mergedSurface.setTypeOfTile(testedSurface.getTypeOfTile());
-                            mergedSurface.getGrout().setThickness(testedSurface.getGrout().getThickness());
-                            mergedSurface.getGrout().setColor(testedSurface.getGrout().getColor());
-                            mergedSurface.applyPattern(testedSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
+                        } else if (secondSurface.getPatternGroup() != null) {
+                            mergedSurface.setTypeOfTile(secondSurface.getTypeOfTile());
+                            mergedSurface.getGrout().setThickness(secondSurface.getGrout().getThickness());
+                            mergedSurface.getGrout().setColor(secondSurface.getGrout().getColor());
+                            mergedSurface.applyPattern(secondSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
                         }
                         break;
                     }
                 }
-            }
+            } while(iterator.hasNext());
             if (merged) {
                 selectedSurface = null;
                 surfaces.remove(oldSelectedSurface.getId());
-                surfaces.remove(testedSurface.getId());
+                surfaces.remove(secondSurface.getId());
             }
         }
     }
+
 
     public Point2D updatePosToMagnetic(Point point) {
         Point2D.Double mousePosCM = (Point2D.Double) pointToPoints2D(point);
@@ -680,10 +720,16 @@ public class Meta {
         this.hoveredTile = tile;
     }
 
-    public enum EditionAction {
-        Idle,
-        CreatingRectangularSurface,
-        CreatingFreeSurface,
+    public void makeSurfaceHole() {
+        if (selectedSurface != null) {
+
+        }
     }
+
+public enum EditionAction {
+    Idle,
+    CreatingRectangularSurface,
+    CreatingFreeSurface,
+}
 
 }

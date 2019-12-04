@@ -156,4 +156,12 @@ public class Surface extends PrimarySurface {
     public Tile getTypeOfTile() {
         return typeOfTile;
     }
+
+    public void setHole(boolean hole) {
+        this.isHole = hole;
+    }
+
+    public boolean isHole() {
+        return isHole;
+    }
 }

@@ -166,10 +166,10 @@ public class Painter {
             graphics2D.drawPolygon(pointsX, pointsY, pointsX.length);
 
             for (int i = 0; i < pointsX.length; i++) {
-                System.out.println("points X:");
+                /*System.out.println("points X:");
                 System.out.println(pointsX[i]);
                 System.out.println("points Y:");
-                System.out.println(pointsY[i]);
+                System.out.println(pointsY[i]);*/
             }
         }
     }
@@ -197,7 +197,7 @@ public class Painter {
 //        width = width * ratio;
 //        height = height * ratio;
 
-        System.out.println(ratio);
+        /*System.out.println(ratio);*/
 //        System.out.printf("width after = %f\n", width);
 //        System.out.printf("height after = %f\n", height);
 

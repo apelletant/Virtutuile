@@ -80,10 +80,10 @@ public class PolygonTransformer {
         return javafxPathsToAwt((Path) shape);
     }
 
-    static public java.awt.geom.Path2D.Double merge(java.awt.geom.Path2D polygon1, java.awt.geom.Path2D polygon2) {
+    static public Path2D.Double[] merge(java.awt.geom.Path2D polygon1, java.awt.geom.Path2D polygon2) {
         Path poly1 = awtPathToJavafx(polygon1);
         Path poly2 = awtPathToJavafx(polygon2);
 
-        return javafxPathToAwt((Path) Shape.union(poly1, poly2));
+        return javafxPathsToAwt((Path) Shape.union(poly1, poly2));
     }
 }

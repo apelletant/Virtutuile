@@ -2,13 +2,11 @@ package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
-import com.virtutuile.afficheur.inputs.TextInput;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
-import com.virtutuile.domaine.Constants;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
@@ -16,10 +14,10 @@ import javax.swing.*;
 public class SurfacePanel extends SubPanel {
 
     private UnorderedMap<DrawShapeButtonType, Button> addSurface = new UnorderedMap<>();
-    private UnorderedMap<DrawShapeButtonType, Button> removeSurface = new UnorderedMap<>();
     private UnorderedMap<DrawShapeButtonType, Button> surfaceManagement = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> unitInputs = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> positionInputs = new UnorderedMap<>();
+    private Button makeHole = null;
 
     public SurfacePanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -91,6 +89,11 @@ public class SurfacePanel extends SubPanel {
             }
         });
 
+        makeHole.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
+            mainWindow.getController().makeSurfaceHole();
+            mainWindow.repaint();
+        });
+
     }
 
     protected void setButtonsOnPanel() {
@@ -137,12 +140,9 @@ public class SurfacePanel extends SubPanel {
     }
 
     private void setRemoveShapesButtons(JPanel line) {
-        removeSurface.put(DrawShapeButtonType.RemoveRectangularSurface, new Button("Rectangle", AssetLoader.loadImage("/icons/shape-edit-remove-square.png")));
-        removeSurface.put(DrawShapeButtonType.RemoveFreeSurface, new Button("Free", AssetLoader.loadImage("/icons/shape-edit-remove-free.png")));
+        makeHole = new Button("Merge as hole", AssetLoader.loadImage("/icons/hole.png"));
 
-        removeSurface.forEach((key, value) -> {
-            line.add(value);
-        });
+        line.add(makeHole);
         rows.add(line);
     }
 
