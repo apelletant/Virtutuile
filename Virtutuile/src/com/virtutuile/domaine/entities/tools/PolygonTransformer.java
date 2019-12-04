@@ -5,55 +5,41 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
 import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
 import java.util.Iterator;
 import java.util.Vector;
 
 public class PolygonTransformer {
 
     static Path awtPathToJavafx(java.awt.geom.Path2D path) {
-        double[][] vertices = Vertices.getPath2DVertices(path);
-        PathElement[] elements = new PathElement[vertices.length + 1];
-        int i = 1;
-
-        // TODO: FIX HOLES MERGED
-//        double[] coords = new double[6];
-//        for (PathIterator pi = path.getPathIterator(null); pi.isDone(); pi.next()) {
-//            switch (pi.currentSegment(coords)) {
-//                case PathIterator.SEG_CUBICTO:
-//                    elements[i] = new CubicCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
-//                    break;
-//                case PathIterator.SEG_QUADTO:
-//                    elements[i] = new QuadCurveTo(coords[0], coords[1], coords[2], coords[3]);
-//                    break;
-//                case PathIterator.SEG_MOVETO:
-//                    elements[i] = new MoveTo(coords[0], coords[1]);
-//                    break;
-//                case PathIterator.SEG_LINETO:
-//                    elements[i] = new LineTo(coords[0], coords[1]);
-//                    break;
-//                case PathIterator.SEG_CLOSE:
-//                    elements[i] = new ClosePath();
-//                    break;
-//                default:
-//                    throw new IllegalArgumentException();
-//            }
-//            ++i;
-//        }
-
-        // Convert all vertices into PathElement
-        elements[0] = new MoveTo(vertices[0][0], vertices[0][1]);
-        for (; i < vertices.length; ++i) {
-            elements[i] = new LineTo(vertices[i][0], vertices[i][1]);
-        }
-        elements[i] = new ClosePath();
-
         // Making a path with all PathElement
         Path ret = new Path();
         ret.setStrokeWidth(0.001);
         ret.setStrokeType(StrokeType.INSIDE);
         ret.setFill(Color.RED);
-        ret.getElements().addAll(elements);
 
+        double[] coords = new double[6];
+        for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
+            switch (pi.currentSegment(coords)) {
+                case PathIterator.SEG_CUBICTO:
+                    ret.getElements().add(new CubicCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]));
+                    break;
+                case PathIterator.SEG_QUADTO:
+                    ret.getElements().add(new QuadCurveTo(coords[0], coords[1], coords[2], coords[3]));
+                    break;
+                case PathIterator.SEG_MOVETO:
+                    ret.getElements().add( new MoveTo(coords[0], coords[1]));
+                    break;
+                case PathIterator.SEG_LINETO:
+                    ret.getElements().add(new LineTo(coords[0], coords[1]));
+                    break;
+                case PathIterator.SEG_CLOSE:
+                    ret.getElements().add(new ClosePath());
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
         return ret;
     }
 
