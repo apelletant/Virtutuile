@@ -334,6 +334,12 @@ public abstract class PrimarySurface implements Serializable {
     }
 
     public boolean containsOrIntersect(PrimarySurface testSurface) {
+
+        if (polygon.contains(testSurface.getBounds())
+                || testSurface.getPolygon().contains(getBounds())) {
+            return true;
+        }
+
         Point2D[] vertices = getVertices();
         Point2D[] testVertices = testSurface.getVertices();
 

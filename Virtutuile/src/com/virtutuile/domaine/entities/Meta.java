@@ -749,9 +749,33 @@ public class Meta {
         this.hoveredTile = tile;
     }
 
-    public void makeSurfaceHole() {
-        if (selectedSurface != null) {
+    private Surface getSurfaceIntersected(Surface surface) {
+        Surface found = null;
+        Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
+        do {
+            Pair<UUID, Surface> pair = iterator.next();
+            if (surface.getId() != pair.getValue().getId()
+                    && surface.containsOrIntersect(pair.getValue())) {
+                found = pair.getValue();
+            }
+        } while (iterator.hasNext());
+        return found;
+    }
 
+    public void makeSurfaceHole() {
+        Surface mainSurface;
+        if (selectedSurface != null) {
+            /*selectedSurface.setHole(true);*/
+            mainSurface = getSurfaceIntersected(selectedSurface);
+            if (mainSurface != null
+                    && mainSurface.contains(selectedSurface)) {
+                mainSurface.addPath(selectedSurface.getVertices());
+                surfaces.put(mainSurface.getId(), mainSurface);
+            } else {
+
+            }
+            selectedSurface.setSelected(false);
+            selectedSurface = null;
         }
     }
 
