@@ -207,7 +207,7 @@ public class Painter {
 
             if (size != 0) {
                 graphics2D.setColor(new Color(255, 255, 255));
-                graphics2D.drawString(String.format("%.f", size), middleX, middleY);
+                graphics2D.drawString(String.format("%.2f", size), middleX, middleY);
             }
         }
     }
