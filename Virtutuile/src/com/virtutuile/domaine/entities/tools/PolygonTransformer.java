@@ -48,6 +48,8 @@ public class PolygonTransformer {
         Vector<Path2D.Double> ret = new Vector<>();
         Path2D.Double cur = new Path2D.Double();
 
+        if (path == null)
+            return null;
         double[] coords = new double[6];
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
@@ -136,6 +138,14 @@ public class PolygonTransformer {
             }
         }
         return ret.toArray(new Path2D.Double[0]);
+    }
+
+    static public Path2D.Double[] poopSubtract(Path2D polygon, Path2D cuttingPattern) {
+        Path poly = awtPathToJavafx(polygon);
+        Path cut = awtPathToJavafx(cuttingPattern);
+
+        Shape shape = Shape.intersect(poly, cut);
+        return javafxPathsToAwt((Path) shape);
     }
 
     static public Path2D.Double subtract(Path2D polygon, Path2D cuttingPattern) {

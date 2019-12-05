@@ -770,12 +770,10 @@ public class Meta {
             if (mainSurface != null
                     && mainSurface.contains(selectedSurface)) {
                 mainSurface.setPolygon(PolygonTransformer.hardSubtract(mainSurface.getPolygon(), selectedSurface.getPolygon()));
-//                mainSurface.addPath(selectedSurface.getVertices());
-            } else {
-                mainSurface.setPolygon(PolygonTransformer.subtract(mainSurface.getPolygon(), selectedSurface.getPolygon()));
+                selectedSurface.setSelected(false);
+                surfaces.remove(selectedSurface.getId());
+                selectedSurface = null;
             }
-            selectedSurface.setSelected(false);
-            selectedSurface = null;
         }
     }
 

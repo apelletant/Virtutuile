@@ -318,8 +318,8 @@ public abstract class PrimarySurface implements Serializable {
             return true;
         }
 
-        Point2D[][] fullVertices = PolygonTransformer.extractVertices(polygon);
-        Point2D[] testVertices = testSurface.getVertices();
+        Point2D[][] fullTestVertices = PolygonTransformer.extractVertices(polygon);
+        Point2D[][] fullVertices = PolygonTransformer.extractVertices(testSurface.polygon);
 
         for (Point2D[] vertices : fullVertices) {
             for (int i = 0; i < vertices.length; ++i) {
@@ -330,19 +330,21 @@ public abstract class PrimarySurface implements Serializable {
                 } else {
                     actualB = new Vecteur(vertices[0]);
                 }
-                for (int i1 = 0; i1 < testVertices.length; i1++) {
-                    Vecteur testA = new Vecteur(testVertices[i1]);
-                    Vecteur testB;
-                    if (i1 != testVertices.length - 1) {
-                        testB = new Vecteur(testVertices[i1 + 1]);
-                    } else {
-                        testB = new Vecteur(testVertices[0]);
-                    }
-                    Vecteur actual = new Vecteur(new CustomPoint(actualA.x, actualA.y), new CustomPoint(actualB.x, actualB.y));
-                    Vecteur test = new Vecteur(new CustomPoint(testA.x, testA.y), new CustomPoint(testB.x, testB.y));
-                    CustomPoint intersect = Intersection.intersectionPoint(actual, test);
-                    if (intersect != null) {
-                        return true;
+                for (Point2D[] testVertices : fullTestVertices) {
+                    for (int i1 = 0; i1 < testVertices.length; i1++) {
+                        Vecteur testA = new Vecteur(testVertices[i1]);
+                        Vecteur testB;
+                        if (i1 != testVertices.length - 1) {
+                            testB = new Vecteur(testVertices[i1 + 1]);
+                        } else {
+                            testB = new Vecteur(testVertices[0]);
+                        }
+                        Vecteur actual = new Vecteur(new CustomPoint(actualA.x, actualA.y), new CustomPoint(actualB.x, actualB.y));
+                        Vecteur test = new Vecteur(new CustomPoint(testA.x, testA.y), new CustomPoint(testB.x, testB.y));
+                        CustomPoint intersect = Intersection.intersectionPoint(actual, test);
+                        if (intersect != null) {
+                            return true;
+                        }
                     }
                 }
             }
