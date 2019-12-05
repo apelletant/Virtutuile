@@ -51,8 +51,8 @@ public class Vector2D {
     /**
      * @return Return the length (magnitude) of the vector
      */
-    public double magnitude() {
-        return x * y;
+    public double magnitude() { 
+        return Math.sqrt(magnitudeSquare());
     }
 
     /**

@@ -142,21 +142,23 @@ public class Painter {
     private void drawHoveredTile() {
         Tile tile = meta.getHoveredTile();
 
-        Color color = Constants.Gizmos.TileHoverDisplayBox.BORDER_COLOR;
-        graphics2D.setColor(color);
-        graphics2D.setStroke(new BasicStroke(10));
+        if (meta.getHoveredSurface().getPatternGroup() != null) {
+            Color color = Constants.Gizmos.TileHoverDisplayBox.BORDER_COLOR;
+            graphics2D.setColor(color);
+            graphics2D.setStroke(new BasicStroke(10));
 
-        if (tile != null) {
             graphics2D.drawRect(Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_X,
-                                Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_Y,
-                                Constants.Gizmos.TileHoverDisplayBox.WIDTH,
-                                Constants.Gizmos.TileHoverDisplayBox.HEIGHT);
+                    Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_Y,
+                    Constants.Gizmos.TileHoverDisplayBox.WIDTH,
+                    Constants.Gizmos.TileHoverDisplayBox.HEIGHT);
             graphics2D.setColor(Constants.Gizmos.TileHoverDisplayBox.BACKGROUND_COLOR);
             graphics2D.fillRect(Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_X,
-                                Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_Y,
-                                Constants.Gizmos.TileHoverDisplayBox.WIDTH,
-                                Constants.Gizmos.TileHoverDisplayBox.HEIGHT);
+                    Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_Y,
+                    Constants.Gizmos.TileHoverDisplayBox.WIDTH,
+                    Constants.Gizmos.TileHoverDisplayBox.HEIGHT);
+        }
 
+        if (tile != null) {
             Tile hoveredShadow = movePolygonToHoveredDisplayBox(new Tile(tile));
 
             Point2D[] tileVertices = hoveredShadow.getVertices();
@@ -168,17 +170,60 @@ public class Painter {
                 pointsY[i] = (int) hoveredShadow.getVertices()[i].getY();
             }
 
+            printShadowTileSize(pointsX, pointsY, tile);
 
             graphics2D.setColor(Constants.Gizmos.TileHoverDisplayBox.LINE_COLOR);
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.drawPolygon(pointsX, pointsY, pointsX.length);
+        }
+    }
 
+    private void printShadowTileSize(int[] pointsX, int[] pointsY, Tile tile) {
+        int posX = 0;
+        int posY = 0;
+        int newPosX = 0;
+        int newPosY = 0;
+
+        if (pointsX.length != pointsY.length) {
+            return;
+        }
+
+        for (int i = 0; i < pointsX.length; i++) {
+            posX = pointsX[i];
+            posY = pointsY[i];
+
+            if (i + 1 < pointsX.length) {
+                newPosX = pointsX[i + 1];
+                newPosY = pointsY[i + 1];
+            } else {
+                newPosX = pointsX[i + 0];
+                newPosY = pointsY[i + 0];
+            }
+
+<<<<<<< Updated upstream
             for (int i = 0; i < pointsX.length; i++) {
                 /*System.out.println("points X:");
                 System.out.println(pointsX[i]);
                 System.out.println("points Y:");
                 System.out.println(pointsY[i]);*/
+=======
+            int middleX = posX + ((newPosX - posX) / 2);
+            int middleY = posY + ((newPosY - posY) / 2);
+            Double size = 0d;
+
+            if (posX != newPosX && posY == newPosY) {
+                size = tile.getBounds().width;
+            } else if (posX == newPosX && posY != newPosY) {
+                size = tile.getBounds().height;
+            } else {
+                Vector2D vector = new Vector2D(posX, posY);
+                size = vector.magnitude();
+                System.out.println(vector.distance(new Vector2D(newPosX, newPosY)));
+>>>>>>> Stashed changes
             }
+
+            graphics2D.setColor(new Color(255, 255, 255));
+            graphics2D.drawString(String.format("%.2f cm", size), middleX, middleY);
         }
     }
 
@@ -199,6 +244,7 @@ public class Painter {
          ratio = ratioY;
          }
 
+<<<<<<< Updated upstream
 //        System.out.printf("width before = %f\n", width);
 //        System.out.printf("height before = %f\n", height);
 //
@@ -209,6 +255,8 @@ public class Painter {
 //        System.out.printf("width after = %f\n", width);
 //        System.out.printf("height after = %f\n", height);
 
+=======
+>>>>>>> Stashed changes
         transform.translate(-tile.getBounds().x, -tile.getBounds().y);
         tile.getPolygon().transform(transform);
 
@@ -218,8 +266,10 @@ public class Painter {
         tile.getPolygon().transform(transform);
 
         transform = new AffineTransform();
-        transform.translate(Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_X + 25, Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_Y + 25);
 
+        double newPosX = Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_X + (Constants.Gizmos.TileHoverDisplayBox.WIDTH - tile.getBounds().width) / 2;
+        double newPosY = Constants.Gizmos.TileHoverDisplayBox.ORIGIN_POS_Y + (Constants.Gizmos.TileHoverDisplayBox.HEIGHT - tile.getBounds().height) / 2;
+        transform.translate(newPosX, newPosY);
         tile.getPolygon().transform(transform);
 
         return tile;
