@@ -56,7 +56,7 @@ public class Vector2D {
     }
 
     /**
-     * @param add The value of add to the vector
+     * @param add The value to add to the vector
      * @return The added vector
      */
     public Vector2D add(@NotNull Vector2D add) {
@@ -66,7 +66,7 @@ public class Vector2D {
     }
 
     /**
-     * @param add The value of add to the vector
+     * @param add The value to add to the vector
      * @return The added vector
      */
     public Vector2D add(@NotNull Point add) {
@@ -76,7 +76,7 @@ public class Vector2D {
     }
 
     /**
-     * @param add The value of add to the vector
+     * @param add The value to add to the vector
      * @return The added vector
      */
     public Vector2D add(@NotNull Point2D add) {
@@ -86,7 +86,7 @@ public class Vector2D {
     }
 
     /**
-     * @param add The value of add to the vector
+     * @param add The value to add to the vector
      * @return The added vector
      */
     public Vector2D add(double add) {
@@ -96,7 +96,18 @@ public class Vector2D {
     }
 
     /**
-     * @param subtract The value of subtract to the vector
+     * @param x The value to add to vector.x
+     * @param y The value to add to vector.y
+     * @return The subtracted vector
+     */
+    public Vector2D add(double x, double y) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
+
+    /**
+     * @param subtract The value to subtract to the vector
      * @return The subtracted vector
      */
     public Vector2D subtract(@NotNull Vector2D subtract) {
@@ -106,7 +117,7 @@ public class Vector2D {
     }
 
     /**
-     * @param subtract The value of subtract to the vector
+     * @param subtract The value to subtract to the vector
      * @return The subtracted vector
      */
     public Vector2D subtract(@NotNull Point subtract) {
@@ -116,7 +127,7 @@ public class Vector2D {
     }
 
     /**
-     * @param subtract The value of subtract to the vector
+     * @param subtract The value to subtract to the vector
      * @return The subtracted vector
      */
     public Vector2D subtract(@NotNull Point2D subtract) {
@@ -126,7 +137,18 @@ public class Vector2D {
     }
 
     /**
-     * @param subtract The value of subtract to the vector
+     * @param x The value to subtract to vector.x
+     * @param y The value to subtract to vector.y
+     * @return The subtracted vector
+     */
+    public Vector2D subtract(double x, double y) {
+        this.x -= x;
+        this.y -= y;
+        return this;
+    }
+
+    /**
+     * @param subtract The value to subtract to the vector
      * @return The subtracted vector
      */
     public Vector2D subtract(double subtract) {
@@ -169,7 +191,7 @@ public class Vector2D {
      * @return Return the vector
      */
     public Vector2D setMagnitude(int magnitude) {
-        this.normalize().multiply(magnitude);
+        this.normalize().multiply(magnitude / magnitude());
         return this;
     }
 
@@ -205,7 +227,11 @@ public class Vector2D {
      * @return
      */
     public double distance(Vector2D second) {
-        Vector2D dist = new Vector2D(second).subtract(this);
+        return distance(second.x, second.y);
+    }
+
+    public Double distance(double x, double y) {
+        Vector2D dist = new Vector2D(this).subtract(x, y);
         return dist.magnitude();
     }
 
@@ -315,14 +341,14 @@ public class Vector2D {
         return this;
     }
 
-    public Vector2D tarnslateRad(double radians, double translate) {
+    public Vector2D translateRad(double radians, double translate) {
         x += translate * Math.cos(radians);
         y += translate * Math.sin(radians);
         return this;
     }
 
-    public Vector2D tarnslateDeg(double degrees, double translate) {
-        return tarnslateRad(degrees / 180.D * Math.PI, translate);
+    public Vector2D translateDeg(double degrees, double translate) {
+        return translateRad(degrees / 180.D * Math.PI, translate);
     }
 
 
@@ -354,6 +380,14 @@ public class Vector2D {
 
     public Point2D.Double toPoint2D() {
         return new Point2D.Double(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector2D{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }
 
