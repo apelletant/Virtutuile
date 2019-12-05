@@ -25,6 +25,7 @@ public class EditionPanel extends PanelEvents {
 
         subPanels = new UnorderedMap<PanelType, SubPanel>() {{
             put(PanelType.Surface, new SurfacePanel("Surface", mainWindow));
+            put(PanelType.AdvancedManagement, new ManagementPanel("Advanced Management", mainWindow));
             put(PanelType.Grout, new GroutPanel("Grout", mainWindow));
             put(PanelType.Tile, new TilePanel("Tile", mainWindow));
             put(PanelType.Pattern, new PatternPanel("Pattern", mainWindow));
@@ -103,6 +104,7 @@ public class EditionPanel extends PanelEvents {
 
     enum PanelType {
         Surface,
+        AdvancedManagement,
         Pattern,
         Grout,
         Tile

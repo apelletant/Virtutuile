@@ -263,4 +263,11 @@ public class Controller {
     public void makeSurfaceHole() {
         meta.makeSurfaceHole();
     }
+
+    public boolean setAlignAction(String name) {
+        return meta.setAlignAction(name);
+    }
+
+    public void setAlignDistance(double parseDouble) {
+    }
 }

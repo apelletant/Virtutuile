@@ -17,7 +17,6 @@ public class SurfacePanel extends SubPanel {
     private UnorderedMap<DrawShapeButtonType, Button> surfaceManagement = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> unitInputs = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> positionInputs = new UnorderedMap<>();
-    private Button makeHole = null;
 
     public SurfacePanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -31,6 +30,7 @@ public class SurfacePanel extends SubPanel {
         Button addRectangularSurface = addSurface.get(DrawShapeButtonType.AddRectangularSurface);
         Button addFreeSurface = addSurface.get(DrawShapeButtonType.AddFreeSurface);
         Button merge = surfaceManagement.get(DrawShapeButtonType.MergeSurfaces);
+        Button makeHole = surfaceManagement.get(DrawShapeButtonType.MakeHole);
 
         addRectangularSurface.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             if (addRectangularSurface.isActive()) {
@@ -105,10 +105,6 @@ public class SurfacePanel extends SubPanel {
 
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        setRemoveShapesButtons(line);
-
-        line = new Panel();
-        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setUnitInputsOnPanel(line);
 
         line = new Panel();
@@ -121,7 +117,9 @@ public class SurfacePanel extends SubPanel {
     }
 
     private void setManagementButtonOnPanel(JPanel line) {
+        surfaceManagement.put(DrawShapeButtonType.MakeHole, new Button("Hole", AssetLoader.loadImage("/icons/hole.png")));
         surfaceManagement.put(DrawShapeButtonType.MergeSurfaces, new Button("Merge", AssetLoader.loadImage("/icons/position-merge-shapes.png")));
+
 
         surfaceManagement.forEach((key, value) -> {
             line.add(value);
@@ -138,13 +136,6 @@ public class SurfacePanel extends SubPanel {
             line.add(value);
         });
 
-        rows.add(line);
-    }
-
-    private void setRemoveShapesButtons(JPanel line) {
-        makeHole = new Button("Merge as hole", AssetLoader.loadImage("/icons/hole.png"));
-
-        line.add(makeHole);
         rows.add(line);
     }
 
@@ -202,6 +193,7 @@ public class SurfacePanel extends SubPanel {
         RemoveRectangularSurface,
         RemoveFreeSurface,
         MergeSurfaces,
+        MakeHole
     }
 
     public enum InputContextType {

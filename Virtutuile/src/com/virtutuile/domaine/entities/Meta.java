@@ -19,9 +19,11 @@ public class Meta {
     private UnorderedMap<String, Tile> typeOfTiles;
 
     private EditionAction doing;
+    private Direction alignDirection;
 
     private Surface selectedSurface;
     private Surface hoveredSurface;
+    private Surface lastAlignedSurface;
     private Tile hoveredTile;
     private boolean isSelectedSurfaceCanBeResized;
     private boolean shouldDisplayCuttedTiles = false;
@@ -40,9 +42,11 @@ public class Meta {
     public Meta() {
         selectedSurface = null;
         hoveredSurface = null;
+        lastAlignedSurface = null;
         hoveredTile = null;
         surfaces = new UnorderedMap<>();
         doing = EditionAction.Idle;
+        alignDirection = Direction.Undefined;
         clicked = null;
         hover = null;
         mousePressed = false;
@@ -180,7 +184,7 @@ public class Meta {
                     ret.lineTo(pt.x, pt.y);
                     break;
                 case PathIterator.SEG_QUADTO:
-                     pt2 = point2DToPoint(new Point2D.Double(coords[2], coords[3]));
+                    pt2 = point2DToPoint(new Point2D.Double(coords[2], coords[3]));
                     ret.quadTo(pt.x, pt.y, pt2.x, pt2.y);
                     break;
                 case PathIterator.SEG_CUBICTO:
@@ -491,17 +495,17 @@ public class Meta {
             do {
                 Pair<UUID, Surface> pair = iterator.next();
                 if (selectedSurface.getId() != pair.getKey()) {
-                        if (selectedSurface.containsOrIntersect(pair.getValue())) {
-                            Path2D.Double[] polygons = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
-                            if (polygons.length > 1) {
-                                mergedSurface = transformToOneSurface(polygons);
-                            } else {
-                                mergedSurface = new Surface(polygons[0], false);
-                            }
-                            surfaces.put(mergedSurface.getId(), mergedSurface);
-                            merged = true;
-                            secondSurface = pair.getValue();
+                    if (selectedSurface.containsOrIntersect(pair.getValue())) {
+                        Path2D.Double[] polygons = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
+                        if (polygons.length > 1) {
+                            mergedSurface = transformToOneSurface(polygons);
+                        } else {
+                            mergedSurface = new Surface(polygons[0], false);
                         }
+                        surfaces.put(mergedSurface.getId(), mergedSurface);
+                        merged = true;
+                        secondSurface = pair.getValue();
+                    }
                     if (merged) {
                         if (oldSelectedSurface.getPatternGroup() != null) {
                             mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
@@ -777,10 +781,58 @@ public class Meta {
         }
     }
 
-public enum EditionAction {
-    Idle,
-    CreatingRectangularSurface,
-    CreatingFreeSurface,
-}
+    public boolean setAlignAction(String name) {
+        if (name != null) {
+            switch (name) {
+                case "Align Top":
+                    alignDirection = Direction.Top;
+                    setDoing(EditionAction.Align, true);
+                    return true;
+                case "Align Bottom":
+                    alignDirection = Direction.Bottom;
+                    setDoing(EditionAction.Align, true);
+                    return true;
+                case "Align Left":
+                    alignDirection = Direction.Left;
+                    setDoing(EditionAction.Align, true);
+                    return true;
+                case "Align Right":
+                    alignDirection = Direction.Right;
+                    setDoing(EditionAction.Align, true);
+                    return true;
+                default:
+                    alignDirection = Direction.Undefined;
+                    return false;
+
+            }
+        } else {
+            doing = EditionAction.Idle;
+            alignDirection = Direction.Undefined;
+        }
+        return false;
+    }
+
+    public Direction getAlignDirection() {
+        return alignDirection;
+    }
+
+    public void setAlignDirection(Direction alignDirection) {
+        this.alignDirection = alignDirection;
+    }
+
+    public enum EditionAction {
+        Idle,
+        CreatingRectangularSurface,
+        CreatingFreeSurface,
+        Align,
+    }
+
+    public enum Direction {
+        Top,
+        Bottom,
+        Left,
+        Right,
+        Undefined,
+    }
 
 }

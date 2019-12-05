@@ -201,7 +201,10 @@ public class SurfaceEditor {
             if (builder == null)
                 builder = FreeSurface.getBuilder();
             builder.placePoint(point);
-        } else {
+        } else if (meta.getDoing() == Meta.EditionAction.Align) {
+            Surface surfaceReferenceAlign = getSurfaceAt(point);
+            alignSurfaces(surfaceReferenceAlign, meta.getSelectedSurface());
+        }else {
             /*if (meta.getSelectedSurface() != null) {
                 if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)) {
                     meta.setSelectedSurfaceCanBeResized(true);
@@ -214,6 +217,62 @@ public class SurfaceEditor {
                 }
             }*/
             selectShape(point);
+        }
+    }
+
+    private void alignSurfaces(Surface surfaceReferenceAlign, Surface selectedSurface) {
+        Double[] origins = determineOrigin(surfaceReferenceAlign, selectedSurface);
+        Double originRef;
+        Double originSurface;
+        originRef = origins[0];
+        originSurface = origins[1];
+        if (originRef != null
+                && originSurface != null) {
+            switch (meta.getAlignDirection()) {
+                case Left:
+                    selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
+                            new Point2D.Double(originRef, selectedSurface.getBounds().y));
+                    break;
+                case Right:
+                    selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
+                            new Point2D.Double(originRef + surfaceReferenceAlign.getBounds().getWidth(), selectedSurface.getBounds().y));
+                    break;
+                case Top:
+                    selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
+                            new Point2D.Double(selectedSurface.getBounds().x, originRef));
+                    break;
+                case Bottom:
+                    selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
+                            new Point2D.Double(selectedSurface.getBounds().x, originRef + surfaceReferenceAlign.getBounds().getHeight()));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    private Double[] determineOrigin(Surface surfaceReferenceAlign, Surface surface) {
+        Double origins[] = new Double[2];
+        if (meta.getAlignDirection() != Meta.Direction.Undefined
+                && isOriginX()) {
+            origins[0] = surfaceReferenceAlign.getBounds().getX();
+            origins[1] = surface.getBounds().getX();
+            return origins;
+        } else {
+            origins[0] = surfaceReferenceAlign.getBounds().getY();
+            origins[1] = surface.getBounds().getY();
+            return origins;
+        }
+    }
+
+    private boolean isOriginX() {
+        switch (meta.getAlignDirection()) {
+            case Left:
+            case Right:
+                return true;
+            default:
+                return false;
         }
     }
 
