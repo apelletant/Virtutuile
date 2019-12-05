@@ -2,12 +2,14 @@ package com.virtutuile.domaine.entities.surfaces;
 
 import com.virtutuile.domaine.entities.Grout;
 import com.virtutuile.domaine.entities.PatternGroup;
+import com.virtutuile.shared.UnorderedMap;
 import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
+import java.util.UUID;
 import java.util.Vector;
 
 public class Surface extends PrimarySurface {
@@ -17,6 +19,7 @@ public class Surface extends PrimarySurface {
     protected Vector<Surface> subSurfaces;
     protected Tile typeOfTile;
     protected Grout grout;
+    protected UnorderedMap<UUID, Surface> sticked;
 
     public Surface(Point[] points) {
         super(points);
@@ -24,6 +27,7 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
+        sticked = new UnorderedMap<>();
     }
 
     public Surface(Path2D.Double polygon, boolean isHole) {
@@ -32,6 +36,7 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
+        sticked = new UnorderedMap<>();
     }
 
 
@@ -48,6 +53,7 @@ public class Surface extends PrimarySurface {
         subSurfaces = new Vector<>();
         //je s'appelle
         grout = surface.grout.copy();
+        sticked = surface.sticked;
     }
 
     protected Surface(boolean isHole) {
@@ -58,6 +64,7 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
+        sticked = new UnorderedMap<>();
     }
 
     public Surface() {
@@ -68,6 +75,7 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
+        sticked = new UnorderedMap<>();
     }
 
     public Surface(Point[] points, boolean isHole) {
@@ -78,6 +86,7 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
+        sticked = new UnorderedMap<>();
     }
 
     public double circleIntersect(Circle circle) {

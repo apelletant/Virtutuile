@@ -279,4 +279,8 @@ public class Controller {
     public void setSurfaceColor(Color color) {
         surfaceEditor.setSurfaceColor(color);
     }
+
+    public boolean setStickAction(String name) {
+        return meta.setStickAction(name);
+    }
 }

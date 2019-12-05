@@ -13,7 +13,9 @@ import javax.swing.*;
 public class ManagementPanel extends SubPanel {
 
     private UnorderedMap<String, Button> align = new UnorderedMap<>();
+    private UnorderedMap<String, Button> stick = new UnorderedMap<>();
     private UnitInput alignInput = null;
+    private Button unStick;
 
     public ManagementPanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -26,6 +28,29 @@ public class ManagementPanel extends SubPanel {
     protected void setButtonsOnPanel() {
         setAlignButtons();
         setAlignInput();
+        setStickButtons();
+    }
+
+    private void setStickButtons() {
+        JPanel line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.setOpaque(false);
+        stick.put("Horizontal Stick", new Button("Horizontal Stick", AssetLoader.loadImage("/icons/stick-h.png")));
+        stick.put("Vertical Stick", new Button("Vertical Stick", AssetLoader.loadImage("/icons/stick-v.png")));
+
+        JPanel finalLine = line;
+        stick.forEach((name, value) -> {
+            finalLine.add(value);
+        });
+        rows.add(line);
+
+        line = new JPanel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        line.setOpaque(false);
+        unStick = new Button("Unstick", AssetLoader.loadImage("/icons/unstick.png"));
+
+        line.add(unStick);
+        rows.add(line);
     }
 
     private void setAlignInput() {
@@ -65,10 +90,11 @@ public class ManagementPanel extends SubPanel {
                     mainWindow.getController().setAlignAction(null);
                 } else {
                     if (mainWindow.getController().setAlignAction(name)) {
-                        setAllButtonsInactive();
+                        setAllButtonsAlignInactive();
                         button.setActive(true);
                     }
                 }
+                repaint();
             });
         });
 
@@ -76,9 +102,31 @@ public class ManagementPanel extends SubPanel {
             mainWindow.getController().setAlignDistance(Double.parseDouble(value));
             mainWindow.getCanvas().repaint();
         });
+
+        stick.forEach((name, button) -> {
+            button.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+                if (button.isActive()) {
+                    button.setActive(false);
+                    mainWindow.getController().setStickAction(null);
+                } else {
+                    if (mainWindow.getController().setStickAction(name)) {
+                        setAllButtonsAlignInactive();
+                        setAllButtonsStickInactive();
+                        button.setActive(true);
+                    }
+                }
+                repaint();
+            });
+        });
     }
 
-    public void setAllButtonsInactive() {
+    private void setAllButtonsStickInactive() {
+        stick.forEach((name, button) -> {
+            button.setActive(false);
+        });
+    }
+
+    public void setAllButtonsAlignInactive() {
         align.forEach((name, button) -> {
             button.setActive(false);
         });

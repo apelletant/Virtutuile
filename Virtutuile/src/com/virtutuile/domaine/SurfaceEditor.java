@@ -194,19 +194,27 @@ public class SurfaceEditor {
 
     public void mouseLClick(Point2D point) {
         meta.setMousePressed(true);
-        if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
-            if (builder == null)
-                builder = RectangularSurface.getBuilder();
-            builder.placePoint(point);
-        } else if (meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
-            if (builder == null)
-                builder = FreeSurface.getBuilder();
-            builder.placePoint(point);
-        } else if (meta.getDoing() == Meta.EditionAction.Align) {
-            Surface surfaceReferenceAlign = getSurfaceAt(point);
-            alignSurfaces(surfaceReferenceAlign, meta.getSelectedSurface());
-        } else {
-            /*if (meta.getSelectedSurface() != null) {
+        switch (meta.getDoing()) {
+            case CreatingRectangularSurface:
+                if (builder == null)
+                    builder = RectangularSurface.getBuilder();
+                builder.placePoint(point);
+                break;
+            case CreatingFreeSurface:
+                if (builder == null)
+                    builder = FreeSurface.getBuilder();
+                builder.placePoint(point);
+                break;
+            case Align:
+                Surface surfaceReferenceAlign = getSurfaceAt(point);
+                alignSurfaces(surfaceReferenceAlign, meta.getSelectedSurface());
+                break;
+            case Stick:
+                Surface surfaceReferenceStick = getSurfaceAt(point);
+                stickSurfaces(surfaceReferenceStick, meta.getSelectedSurface());
+                break;
+            default:
+                /*if (meta.getSelectedSurface() != null) {
                 if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)) {
                     meta.setSelectedSurfaceCanBeResized(true);
                     System.out.println("eho coucou je suis dans tes bounds");
@@ -217,8 +225,12 @@ public class SurfaceEditor {
                     System.out.println(meta.getSelectedSurface().getBounds());
                 }
             }*/
-            selectShape(point);
+                selectShape(point);
+                break;
         }
+    }
+
+    private void stickSurfaces(Surface surfaceReferenceStick, Surface selectedSurface) {
     }
 
     private void alignSurfaces(Surface surfaceReferenceAlign, Surface selectedSurface) {

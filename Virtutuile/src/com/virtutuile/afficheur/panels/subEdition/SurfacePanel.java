@@ -62,7 +62,7 @@ public class SurfacePanel extends SubPanel {
             mainWindow.getController().mergeSurfaces();
             mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
             mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
-            mainWindow.getEditionPanel().getManagementPanel().setAllButtonsInactive();
+            mainWindow.getEditionPanel().getManagementPanel().setAllButtonsAlignInactive();
             mainWindow.repaint();
         });
 
@@ -98,7 +98,7 @@ public class SurfacePanel extends SubPanel {
             mainWindow.getController().makeSurfaceHole();
             mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
             mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
-            mainWindow.getEditionPanel().getManagementPanel().setAllButtonsInactive();
+            mainWindow.getEditionPanel().getManagementPanel().setAllButtonsAlignInactive();
             mainWindow.repaint();
         });
 

@@ -20,6 +20,7 @@ public class Meta {
 
     private EditionAction doing;
     private Direction alignDirection;
+    private Orientation stickOrientation;
 
     private Surface selectedSurface;
     private Surface hoveredSurface;
@@ -47,6 +48,7 @@ public class Meta {
         surfaces = new UnorderedMap<>();
         doing = EditionAction.Idle;
         alignDirection = Direction.Undefined;
+        stickOrientation = Orientation.Undefined;
         clicked = null;
         hover = null;
         mousePressed = false;
@@ -831,11 +833,43 @@ public class Meta {
         this.lastAlignedSurface = lastAlignedSurface;
     }
 
+    public boolean setStickAction(String name) {
+        if (name != null) {
+            switch (name) {
+                case "Horizontal Stick":
+                    stickOrientation = Orientation.Horizontal;
+                    setDoing(EditionAction.Stick, true);
+                    return true;
+                case "Vertical Stick":
+                    stickOrientation = Orientation.Vertical;
+                    setDoing(EditionAction.Stick, true);
+                    return true;
+                default:
+                    stickOrientation = Orientation.Undefined;
+                    return false;
+
+            }
+        } else {
+            doing = EditionAction.Idle;
+            alignDirection = Direction.Undefined;
+        }
+        return false;
+    }
+
+    public Orientation getStickOrientation() {
+        return stickOrientation;
+    }
+
+    public void setStickOrientation(Orientation stickOrientation) {
+        this.stickOrientation = stickOrientation;
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,
         CreatingFreeSurface,
         Align,
+        Stick
     }
 
     public enum Direction {
@@ -844,6 +878,12 @@ public class Meta {
         Left,
         Right,
         Undefined,
+    }
+
+    public enum Orientation {
+        Horizontal,
+        Vertical,
+        Undefined
     }
 
 }
