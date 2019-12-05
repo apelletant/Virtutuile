@@ -200,13 +200,6 @@ public class Painter {
                 newPosY = pointsY[i + 0];
             }
 
-<<<<<<< Updated upstream
-            for (int i = 0; i < pointsX.length; i++) {
-                /*System.out.println("points X:");
-                System.out.println(pointsX[i]);
-                System.out.println("points Y:");
-                System.out.println(pointsY[i]);*/
-=======
             int middleX = posX + ((newPosX - posX) / 2);
             int middleY = posY + ((newPosY - posY) / 2);
             Double size = 0d;
@@ -219,7 +212,6 @@ public class Painter {
                 Vector2D vector = new Vector2D(posX, posY);
                 size = vector.magnitude();
                 System.out.println(vector.distance(new Vector2D(newPosX, newPosY)));
->>>>>>> Stashed changes
             }
 
             graphics2D.setColor(new Color(255, 255, 255));
@@ -244,19 +236,6 @@ public class Painter {
          ratio = ratioY;
          }
 
-<<<<<<< Updated upstream
-//        System.out.printf("width before = %f\n", width);
-//        System.out.printf("height before = %f\n", height);
-//
-//        width = width * ratio;
-//        height = height * ratio;
-
-        /*System.out.println(ratio);*/
-//        System.out.printf("width after = %f\n", width);
-//        System.out.printf("height after = %f\n", height);
-
-=======
->>>>>>> Stashed changes
         transform.translate(-tile.getBounds().x, -tile.getBounds().y);
         tile.getPolygon().transform(transform);
 
