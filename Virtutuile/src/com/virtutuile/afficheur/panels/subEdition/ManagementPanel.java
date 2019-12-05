@@ -4,13 +4,11 @@ import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
-import com.virtutuile.afficheur.swing.events.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
-import java.awt.geom.Point2D;
 
 public class ManagementPanel extends SubPanel {
 
@@ -33,7 +31,7 @@ public class ManagementPanel extends SubPanel {
     private void setAlignInput() {
         JPanel line = new JPanel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
-        alignInput = new UnitInput("Align Distance", true, "double");
+        alignInput = new UnitInput("Align Distance", true, "doubleZeroAllowed");
         line.add(alignInput);
         rows.add(line);
     }
@@ -86,7 +84,8 @@ public class ManagementPanel extends SubPanel {
         });
     }
 
-    public void retrieveDistance(Double distance) {
+    public void retrieveDistance() {
+        Double distance = mainWindow.getController().getAlignmentDistance();
         if (distance != null) {
             alignInput.setValue(distance);
         }

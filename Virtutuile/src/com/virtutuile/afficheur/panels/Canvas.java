@@ -37,6 +37,7 @@ public class Canvas extends PanelEvents {
             mainWindow.getEditionPanel().surfaceGetGroutThickness();
             mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
             mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
+            mainWindow.getEditionPanel().getManagementPanel().retrieveDistance();
             repaint();
         });
 
@@ -48,6 +49,7 @@ public class Canvas extends PanelEvents {
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
             mainWindow.getController().mouseDrag(mouseEvent.getPoint());
             mainWindow.getEditionPanel().surfaceGetSurfaceProperties();
+
             repaint();
         });
 

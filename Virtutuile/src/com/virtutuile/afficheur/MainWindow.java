@@ -4,6 +4,7 @@ import com.virtutuile.afficheur.panels.BottomToolbar;
 import com.virtutuile.afficheur.panels.Canvas;
 import com.virtutuile.afficheur.panels.EditionPanel;
 import com.virtutuile.afficheur.panels.Toolbar;
+import com.virtutuile.afficheur.panels.subEdition.ManagementPanel;
 import com.virtutuile.domaine.Controller;
 
 import javax.swing.*;
@@ -67,4 +68,5 @@ public class MainWindow extends JFrame {
     public BottomToolbar getBottomToolbar() {
         return bottomToolbar;
     }
+
 }

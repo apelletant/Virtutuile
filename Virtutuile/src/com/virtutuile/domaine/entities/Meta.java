@@ -485,6 +485,8 @@ public class Meta {
     }
 
     public void mergeSurfaces() {
+        doing = EditionAction.Idle;
+
         boolean merged = false;
         Surface oldSelectedSurface = selectedSurface;
         Surface secondSurface = null;
@@ -768,6 +770,7 @@ public class Meta {
 
     public void makeSurfaceHole() {
         Surface mainSurface;
+        doing = EditionAction.Idle;
         if (selectedSurface != null) {
             /*selectedSurface.setHole(true);*/
             mainSurface = getSurfaceIntersected(selectedSurface);
@@ -818,6 +821,14 @@ public class Meta {
 
     public void setAlignDirection(Direction alignDirection) {
         this.alignDirection = alignDirection;
+    }
+
+    public Surface getLastAlignedSurface() {
+        return lastAlignedSurface;
+    }
+
+    public void setLastAlignedSurface(Surface lastAlignedSurface) {
+        this.lastAlignedSurface = lastAlignedSurface;
     }
 
     public enum EditionAction {

@@ -204,7 +204,7 @@ public class SurfaceEditor {
         } else if (meta.getDoing() == Meta.EditionAction.Align) {
             Surface surfaceReferenceAlign = getSurfaceAt(point);
             alignSurfaces(surfaceReferenceAlign, meta.getSelectedSurface());
-        }else {
+        } else {
             /*if (meta.getSelectedSurface() != null) {
                 if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)) {
                     meta.setSelectedSurfaceCanBeResized(true);
@@ -228,6 +228,7 @@ public class SurfaceEditor {
         originSurface = origins[1];
         if (originRef != null
                 && originSurface != null) {
+            meta.setLastAlignedSurface(surfaceReferenceAlign);
             switch (meta.getAlignDirection()) {
                 case Left:
                     selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
@@ -252,15 +253,18 @@ public class SurfaceEditor {
 
     }
 
+    //TODO: check null commenté (si décommente, align fonctionne plus)
     private Double[] determineOrigin(Surface surfaceReferenceAlign, Surface surface) {
         Double origins[] = new Double[2];
         if (meta.getAlignDirection() != Meta.Direction.Undefined
                 && isOriginX()) {
-            origins[0] = surfaceReferenceAlign.getBounds().getX();
+            /*if (origins[0] != null)*/
+                origins[0] = surfaceReferenceAlign.getBounds().getX();
             origins[1] = surface.getBounds().getX();
             return origins;
         } else {
-            origins[0] = surfaceReferenceAlign.getBounds().getY();
+            /*if (origins[0] != null)*/
+                origins[0] = surfaceReferenceAlign.getBounds().getY();
             origins[1] = surface.getBounds().getY();
             return origins;
         }
@@ -289,6 +293,8 @@ public class SurfaceEditor {
     public void mouseDrag(Point2D point) {
         if (meta.getDoing() == Meta.EditionAction.CreatingRectangularSurface) {
             builder.movePoint(point);
+        } else if (meta.getDoing() == Meta.EditionAction.Align) {
+            //TODO: Do nothing mais bon faut refacto mdr
         } else {
             if (meta.getSelectedSurface() != null) {
                 meta.getSelectedSurface().move(meta.getHover(), point);
@@ -347,5 +353,83 @@ public class SurfaceEditor {
         if (surface != null) {
             surface.applyPattern(patternName, tile);
         }
+    }
+
+    public void setAlignDistance(double distance) {
+        Surface surface = meta.getSelectedSurface();
+        Surface reference = meta.getLastAlignedSurface();
+        Double originRef;
+        if (surface != null
+                && reference != null) {
+            switch (meta.getAlignDirection()) {
+                case Left:
+                    originRef = reference.getBounds().getX();
+                    if (originRef > surface.getBounds().x) {
+                        distance *= -1;
+                    }
+                    surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
+                            new Point2D.Double(originRef + distance, surface.getBounds().y));
+                    break;
+                case Right:
+                    originRef = reference.getBounds().getX();
+                    if (originRef > surface.getBounds().x) {
+                        distance *= -1;
+                    }
+                    originRef = reference.getBounds().getX();
+                    surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
+                            new Point2D.Double(originRef + reference.getBounds().getWidth() + distance, surface.getBounds().y));
+                    break;
+                case Top:
+                    originRef = reference.getBounds().getY();
+                    if (originRef > surface.getBounds().y) {
+                        distance *= -1;
+                    }
+                    surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
+                            new Point2D.Double(surface.getBounds().x, originRef + distance));
+                    break;
+                case Bottom:
+                    originRef = reference.getBounds().getY();
+                    if (originRef > surface.getBounds().y) {
+                        distance *= -1;
+                    }
+                    surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
+                            new Point2D.Double(surface.getBounds().x, originRef + reference.getBounds().getHeight() + distance));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public Double getAlignmentDistance() {
+        Surface surface = meta.getSelectedSurface();
+        Surface reference = meta.getLastAlignedSurface();
+        Double originRef;
+        Double distance = 0.0;
+
+        return 0.0;
+        /* TODO: améliorer / supprimer le code --> voir avec Martin */
+        /*if ((meta.getDoing() == Meta.EditionAction.Align
+                || meta.getAlignDirection() != Meta.Direction.Undefined)
+                && (surface != null && reference != null)) {
+            switch (meta.getAlignDirection()) {
+                case Left:
+                case Right:
+                    originRef = reference.getBounds().getX();
+                    distance = originRef - surface.getBounds().getX();
+                    break;
+                case Top:
+                case Bottom:
+                    originRef = reference.getBounds().getY();
+                    distance = originRef - surface.getBounds().getY();
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (distance < 0) {
+            distance *= 1;
+        }
+        return distance;*/
     }
 }

@@ -54,6 +54,9 @@ public class TextInput extends Panel implements DocumentListener {
                 case "double":
                     setValidator(UnitInput::isDouble);
                     break;
+                case "doubleZeroAllowed":
+                    setValidator(UnitInput::isDoubleZeroAllowed);
+                    break;
                 case "doubleInf":
                     setValidator(UnitInput::isDoubleInf);
                     break;
@@ -193,6 +196,19 @@ public class TextInput extends Panel implements DocumentListener {
             Double value = Double.parseDouble(test);
             if (value.isNaN() || value.isInfinite() || value <= 0 ) {
                 throw new ValidationsException("NaN, infinite or smaller than / equal to 0 is not accepted");
+            }
+            next.accept(test, input);
+        } catch (NumberFormatException except) {
+            throw new ValidationsException("Bad number format");
+        }
+        return true;
+    }
+
+    public static final boolean isDoubleZeroAllowed(String test, TextInput input, BiConsumer<String, TextInput> next) throws ValidationsException {
+        try {
+            Double value = Double.parseDouble(test);
+            if (value.isNaN() || value.isInfinite()) {
+                throw new ValidationsException("NaN, infinite or smaller than to 0 is not accepted");
             }
             next.accept(test, input);
         } catch (NumberFormatException except) {

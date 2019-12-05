@@ -102,6 +102,10 @@ public class EditionPanel extends PanelEvents {
         return (TilePanel) subPanels.get(PanelType.Tile);
     }
 
+    public ManagementPanel getManagementPanel() {
+        return (ManagementPanel) subPanels.get(PanelType.AdvancedManagement);
+    }
+
     enum PanelType {
         Surface,
         AdvancedManagement,

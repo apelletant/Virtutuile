@@ -268,6 +268,11 @@ public class Controller {
         return meta.setAlignAction(name);
     }
 
-    public void setAlignDistance(double parseDouble) {
+    public void setAlignDistance(double distance) {
+        surfaceEditor.setAlignDistance(distance);
+    }
+
+    public Double getAlignmentDistance() {
+        return surfaceEditor.getAlignmentDistance();
     }
 }
