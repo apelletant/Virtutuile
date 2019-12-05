@@ -36,6 +36,9 @@ public class Constants {
             public static final Color BORDER_COLOR = new Color(50,50,50);
         }
 
+        public static class SaveManagerConstant {
+            public static final String EXTENTION = ".vtt";
+        }
         private Gizmos() {
             throw new AssertionError();
         }

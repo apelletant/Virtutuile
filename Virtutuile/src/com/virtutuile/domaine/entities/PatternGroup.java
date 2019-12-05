@@ -9,16 +9,16 @@ import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.NotNull;
 import com.virtutuile.shared.Vector2D;
-import org.w3c.dom.css.Rect;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class PatternGroup {
+public class PatternGroup implements Serializable {
 
     private Pattern pattern = null;
     private Vector<Tile> tiles = new Vector<>();

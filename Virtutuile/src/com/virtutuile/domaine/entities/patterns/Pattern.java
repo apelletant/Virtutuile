@@ -4,7 +4,7 @@ import com.virtutuile.domaine.entities.surfaces.Tile;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Iterator;
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
@@ -50,7 +50,7 @@ import java.util.Vector;
  *   Tile1 should apply a grout around it then it's grout rule will be (1;1)
  *   But both Tile2 and Tile3 has no needs to apply a grout because the next cursor position will take it in consideration.
  */
-public abstract class Pattern {
+public abstract class Pattern implements Serializable {
     protected double offsetX;
     protected double offsetY;
     protected double[] adjustXRules;

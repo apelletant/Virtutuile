@@ -1,11 +1,12 @@
 package com.virtutuile.shared;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class UnorderedMap<K, V> implements Map<K, V> {
+public class UnorderedMap<K, V> implements Map<K, V>, Serializable {
     private List<Pair<K, V>> list = new ArrayList<>();
 
     public Vector toVector() {

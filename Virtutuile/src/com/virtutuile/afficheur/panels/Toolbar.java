@@ -5,10 +5,11 @@ import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.BorderedPanel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
-import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 
 public class Toolbar extends BorderedPanel {
@@ -34,6 +35,8 @@ public class Toolbar extends BorderedPanel {
         Button edition = buttons.get(TargetButton.SurfaceManagement);
         Button tileSettings = buttons.get(TargetButton.TileSettings);
         Button infos = buttons.get(TargetButton.CanvasInfos);
+        Button loadCanvas = buttons.get(TargetButton.LoadCanvas);
+        Button saveCanvas = buttons.get(TargetButton.SaveCanvas);
 
         edition.setActive(true);
         edition.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
@@ -84,6 +87,33 @@ public class Toolbar extends BorderedPanel {
             mainWindow.repaint();
         }));
 
+        loadCanvas.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            fc.setDialogTitle("Select canvas file to load");
+            fc.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Virtutuile file extentions \"vtt\"", "vtt");
+            fc.addChoosableFileFilter(filter);
+
+            int returnValue = fc.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                mainWindow.getController().loadCanvas(fc.getSelectedFile().getPath());
+            }
+        }));
+
+        saveCanvas.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            fc.setDialogTitle("Select canvas file to load");
+            fc.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Virtutuile file extentions \"vtt\"", "vtt");
+            fc.addChoosableFileFilter(filter);
+
+            int returnValue = fc.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                mainWindow.getController().saveCanvas(fc.getSelectedFile().getPath());
+            }
+        }));
     }
 
     /**

@@ -10,10 +10,11 @@ import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.UUID;
 
-public class Meta {
+public class Meta implements Serializable {
 
     private UnorderedMap<UUID, Surface> surfaces;
     private UnorderedMap<String, Tile> typeOfTiles;
@@ -862,6 +863,19 @@ public class Meta {
 
     public void setStickOrientation(Orientation stickOrientation) {
         this.stickOrientation = stickOrientation;
+    }
+
+    public void setMeta(Meta metaCpy) {
+        selectedSurface = metaCpy.selectedSurface;
+        hoveredSurface = metaCpy.hoveredSurface;
+        hoveredTile = metaCpy.hoveredTile;
+        surfaces = metaCpy.surfaces;
+        doing = metaCpy.doing;
+        clicked = metaCpy.clicked;
+        hover = metaCpy.hover;
+        mousePressed = metaCpy.mousePressed;
+        isGridActivated = metaCpy.isGridActivated;
+        typeOfTiles = metaCpy.typeOfTiles;
     }
 
     public enum EditionAction {

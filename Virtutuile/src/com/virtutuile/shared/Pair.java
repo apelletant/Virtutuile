@@ -1,8 +1,9 @@
 package com.virtutuile.shared;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Pair<K, V> implements Map.Entry<K, V> {
+public class Pair<K, V> implements Map.Entry<K, V>, Serializable {
     private K key = null;
     private V value = null;
 

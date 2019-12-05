@@ -13,11 +13,13 @@ public class Controller {
     private Meta meta;
     private Painter painter;
     private SurfaceEditor surfaceEditor;
+    private SaveManager saveManager;
 
     public Controller() {
         meta = new Meta();
         painter = new Painter(meta);
         surfaceEditor = new SurfaceEditor(meta);
+        saveManager = new SaveManager(meta);
     }
 
     public void paint(Graphics graphics) {
@@ -283,4 +285,12 @@ public class Controller {
     public boolean setStickAction(String name) {
         return meta.setStickAction(name);
     }
+    
+    public void saveCanvas(String path) {
+        saveManager.saveCanvas(path);
+    }
+
+    public void loadCanvas(String path) {
+        meta.setMeta(saveManager.loadCanvas(path));
+    }   
 }

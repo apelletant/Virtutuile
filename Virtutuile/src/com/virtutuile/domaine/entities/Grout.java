@@ -3,8 +3,9 @@ package com.virtutuile.domaine.entities;
 import com.virtutuile.afficheur.Constants;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Grout {
+public class Grout implements Serializable {
 
     private Color color;
     private double thickness;
