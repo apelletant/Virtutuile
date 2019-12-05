@@ -718,7 +718,7 @@ public class Meta {
                 if (pair.getValue().getTypeOfTile() != null && pair.getValue().getTypeOfTile().getName().equals(tileName)) {
                     pair.getValue().setPatternGroup(null);
                     pair.getValue().setTypeOfTile(getDefaultTile());
-                    pair.getValue().setFillColor(pair.getValue().getFillColor());
+                    pair.getValue().setFillColor(pair.getValue().getSettedColor());
                 }
             } while (iterator.hasNext());
         }

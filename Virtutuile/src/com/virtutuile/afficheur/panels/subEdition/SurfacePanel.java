@@ -2,6 +2,7 @@ package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
+import com.virtutuile.afficheur.inputs.ColorPicker;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
@@ -10,6 +11,8 @@ import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+import java.awt.*;
 
 public class SurfacePanel extends SubPanel {
 
@@ -17,6 +20,7 @@ public class SurfacePanel extends SubPanel {
     private UnorderedMap<DrawShapeButtonType, Button> surfaceManagement = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> unitInputs = new UnorderedMap<>();
     private UnorderedMap<InputContextType, UnitInput> positionInputs = new UnorderedMap<>();
+    private ColorPicker colorPicker = null;
 
     public SurfacePanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -98,6 +102,11 @@ public class SurfacePanel extends SubPanel {
             mainWindow.repaint();
         });
 
+        colorPicker.addInputListener(InputEventKind.OnChange, (color, self) -> {
+            mainWindow.getController().setSurfaceColor(color);
+            mainWindow.repaint();
+        });
+
     }
 
     protected void setButtonsOnPanel() {
@@ -115,7 +124,23 @@ public class SurfacePanel extends SubPanel {
 
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setColorPickerOnPanel(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setManagementButtonOnPanel(line);
+    }
+
+    private void setColorPickerOnPanel(JPanel line) {
+        colorPicker = new ColorPicker();
+
+        colorPicker.setMaximumSize(new Dimension(500,200));
+        colorPicker.setMinimumSize(new Dimension(500,200));
+        colorPicker.setPreferredSize(new Dimension(500,200));
+        AbstractColorChooserPanel[] panels = colorPicker.getChooserPanels();
+        colorPicker.setChooserPanels(new AbstractColorChooserPanel[] { panels[0] });
+        line.add(colorPicker);
+        rows.add(line);
     }
 
     private void setManagementButtonOnPanel(JPanel line) {

@@ -4,6 +4,7 @@ import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.*;
 import javafx.scene.shape.Circle;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.UUID;
@@ -52,8 +53,8 @@ public class SurfaceEditor {
         Vector<Tile> tiles = null;
 
         if (meta.getHoveredSurface() != null &&
-            meta.getHoveredSurface().getPatternGroup() != null &&
-            meta.getHoveredSurface().getPatternGroup().getTiles() != null) {
+                meta.getHoveredSurface().getPatternGroup() != null &&
+                meta.getHoveredSurface().getPatternGroup().getTiles() != null) {
             tiles = meta.getHoveredSurface().getPatternGroup().getTiles();
         }
 
@@ -61,8 +62,8 @@ public class SurfaceEditor {
             tiles.forEach((hoveredTile) -> {
                 Rectangle2D.Double bounds = hoveredTile.getBounds();
                 if ((mousePos.getX() >= bounds.x && mousePos.getX() <= bounds.x + bounds.width) &&
-                    (mousePos.getY() >= bounds.y && mousePos.getY() <= bounds.y + bounds.height)) {
-                        tile.set(hoveredTile);
+                        (mousePos.getY() >= bounds.y && mousePos.getY() <= bounds.y + bounds.height)) {
+                    tile.set(hoveredTile);
                 }
 
             });
@@ -259,12 +260,12 @@ public class SurfaceEditor {
         if (meta.getAlignDirection() != Meta.Direction.Undefined
                 && isOriginX()) {
             /*if (origins[0] != null)*/
-                origins[0] = surfaceReferenceAlign.getBounds().getX();
+            origins[0] = surfaceReferenceAlign.getBounds().getX();
             origins[1] = surface.getBounds().getX();
             return origins;
         } else {
             /*if (origins[0] != null)*/
-                origins[0] = surfaceReferenceAlign.getBounds().getY();
+            origins[0] = surfaceReferenceAlign.getBounds().getY();
             origins[1] = surface.getBounds().getY();
             return origins;
         }
@@ -431,5 +432,17 @@ public class SurfaceEditor {
             distance *= 1;
         }
         return distance;*/
+    }
+
+    public void setSurfaceColor(Color color) {
+        Surface surface = meta.getSelectedSurface();
+
+        if (surface != null) {
+            if (surface.getPatternGroup() == null) {
+                surface.setFillColor(color);
+                surface.setSettedColor(color);
+            }
+            surface.setSettedColor(color);
+        }
     }
 }

@@ -21,6 +21,7 @@ public abstract class PrimarySurface implements Serializable {
 
     protected Color borderColor;
     protected Color fillColor;
+    protected Color settedColor;
     protected int borderThickness = Constants.DEFAULT_SHAPE_BORDER_THICKNESS;
 
     public PrimarySurface(Point[] points) {
@@ -29,6 +30,7 @@ public abstract class PrimarySurface implements Serializable {
         isSelected = false;
         isMouseHover = false;
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
+        settedColor = fillColor;
         borderColor = new Color(~fillColor.getRGB());
 
         for (int i = 1; i <= points.length; ++i) {
@@ -67,6 +69,7 @@ public abstract class PrimarySurface implements Serializable {
         isSelected = false;
         isMouseHover = false;
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
+        settedColor = fillColor;
         borderColor = new Color(~fillColor.getRGB());
         bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
     }
@@ -77,6 +80,7 @@ public abstract class PrimarySurface implements Serializable {
         isSelected = false;
         isMouseHover = false;
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
+        settedColor = fillColor;
         borderColor = new Color(~fillColor.getRGB());
         bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
     }
@@ -95,6 +99,7 @@ public abstract class PrimarySurface implements Serializable {
         isMouseHover = false;
         id = UUID.randomUUID();
         fillColor = Constants.DEFAULT_SHAPE_FILL_COLOR;
+        settedColor = fillColor;
         borderColor = new Color(~fillColor.getRGB());
         bounds = new Bounds(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
     }
@@ -352,4 +357,11 @@ public abstract class PrimarySurface implements Serializable {
         return false;
     }
 
+    public Color getSettedColor() {
+        return settedColor;
+    }
+
+    public void setSettedColor(Color settedColor) {
+        this.settedColor = settedColor;
+    }
 }

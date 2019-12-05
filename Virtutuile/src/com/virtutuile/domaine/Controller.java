@@ -275,4 +275,8 @@ public class Controller {
     public Double getAlignmentDistance() {
         return surfaceEditor.getAlignmentDistance();
     }
+
+    public void setSurfaceColor(Color color) {
+        surfaceEditor.setSurfaceColor(color);
+    }
 }
