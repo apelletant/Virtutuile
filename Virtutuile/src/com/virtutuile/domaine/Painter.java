@@ -33,10 +33,6 @@ public class Painter {
             drawMagneticGrid();
         }
 
-        if (meta.getHoveredSurface() != null) {
-            drawHoveredTile();
-        }
-
         surfaces.forEach((surface) -> {
             Path2D.Double poly = paintSurface(surface);
             if (surface.getPatternGroup() != null
@@ -45,6 +41,10 @@ public class Painter {
             }
             paintSurfaceGizmos(surface, poly);
         });
+
+        if (meta.getHoveredSurface() != null) {
+            drawHoveredTile();
+        }
     }
 
     public void paintTiles(Vector<Tile> tiles) {
@@ -161,61 +161,54 @@ public class Painter {
         if (tile != null) {
             Tile hoveredShadow = movePolygonToHoveredDisplayBox(new Tile(tile));
 
-            Point2D[] tileVertices = hoveredShadow.getVertices();
-            int[] pointsX = new int[tileVertices.length];
-            int[] pointsY = new int[tileVertices.length];
+            Point2D[] displayedVertices = hoveredShadow.getVertices();
+            Point2D[] tileVertices = tile.getVertices();
+            int[][] displayedPts = new int[2][displayedVertices.length];
+            int[][] tilePts = new int[2][displayedVertices.length];
 
-            for (int i = 0; i < tileVertices.length; i++) {
-                pointsX[i] = (int) hoveredShadow.getVertices()[i].getX();
-                pointsY[i] = (int) hoveredShadow.getVertices()[i].getY();
+            for (int i = 0; i < displayedVertices.length; i++) {
+                displayedPts[0][i] = (int) displayedVertices[i].getX();
+                displayedPts[1][i] = (int) displayedVertices[i].getY();
+                tilePts[0][i] = (int) tileVertices[i].getX();
+                tilePts[1][i] = (int) tileVertices[i].getY();
+
             }
 
-            printShadowTileSize(pointsX, pointsY, tile);
+            printShadowTileSize(displayedPts, tilePts, tile);
 
             graphics2D.setColor(Constants.Gizmos.TileHoverDisplayBox.LINE_COLOR);
             graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.drawPolygon(pointsX, pointsY, pointsX.length);
+            graphics2D.drawPolygon(displayedPts[0], displayedPts[1], displayedPts[0].length);
         }
     }
 
-    private void printShadowTileSize(int[] pointsX, int[] pointsY, Tile tile) {
-        int posX = 0;
-        int posY = 0;
-        int newPosX = 0;
-        int newPosY = 0;
+    private void printShadowTileSize(int[][] displayed, int[][] tilePts, Tile tile) {
+        int displayX = 0;
+        int displayY = 0;
+        int newDisplayX = 0;
+        int newDisplayY = 0;
 
-        if (pointsX.length != pointsY.length) {
+        if (displayed[0].length != displayed[1].length || tilePts[0].length != tilePts[1].length) {
             return;
         }
 
-        for (int i = 0; i < pointsX.length; i++) {
-            posX = pointsX[i];
-            posY = pointsY[i];
+        for (int i = 0; i < displayed[0].length; i++) {
+            displayX = displayed[0][i];
+            displayY = displayed[1][i];
 
-            if (i + 1 < pointsX.length) {
-                newPosX = pointsX[i + 1];
-                newPosY = pointsY[i + 1];
-            } else {
-                newPosX = pointsX[i + 0];
-                newPosY = pointsY[i + 0];
+            int idx = (i + 1) % displayed[0].length;
+            newDisplayX = displayed[0][idx];
+            newDisplayY = displayed[1][idx];
+
+            int middleX = displayX + ((newDisplayX - displayX) / 2);
+            int middleY = displayY + ((newDisplayY - displayY) / 2);
+
+            Double size = new Vector2D(tilePts[0][i], tilePts[1][i]).distance(tilePts[0][idx], tilePts[1][idx]);
+
+            if (size != 0) {
+                graphics2D.setColor(new Color(255, 255, 255));
+                graphics2D.drawString(String.format("%.f", size), middleX, middleY);
             }
-
-            int middleX = posX + ((newPosX - posX) / 2);
-            int middleY = posY + ((newPosY - posY) / 2);
-            Double size = 0d;
-
-            if (posX != newPosX && posY == newPosY) {
-                size = tile.getBounds().width;
-            } else if (posX == newPosX && posY != newPosY) {
-                size = tile.getBounds().height;
-            } else {
-                Vector2D vector = new Vector2D(posX, posY);
-                size = vector.magnitude();
-                System.out.println(vector.distance(new Vector2D(newPosX, newPosY)));
-            }
-
-            graphics2D.setColor(new Color(255, 255, 255));
-            graphics2D.drawString(String.format("%.2f cm", size), middleX, middleY);
         }
     }
 
@@ -229,12 +222,12 @@ public class Painter {
         Double width = tile.getBounds().width;
         Double height = tile.getBounds().height;
 
-         Double ratio = maxWidth / width;
-         Double ratioY = maxHeight / height;
+        Double ratio = maxWidth / width;
+        Double ratioY = maxHeight / height;
 
-         if (ratio > ratioY) {
-         ratio = ratioY;
-         }
+        if (ratio > ratioY) {
+            ratio = ratioY;
+        }
 
         transform.translate(-tile.getBounds().x, -tile.getBounds().y);
         tile.getPolygon().transform(transform);
@@ -299,24 +292,24 @@ public class Painter {
         graphics2D.drawRect(box.x, box.y, box.width, box.height);
         graphics2D.setStroke(new BasicStroke(Constants.Gizmos.BoundingBoxes.STROKE));
         Point corner = new Point(box.x, box.y);
-        Point expansion = Vector2D.from(corner).tarnslateDeg(180, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        Point expansion = Vector2D.from(corner).translateDeg(180, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.from(corner).tarnslateDeg(270, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(270, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         corner.x += box.width;
-        expansion = Vector2D.from(corner).tarnslateDeg(270, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(270, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.from(corner).tarnslateDeg(0, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(0, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         corner.y += box.height;
-        expansion = Vector2D.from(corner).tarnslateDeg(0, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(0, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.from(corner).tarnslateDeg(90, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(90, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
         corner.x -= box.width;
-        expansion = Vector2D.from(corner).tarnslateDeg(180, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(180, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
-        expansion = Vector2D.from(corner).tarnslateDeg(90, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
+        expansion = Vector2D.from(corner).translateDeg(90, Constants.Gizmos.BoundingBoxes.EXPANSION_LENGTH).toPoint();
         graphics2D.drawLine(corner.x, corner.y, expansion.x, expansion.y);
     }
 

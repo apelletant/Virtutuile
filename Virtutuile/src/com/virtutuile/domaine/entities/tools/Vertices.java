@@ -31,5 +31,4 @@ public class Vertices {
         }
         return ret.toArray(new double[ret.size()][2]);
     }
-
 }
