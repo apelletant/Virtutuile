@@ -11,11 +11,13 @@ import com.virtutuile.shared.Vector2D;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.Serializable;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.UUID;
 
 public class Meta implements Serializable {
 
+    private EventListener metaEventArgs;
     private UnorderedMap<UUID, Surface> surfaces;
     private UnorderedMap<String, Tile> typeOfTiles;
 

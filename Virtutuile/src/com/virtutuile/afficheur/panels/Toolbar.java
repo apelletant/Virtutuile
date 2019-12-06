@@ -37,6 +37,8 @@ public class Toolbar extends BorderedPanel {
         Button infos = buttons.get(TargetButton.CanvasInfos);
         Button loadCanvas = buttons.get(TargetButton.LoadCanvas);
         Button saveCanvas = buttons.get(TargetButton.SaveCanvas);
+        Button undo = buttons.get(TargetButton.Undo);
+        Button redo = buttons.get(TargetButton.Redo);
 
         edition.setActive(true);
         edition.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
@@ -114,6 +116,14 @@ public class Toolbar extends BorderedPanel {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 mainWindow.getController().saveCanvas(fc.getSelectedFile().getPath());
             }
+        }));
+
+        undo.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            mainWindow.getController().undo();
+        }));
+
+        redo.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            mainWindow.getController().redo();
         }));
     }
 

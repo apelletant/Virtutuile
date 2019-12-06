@@ -14,12 +14,14 @@ public class Controller {
     private Painter painter;
     private SurfaceEditor surfaceEditor;
     private SaveManager saveManager;
+    private UndoRedo undoRedo;
 
     public Controller() {
         meta = new Meta();
         painter = new Painter(meta);
         surfaceEditor = new SurfaceEditor(meta);
         saveManager = new SaveManager(meta);
+        undoRedo = new UndoRedo(meta);
     }
 
     public void paint(Graphics graphics) {
@@ -52,6 +54,10 @@ public class Controller {
 
         meta.setHover(canvasCursor);
         this.surfaceEditor.mouseRelease(canvasCursor);
+
+        if (meta.getSelectedSurface() != null) {
+            undoRedo.pushChange(meta);
+        }
     }
 
     public void mouseLClick(Point point) {
@@ -64,6 +70,10 @@ public class Controller {
         }
         this.surfaceEditor.mouseLClick(canvasCursor);
         meta.setClicked(canvasCursor);
+
+        if (meta.getSelectedSurface() != null) {
+            undoRedo.pushChange(meta);
+        }
     }
 
     private Surface updateSurfacePosToMagneticPos() {
@@ -292,5 +302,21 @@ public class Controller {
 
     public void loadCanvas(String path) {
         meta.setMeta(saveManager.loadCanvas(path));
-    }   
+    }
+
+    public void undo() {
+        undoRedo.undo();
+    }
+
+    public void redo() {
+        undoRedo.redo();
+    }
+
+    public boolean canRedo() {
+        return undoRedo.canRedo();
+    }
+
+    public boolean canUndo() {
+        return undoRedo.canUndo();
+    }
 }
