@@ -6,6 +6,7 @@ import com.virtutuile.afficheur.swing.PanelEvents;
 import com.virtutuile.afficheur.swing.events.KeyboardEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 
@@ -48,7 +49,11 @@ public class Canvas extends PanelEvents {
         });
 
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
-            mainWindow.getController().mouseDrag(mouseEvent.getPoint(), mouseEvent.getButton());
+            if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+                mainWindow.getController().mouseDrag(mouseEvent.getPoint(), 2);
+            } else {
+                mainWindow.getController().mouseDrag(mouseEvent.getPoint(), 1);
+            }
             mainWindow.getEditionPanel().getPatternPanel().retrieveInfoSelected();
             mainWindow.getEditionPanel().surfaceGetSurfaceProperties();
             repaint();

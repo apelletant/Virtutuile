@@ -90,7 +90,6 @@ public class Controller {
         if (button == 1) {
             if (meta.isGridActivated())
                 canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
-
             this.surfaceEditor.mouseDrag(canvasCursor);
         } else {
             this.surfaceEditor.dragPattern(canvasCursor);

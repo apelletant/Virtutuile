@@ -212,7 +212,9 @@ public class SurfaceEditor {
                 break;
             case Stick:
                 Surface surfaceReferenceStick = getSurfaceAt(point);
-                stickSurfaces(surfaceReferenceStick, meta.getSelectedSurface());
+                if (surfaceReferenceStick != null
+                        && surfaceReferenceStick != meta.getSelectedSurface())
+                    stickSurfaces(surfaceReferenceStick, meta.getSelectedSurface());
                 break;
             default:
                 /*if (meta.getSelectedSurface() != null) {
@@ -232,6 +234,34 @@ public class SurfaceEditor {
     }
 
     private void stickSurfaces(Surface surfaceReferenceStick, Surface selectedSurface) {
+        Rectangle2D.Double refBounds = null;
+        Rectangle2D.Double surfaceBounds = selectedSurface.getBounds();
+
+        if (surfaceReferenceStick != null) {
+            refBounds = surfaceReferenceStick.getBounds();
+            switch (meta.getStickOrientation()) {
+                case Horizontal:
+                    if (refBounds.getY() >= surfaceBounds.getY()) {
+                        selectedSurface.move(new Point2D.Double(surfaceBounds.x, surfaceBounds.y),
+                                new Point2D.Double(refBounds.x, surfaceReferenceStick.getBounds().y - surfaceBounds.getHeight()));
+                    } else {
+                        selectedSurface.move(new Point2D.Double(surfaceBounds.x, surfaceBounds.y),
+                                new Point2D.Double(refBounds.x, surfaceReferenceStick.getBounds().y + refBounds.getHeight()));
+                    }
+                    break;
+                case Vertical:
+                    if (refBounds.getX() >= surfaceBounds.getX()) {
+                        selectedSurface.move(new Point2D.Double(surfaceBounds.x, surfaceBounds.y),
+                                new Point2D.Double(surfaceReferenceStick.getBounds().x - surfaceBounds.getWidth(), refBounds.y));
+                    } else {
+                        selectedSurface.move(new Point2D.Double(surfaceBounds.x, surfaceBounds.y),
+                                new Point2D.Double(surfaceReferenceStick.getBounds().x + refBounds.getWidth(), refBounds.y));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private void alignSurfaces(Surface surfaceReferenceAlign, Surface selectedSurface) {
@@ -267,7 +297,6 @@ public class SurfaceEditor {
 
     }
 
-    //TODO: check null commenté (si décommente, align fonctionne plus)
     private Double[] determineOrigin(Surface surfaceReferenceAlign, Surface surface) {
         Double[] origins = new Double[2];
         if (meta.getAlignDirection() != Meta.Direction.Undefined
