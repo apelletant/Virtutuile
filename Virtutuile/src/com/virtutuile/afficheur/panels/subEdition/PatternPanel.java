@@ -110,8 +110,8 @@ public class PatternPanel extends SubPanel {
         Vector2D pt = mainWindow.getController().getSelectedSurfacePatternOrigin();
 
         if (pt != null) {
-            patternPositionX.setValue(pt.x);
-            patternPositionY.setValue(pt.y);
+            patternPositionX.setValue(Math.round(pt.x * 100d) / 100d);
+            patternPositionY.setValue(Math.round(pt.y * 100d) / 100d);
         }
     }
 }

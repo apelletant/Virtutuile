@@ -458,4 +458,10 @@ public class SurfaceEditor {
             surface.setSettedColor(color);
         }
     }
+
+    public void dragPattern(Point2D.Double mouse) {
+        Point2D.Double hover = (Point2D.Double) meta.getHover();
+
+        meta.getSelectedSurface().getPatternGroup().moveOrigin(mouse.x - hover.x, mouse.y - hover.y);
+    }
 }

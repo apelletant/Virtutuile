@@ -255,4 +255,11 @@ public class PatternGroup implements Serializable {
     public Vector2D getOrigin() {
         return patternOrigin;
     }
+
+    public void moveOrigin(double x, double y) {
+        if (!Double.isNaN(x))
+            patternOrigin.x += x;
+        if (!Double.isNaN(y))
+            patternOrigin.y += y;
+    }
 }

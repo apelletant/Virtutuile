@@ -85,12 +85,16 @@ public class Controller {
         this.surfaceEditor.mouseRClick(meta.pointToPoints2D(point));
     }
 
-    public void mouseDrag(Point point) {
+    public void mouseDrag(Point point, int button) {
         Point2D.Double canvasCursor = (Point2D.Double) meta.pointToPoints2D(point);
-        if (meta.isGridActivated())
-            canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
+        if (button == 1) {
+            if (meta.isGridActivated())
+                canvasCursor = (Point2D.Double) meta.updatePosToMagnetic(point);
 
-        this.surfaceEditor.mouseDrag(canvasCursor);
+            this.surfaceEditor.mouseDrag(canvasCursor);
+        } else {
+            this.surfaceEditor.dragPattern(canvasCursor);
+        }
         meta.setHover(canvasCursor);
     }
 
@@ -110,7 +114,6 @@ public class Controller {
         }
     }
 
-
     public void drawGrid() {
         meta.changeGridStatus();
     }
@@ -126,8 +129,6 @@ public class Controller {
     public Dimension getCanvasSize() {
         return meta.getCanvasSize();
     }
-
-    ;
 
     public void updateZoom(double preciseWheelRotation, Point point) {
         meta.updateZoom(preciseWheelRotation, point);

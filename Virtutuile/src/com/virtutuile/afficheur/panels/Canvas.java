@@ -48,9 +48,9 @@ public class Canvas extends PanelEvents {
         });
 
         addMouseEventListener(MouseEventKind.MouseDrag, (mouseEvent) -> {
-            mainWindow.getController().mouseDrag(mouseEvent.getPoint());
+            mainWindow.getController().mouseDrag(mouseEvent.getPoint(), mouseEvent.getButton());
+            mainWindow.getEditionPanel().getPatternPanel().retrieveInfoSelected();
             mainWindow.getEditionPanel().surfaceGetSurfaceProperties();
-
             repaint();
         });
 
