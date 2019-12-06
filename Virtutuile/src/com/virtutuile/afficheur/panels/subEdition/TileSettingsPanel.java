@@ -42,6 +42,12 @@ public class TileSettingsPanel extends SubPanel {
         persistLayout();
     }
 
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
+
+    }
+
     private void setUpCreationFrame() {
         creationFrame = new JFrame();
         creationFrame.setTitle("Creation Frame");

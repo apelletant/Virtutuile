@@ -1,13 +1,10 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
-import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.ColorPicker;
 import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
-import com.virtutuile.domaine.Controller;
-import com.virtutuile.domaine.entities.Grout;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -23,6 +20,12 @@ public class GroutPanel extends SubPanel{
         setButtonsOnPanel();
         setEvents();
         persistLayout();
+    }
+
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
+        setEvents();
     }
 
     @Override

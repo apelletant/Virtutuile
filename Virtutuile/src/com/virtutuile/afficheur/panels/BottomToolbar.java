@@ -4,7 +4,6 @@ import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.TextInput;
-import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.BorderedPanel;
 import com.virtutuile.afficheur.swing.Label;
 import com.virtutuile.afficheur.swing.Panel;
@@ -153,6 +152,15 @@ public class BottomToolbar extends BorderedPanel {
         } else {
             zoom.setText(zoomlevel.toString());
         }
+    }
+
+    public void refreshGUI() {
+        getHoverSurfaceBound();
+        setZoomLevel();
+
+        gridSizeInput.setText(mainWindow.getController().getGridSize().toString());
+        zoom.setText(mainWindow.getController().getZoomFactor().toString());
+        repaint();
     }
 
     public enum TargetButton {

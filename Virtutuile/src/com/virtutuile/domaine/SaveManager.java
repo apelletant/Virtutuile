@@ -43,7 +43,8 @@ public class SaveManager {
             Object obj = objectIn.readObject();
             objectIn.close();
             meta = (Meta) obj;
-            System.out.println(meta.getGridSize());
+            System.out.println(((Meta) obj).getZoomFactor());
+            System.out.println(((Meta) obj).getGridSize());
             return meta;
         } catch (Exception ex) {
             ex.printStackTrace();

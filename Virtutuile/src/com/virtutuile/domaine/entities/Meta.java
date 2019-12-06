@@ -866,15 +866,24 @@ public class Meta implements Serializable {
     }
 
     public void setMeta(Meta metaCpy) {
+        doing = EditionAction.Idle;
+        alignDirection = metaCpy.alignDirection;
+        stickOrientation = metaCpy.stickOrientation;
         selectedSurface = metaCpy.selectedSurface;
         hoveredSurface = metaCpy.hoveredSurface;
+        lastAlignedSurface = metaCpy.lastAlignedSurface;
         hoveredTile = metaCpy.hoveredTile;
-        surfaces = metaCpy.surfaces;
-        doing = metaCpy.doing;
+        isSelectedSurfaceCanBeResized = metaCpy.isSelectedSurfaceCanBeResized;
+        shouldDisplayCuttedTiles = metaCpy.shouldDisplayCuttedTiles;
         clicked = metaCpy.clicked;
         hover = metaCpy.hover;
         mousePressed = metaCpy.mousePressed;
         isGridActivated = metaCpy.isGridActivated;
+        canvasSize = metaCpy.canvasSize;
+        zoomFactor = metaCpy.zoomFactor;
+        canvasPosition = metaCpy.canvasPosition;
+        gridSize = metaCpy.gridSize;
+        surfaces = metaCpy.surfaces;
         typeOfTiles = metaCpy.typeOfTiles;
     }
 

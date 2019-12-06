@@ -3,7 +3,6 @@ package com.virtutuile.afficheur.panels.subEdition;
 import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.swing.PanelEvents;
-import com.virtutuile.domaine.Controller;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -48,6 +47,8 @@ public abstract class SubPanel extends PanelEvents {
         remove(line);
         rows.remove(line);
     }
+
+    public abstract void refreshGUI();
 
     protected abstract void setEvents();
 

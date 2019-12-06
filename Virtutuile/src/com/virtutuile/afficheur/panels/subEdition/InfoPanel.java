@@ -1,10 +1,8 @@
 package com.virtutuile.afficheur.panels.subEdition;
 
-import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.inputs.TextInput;
-import com.virtutuile.afficheur.swing.Label;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
@@ -38,6 +36,12 @@ public class InfoPanel extends SubPanel {
         persistLayout();
     }
 
+    // TODO IMPLEMENTS FUNCTION
+    @Override
+    public void refreshGUI() {
+
+    }
+
     private void initTotal() {
         String[] typeOfTiles = mainWindow.getController().getTypeOfTiles();
 
@@ -62,7 +66,8 @@ public class InfoPanel extends SubPanel {
 
     @Override
     protected void setEvents() {
-
+        retrieveGeneralTileInfo();
+        retrieveInfoSelected();
     }
 
     private void setSelectedProps() {

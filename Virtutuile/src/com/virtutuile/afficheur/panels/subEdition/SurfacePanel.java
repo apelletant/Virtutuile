@@ -29,6 +29,11 @@ public class SurfacePanel extends SubPanel {
         persistLayout();
     }
 
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
+    }
+
     @Override
     protected void setEvents() {
         Button addRectangularSurface = addSurface.get(DrawShapeButtonType.AddRectangularSurface);

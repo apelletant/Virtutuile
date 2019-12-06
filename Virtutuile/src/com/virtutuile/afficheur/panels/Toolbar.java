@@ -98,6 +98,7 @@ public class Toolbar extends BorderedPanel {
             int returnValue = fc.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 mainWindow.getController().loadCanvas(fc.getSelectedFile().getPath());
+                mainWindow.refreshGUI();
             }
         }));
 

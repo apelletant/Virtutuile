@@ -5,7 +5,6 @@ import com.virtutuile.afficheur.inputs.Button;
 import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
-import com.virtutuile.domaine.Controller;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
@@ -20,6 +19,11 @@ public class PatternPanel extends SubPanel {
         setButtonsOnPanel();
         setEvents();
         persistLayout();
+    }
+
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
     }
 
     public void setButtonsOnPanel() {

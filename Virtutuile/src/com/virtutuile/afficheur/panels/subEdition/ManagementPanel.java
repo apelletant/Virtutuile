@@ -24,6 +24,12 @@ public class ManagementPanel extends SubPanel {
         persistLayout();
     }
 
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
+
+    }
+
     @Override
     protected void setButtonsOnPanel() {
         setAlignButtons();

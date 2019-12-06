@@ -34,6 +34,11 @@ public class TileCreation extends SubPanel {
         persistLayout();
     }
 
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
+    }
+
     @Override
     protected void setEvents() {
         validateButton.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {

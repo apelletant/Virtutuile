@@ -44,6 +44,11 @@ public class TilePanel extends SubPanel  {
         rows.add(line);
     }
 
+    // TODO IMPLEMENTS FUNCTIONE
+    @Override
+    public void refreshGUI() {
+    }
+
     @Override
     protected void setEvents() {
         tilesType.forEach((name, button) -> {

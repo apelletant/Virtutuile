@@ -106,6 +106,14 @@ public class EditionPanel extends PanelEvents {
         return (ManagementPanel) subPanels.get(PanelType.AdvancedManagement);
     }
 
+    public void refreshGUI() {
+        tileSettingsPanel.refreshGUI();
+        infoPanel.refreshGUI();
+        subPanels.forEach((type, panel) -> {
+            panel.refreshGUI();
+        });
+    }
+
     enum PanelType {
         Surface,
         AdvancedManagement,
