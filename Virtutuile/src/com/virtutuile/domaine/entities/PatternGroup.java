@@ -25,6 +25,7 @@ public class PatternGroup implements Serializable {
     private float rotation;
     private boolean centered = false;
     private int cuttedTiles = 0;
+    private Vector2D patternOrigin;
 
     public PatternGroup(String patternName, Surface surface, Tile tile) {
         if (surface.getTypeOfTile() == null) {
@@ -89,15 +90,12 @@ public class PatternGroup implements Serializable {
         final double patMinY = surface.getBounds().y;
         final double patMaxY = patMinY + surface.getBounds().height + tileH;
 
-        Rectangle2D.Double bounds = surface.getBounds();
-        Vector2D origin = new Vector2D(bounds.x, bounds.y);
-        if (centered) {
-            origin.x += bounds.width / 2;
-            origin.y += bounds.height / 2;
-            origin = transformOrigin(origin, surface);
-        }
-
         int cuttedTiles = 0;
+        if (patternOrigin == null) {
+            patternOrigin = new Vector2D(0, 0);
+        }
+        Vector2D origin = transformOrigin(patternOrigin, surface);
+
         double x = origin.x + .5;
         double y = origin.y + .5;
         while (y <= patMaxY) {
@@ -163,17 +161,20 @@ public class PatternGroup implements Serializable {
         Rectangle2D.Double patBounds = getPatternBounds();
         Rectangle2D.Double surBounds = surface.getBounds();
         final double grout = surface.getGrout().getThickness();
+        Vector2D ret = new Vector2D(origin);
 
-        origin.x -= patBounds.width / 2;
-        origin.y -= patBounds.height / 2;
-        while (origin.x > surBounds.x) {
-            origin.x -= grout + patBounds.width;
+        ret.x += surBounds.x;
+        ret.y += surBounds.y;
+        ret.x -= patBounds.width / 2;
+        ret.y -= patBounds.height / 2;
+        while (ret.x > surBounds.x) {
+            ret.x -= grout + patBounds.width;
         }
-        while (origin.y > surBounds.y) {
-            origin.y -= grout + patBounds.height;
+        while (ret.y > surBounds.y) {
+            ret.y -= grout + patBounds.height;
         }
 
-        return origin;
+        return ret;
     }
 
     private Rectangle2D.Double getPatternBounds() {
@@ -236,7 +237,22 @@ public class PatternGroup implements Serializable {
         this.centered = centered;
     }
 
+    public void setOrigin(double x, double y) {
+        if (patternOrigin == null) {
+            patternOrigin = new Vector2D(0, 0);
+        }
+
+        if (!Double.isNaN(x))
+            patternOrigin.x = x;
+        if (!Double.isNaN(y))
+            patternOrigin.y = y;
+    }
+
     public int getCuttedTiles() {
         return cuttedTiles;
+    }
+
+    public Vector2D getOrigin() {
+        return patternOrigin;
     }
 }

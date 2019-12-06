@@ -15,6 +15,7 @@ public class EditionPanel extends PanelEvents {
     private MainWindow mainWindow;
     private TileSettingsPanel tileSettingsPanel;
     private InfoPanel infoPanel;
+    private PatternPanel patternPanel;
     private UnorderedMap<PanelType, SubPanel> subPanels;
 
     public EditionPanel(MainWindow mainWindow) {
@@ -22,13 +23,14 @@ public class EditionPanel extends PanelEvents {
         this.mainWindow = mainWindow;
         tileSettingsPanel = new TileSettingsPanel("Tile Settings", mainWindow);
         infoPanel = new InfoPanel("Information", mainWindow);
+        patternPanel = new PatternPanel("Pattern", mainWindow);
 
         subPanels = new UnorderedMap<PanelType, SubPanel>() {{
             put(PanelType.Surface, new SurfacePanel("Surface", mainWindow));
             put(PanelType.AdvancedManagement, new ManagementPanel("Advanced Management", mainWindow));
             put(PanelType.Grout, new GroutPanel("Grout", mainWindow));
             put(PanelType.Tile, new TilePanel("Tile", mainWindow));
-            put(PanelType.Pattern, new PatternPanel("Pattern", mainWindow));
+            put(PanelType.Pattern, patternPanel);
         }};
         subPanels.forEach((key, value) -> {
             add(value, key);
@@ -92,6 +94,10 @@ public class EditionPanel extends PanelEvents {
 
     public TileSettingsPanel getTileSettingsPanel() {
         return tileSettingsPanel;
+    }
+
+    public PatternPanel getPatternPanel() {
+        return patternPanel;
     }
 
     public InfoPanel getInfoPanel() {

@@ -2,6 +2,7 @@ package com.virtutuile.domaine;
 
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.Surface;
+import com.virtutuile.shared.Vector2D;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -318,5 +319,19 @@ public class Controller {
 
     public boolean canUndo() {
         return undoRedo.canUndo();
+    }
+
+    public void moveSelectedPattern(double moveX, double moveY) {
+        Surface surface = meta.getSelectedSurface();
+        if (surface != null && surface.getPatternGroup() != null) {
+            surface.getPatternGroup().setOrigin(moveX, moveY);
+            surface.getPatternGroup().recalcPattern(surface);
+        }
+    }
+
+    public Vector2D getSelectedSurfacePatternOrigin() {
+        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
+            return meta.getSelectedSurface().getPatternGroup().getOrigin();
+        return null;
     }
 }

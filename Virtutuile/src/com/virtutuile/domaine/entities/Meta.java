@@ -583,9 +583,10 @@ public class Meta implements Serializable {
         if (selectedSurface != null
                 && selectedSurface.getPatternGroup() != null) {
             if (name.equals("Center")) {
-                selectedSurface.getPatternGroup().setCentered(true);
+                Rectangle2D.Double bounds = selectedSurface.getBounds();
+                selectedSurface.getPatternGroup().setOrigin(bounds.width / 2, bounds.height / 2);
             } else {
-                selectedSurface.getPatternGroup().setCentered(false);
+                selectedSurface.getPatternGroup().setOrigin(0, 0);
             }
             selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
         }

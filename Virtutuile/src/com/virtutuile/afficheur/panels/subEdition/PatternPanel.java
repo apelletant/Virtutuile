@@ -2,17 +2,24 @@ package com.virtutuile.afficheur.panels.subEdition;
 
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.inputs.Button;
+import com.virtutuile.afficheur.inputs.UnitInput;
 import com.virtutuile.afficheur.swing.Panel;
+import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
 import com.virtutuile.shared.UnorderedMap;
+import com.virtutuile.shared.Vector2D;
 
 import javax.swing.*;
+import java.awt.geom.Point2D;
+import java.util.Vector;
 
 public class PatternPanel extends SubPanel {
 
     private UnorderedMap<String, Button> patterns = new UnorderedMap<>();
     private UnorderedMap<String, Button> options = new UnorderedMap<>();
+    private UnitInput patternPositionX = new UnitInput("Position X", true, "doubleInf");
+    private UnitInput patternPositionY = new UnitInput("Position Y", true, "doubleInf");
 
     public PatternPanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -34,6 +41,10 @@ public class PatternPanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setPatternOptionsButtonOnPanel(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setPatternPositionInput(line);
     }
 
     private void setButtonsPatternOnPanel(JPanel line) {
@@ -58,6 +69,21 @@ public class PatternPanel extends SubPanel {
         rows.add(line);
     }
 
+    private void setPatternPositionInput(JPanel line) {
+        patternPositionX.addInputListener(InputEventKind.OnChange, (val, input) -> {
+            mainWindow.getController().moveSelectedPattern(Double.parseDouble(val), Double.NaN);
+            mainWindow.repaint();
+        });
+
+        patternPositionY.addInputListener(InputEventKind.OnChange, (val, input) -> {
+            mainWindow.getController().moveSelectedPattern(Double.NaN, Double.parseDouble(val));
+            mainWindow.repaint();
+        });
+        line.add(patternPositionX);
+        line.add(patternPositionY);
+        rows.add(line);
+    }
+
     @Override
     protected void setEvents() {
 
@@ -78,5 +104,14 @@ public class PatternPanel extends SubPanel {
                 mainWindow.repaint();
             });
         });
+    }
+
+    public void retrieveInfoSelected() {
+        Vector2D pt = mainWindow.getController().getSelectedSurfacePatternOrigin();
+
+        if (pt != null) {
+            patternPositionX.setValue(pt.x);
+            patternPositionY.setValue(pt.y);
+        }
     }
 }
