@@ -102,12 +102,14 @@ public class Toolbar extends BorderedPanel {
                 mainWindow.getController().loadCanvas(fc.getSelectedFile().getPath());
                 mainWindow.refreshGUI();
             }
+            mainWindow.revalidate();
+            mainWindow.repaint();
         }));
 
         saveCanvas.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
-            fc.setDialogTitle("Select canvas file to load");
+            fc.setDialogTitle("Save your project");
             fc.setAcceptAllFileFilterUsed(false);
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Virtutuile file extentions \"vtt\"", "vtt");
             fc.addChoosableFileFilter(filter);
@@ -116,6 +118,8 @@ public class Toolbar extends BorderedPanel {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 mainWindow.getController().saveCanvas(fc.getSelectedFile().getPath());
             }
+            mainWindow.revalidate();
+            mainWindow.repaint();
         }));
 
         undo.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {

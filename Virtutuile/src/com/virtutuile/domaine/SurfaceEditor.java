@@ -207,7 +207,8 @@ public class SurfaceEditor {
                 break;
             case Align:
                 Surface surfaceReferenceAlign = getSurfaceAt(point);
-                alignSurfaces(surfaceReferenceAlign, meta.getSelectedSurface());
+                if (surfaceReferenceAlign != null)
+                    alignSurfaces(surfaceReferenceAlign, meta.getSelectedSurface());
                 break;
             case Stick:
                 Surface surfaceReferenceStick = getSurfaceAt(point);
@@ -268,16 +269,16 @@ public class SurfaceEditor {
 
     //TODO: check null commenté (si décommente, align fonctionne plus)
     private Double[] determineOrigin(Surface surfaceReferenceAlign, Surface surface) {
-        Double origins[] = new Double[2];
+        Double[] origins = new Double[2];
         if (meta.getAlignDirection() != Meta.Direction.Undefined
                 && isOriginX()) {
-            /*if (origins[0] != null)*/
-            origins[0] = surfaceReferenceAlign.getBounds().getX();
+            if (surfaceReferenceAlign != null)
+                origins[0] = surfaceReferenceAlign.getBounds().getX();
             origins[1] = surface.getBounds().getX();
             return origins;
         } else {
-            /*if (origins[0] != null)*/
-            origins[0] = surfaceReferenceAlign.getBounds().getY();
+            if (surfaceReferenceAlign != null)
+                origins[0] = surfaceReferenceAlign.getBounds().getY();
             origins[1] = surface.getBounds().getY();
             return origins;
         }
