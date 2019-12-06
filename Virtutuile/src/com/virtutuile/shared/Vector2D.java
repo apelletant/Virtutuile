@@ -2,9 +2,10 @@ package com.virtutuile.shared;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Vector2D {
+public class Vector2D implements Serializable {
     public double x = 0D;
     public double y = 0D;
 
