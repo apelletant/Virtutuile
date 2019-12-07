@@ -214,7 +214,7 @@ public class Controller {
     }
 
     public void mergeSurfaces() {
-        meta.mergeSurfaces();
+        surfaceEditor.mergeSurfaces();
     }
 
     public void setPatternStartPosition(String name) {

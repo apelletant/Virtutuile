@@ -453,91 +453,6 @@ public class Meta implements Serializable {
         });
     }
 
-    private Surface transformToOneSurface(Path2D.Double[] polygons) {
-        Surface[] surfaces = new Surface[polygons.length];
-        Surface returnedSurface = null;
-
-        for (int i = 0; i < polygons.length; i++) {
-            surfaces[i] = new Surface(polygons[i], false);
-        }
-
-        for (Surface surface : surfaces) {
-            for (Surface surfaceContain : surfaces) {
-                if (surface != surfaceContain) {
-                    if (surface.getId() != surfaceContain.getId()) {
-                        if (surface.contains(surfaceContain)) {
-                            surfaceContain.setHole(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Surface surface : surfaces) {
-            if (!surface.isHole()) {
-                returnedSurface = surface;
-            }
-        }
-
-        for (Surface surface : surfaces) {
-            if (surface != returnedSurface) {
-                assert returnedSurface != null;
-                returnedSurface.addPath(surface.getVertices());
-            }
-        }
-
-        return returnedSurface;
-    }
-
-    public void mergeSurfaces() {
-        doing = EditionAction.Idle;
-
-        boolean merged = false;
-        Surface oldSelectedSurface = selectedSurface;
-        Surface secondSurface = null;
-        Surface mergedSurface = null;
-
-        if (selectedSurface != null) {
-            Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
-            do {
-                Pair<UUID, Surface> pair = iterator.next();
-                if (selectedSurface.getId() != pair.getKey()) {
-                    if (selectedSurface.containsOrIntersect(pair.getValue())) {
-                        Path2D.Double[] polygons = PolygonTransformer.merge(selectedSurface.getPolygon(), pair.getValue().getPolygon());
-                        if (polygons.length > 1) {
-                            mergedSurface = transformToOneSurface(polygons);
-                        } else {
-                            mergedSurface = new Surface(polygons[0], false);
-                        }
-                        surfaces.put(mergedSurface.getId(), mergedSurface);
-                        merged = true;
-                        secondSurface = pair.getValue();
-                    }
-                    if (merged) {
-                        if (oldSelectedSurface.getPatternGroup() != null) {
-                            mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
-                            mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
-                            mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
-                            mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
-                        } else if (secondSurface.getPatternGroup() != null) {
-                            mergedSurface.setTypeOfTile(secondSurface.getTypeOfTile());
-                            mergedSurface.getGrout().setThickness(secondSurface.getGrout().getThickness());
-                            mergedSurface.getGrout().setColor(secondSurface.getGrout().getColor());
-                            mergedSurface.applyPattern(secondSurface.getPatternGroup().getPattern().getName(), getDefaultTile());
-                        }
-                        break;
-                    }
-                }
-            } while(iterator.hasNext());
-            if (merged) {
-                selectedSurface = null;
-                surfaces.remove(oldSelectedSurface.getId());
-                surfaces.remove(secondSurface.getId());
-            }
-        }
-    }
-
-
     public Point2D updatePosToMagnetic(Point point) {
         Point2D.Double mousePosCM = (Point2D.Double) pointToPoints2D(point);
         Point2D.Double screen = (Point2D.Double) updateCoordsToMagnetic(canvasPosition);
@@ -889,6 +804,10 @@ public class Meta implements Serializable {
         gridSize = metaCpy.gridSize;
         surfaces = metaCpy.surfaces;
         typeOfTiles = metaCpy.typeOfTiles;
+    }
+
+    public void setDoing(EditionAction action) {
+        doing = action;
     }
 
     public enum EditionAction {

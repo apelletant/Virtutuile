@@ -19,7 +19,8 @@ public class Surface extends PrimarySurface {
     protected Vector<Surface> subSurfaces;
     protected Tile typeOfTile;
     protected Grout grout;
-    protected UnorderedMap<UUID, Surface> sticked;
+    protected Surface next = null;
+    protected Surface previous = null;
 
     public Surface(Point[] points) {
         super(points);
@@ -27,7 +28,6 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
-        sticked = new UnorderedMap<>();
     }
 
     public Surface(Path2D.Double polygon, boolean isHole) {
@@ -36,7 +36,6 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
-        sticked = new UnorderedMap<>();
     }
 
 
@@ -53,7 +52,8 @@ public class Surface extends PrimarySurface {
         subSurfaces = new Vector<>();
         //je s'appelle
         grout = surface.grout.copy();
-        sticked = surface.sticked;
+        next = surface.next;
+        previous = surface.previous;
     }
 
     protected Surface(boolean isHole) {
@@ -64,7 +64,6 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
-        sticked = new UnorderedMap<>();
     }
 
     public Surface() {
@@ -75,7 +74,6 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
-        sticked = new UnorderedMap<>();
     }
 
     public Surface(Point[] points, boolean isHole) {
@@ -86,7 +84,6 @@ public class Surface extends PrimarySurface {
         patternGroup = null;
         subSurfaces = new Vector<>();
         grout = new Grout();
-        sticked = new UnorderedMap<>();
     }
 
     public double circleIntersect(Circle circle) {
@@ -174,20 +171,19 @@ public class Surface extends PrimarySurface {
         return isHole;
     }
 
-    public void addSticked(Surface surface) {
-        if (!sticked.containsKey(surface.getId()))
-            sticked.put(surface.getId(), surface);
+    public Surface getNext() {
+        return next;
     }
 
-    public void removeStickedAll() {
-        sticked.clear();
+    public void setNext(Surface next) {
+        this.next = next;
     }
 
-    public void removeSticked(UUID idSurface) {
-        sticked.remove(idSurface);
+    public Surface getPrevious() {
+        return previous;
     }
 
-    public UnorderedMap<UUID, Surface> getSticked() {
-        return sticked;
+    public void setPrevious(Surface previous) {
+        this.previous = previous;
     }
 }

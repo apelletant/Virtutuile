@@ -2,11 +2,15 @@ package com.virtutuile.domaine;
 
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.*;
+import com.virtutuile.domaine.entities.tools.PolygonTransformer;
+import com.virtutuile.shared.Pair;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
@@ -235,7 +239,13 @@ public class SurfaceEditor {
 
     private void stickSurfaces(Surface surfaceReferenceStick, Surface selectedSurface) {
         Rectangle2D.Double refBounds = null;
-        Rectangle2D.Double surfaceBounds = selectedSurface.getBounds();
+        Rectangle2D.Double surfaceBounds = null;
+
+        if (selectedSurface != null) {
+            surfaceBounds = selectedSurface.getBounds();
+        } else {
+            return;
+        }
 
         if (surfaceReferenceStick != null) {
             refBounds = surfaceReferenceStick.getBounds();
@@ -267,11 +277,10 @@ public class SurfaceEditor {
     private void alignSurfaces(Surface surfaceReferenceAlign, Surface selectedSurface) {
         Double[] origins = determineOrigin(surfaceReferenceAlign, selectedSurface);
         Double originRef;
-        Double originSurface;
-        originRef = origins[0];
-        originSurface = origins[1];
-        if (originRef != null
-                && originSurface != null) {
+
+        if (origins != null) {
+            originRef = origins[0];
+
             meta.setLastAlignedSurface(surfaceReferenceAlign);
             switch (meta.getAlignDirection()) {
                 case Left:
@@ -294,23 +303,24 @@ public class SurfaceEditor {
                     break;
             }
         }
-
     }
 
     private Double[] determineOrigin(Surface surfaceReferenceAlign, Surface surface) {
-        Double[] origins = new Double[2];
-        if (meta.getAlignDirection() != Meta.Direction.Undefined
-                && isOriginX()) {
-            if (surfaceReferenceAlign != null)
+        Double[] origins = null;
+        if (surfaceReferenceAlign != null && surface != null) {
+            origins = new Double[2];
+            if (meta.getAlignDirection() != Meta.Direction.Undefined
+                    && isOriginX()) {
                 origins[0] = surfaceReferenceAlign.getBounds().getX();
-            origins[1] = surface.getBounds().getX();
-            return origins;
-        } else {
-            if (surfaceReferenceAlign != null)
+                origins[1] = surface.getBounds().getX();
+                return origins;
+            } else {
                 origins[0] = surfaceReferenceAlign.getBounds().getY();
-            origins[1] = surface.getBounds().getY();
-            return origins;
+                origins[1] = surface.getBounds().getY();
+                return origins;
+            }
         }
+        return origins;
     }
 
     private boolean isOriginX() {
@@ -347,11 +357,22 @@ public class SurfaceEditor {
                         tile.move(meta.getHover(), point);
                     });
                 }
-                /*meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
-                    surface.move(meta.getHover(), point);
-                });*/
 
-                meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
+                Surface surface = meta.getSelectedSurface().getNext();
+                if (surface != null) {
+                    while (surface != meta.getSelectedSurface()) {
+                        surface.move(meta.getHover(), point);
+                        if (surface.getPatternGroup() != null
+                                && surface.getPatternGroup().getTiles().size() > 0) {
+                            surface.getPatternGroup().getTiles().forEach((tile) -> {
+                                tile.move(meta.getHover(), point);
+                            });
+                        }
+                        surface = surface.getNext();
+                    }
+                }
+
+                /*meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
                     surface.move(meta.getHover(), point);
                     if (surface.getPatternGroup() != null
                             && surface.getPatternGroup().getTiles().size() > 0) {
@@ -359,7 +380,7 @@ public class SurfaceEditor {
                             tile.move(meta.getHover(), point);
                         });
                     }
-                });
+                });*/
 
                 /*if (meta.isSelectedSurfaceCanBeResized()) {
                     Point2D ratio = calcResizeRatio(point);
@@ -394,6 +415,19 @@ public class SurfaceEditor {
         if (surface != null) {
             meta.getSurfaces().remove(surface.getId());
             meta.setSelectedSurface(null);
+            removeFromLinkedList(surface);
+        }
+    }
+
+    private void removeFromLinkedList(Surface surface) {
+        Surface tmpPrevious;
+        Surface tmpNext;
+
+        if (surface.getNext() != null) {
+            tmpPrevious = surface.getPrevious();
+            tmpNext = surface.getNext();
+            tmpPrevious.setNext(tmpNext);
+            tmpNext.setPrevious(tmpPrevious);
         }
     }
 
@@ -514,21 +548,176 @@ public class SurfaceEditor {
         if (selectedSurface != null) {
             surfaceIntersect = meta.getSurfaceIntersected(selectedSurface);
             if (surfaceIntersect != null) {
-                surfaceIntersect.addSticked(selectedSurface);
-                selectedSurface.addSticked(surfaceIntersect);
+                linkSurfaces(selectedSurface, surfaceIntersect);
             }
         }
     }
 
-    public void unstickSurfaces() {
-        Surface selectedSurface = meta.getSelectedSurface();
+    private void printLinked(Surface surface) {
+        Surface it = surface.getNext();
+        if (surface.getNext() != null) {
+            while (it != surface) {
+                System.out.println(it.getId());
+                it = it.getNext();
+            }
+        }
+    }
 
-        if (selectedSurface != null) {
-            selectedSurface.getSticked().forEach((id, surface)-> {
-                surface.removeSticked(selectedSurface.getId());
-            });
-            selectedSurface.removeStickedAll();
+    private boolean isNotAlreadyLinked(Surface surface, Surface surfaceToAdd) {
+        Surface it = surface.getNext();
+
+        if (it != null) {
+            while (it != surface) {
+                if (it == surfaceToAdd) {
+                    return false;
+                }
+                it = it.getNext();
+            }
+        }
+        return true;
+    }
+
+    private void linkSurfaces(Surface selectedSurface, Surface surfaceIntersect) {
+        printLinked(selectedSurface);
+
+        Surface tmp;
+        Surface tmp2;
+        if (selectedSurface.getNext() != null && isNotAlreadyLinked(surfaceIntersect, selectedSurface)) {
+            tmp = selectedSurface.getNext();
+            if (surfaceIntersect.getNext() != null) {
+                tmp2 = surfaceIntersect.getPrevious();
+                selectedSurface.setNext(surfaceIntersect);
+                surfaceIntersect.setPrevious(selectedSurface);
+                tmp2.setNext(tmp);
+                tmp.setPrevious(tmp2);
+
+            } else {
+                selectedSurface.setNext(surfaceIntersect);
+                surfaceIntersect.setPrevious(selectedSurface);
+                surfaceIntersect.setNext(tmp);
+                tmp.setPrevious(surfaceIntersect);
+            }
+        } else if (surfaceIntersect.getNext() != null && isNotAlreadyLinked(selectedSurface, surfaceIntersect)) {
+            tmp = surfaceIntersect.getNext();
+            if (selectedSurface.getNext() != null) {
+                tmp2 = selectedSurface.getPrevious();
+                surfaceIntersect.setNext(selectedSurface);
+                selectedSurface.setPrevious(surfaceIntersect);
+                tmp2.setNext(tmp);
+                tmp.setPrevious(tmp2);
+            } else {
+                surfaceIntersect.setNext(selectedSurface);
+                selectedSurface.setPrevious(surfaceIntersect);
+                selectedSurface.setNext(tmp);
+                tmp.setPrevious(selectedSurface);
+            }
+        } else if (isNotAlreadyLinked(selectedSurface, surfaceIntersect)) {
+            selectedSurface.setNext(surfaceIntersect);
+            selectedSurface.setPrevious(surfaceIntersect);
+            surfaceIntersect.setNext(selectedSurface);
+            surfaceIntersect.setPrevious(selectedSurface);
         }
 
     }
+
+    public void unstickSurfaces() {
+        Surface selectedSurface = meta.getSelectedSurface();
+        Surface tmpPrevious = null;
+        Surface tmpNext = null;
+
+        if (selectedSurface.getNext() != null) {
+            tmpNext = selectedSurface.getNext();
+            tmpPrevious = selectedSurface.getPrevious();
+
+            tmpNext.setPrevious(tmpPrevious);
+            tmpNext.setNext(tmpNext);
+        }
+    }
+
+    private Surface transformToOneSurface(Path2D.Double[] polygons) {
+        Surface[] surfaces = new Surface[polygons.length];
+        Surface returnedSurface = null;
+
+        for (int i = 0; i < polygons.length; i++) {
+            surfaces[i] = new Surface(polygons[i], false);
+        }
+
+        for (Surface surface : surfaces) {
+            for (Surface surfaceContain : surfaces) {
+                if (surface != surfaceContain) {
+                    if (surface.getId() != surfaceContain.getId()) {
+                        if (surface.contains(surfaceContain)) {
+                            surfaceContain.setHole(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Surface surface : surfaces) {
+            if (!surface.isHole()) {
+                returnedSurface = surface;
+            }
+        }
+
+        for (Surface surface : surfaces) {
+            if (surface != returnedSurface) {
+                assert returnedSurface != null;
+                returnedSurface.addPath(surface.getVertices());
+            }
+        }
+
+        return returnedSurface;
+    }
+
+    public void mergeSurfaces() {
+        meta.setDoing(Meta.EditionAction.Idle);
+
+        boolean merged = false;
+        Surface oldSelectedSurface = meta.getSelectedSurface();
+        Surface secondSurface = null;
+        Surface mergedSurface = null;
+
+        if (meta.getSelectedSurface() != null) {
+            Iterator<Pair<UUID, Surface>> iterator = meta.getSurfaces().iterator();
+            do {
+                Pair<UUID, Surface> pair = iterator.next();
+                if (meta.getSelectedSurface().getId() != pair.getKey()) {
+                    if (meta.getSelectedSurface().containsOrIntersect(pair.getValue())) {
+                        Path2D.Double[] polygons = PolygonTransformer.merge(meta.getSelectedSurface().getPolygon(), pair.getValue().getPolygon());
+                        if (polygons.length > 1) {
+                            mergedSurface = transformToOneSurface(polygons);
+                        } else {
+                            mergedSurface = new Surface(polygons[0], false);
+                        }
+                        meta.getSurfaces().put(mergedSurface.getId(), mergedSurface);
+                        merged = true;
+                        secondSurface = pair.getValue();
+                    }
+                    if (merged) {
+                        if (oldSelectedSurface.getPatternGroup() != null) {
+                            mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
+                            mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
+                            mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
+                            mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName(), meta.getDefaultTile());
+                        } else if (secondSurface.getPatternGroup() != null) {
+                            mergedSurface.setTypeOfTile(secondSurface.getTypeOfTile());
+                            mergedSurface.getGrout().setThickness(secondSurface.getGrout().getThickness());
+                            mergedSurface.getGrout().setColor(secondSurface.getGrout().getColor());
+                            mergedSurface.applyPattern(secondSurface.getPatternGroup().getPattern().getName(), meta.getDefaultTile());
+                        }
+                        break;
+                    }
+                }
+            } while(iterator.hasNext());
+            if (merged) {
+                meta.setSelectedSurface(null);
+                removeFromLinkedList(oldSelectedSurface);
+                removeFromLinkedList(secondSurface);
+                meta.getSurfaces().remove(oldSelectedSurface.getId());
+                meta.getSurfaces().remove(secondSurface.getId());
+            }
+        }
+    }
+
 }
