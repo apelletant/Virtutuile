@@ -222,8 +222,6 @@ public class SurfacePanel extends SubPanel {
     public enum DrawShapeButtonType {
         AddRectangularSurface,
         AddFreeSurface,
-        RemoveRectangularSurface,
-        RemoveFreeSurface,
         MergeSurfaces,
         MakeHole
     }

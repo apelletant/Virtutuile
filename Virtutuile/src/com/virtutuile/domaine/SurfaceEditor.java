@@ -347,6 +347,20 @@ public class SurfaceEditor {
                         tile.move(meta.getHover(), point);
                     });
                 }
+                /*meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
+                    surface.move(meta.getHover(), point);
+                });*/
+
+                meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
+                    surface.move(meta.getHover(), point);
+                    if (surface.getPatternGroup() != null
+                            && surface.getPatternGroup().getTiles().size() > 0) {
+                        surface.getPatternGroup().getTiles().forEach((tile) -> {
+                            tile.move(meta.getHover(), point);
+                        });
+                    }
+                });
+
                 /*if (meta.isSelectedSurfaceCanBeResized()) {
                     Point2D ratio = calcResizeRatio(point);
                     meta.getSelectedSurface().rescale(ratio.getX(), ratio.getY());
@@ -374,7 +388,6 @@ public class SurfaceEditor {
             builder = null;
         }
     }
-
 
     public void deleteSelectedShape() {
         Surface surface = meta.getSelectedSurface();
@@ -493,5 +506,29 @@ public class SurfaceEditor {
 
         if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
             meta.getSelectedSurface().getPatternGroup().moveOrigin(mouse.x - hover.x, mouse.y - hover.y);
+    }
+
+    public void stickSurfaces() {
+        Surface surfaceIntersect;
+        Surface selectedSurface = meta.getSelectedSurface();
+        if (selectedSurface != null) {
+            surfaceIntersect = meta.getSurfaceIntersected(selectedSurface);
+            if (surfaceIntersect != null) {
+                surfaceIntersect.addSticked(selectedSurface);
+                selectedSurface.addSticked(surfaceIntersect);
+            }
+        }
+    }
+
+    public void unstickSurfaces() {
+        Surface selectedSurface = meta.getSelectedSurface();
+
+        if (selectedSurface != null) {
+            selectedSurface.getSticked().forEach((id, surface)-> {
+                surface.removeSticked(selectedSurface.getId());
+            });
+            selectedSurface.removeStickedAll();
+        }
+
     }
 }

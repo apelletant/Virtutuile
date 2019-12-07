@@ -173,4 +173,21 @@ public class Surface extends PrimarySurface {
     public boolean isHole() {
         return isHole;
     }
+
+    public void addSticked(Surface surface) {
+        if (!sticked.containsKey(surface.getId()))
+            sticked.put(surface.getId(), surface);
+    }
+
+    public void removeStickedAll() {
+        sticked.clear();
+    }
+
+    public void removeSticked(UUID idSurface) {
+        sticked.remove(idSurface);
+    }
+
+    public UnorderedMap<UUID, Surface> getSticked() {
+        return sticked;
+    }
 }

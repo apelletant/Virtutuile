@@ -334,4 +334,12 @@ public class Controller {
             return meta.getSelectedSurface().getPatternGroup().getOrigin();
         return null;
     }
+
+    public void stickSurfaces() {
+        surfaceEditor.stickSurfaces();
+    }
+
+    public void unstickSurface() {
+        surfaceEditor.unstickSurfaces();
+    }
 }

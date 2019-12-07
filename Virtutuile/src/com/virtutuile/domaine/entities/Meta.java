@@ -761,7 +761,7 @@ public class Meta implements Serializable {
         this.hoveredTile = tile;
     }
 
-    private Surface getSurfaceIntersected(Surface surface) {
+    public Surface getSurfaceIntersected(Surface surface) {
         Surface found = null;
         Iterator<Pair<UUID, Surface>> iterator = surfaces.iterator();
         do {
@@ -786,6 +786,7 @@ public class Meta implements Serializable {
                 selectedSurface.setSelected(false);
                 surfaces.remove(selectedSurface.getId());
                 selectedSurface = null;
+                recalcPattern();
             }
         }
     }
