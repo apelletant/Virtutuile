@@ -108,6 +108,9 @@ public class TextInput extends Panel implements DocumentListener {
     }
 
     public TextInput setValidator(TriConsumer<String, TextInput, BiConsumer<String, TextInput>>... validators) {
+        inputValidator = (a, b) -> {
+            invoke(InputEventKind.OnChange);
+        };
 
         for (int i = 0; i < validators.length; ++i) {
             TriConsumer<String, TextInput, BiConsumer<String, TextInput>> validator = validators[i];
