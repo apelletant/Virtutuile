@@ -7,6 +7,7 @@ import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.UUID;
@@ -185,5 +186,21 @@ public class Surface extends PrimarySurface {
 
     public void setPrevious(Surface previous) {
         this.previous = previous;
+    }
+
+    @Override
+    public void move(Point2D from, Point2D to) {
+        move(from, to, null);
+    }
+
+    public void move(Point2D from, Point2D to, Surface stop) {
+        AffineTransform at = new AffineTransform();
+
+        at.setToTranslation(to.getX() - from.getX(), to.getY() - from.getY());
+        polygon.transform(at);
+
+        if (stop != null && next != null && next != stop) {
+            next.move(from, to, stop);
+        }
     }
 }

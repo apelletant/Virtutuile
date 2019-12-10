@@ -285,19 +285,23 @@ public class SurfaceEditor {
             switch (meta.getAlignDirection()) {
                 case Left:
                     selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
-                            new Point2D.Double(originRef, selectedSurface.getBounds().y));
+                            new Point2D.Double(originRef, selectedSurface.getBounds().y),
+                            selectedSurface);
                     break;
                 case Right:
                     selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
-                            new Point2D.Double(originRef + surfaceReferenceAlign.getBounds().getWidth(), selectedSurface.getBounds().y));
+                            new Point2D.Double(originRef + surfaceReferenceAlign.getBounds().getWidth(), selectedSurface.getBounds().y),
+                            selectedSurface);
                     break;
                 case Top:
                     selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
-                            new Point2D.Double(selectedSurface.getBounds().x, originRef));
+                            new Point2D.Double(selectedSurface.getBounds().x, originRef),
+                            selectedSurface);
                     break;
                 case Bottom:
                     selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
-                            new Point2D.Double(selectedSurface.getBounds().x, originRef + surfaceReferenceAlign.getBounds().getHeight()));
+                            new Point2D.Double(selectedSurface.getBounds().x, originRef + surfaceReferenceAlign.getBounds().getHeight()),
+                            selectedSurface);
                     break;
                 default:
                     break;
@@ -350,27 +354,14 @@ public class SurfaceEditor {
             //TODO: Do nothing mais bon faut refacto mdr
         } else {
             if (meta.getSelectedSurface() != null) {
-                meta.getSelectedSurface().move(meta.getHover(), point);
+                meta.getSelectedSurface().move(meta.getHover(), point, meta.getSelectedSurface());
                 if (meta.getSelectedSurface().getPatternGroup() != null
                         && meta.getSelectedSurface().getPatternGroup().getTiles().size() > 0) {
                     meta.getSelectedSurface().getPatternGroup().getTiles().forEach((tile) -> {
                         tile.move(meta.getHover(), point);
                     });
                 }
-
-                Surface surface = meta.getSelectedSurface().getNext();
-                if (surface != null) {
-                    while (surface != meta.getSelectedSurface()) {
-                        surface.move(meta.getHover(), point);
-                        if (surface.getPatternGroup() != null
-                                && surface.getPatternGroup().getTiles().size() > 0) {
-                            surface.getPatternGroup().getTiles().forEach((tile) -> {
-                                tile.move(meta.getHover(), point);
-                            });
-                        }
-                        surface = surface.getNext();
-                    }
-                }
+                /*moveSticked(point);*/
 
                 /*meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
                     surface.move(meta.getHover(), point);
@@ -445,6 +436,25 @@ public class SurfaceEditor {
         }
     }
 
+    private void moveSticked(Point2D point) {
+        Surface surface = meta.getSelectedSurface().getNext();
+        if (surface != null) {
+            if (surface != meta.getSelectedSurface()) {
+
+                while (surface != meta.getSelectedSurface()) {
+                    surface.move(meta.getHover(), point);
+                    if (surface.getPatternGroup() != null
+                            && surface.getPatternGroup().getTiles().size() > 0) {
+                        surface.getPatternGroup().getTiles().forEach((tile) -> {
+                            tile.move(meta.getHover(), point);
+                        });
+                    }
+                    surface = surface.getNext();
+                }
+            }
+        }
+    }
+
     public void setAlignDistance(double distance) {
         Surface surface = meta.getSelectedSurface();
         Surface reference = meta.getLastAlignedSurface();
@@ -458,7 +468,7 @@ public class SurfaceEditor {
                         distance *= -1;
                     }
                     surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
-                            new Point2D.Double(originRef + distance, surface.getBounds().y));
+                            new Point2D.Double(originRef + distance, surface.getBounds().y), meta.getSelectedSurface());
                     break;
                 case Right:
                     originRef = reference.getBounds().getX();
@@ -467,7 +477,7 @@ public class SurfaceEditor {
                     }
                     originRef = reference.getBounds().getX();
                     surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
-                            new Point2D.Double(originRef + reference.getBounds().getWidth() + distance, surface.getBounds().y));
+                            new Point2D.Double(originRef + reference.getBounds().getWidth() + distance, surface.getBounds().y), meta.getSelectedSurface());
                     break;
                 case Top:
                     originRef = reference.getBounds().getY();
@@ -475,7 +485,7 @@ public class SurfaceEditor {
                         distance *= -1;
                     }
                     surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
-                            new Point2D.Double(surface.getBounds().x, originRef + distance));
+                            new Point2D.Double(surface.getBounds().x, originRef + distance), meta.getSelectedSurface());
                     break;
                 case Bottom:
                     originRef = reference.getBounds().getY();
@@ -483,7 +493,7 @@ public class SurfaceEditor {
                         distance *= -1;
                     }
                     surface.move(new Point2D.Double(surface.getBounds().x, surface.getBounds().y),
-                            new Point2D.Double(surface.getBounds().x, originRef + reference.getBounds().getHeight() + distance));
+                            new Point2D.Double(surface.getBounds().x, originRef + reference.getBounds().getHeight() + distance), meta.getSelectedSurface());
                     break;
                 default:
                     break;
@@ -567,11 +577,15 @@ public class SurfaceEditor {
         Surface it = surface.getNext();
 
         if (it != null) {
-            while (it != surface) {
-                if (it == surfaceToAdd) {
-                    return false;
+            if (it != surface) {
+                while (it != surface) {
+                    if (it == surfaceToAdd) {
+                        return false;
+                    }
+                    it = it.getNext();
                 }
-                it = it.getNext();
+            } else {
+                return false;
             }
         }
         return true;
@@ -625,12 +639,16 @@ public class SurfaceEditor {
         Surface tmpPrevious = null;
         Surface tmpNext = null;
 
-        if (selectedSurface.getNext() != null) {
+        if (selectedSurface != null
+                && selectedSurface.getNext() != null) {
             tmpNext = selectedSurface.getNext();
             tmpPrevious = selectedSurface.getPrevious();
 
             tmpNext.setPrevious(tmpPrevious);
             tmpNext.setNext(tmpNext);
+
+            selectedSurface.setNext(null);
+            selectedSurface.setPrevious(null);
         }
     }
 
