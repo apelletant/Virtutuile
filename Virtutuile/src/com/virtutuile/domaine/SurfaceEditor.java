@@ -361,22 +361,6 @@ public class SurfaceEditor {
                         tile.move(meta.getHover(), point);
                     });
                 }
-                /*moveSticked(point);*/
-
-                /*meta.getSelectedSurface().getSticked().forEach((name, surface) -> {
-                    surface.move(meta.getHover(), point);
-                    if (surface.getPatternGroup() != null
-                            && surface.getPatternGroup().getTiles().size() > 0) {
-                        surface.getPatternGroup().getTiles().forEach((tile) -> {
-                            tile.move(meta.getHover(), point);
-                        });
-                    }
-                });*/
-
-                /*if (meta.isSelectedSurfaceCanBeResized()) {
-                    Point2D ratio = calcResizeRatio(point);
-                    meta.getSelectedSurface().rescale(ratio.getX(), ratio.getY());
-                }*/
             }
 //            else if (meta.getHoveredSurface() != null) {
 //                Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
@@ -645,7 +629,7 @@ public class SurfaceEditor {
             tmpPrevious = selectedSurface.getPrevious();
 
             tmpNext.setPrevious(tmpPrevious);
-            tmpNext.setNext(tmpNext);
+            tmpPrevious.setNext(tmpNext);
 
             selectedSurface.setNext(null);
             selectedSurface.setPrevious(null);
