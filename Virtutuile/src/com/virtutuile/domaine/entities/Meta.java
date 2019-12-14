@@ -810,6 +810,20 @@ public class Meta implements Serializable {
         doing = action;
     }
 
+    public Double getSurfaceRotation() {
+        if (selectedSurface != null) {
+            return selectedSurface.getRotationRadian();
+        }
+        return 0.0;
+    }
+
+    public Double getSurfaceRotationDeg() {
+        if (selectedSurface != null) {
+            return selectedSurface.getRotationDeg();
+        }
+        return 0.0;
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,

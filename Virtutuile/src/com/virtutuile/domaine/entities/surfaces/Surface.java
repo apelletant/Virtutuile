@@ -2,7 +2,6 @@ package com.virtutuile.domaine.entities.surfaces;
 
 import com.virtutuile.domaine.entities.Grout;
 import com.virtutuile.domaine.entities.PatternGroup;
-import com.virtutuile.shared.UnorderedMap;
 import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
@@ -10,7 +9,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.util.UUID;
+import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 public class Surface extends PrimarySurface {
@@ -202,5 +201,81 @@ public class Surface extends PrimarySurface {
         if (stop != null && next != null && next != stop) {
             next.move(from, to, stop);
         }
+    }
+
+    private Rectangle2D.Double getGlobalBounds() {
+        Surface iterator = next;
+        Rectangle2D.Double bounds = new Rectangle2D.Double();
+        Point2D.Double max = new Point2D.Double();
+
+        bounds.x = getBounds().x;
+        bounds.y = getBounds().y;
+        max.x = bounds.x + getBounds().width;
+        max.y = bounds.y + getBounds().height;
+
+        while (iterator != this) {
+            Rectangle2D.Double boundsIterator = iterator.getBounds();
+            if (boundsIterator.x < bounds.x) {
+                bounds.x = boundsIterator.x;
+            }
+            if (boundsIterator.y < bounds.y) {
+                bounds.y = boundsIterator.y;
+            }
+            if (boundsIterator.x + boundsIterator.width > max.x) {
+                max.x = boundsIterator.x + boundsIterator.width;
+            }
+            if (boundsIterator.y + boundsIterator.height > max.y) {
+                max.y = boundsIterator.y + boundsIterator.height;
+            }
+            iterator = iterator.next;
+        }
+
+        bounds.width = max.x - bounds.x;
+        bounds.height = max.y - bounds.y;
+
+        return bounds;
+    }
+
+    private void rotateDeg(Rectangle2D.Double bounds, double degrees, Surface surface) {
+        AffineTransform at = new AffineTransform();
+        double wantToRotateTo = degrees;
+        degrees -= surface.getRotationDeg();
+        at.setToRotation(degrees * Math.PI / 180);
+
+        Rectangle2D.Double cpy = surface.getBounds();
+
+        surface.moveOf((-bounds.x - (bounds.getWidth() / 2)),((-bounds.y - (bounds.getHeight() / 2))));
+        surface.getPolygon().transform(at);
+        surface.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
+
+        surface.setRotationRadian(wantToRotateTo * Math.PI / 180);
+    }
+
+    @Override
+    public void rotateDeg(double degrees) {
+        Surface it = null;
+        Rectangle2D.Double bounds;
+
+        if (next != null) {
+            it = next;
+            bounds = getGlobalBounds();
+        } else {
+            bounds = getBounds();
+        }
+
+        rotateDeg(bounds, degrees,this);
+        if (next != null && next != this) {
+            while (it != this) {
+                if (it != null) {
+                    rotateDeg(bounds, degrees, it);
+                    it = it.next;
+                }
+            }
+
+        }
+    }
+
+    private void setRotationRadian(double radian) {
+        rotationRadian = radian;
     }
 }

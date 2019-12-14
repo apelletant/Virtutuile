@@ -37,6 +37,6 @@ public class Constants {
     public static final int DEFAULT_SHAPE_BORDER_THICKNESS = 2;
 
     // At 100% zoom -> 1px equals to 10cm
-    public static final double NORMAL_ZOOM = 0.75d;
+    public static final double NORMAL_ZOOM = 0.08d;
     public static final double WHEEL_TICK_RATIO = 5d;
 }

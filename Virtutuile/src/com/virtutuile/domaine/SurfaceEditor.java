@@ -4,6 +4,7 @@ import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.*;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.Pair;
+import com.virtutuile.shared.Vector2D;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
@@ -362,18 +363,22 @@ public class SurfaceEditor {
                     });
                 }
             }
-//            else if (meta.getHoveredSurface() != null) {
-//                Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
-//                Vector2D origin = Vector2D.from(meta.getHover());
-//                Vector2D target = Vector2D.from(point);
-//
-//
-//                meta.getHoveredSurface().rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
+            else if (meta.getHoveredSurface() != null) {
+                Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
+                Vector2D origin = Vector2D.from(meta.getHover());
+                Vector2D target = Vector2D.from(point);
+
+                meta.getHoveredSurface().rotateRad(target.angleBetweenRad(root) - origin.angleBetweenRad(root));
+            }
 //            }/* else if (_cursor == CursorEventType.Resize && _hoveredShape != null) {
 //                actionStatus.cursorShape = UIConstants.Mouse.VCursor.Resize;
 //                //ancien code, gérer le resize à l'aide des curseurs #cursor pas réimplémenté pour le moment
 //            }*/
         }
+    }
+
+    public void rotateSurface(double rotationDeg) {
+        meta.getSelectedSurface().rotateDeg(rotationDeg);
     }
 
     public void endBuildingSurface() {

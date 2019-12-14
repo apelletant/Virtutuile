@@ -342,4 +342,16 @@ public class Controller {
     public void unstickSurface() {
         surfaceEditor.unstickSurfaces();
     }
+
+    public void rotateSurface(double rotationDeg) {
+        surfaceEditor.rotateSurface(rotationDeg);
+    }
+
+    public Double getSurfaceRotation() {
+        return meta.getSurfaceRotation();
+    }
+
+    public Double getSurfaceRotationDeg() {
+        return meta.getSurfaceRotationDeg();
+    }
 }

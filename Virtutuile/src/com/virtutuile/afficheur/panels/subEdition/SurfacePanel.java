@@ -99,6 +99,14 @@ public class SurfacePanel extends SubPanel {
             }
         });
 
+        positionInputs.get(InputContextType.Rotation).addInputListener(InputEventKind.OnChange, (value, self) -> {
+            if (!value.isEmpty()) {
+                mainWindow.getController().rotateSurface(Double.parseDouble(value));/* setSurfaceLatitude(Double.parseDouble(value));*/
+                /*mainWindow.getController().recalcPattern();*/
+                mainWindow.repaint();
+            }
+        });
+
         makeHole.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
             mainWindow.getController().makeSurfaceHole();
             mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
@@ -185,15 +193,20 @@ public class SurfacePanel extends SubPanel {
     private void setPositionInputsOnPanel(JPanel line) {
         positionInputs.put(InputContextType.Longitude, new UnitInput("Longitude", true, "doubleInf"));
         positionInputs.put(InputContextType.Latitude, new UnitInput("Latitude", true, "doubleInf"));
-
         positionInputs.get(InputContextType.Longitude).setUnitLabel("cm to 0");
         positionInputs.get(InputContextType.Latitude).setUnitLabel("cm to 0");
 
         positionInputs.forEach((key, value) -> {
             line.add(value);
         });
-
         rows.add(line);
+
+        JPanel finalLine = new JPanel();
+        finalLine.setLayout(new BoxLayout(finalLine, BoxLayout.X_AXIS));
+        positionInputs.put(InputContextType.Rotation, new UnitInput("Rotation", true, "doubleInf"));
+        positionInputs.get(InputContextType.Rotation).setUnitLabel("deg");
+        finalLine.add(positionInputs.get(InputContextType.Rotation));
+        rows.add(finalLine);
     }
 
     public void retrieveSelectedSurfaceProperties() {
@@ -230,6 +243,7 @@ public class SurfacePanel extends SubPanel {
         Width,
         Height,
         Longitude,
-        Latitude
+        Latitude,
+        Rotation
     }
 }

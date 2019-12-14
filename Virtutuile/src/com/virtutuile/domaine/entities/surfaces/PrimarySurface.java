@@ -18,6 +18,7 @@ public abstract class PrimarySurface implements Serializable {
     protected boolean isSelected;
     protected boolean isMouseHover;
     protected Bounds bounds;
+    protected Double rotationRadian = 0.0;
 
     protected Color borderColor;
     protected Color fillColor;
@@ -131,11 +132,30 @@ public abstract class PrimarySurface implements Serializable {
         polygon.transform(at);
     }
 
+
+    protected Rectangle2D.Double getBoundsCopy() {
+        Rectangle2D.Double cpy = new Rectangle2D.Double();
+
+        cpy.x = getBounds().x;
+        cpy.y = getBounds().y;
+        cpy.width = getBounds().width;
+        cpy.height = getBounds().height;
+
+        return cpy;
+    }
+
     public void rotateDeg(double degrees) {
         AffineTransform at = new AffineTransform();
+        double wantToRotateTo = degrees;
 
-        at.setToRotation(degrees / 180 * Math.PI);
+        degrees -= getRotationDeg();
+        at.setToRotation(degrees * Math.PI / 180);
+
+        Rectangle2D.Double cpy = getBoundsCopy();
+        moveOf((-getBounds().x - (getBounds().getWidth() / 2)),((-getBounds().y - (getBounds().getHeight() / 2))));
         polygon.transform(at);
+        moveOf(cpy.x + cpy.getWidth() / 2, cpy.y + cpy.getHeight() / 2);
+        rotationRadian = wantToRotateTo * Math.PI / 180;
     }
 
     public void rotateRad(double radians) {
@@ -363,5 +383,13 @@ public abstract class PrimarySurface implements Serializable {
 
     public void setSettedColor(Color settedColor) {
         this.settedColor = settedColor;
+    }
+
+    public Double getRotationRadian() {
+        return rotationRadian;
+    }
+
+    public Double getRotationDeg() {
+        return rotationRadian * 180 / Math.PI;
     }
 }
