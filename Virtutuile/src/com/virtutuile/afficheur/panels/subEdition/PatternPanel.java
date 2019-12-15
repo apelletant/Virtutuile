@@ -20,6 +20,8 @@ public class PatternPanel extends SubPanel {
     private UnorderedMap<String, Button> options = new UnorderedMap<>();
     private UnitInput patternPositionX = new UnitInput("Position X", true, "doubleInf");
     private UnitInput patternPositionY = new UnitInput("Position Y", true, "doubleInf");
+    private UnitInput patternShiftConfig = new UnitInput("Shift value", true, "doubleInf");
+    private Button patternShiftDirection = new Button("Shift on X");
 
     public PatternPanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -45,6 +47,10 @@ public class PatternPanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setPatternPositionInput(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setPatternConfigurationInput(line);
     }
 
     private void setButtonsPatternOnPanel(JPanel line) {
@@ -84,6 +90,27 @@ public class PatternPanel extends SubPanel {
         rows.add(line);
     }
 
+    private void setPatternConfigurationInput(JPanel line) {
+        patternShiftConfig.addInputListener(InputEventKind.OnChange, (val, input) -> {
+            mainWindow.getController().changeSelectedShiftValue(Double.parseDouble(val));
+            mainWindow.repaint();
+        });
+
+        patternShiftDirection.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent) -> {
+            boolean active = !patternShiftDirection.isActive();
+            mainWindow.getController().changeSelectedShiftDirection(active);
+            patternShiftDirection.setActive(active);
+            if (active)
+                patternShiftDirection.setText("Shift on Y");
+            else
+                patternShiftDirection.setText("Shift on X");
+            mainWindow.repaint();
+        });
+        line.add(patternShiftConfig);
+        line.add(patternShiftDirection);
+        rows.add(line);
+    }
+
     @Override
     protected void setEvents() {
 
@@ -108,10 +135,18 @@ public class PatternPanel extends SubPanel {
 
     public void retrieveInfoSelected() {
         Vector2D pt = mainWindow.getController().getSelectedSurfacePatternOrigin();
+        double ps = mainWindow.getController().getSelectedSurfacePatternShift();
+        boolean ds = mainWindow.getController().getSelectedSurfacePatternDirectionShift();
 
         if (pt != null) {
             patternPositionX.setValue(Math.round(pt.x * 100d) / 100d);
             patternPositionY.setValue(Math.round(pt.y * 100d) / 100d);
         }
+        patternShiftConfig.setValue(Math.round(ps * 100d) / 100d);
+        patternShiftDirection.setActive(ds);
+        if (ds)
+            patternShiftDirection.setName("Shift on Y");
+        else
+            patternShiftDirection.setName("Shift on X");
     }
 }

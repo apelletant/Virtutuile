@@ -50,6 +50,11 @@ public class Button extends BorderedEventPanel {
         add(imageContainer, BorderLayout.CENTER);
     }
 
+    public void setText(String text) {
+        this.text.setText(text);
+        repaint();
+    }
+
     /**
      * Force the button to be this size
      *

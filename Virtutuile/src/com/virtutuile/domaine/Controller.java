@@ -1,6 +1,7 @@
 package com.virtutuile.domaine;
 
 import com.virtutuile.domaine.entities.Meta;
+import com.virtutuile.domaine.entities.PatternGroup;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.shared.Vector2D;
 
@@ -353,5 +354,35 @@ public class Controller {
 
     public Double getSurfaceRotationDeg() {
         return meta.getSurfaceRotationDeg();
+    }
+
+    public double getSelectedSurfacePatternShift() {
+        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
+            return meta.getSelectedSurface().getPatternGroup().getShift();
+        return 0;
+    }
+
+    public boolean getSelectedSurfacePatternDirectionShift() {
+        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
+            return meta.getSelectedSurface().getPatternGroup().getShiftDirection();
+        return false;
+    }
+
+    public void changeSelectedShiftValue(double shift) {
+        Surface surface = meta.getSelectedSurface();
+        if (surface != null && surface.getPatternGroup() != null) {
+            PatternGroup pg = surface.getPatternGroup();
+            pg.setShift(shift);
+            pg.recalcPattern(surface);
+        }
+    }
+
+    public void changeSelectedShiftDirection(boolean shiftDirection) {
+        Surface surface = meta.getSelectedSurface();
+        if (surface != null && surface.getPatternGroup() != null) {
+            PatternGroup pg = surface.getPatternGroup();
+            pg.setShiftDirection(shiftDirection);
+            pg.recalcPattern(surface);
+        }
     }
 }

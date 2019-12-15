@@ -22,10 +22,12 @@ public class PatternGroup implements Serializable {
 
     private Pattern pattern = null;
     private Vector<Tile> tiles = new Vector<>();
-    private float rotation;
+    private double rotation;
     private boolean centered = false;
     private int cuttedTiles = 0;
     private Vector2D patternOrigin;
+    private double shift = 0d;
+    private boolean shiftDirection = false;
 
     public PatternGroup(String patternName, Surface surface, Tile tile) {
         if (surface.getTypeOfTile() == null) {
@@ -90,20 +92,34 @@ public class PatternGroup implements Serializable {
         final double patMinY = surface.getBounds().y;
         final double patMaxY = patMinY + surface.getBounds().height + tileH;
 
+        // Defining shifting values
+        final double shiftX = (pattern.isShiftable() && !shiftDirection) ? shift : 0;
+        final double shiftY = (pattern.isShiftable() && shiftDirection) ? shift : 0;
+
         int cuttedTiles = 0;
         if (patternOrigin == null) {
             patternOrigin = new Vector2D(0, 0);
         }
         Vector2D origin = transformOrigin(patternOrigin, surface);
+        int iY = -1;
 
         double x = origin.x + .5;
         double y = origin.y + .5;
         while (y <= patMaxY) {
+            ++iY;
+            int iX = -1;
+
+            if (iY % 2 == 0)
+                x -= shiftX;
 
             while (x <= patMaxX) {
+                ++iX;
                 boolean isCutted = false;
                 double tempX = x;
                 double tempY = y;
+
+                if (iX % 2 == 0)
+                    tempY -= shiftY;
                 for (int i = 0; i < tiles.size(); ++i) {
                     Tile tile = tiles.get(i);
                     Tile newTile = tile.copy();
@@ -168,10 +184,10 @@ public class PatternGroup implements Serializable {
         ret.x -= patBounds.width / 2;
         ret.y -= patBounds.height / 2;
         while (ret.x > surBounds.x) {
-            ret.x -= grout + patBounds.width;
+            ret.x -= grout * 2 + patBounds.width * 2;
         }
         while (ret.y > surBounds.y) {
-            ret.y -= grout + patBounds.height;
+            ret.y -= grout * 2 + patBounds.height * 2;
         }
 
         return ret;
@@ -221,11 +237,11 @@ public class PatternGroup implements Serializable {
         this.tiles = tiles;
     }
 
-    public float getRotation() {
+    public double getRotation() {
         return rotation;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 
@@ -261,5 +277,21 @@ public class PatternGroup implements Serializable {
             patternOrigin.x += x;
         if (!Double.isNaN(y))
             patternOrigin.y += y;
+    }
+
+    public double getShift() {
+        return shift;
+    }
+
+    public void setShift(double shift) {
+        this.shift = shift;
+    }
+
+    public boolean getShiftDirection() {
+        return shiftDirection;
+    }
+
+    public void setShiftDirection(boolean shiftDirection) {
+        this.shiftDirection = shiftDirection;
     }
 }

@@ -14,6 +14,7 @@ public class Classic extends Pattern {
         adjustYRules = new double[]{0};
         groutXRules = new double[]{0};
         groutYRules = new double[]{0};
+        shiftable = true;
         offsetX = 1;
         offsetY = 1;
         if (tile != null) {

@@ -57,6 +57,7 @@ public abstract class Pattern implements Serializable {
     protected double[] adjustYRules;
     protected double[] groutXRules;
     protected double[] groutYRules;
+    protected boolean shiftable = false;
     protected Vector<Tile> tiles = new Vector<>();
     protected String name;
     protected Point2D defaultDimensions = new Point2D.Double(100, 70);
@@ -109,5 +110,9 @@ public abstract class Pattern implements Serializable {
             return null;
 
         return first.getBounds();
+    }
+
+    public boolean isShiftable() {
+        return shiftable;
     }
 }
