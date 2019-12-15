@@ -360,9 +360,11 @@ public class Meta implements Serializable {
     public void setGroutThickness(String value) {
         if (selectedSurface != null
                 && selectedSurface.getGrout() != null) {
-            selectedSurface.getGrout().setThickness(Double.parseDouble(value));
-            if (selectedSurface.getPatternGroup() != null) {
-                selectedSurface.getPatternGroup().recalcPattern(selectedSurface);
+            if (selectedSurface.getGrout().getThickness() != Double.parseDouble(value)) {
+                selectedSurface.getGrout().setThickness(Double.parseDouble(value));
+                if (selectedSurface.getPatternGroup() != null) {
+                    selectedSurface.getPatternGroup().recalcPattern(selectedSurface); /*TODO*/
+                }
             }
         }
     }
@@ -820,6 +822,13 @@ public class Meta implements Serializable {
     public Double getSurfaceRotationDeg() {
         if (selectedSurface != null) {
             return selectedSurface.getRotationDeg();
+        }
+        return 0.0;
+    }
+
+    public double getSelectedSurfacePatternRotation() {
+        if (selectedSurface != null && selectedSurface.getPatternGroup() != null) {
+            return selectedSurface.getPatternGroup().getRotation();
         }
         return 0.0;
     }

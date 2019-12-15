@@ -326,7 +326,7 @@ public class Controller {
         Surface surface = meta.getSelectedSurface();
         if (surface != null && surface.getPatternGroup() != null) {
             surface.getPatternGroup().setOrigin(moveX, moveY);
-            surface.getPatternGroup().recalcPattern(surface);
+            surface.getPatternGroup().recalcPattern(surface);/*TODO*/
         }
     }
 
@@ -384,5 +384,13 @@ public class Controller {
             pg.setShiftDirection(shiftDirection);
             pg.recalcPattern(surface);
         }
+    }
+
+    public void rotatePattern(double rotation) {
+        surfaceEditor.rotatePattern(rotation);
+    }
+
+    public double getSelectedSurfacePatternRotation() {
+        return meta.getSelectedSurfacePatternRotation();
     }
 }

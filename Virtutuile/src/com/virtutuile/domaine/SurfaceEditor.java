@@ -706,11 +706,13 @@ public class SurfaceEditor {
                             mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
                             mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
+                            /*mergedSurface.getPatternGroup().setRotation(oldSelectedSurface.getRotationDeg());*/
                             mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName(), meta.getDefaultTile());
                         } else if (secondSurface.getPatternGroup() != null) {
                             mergedSurface.setTypeOfTile(secondSurface.getTypeOfTile());
                             mergedSurface.getGrout().setThickness(secondSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(secondSurface.getGrout().getColor());
+                            /*mergedSurface.getPatternGroup().setRotation(secondSurface.getRotationDeg());*/
                             mergedSurface.applyPattern(secondSurface.getPatternGroup().getPattern().getName(), meta.getDefaultTile());
                         }
                         break;
@@ -727,4 +729,12 @@ public class SurfaceEditor {
         }
     }
 
+    public void rotatePattern(double rotation) {
+        Surface surface = meta.getSelectedSurface();
+
+        if (surface != null && surface.getPatternGroup() != null) {
+            surface.getPatternGroup().setRotation(rotation);
+            surface.getPatternGroup().recalcPattern(surface);
+        }
+    }
 }

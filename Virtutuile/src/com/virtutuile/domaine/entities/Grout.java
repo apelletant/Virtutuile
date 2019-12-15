@@ -12,7 +12,7 @@ public class Grout implements Serializable {
 
     public Grout() {
         color = Constants.INPUT_COLOR_INVALID;
-        this.thickness = 3;
+        this.thickness = 1;
     }
 
     public Color getColor() {

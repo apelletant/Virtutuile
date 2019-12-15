@@ -22,6 +22,7 @@ public class PatternPanel extends SubPanel {
     private UnitInput patternPositionY = new UnitInput("Position Y", true, "doubleInf");
     private UnitInput patternShiftConfig = new UnitInput("Shift value", true, "doubleInf");
     private Button patternShiftDirection = new Button("Shift on X");
+    private UnitInput rotation = new UnitInput("Rotation", true, "doubleInf");
 
     public PatternPanel(String name, MainWindow mainWindow) {
         super(name, mainWindow);
@@ -51,6 +52,20 @@ public class PatternPanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setPatternConfigurationInput(line);
+
+        line = new Panel();
+        line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
+        setRotationInput(line);
+    }
+
+    private void setRotationInput(JPanel line) {
+        rotation.setUnitLabel("deg");
+        rotation.addInputListener(InputEventKind.OnChange, (value, input) -> {
+            mainWindow.getController().rotatePattern(Double.parseDouble(value));
+            mainWindow.repaint();
+        });
+        line.add(rotation);
+        rows.add(line);
     }
 
     private void setButtonsPatternOnPanel(JPanel line) {
@@ -137,7 +152,9 @@ public class PatternPanel extends SubPanel {
         Vector2D pt = mainWindow.getController().getSelectedSurfacePatternOrigin();
         double ps = mainWindow.getController().getSelectedSurfacePatternShift();
         boolean ds = mainWindow.getController().getSelectedSurfacePatternDirectionShift();
+        double rotationPattern = mainWindow.getController().getSelectedSurfacePatternRotation();
 
+        rotation.setText(Double.toString(rotationPattern));
         if (pt != null) {
             patternPositionX.setValue(Math.round(pt.x * 100d) / 100d);
             patternPositionY.setValue(Math.round(pt.y * 100d) / 100d);

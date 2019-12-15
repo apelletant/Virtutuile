@@ -55,7 +55,43 @@ public class PatternGroup implements Serializable {
     public void recalcPattern(Surface surface) {
         tiles = new Vector<>();
         pattern.setTileType(surface.getTypeOfTile());
+
+        Rectangle2D.Double bounds = surface.getBounds();
+        AffineTransform at = new AffineTransform();
+        double degrees = surface.getRotationDeg() + rotation;
+        at.setToRotation((degrees * Math.PI / 180) * -1);
+
+        surface.moveOf((-bounds.x - (bounds.getWidth() / 2)),((-bounds.y - (bounds.getHeight() / 2))));
+        surface.getPolygon().transform(at);
+
         buildPattern(surface);
+
+        at = new AffineTransform();
+        at.setToRotation(degrees * Math.PI / 180);
+        for (Tile tile : tiles) {
+            tile.getPolygon().transform(at);
+            tile.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
+        }
+        surface.getPolygon().transform(at);
+        surface.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
+
+
+
+
+
+
+
+
+
+        /*surface.moveOf((-cpy.x - (cpy.getBounds().getWidth() / 2)),((-cpy.getBounds().y - (cpy.getBounds().getHeight() / 2))));*/
+        //rotate to 0
+
+
+        /*tiles.forEach((tile) -> {
+            tile.moveOf((-cpy.x - (cpy.getBounds().getWidth() / 2)),((-cpy.getBounds().y - (cpy.getBounds().getHeight() / 2))));
+        });*/
+        //rotateback
+        /*surface.moveOf((cpy.x + (cpy.getBounds().getWidth() / 2)),((cpy.getBounds().y + (cpy.getBounds().getHeight() / 2))));*/
     }
 
     public void changeTileType(Surface surface, Tile tile) {

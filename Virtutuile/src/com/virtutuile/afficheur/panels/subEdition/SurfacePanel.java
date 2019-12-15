@@ -73,20 +73,20 @@ public class SurfacePanel extends SubPanel {
 
         unitInputs.get(InputContextType.Width).addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setSurfaceWidth(Double.parseDouble(value));
-            mainWindow.getController().recalcPattern();
+            mainWindow.getController().recalcPattern(); /*TODO*/
             mainWindow.repaint();
         });
 
         unitInputs.get(InputContextType.Height).addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().setSurfaceHeight(Double.parseDouble(value));
-            mainWindow.getController().recalcPattern();
+            mainWindow.getController().recalcPattern(); /*TODO*/
             mainWindow.repaint();
         });
 
         positionInputs.get(InputContextType.Longitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
                 mainWindow.getController().setSurfaceLongitude(Double.parseDouble(value));
-                mainWindow.getController().recalcPattern();
+                mainWindow.getController().recalcPattern(); /*TODO*/
                 mainWindow.repaint();
             }
         });
@@ -94,15 +94,15 @@ public class SurfacePanel extends SubPanel {
         positionInputs.get(InputContextType.Latitude).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
                 mainWindow.getController().setSurfaceLatitude(Double.parseDouble(value));
-                mainWindow.getController().recalcPattern();
+                mainWindow.getController().recalcPattern(); /*TODO*/
                 mainWindow.repaint();
             }
         });
 
         positionInputs.get(InputContextType.Rotation).addInputListener(InputEventKind.OnChange, (value, self) -> {
             if (!value.isEmpty()) {
-                mainWindow.getController().rotateSurface(Double.parseDouble(value));/* setSurfaceLatitude(Double.parseDouble(value));*/
-                /*mainWindow.getController().recalcPattern();*/
+                mainWindow.getController().rotateSurface(Double.parseDouble(value));
+                mainWindow.getController().recalcPattern(); /*TODO*/
                 mainWindow.repaint();
             }
         });

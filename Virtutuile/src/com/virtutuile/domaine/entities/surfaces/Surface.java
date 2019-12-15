@@ -242,11 +242,10 @@ public class Surface extends PrimarySurface {
         degrees -= surface.getRotationDeg();
         at.setToRotation(degrees * Math.PI / 180);
 
-        Rectangle2D.Double cpy = surface.getBounds();
-
         surface.moveOf((-bounds.x - (bounds.getWidth() / 2)),((-bounds.y - (bounds.getHeight() / 2))));
         surface.getPolygon().transform(at);
         surface.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
+
 
         surface.setRotationRadian(wantToRotateTo * Math.PI / 180);
     }
@@ -275,7 +274,7 @@ public class Surface extends PrimarySurface {
         }
     }
 
-    private void setRotationRadian(double radian) {
+    public void setRotationRadian(double radian) {
         rotationRadian = radian;
     }
 }
