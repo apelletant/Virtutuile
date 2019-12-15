@@ -193,13 +193,29 @@ public class Surface extends PrimarySurface {
     }
 
     public void move(Point2D from, Point2D to, Surface stop) {
-        AffineTransform at = new AffineTransform();
+        /*AffineTransform at = new AffineTransform();
 
         at.setToTranslation(to.getX() - from.getX(), to.getY() - from.getY());
-        polygon.transform(at);
+        polygon.transform(at);*/
+
+        moveOf((to.getX() - from.getX()),(to.getY() - from.getY()));
 
         if (stop != null && next != null && next != stop) {
             next.move(from, to, stop);
+        }
+    }
+
+    @Override
+    public void moveOf(double x, double y) {
+        AffineTransform at = new AffineTransform();
+
+        at.setToTranslation(x, y);
+        polygon.transform(at);
+
+        if (patternGroup != null) {
+            for (Tile tile : patternGroup.getTiles()) {
+                tile.moveOf(x, y);
+            }
         }
     }
 
@@ -244,6 +260,11 @@ public class Surface extends PrimarySurface {
 
         surface.moveOf((-bounds.x - (bounds.getWidth() / 2)),((-bounds.y - (bounds.getHeight() / 2))));
         surface.getPolygon().transform(at);
+        if (surface.getPatternGroup() != null) {
+            for (Tile tile : surface.getPatternGroup().getTiles()) {
+                tile.getPolygon().transform(at);
+            }
+        }
         surface.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
 
 
@@ -270,7 +291,6 @@ public class Surface extends PrimarySurface {
                     it = it.next;
                 }
             }
-
         }
     }
 

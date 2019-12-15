@@ -356,12 +356,12 @@ public class SurfaceEditor {
         } else {
             if (meta.getSelectedSurface() != null) {
                 meta.getSelectedSurface().move(meta.getHover(), point, meta.getSelectedSurface());
-                if (meta.getSelectedSurface().getPatternGroup() != null
+                /*if (meta.getSelectedSurface().getPatternGroup() != null
                         && meta.getSelectedSurface().getPatternGroup().getTiles().size() > 0) {
                     meta.getSelectedSurface().getPatternGroup().getTiles().forEach((tile) -> {
                         tile.move(meta.getHover(), point);
                     });
-                }
+                }*/
             }
             else if (meta.getHoveredSurface() != null) {
                 Vector2D root = Vector2D.from(meta.getHoveredSurface().getCenter());
@@ -422,25 +422,6 @@ public class SurfaceEditor {
         Surface surface = meta.getSelectedSurface();
         if (surface != null) {
             surface.applyPattern(patternName, tile);
-        }
-    }
-
-    private void moveSticked(Point2D point) {
-        Surface surface = meta.getSelectedSurface().getNext();
-        if (surface != null) {
-            if (surface != meta.getSelectedSurface()) {
-
-                while (surface != meta.getSelectedSurface()) {
-                    surface.move(meta.getHover(), point);
-                    if (surface.getPatternGroup() != null
-                            && surface.getPatternGroup().getTiles().size() > 0) {
-                        surface.getPatternGroup().getTiles().forEach((tile) -> {
-                            tile.move(meta.getHover(), point);
-                        });
-                    }
-                    surface = surface.getNext();
-                }
-            }
         }
     }
 

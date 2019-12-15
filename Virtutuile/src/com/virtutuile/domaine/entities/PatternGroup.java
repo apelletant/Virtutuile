@@ -70,28 +70,10 @@ public class PatternGroup implements Serializable {
         at.setToRotation(degrees * Math.PI / 180);
         for (Tile tile : tiles) {
             tile.getPolygon().transform(at);
-            tile.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
+            /*tile.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));*/
         }
         surface.getPolygon().transform(at);
         surface.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
-
-
-
-
-
-
-
-
-
-        /*surface.moveOf((-cpy.x - (cpy.getBounds().getWidth() / 2)),((-cpy.getBounds().y - (cpy.getBounds().getHeight() / 2))));*/
-        //rotate to 0
-
-
-        /*tiles.forEach((tile) -> {
-            tile.moveOf((-cpy.x - (cpy.getBounds().getWidth() / 2)),((-cpy.getBounds().y - (cpy.getBounds().getHeight() / 2))));
-        });*/
-        //rotateback
-        /*surface.moveOf((cpy.x + (cpy.getBounds().getWidth() / 2)),((cpy.getBounds().y + (cpy.getBounds().getHeight() / 2))));*/
     }
 
     public void changeTileType(Surface surface, Tile tile) {
