@@ -39,6 +39,11 @@ public class ManagementPanel extends SubPanel {
         setStickButtons();
     }
 
+    @Override
+    public void switchUnitsLabel() {
+        alignInput.switchUnit(mainWindow.getController().getUnitSetted());
+    }
+
     private void setStickButtons() {
         JPanel line = new JPanel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));

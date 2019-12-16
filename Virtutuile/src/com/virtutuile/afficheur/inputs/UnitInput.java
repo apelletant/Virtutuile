@@ -73,4 +73,20 @@ public class UnitInput extends TextInput {
         return this;
     }
 
+    public void switchUnit(String unit) {
+        if ("Imperial".equals(unit)) {
+            if (!unitLabel.getText().equals("cm") && !unitLabel.getText().equals("in")) {
+                setUnitLabel("in to 0");
+            } else {
+                setUnitLabel("in");
+            }
+        } else {
+            if (!unitLabel.getText().equals("in") && !unitLabel.getText().equals("cm")) {
+                setUnitLabel("cm to 0");
+            } else {
+                setUnitLabel("cm");
+            }
+        }
+    }
+
 }

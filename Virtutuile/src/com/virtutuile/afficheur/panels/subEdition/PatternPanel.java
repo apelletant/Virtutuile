@@ -34,6 +34,7 @@ public class PatternPanel extends SubPanel {
     // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {
+
     }
 
     public void setButtonsOnPanel() {
@@ -56,6 +57,13 @@ public class PatternPanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         setRotationInput(line);
+    }
+
+    @Override
+    public void switchUnitsLabel() {
+        patternPositionX.switchUnit(mainWindow.getController().getUnitSetted());
+        patternPositionY.switchUnit(mainWindow.getController().getUnitSetted());
+        patternShiftConfig.switchUnit(mainWindow.getController().getUnitSetted());
     }
 
     private void setRotationInput(JPanel line) {

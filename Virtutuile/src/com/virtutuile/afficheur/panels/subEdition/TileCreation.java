@@ -108,4 +108,10 @@ public class TileCreation extends SubPanel {
         line.add(validateButton);
         rows.add(line);
     }
+
+    @Override
+    protected void switchUnitsLabel() {
+        tileWidth.switchUnit(mainWindow.getController().getUnitSetted());
+        tileHeight.switchUnit(mainWindow.getController().getUnitSetted());
+    }
 }

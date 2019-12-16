@@ -393,4 +393,16 @@ public class Controller {
     public double getSelectedSurfacePatternRotation() {
         return meta.getSelectedSurfacePatternRotation();
     }
+
+    public void setUnit(String unit) {
+        meta.setUnit(unit);
+    }
+
+    public String getUnitSetted() {
+        return meta.getUnitSetted();
+    }
+
+    public void switchUnit() {
+        meta.switchUnit();
+    }
 }

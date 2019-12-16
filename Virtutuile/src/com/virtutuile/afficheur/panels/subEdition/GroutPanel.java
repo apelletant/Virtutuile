@@ -64,6 +64,11 @@ public class GroutPanel extends SubPanel{
 
     }
 
+    @Override
+    public void switchUnitsLabel() {
+        thickness.switchUnit(mainWindow.getController().getUnitSetted());
+    }
+
     public void retrieveGroutThickness() {
         Double thickness =  mainWindow.getController().getSurfaceThickness();
 

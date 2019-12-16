@@ -29,8 +29,8 @@ public class BottomToolbar extends BorderedPanel {
 
         sizingPolicy(SizingPolicy.ContentBox);
 
-        Button button = new Button("Show Bounds");
-        buttons.put(TargetButton.ShowBounds, button);
+        Button button = new Button("Metric");
+        buttons.put(TargetButton.Unit, button);
         buttons.put(TargetButton.MagneticGrid, new Button("Magnetic grid", AssetLoader.loadImage("/icons/magnetic-grid.png")));
 
         buttons.forEach((key, value) -> {
@@ -116,11 +116,39 @@ public class BottomToolbar extends BorderedPanel {
 
     private void setEvent() {
         Button buttonMG = buttons.get(TargetButton.MagneticGrid);
+        Button unit = buttons.get(TargetButton.Unit);
 
         buttonMG.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().drawGrid();
             mainWindow.repaint();
         });
+
+        unit.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
+            mainWindow.getController().switchUnit();
+            //
+            boolean active = !unit.isActive();
+            mainWindow.getController().changeSelectedShiftDirection(active);
+            unit.setActive(active);
+            if (active)
+                unit.setText("Imperial");
+            else
+                unit.setText("Metric");
+            switchUnitsPanel();
+            mainWindow.repaint();
+        });
+    }
+
+    private void switchUnitsPanel() {
+        mainWindow.getEditionPanel().getSurfacePanel().switchUnitsLabel();
+        mainWindow.getEditionPanel().getManagementPanel().switchUnitsLabel();
+        mainWindow.getEditionPanel().getGroutPanel().switchUnitsLabel();
+        mainWindow.getEditionPanel().getPatternPanel().switchUnitsLabel();
+        mainWindow.getEditionPanel().getTileSettingsPanel().switchUnitsLabel();
+        switchUnitsLabel();
+    }
+
+    private void switchUnitsLabel() {
+
     }
 
     public Button getButton(TargetButton name) {
@@ -164,7 +192,7 @@ public class BottomToolbar extends BorderedPanel {
     }
 
     public enum TargetButton {
-        ShowBounds,
+        Unit,
         MagneticGrid
     }
 

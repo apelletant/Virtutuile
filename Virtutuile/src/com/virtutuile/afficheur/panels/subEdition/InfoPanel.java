@@ -65,6 +65,11 @@ public class InfoPanel extends SubPanel {
     }
 
     @Override
+    protected void switchUnitsLabel() {
+
+    }
+
+    @Override
     protected void setEvents() {
         retrieveGeneralTileInfo();
         retrieveInfoSelected();

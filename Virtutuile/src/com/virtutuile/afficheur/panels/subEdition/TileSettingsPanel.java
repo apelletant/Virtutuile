@@ -76,7 +76,7 @@ public class TileSettingsPanel extends SubPanel {
         });
 
         creationButtons.get("Create").addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
-            tileCreation = new TileCreation("Create a Tile", mainWindow);
+            /*tileCreation = new TileCreation("Create a Tile", mainWindow);*/
             creationFrame.setVisible(true);
         });
 
@@ -138,6 +138,14 @@ public class TileSettingsPanel extends SubPanel {
         setCreationButtonsOnPanel();
         setTypeOfTileButtonsOnPanel();
         setEvents();
+    }
+
+    @Override
+    public void switchUnitsLabel() {
+        width.switchUnit(mainWindow.getController().getUnitSetted());
+        height.switchUnit(mainWindow.getController().getUnitSetted());
+        tileCreation.switchUnitsLabel();
+
     }
 
     private void setCreationButtonsOnPanel() {

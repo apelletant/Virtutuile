@@ -44,6 +44,11 @@ public class TilePanel extends SubPanel  {
         rows.add(line);
     }
 
+    @Override
+    protected void switchUnitsLabel() {
+
+    }
+
     // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {

@@ -4,6 +4,7 @@ import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.MainWindow;
 import com.virtutuile.afficheur.panels.subEdition.*;
 import com.virtutuile.afficheur.swing.PanelEvents;
+import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
@@ -112,12 +113,20 @@ public class EditionPanel extends PanelEvents {
         return (ManagementPanel) subPanels.get(PanelType.AdvancedManagement);
     }
 
+    public GroutPanel getGroutPanel() {
+        return (GroutPanel) subPanels.get(PanelType.Grout);
+    }
+
     public void refreshGUI() {
         tileSettingsPanel.refreshGUI();
         infoPanel.refreshGUI();
         subPanels.forEach((type, panel) -> {
             panel.refreshGUI();
         });
+    }
+
+    public SurfacePanel getSurfacePanel() {
+        return (SurfacePanel) subPanels.get(PanelType.Surface);
     }
 
     enum PanelType {

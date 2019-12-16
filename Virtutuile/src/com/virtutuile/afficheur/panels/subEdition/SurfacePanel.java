@@ -144,6 +144,20 @@ public class SurfacePanel extends SubPanel {
         setManagementButtonOnPanel(line);
     }
 
+    @Override
+    public void switchUnitsLabel() {
+        //.switchUnit(mainWindow.getController().getUnitSetted());
+        unitInputs.forEach((name, self) -> {
+            self.switchUnit(mainWindow.getController().getUnitSetted());
+        });
+
+        positionInputs.forEach((name, self) -> {
+            if (name != InputContextType.Rotation) {
+                self.switchUnit(mainWindow.getController().getUnitSetted());
+            }
+        });
+    }
+
     private void setColorPickerOnPanel(JPanel line) {
         colorPicker = new ColorPicker();
 

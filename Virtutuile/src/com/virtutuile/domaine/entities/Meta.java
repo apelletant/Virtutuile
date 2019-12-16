@@ -20,6 +20,7 @@ public class Meta implements Serializable {
     private EventListener metaEventArgs;
     private UnorderedMap<UUID, Surface> surfaces;
     private UnorderedMap<String, Tile> typeOfTiles;
+    private Unit unitSetted = Unit.Metric;
 
     private EditionAction doing;
     private Direction alignDirection;
@@ -814,6 +815,7 @@ public class Meta implements Serializable {
         gridSize = metaCpy.gridSize;
         surfaces = metaCpy.surfaces;
         typeOfTiles = metaCpy.typeOfTiles;
+        unitSetted = metaCpy.unitSetted;
     }
 
     public void setDoing(EditionAction action) {
@@ -841,6 +843,41 @@ public class Meta implements Serializable {
         return 0.0;
     }
 
+    public void setUnit(String unit) {
+        switch (unit) {
+            case "Metric":
+                unitSetted = Unit.Metric;
+                break;
+            case "Imperial":
+                unitSetted = Unit.Imperial;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public String getUnitSetted() {
+        switch (unitSetted) {
+            case Metric:
+                return "Metric";
+            case Imperial:
+                return "Imperial";
+            default:
+                return null;
+        }
+    }
+
+    public void switchUnit() {
+        switch (unitSetted) {
+            case Metric:
+                unitSetted = Unit.Imperial;
+                break;
+            case Imperial:
+                unitSetted = Unit.Metric;
+                break;
+        }
+    }
+
     public enum EditionAction {
         Idle,
         CreatingRectangularSurface,
@@ -865,4 +902,8 @@ public class Meta implements Serializable {
         Undefined
     }
 
+    public enum Unit {
+        Metric,
+        Imperial,
+    }
 }
