@@ -13,22 +13,20 @@ public class UndoRedo {
     private Stack<ObjectInputStream> undoStack;
     private Stack<ObjectInputStream> redoStack;
 
-    public UndoRedo(Meta meta) {
+    private static boolean firstMouve = true;
+
+    public UndoRedo(Meta originMeta) {
         undoStack = new Stack<>();
         redoStack = new Stack<>();
-
-        undoStack.push(objectToOIS(meta));
+        meta = originMeta;
     }
 
-    public void pushChange(Meta meta) {
-        ObjectInputStream baos = objectToOIS(meta);
-        if (baos != null) {
-            undoStack.push(baos);
-            if(undoStack.size() == 2 ) {
-//                System.out.println("undo first time");
-                changeUndoStatus();
-            }
-//            System.out.println("undo the other time");
+    public void addUndo(Meta meta) {
+        ObjectInputStream ois = objectToOIS(meta);
+
+        if (ois != null) {
+            System.out.println("add undo stack");
+            undoStack.push(ois);
         }
     }
 
@@ -48,20 +46,47 @@ public class UndoRedo {
         return null;
     }
 
-    public void undo() {
-        if (canUndo == true) {
-//            System.out.println("undo");
+    public Meta undo() {
+        Meta newItem = null;
+
+        if (undoStack.size() > 1) {
+            System.out.println("undo1");
+            ObjectInputStream state = undoStack.pop();
+
+            if (state != null) {
+                System.out.println("undo2");
+                newItem = OISToMeta(state);
+
+                meta.setMeta(newItem);
+                addToRedo(objectToOIS(newItem));
+            }
         }
+        return newItem;
     }
 
-    public void redo() {
-        if (canRedo != true) {
-//            System.out.println("redo");
+    public Meta redo() {
+        Meta newItem = null;
+
+        if (redoStack.size() > 0) {
+            ObjectInputStream state = redoStack.pop();
+
+            if (state != null) {
+                newItem = OISToMeta(state);
+                if (newItem != null) {
+                    meta.setMeta(newItem);
+                }
+            }
         }
+        return newItem;
+    }
+
+    private void addToRedo(ObjectInputStream ios) {
+        redoStack.push(ios);
     }
 
     private void changeUndoStatus() {
         canUndo = !canUndo;
+        firstMouve = !firstMouve;
     }
 
     private void changeRedoStatus() {
@@ -74,7 +99,6 @@ public class UndoRedo {
     }
 
     private byte[] metaToBynary() {
-
         return null;
     }
 
@@ -86,7 +110,18 @@ public class UndoRedo {
         return canRedo;
     }
 
-    private Meta OISToMeta(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        return (Meta) ois.readObject();
+    private Meta OISToMeta(ObjectInputStream ois) {
+        try {
+            return (Meta) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -58,7 +58,7 @@ public class Controller {
         this.surfaceEditor.mouseRelease(canvasCursor);
 
         if (meta.getSelectedSurface() != null) {
-            undoRedo.pushChange(meta);
+            undoRedo.addUndo(meta);
         }
     }
 
@@ -74,7 +74,7 @@ public class Controller {
         meta.setClicked(canvasCursor);
 
         if (meta.getSelectedSurface() != null) {
-            undoRedo.pushChange(meta);
+            undoRedo.addUndo(meta);
         }
     }
 
@@ -307,11 +307,20 @@ public class Controller {
     }
 
     public void undo() {
-        undoRedo.undo();
+        Meta newItem = undoRedo.undo();
+        System.out.println("undo");
+        if (newItem != null) {
+            meta.setMeta(newItem);
+        }
     }
 
     public void redo() {
-        undoRedo.redo();
+        Meta newItem = undoRedo.redo();
+
+        if (newItem != null) {
+            System.out.println("redo");
+            meta.setMeta(newItem);
+        }
     }
 
     public boolean canRedo() {
