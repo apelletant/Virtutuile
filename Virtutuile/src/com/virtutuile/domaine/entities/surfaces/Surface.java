@@ -187,9 +187,13 @@ public class Surface extends PrimarySurface {
         this.previous = previous;
     }
 
-    @Override
+    /*@Override
     public void move(Point2D from, Point2D to) {
         move(from, to, null);
+    }*/
+
+    public void move(Point2D from, Point2D to) {
+        move(from,to,this);
     }
 
     public void move(Point2D from, Point2D to, Surface stop) {

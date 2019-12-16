@@ -492,7 +492,7 @@ public class Meta implements Serializable {
 
         Point2D newBounds = updateCoordsToMagnetic(new Point2D.Double(bounds.x, bounds.y));
 
-        selectedSurface.move(new Point2D.Double(bounds.x, bounds.y), newBounds);
+        selectedSurface.move(new Point2D.Double(bounds.x, bounds.y), newBounds,selectedSurface.getNext());
         return surf;
     }
 
@@ -512,14 +512,14 @@ public class Meta implements Serializable {
     public void setSelectedSurfaceLongitude(Double longitude) {
         if (selectedSurface != null) {
             Rectangle2D.Double b = selectedSurface.getBounds();
-            selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(longitude, b.y));
+            selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(longitude, b.y),selectedSurface.getNext());
         }
     }
 
     public void setSelectedSurfaceLatitude(Double latitude) {
         if (selectedSurface != null) {
             Rectangle2D.Double b = selectedSurface.getBounds();
-            selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(b.x, latitude));
+            selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(b.x, latitude),selectedSurface.getNext());
         }
     }
 

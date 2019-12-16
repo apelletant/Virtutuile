@@ -222,17 +222,6 @@ public class SurfaceEditor {
                     stickSurfaces(surfaceReferenceStick, meta.getSelectedSurface());
                 break;
             default:
-                /*if (meta.getSelectedSurface() != null) {
-                if (meta.getSelectedSurface().getBoundsAsSurface().containsOrIntersect(point)) {
-                    meta.setSelectedSurfaceCanBeResized(true);
-                    System.out.println("eho coucou je suis dans tes bounds");
-                }
-            } else {
-                System.out.println(point);
-                if (meta.getSelectedSurface() != null) {
-                    System.out.println(meta.getSelectedSurface().getBounds());
-                }
-            }*/
                 selectShape(point);
                 break;
         }
