@@ -61,6 +61,8 @@ public class Canvas extends PanelEvents {
 
         addMouseEventListener(MouseEventKind.MouseRelease, (mouseEvent -> {
             mainWindow.getController().mouseRelease(mouseEvent.getPoint());
+            mainWindow.getEditionPanel().getInfoPanel().retrieveInfoSelected();
+            mainWindow.getEditionPanel().getInfoPanel().retrieveGeneralTileInfo();
             repaint();
         }));
 

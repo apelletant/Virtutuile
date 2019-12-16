@@ -267,6 +267,7 @@ public class SurfaceEditor {
     private void alignSurfaces(Surface surfaceReferenceAlign, Surface selectedSurface) {
         Double[] origins = determineOrigin(surfaceReferenceAlign, selectedSurface);
         Double originRef;
+        double offset = 0.0;
 
         if (origins != null) {
             originRef = origins[0];
@@ -291,6 +292,18 @@ public class SurfaceEditor {
                 case Bottom:
                     selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
                             new Point2D.Double(selectedSurface.getBounds().x, originRef + surfaceReferenceAlign.getBounds().getHeight()),
+                            selectedSurface);
+                    break;
+                case CenteredHorizontal:
+                    offset = (surfaceReferenceAlign.getBounds().getHeight() - selectedSurface.getBounds().getHeight()) / 2;
+                    selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
+                            new Point2D.Double(selectedSurface.getBounds().x, originRef + offset),
+                            selectedSurface);
+                    break;
+                case CenteredVertical:
+                    offset = (selectedSurface.getBounds().getWidth() - surfaceReferenceAlign.getBounds().getWidth()) / 2;
+                    selectedSurface.move(new Point2D.Double(selectedSurface.getBounds().x, selectedSurface.getBounds().y),
+                            new Point2D.Double(originRef + (offset * -1), selectedSurface.getBounds().y),
                             selectedSurface);
                     break;
                 default:
@@ -321,6 +334,7 @@ public class SurfaceEditor {
         switch (meta.getAlignDirection()) {
             case Left:
             case Right:
+            case CenteredVertical:
                 return true;
             default:
                 return false;
@@ -676,14 +690,20 @@ public class SurfaceEditor {
                             mergedSurface.setTypeOfTile(oldSelectedSurface.getTypeOfTile());
                             mergedSurface.getGrout().setThickness(oldSelectedSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(oldSelectedSurface.getGrout().getColor());
-                            /*mergedSurface.getPatternGroup().setRotation(oldSelectedSurface.getRotationDeg());*/
                             mergedSurface.applyPattern(oldSelectedSurface.getPatternGroup().getPattern().getName(), meta.getDefaultTile());
+                            mergedSurface.getPatternGroup().setRotation(oldSelectedSurface.getPatternGroup().getRotation());
+                            mergedSurface.getPatternGroup().setShiftDirection(oldSelectedSurface.getPatternGroup().getShiftDirection());
+                            mergedSurface.getPatternGroup().setShift(oldSelectedSurface.getPatternGroup().getShift());
+                            mergedSurface.getPatternGroup().recalcPattern(mergedSurface);
                         } else if (secondSurface.getPatternGroup() != null) {
                             mergedSurface.setTypeOfTile(secondSurface.getTypeOfTile());
                             mergedSurface.getGrout().setThickness(secondSurface.getGrout().getThickness());
                             mergedSurface.getGrout().setColor(secondSurface.getGrout().getColor());
-                            /*mergedSurface.getPatternGroup().setRotation(secondSurface.getRotationDeg());*/
                             mergedSurface.applyPattern(secondSurface.getPatternGroup().getPattern().getName(), meta.getDefaultTile());
+                            mergedSurface.getPatternGroup().setRotation(secondSurface.getPatternGroup().getRotation());
+                            mergedSurface.getPatternGroup().setShiftDirection(secondSurface.getPatternGroup().getShiftDirection());
+                            mergedSurface.getPatternGroup().setShift(secondSurface.getPatternGroup().getShift());
+                            mergedSurface.getPatternGroup().recalcPattern(mergedSurface);
                         }
                         break;
                     }
