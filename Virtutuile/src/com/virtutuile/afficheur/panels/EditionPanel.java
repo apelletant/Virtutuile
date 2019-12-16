@@ -41,7 +41,7 @@ public class EditionPanel extends PanelEvents {
         setBackground(Constants.EDITIONPANEL_BACKGROUND);
         setForeground(Constants.EDITIONPANEL_FONT_COLOR);
         setBorder(new EmptyBorder(0, 0, 0, 0));
-        setPreferredSize(new Dimension(600, 2000));
+        setPreferredSize(new Dimension(600, 2500));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     }
