@@ -727,6 +727,14 @@ public class Meta implements Serializable {
                     alignDirection = Direction.Right;
                     setDoing(EditionAction.Align, true);
                     return true;
+                case "Centered Horizontal":
+                    alignDirection = Direction.CenteredHorizontal;
+                    setDoing(EditionAction.Align, true);
+                    return true;
+                case "Centered Vertical":
+                    alignDirection = Direction.CenteredVertical;
+                    setDoing(EditionAction.Align, true);
+                    return true;
                 default:
                     alignDirection = Direction.Undefined;
                     return false;
@@ -846,6 +854,8 @@ public class Meta implements Serializable {
         Bottom,
         Left,
         Right,
+        CenteredHorizontal,
+        CenteredVertical,
         Undefined,
     }
 

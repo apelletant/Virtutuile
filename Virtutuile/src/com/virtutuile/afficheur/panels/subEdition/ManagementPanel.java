@@ -78,8 +78,10 @@ public class ManagementPanel extends SubPanel {
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setOpaque(false);
         align.put("Align Top", new Button("Align Top", AssetLoader.loadImage("/icons/align-top.png")));
+        align.put("Centered Horizontal", new Button("Centered Horizontal", AssetLoader.loadImage("/icons/centered-h.png")));
         align.put("Align Bottom", new Button("Align Bottom", AssetLoader.loadImage("/icons/align-bottom.png")));
         line.add(align.get("Align Top"));
+        line.add(align.get("Centered Horizontal"));
         line.add(align.get("Align Bottom"));
         rows.add(line);
 
@@ -87,8 +89,10 @@ public class ManagementPanel extends SubPanel {
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.setOpaque(false);
         align.put("Align Left", new Button("Align Left", AssetLoader.loadImage("/icons/align-left.png")));
+        align.put("Centered Vertical", new Button("Centered Vertical", AssetLoader.loadImage("/icons/centered-v.png")));
         align.put("Align Right", new Button("Align Right", AssetLoader.loadImage("/icons/align-right.png")));
         line.add(align.get("Align Left"));
+        line.add(align.get("Centered Vertical"));
         line.add(align.get("Align Right"));
         rows.add(line);
     }
