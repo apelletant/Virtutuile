@@ -257,9 +257,13 @@ public class Meta implements Serializable {
     }
 
     public double getZoomFactor() {
-            /*if (unitSetted.equals(Unit.Imperial)) {
-                return centimeterToInch(zoomFactor);
-            }*/
+        return zoomFactor;
+    }
+
+    public double getZoomFactorFront() {
+        if (unitSetted.equals(Unit.Imperial)) {
+            return centimeterToInch(zoomFactor);
+        }
         return zoomFactor;
     }
 
@@ -269,9 +273,6 @@ public class Meta implements Serializable {
     }
 
     public void updateZoom(double zoom, Point cursor) {
-        if (unitSetted == Unit.Imperial) {
-            zoom = inchToCentimeter(zoom);
-        }
         zoom = zoom * -1;
         double oldWidth = pixelsToCentimeters(getCanvasSize().width);
         double oldHeight = pixelsToCentimeters(getCanvasSize().height);
@@ -341,6 +342,10 @@ public class Meta implements Serializable {
     }
 
     public Double getGridSize() {
+        return gridSize;
+    }
+
+    public Double getGridSizeFront() {
         Double ret = gridSize;
         if (unitSetted == Unit.Imperial) {
             ret = centimeterToInch(ret);

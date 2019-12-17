@@ -87,7 +87,7 @@ public class BottomToolbar extends BorderedPanel {
         pan.setMinimumSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
         pan.setMaximumSize(new Dimension(Constants.BUTTON_SIZE.width  * 4, Constants.BUTTON_SIZE.height));
 
-        zoom.setText(mainWindow.getController().getZoomFactor().toString());
+        zoom.setText(mainWindow.getController().getZoomFactorFront().toString());
         zoom.setEditableFalse();
 
         Panel subPan = new Panel();
@@ -121,6 +121,7 @@ public class BottomToolbar extends BorderedPanel {
 
         buttonMG.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().drawGrid();
+            refreshGUI();
             mainWindow.repaint();
         });
 
@@ -133,6 +134,7 @@ public class BottomToolbar extends BorderedPanel {
             else
                 unit.setText("Metric");
             switchUnitsPanel();
+            refreshGUI();
             mainWindow.repaint();
         });
     }
@@ -182,7 +184,7 @@ public class BottomToolbar extends BorderedPanel {
     }
 
     public void setZoomLevel() {
-        Double zoomlevel = Math.round(mainWindow.getController().getZoomFactor() * 10000) / 10000D;
+        Double zoomlevel = Math.round(mainWindow.getController().getZoomFactorFront() * 10000) / 10000D;
         if (zoomlevel.toString().equals("0.0")) {
             zoom.setText("Tiny");
         } else {
@@ -194,8 +196,8 @@ public class BottomToolbar extends BorderedPanel {
         getHoverSurfaceBound();
         setZoomLevel();
 
-        gridSizeInput.setText(mainWindow.getController().getGridSize().toString());
-        zoom.setText(mainWindow.getController().getZoomFactor().toString());
+        gridSizeInput.setText(mainWindow.getController().getGridSizeFront().toString());
+        zoom.setText(mainWindow.getController().getZoomFactorFront().toString());
         repaint();
     }
 

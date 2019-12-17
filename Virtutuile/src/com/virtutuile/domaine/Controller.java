@@ -436,4 +436,12 @@ public class Controller {
     public void switchUnit() {
         meta.switchUnit();
     }
+
+    public Double getZoomFactorFront() {
+        return meta.getZoomFactorFront();
+    }
+
+    public Double getGridSizeFront() {
+        return meta.getGridSizeFront();
+    }
 }
