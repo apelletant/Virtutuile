@@ -562,7 +562,6 @@ public class SurfaceEditor {
         Surface it = surface.getNext();
         if (surface.getNext() != null) {
             while (it != surface) {
-                System.out.println(it.getId());
                 it = it.getNext();
             }
         }

@@ -10,6 +10,7 @@ import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
+import com.virtutuile.domaine.entities.tools.Intersection;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class TileSettingsPanel extends SubPanel {
     private UnitInput width = null;
     private UnitInput height = null;
     private TextInput numberPerPack = null;
+    private UnitInput minimalCut = null;
     /*private TextInput tileName = null;*/
     private String selectedTile = null;
     private UnorderedMap<String, Button> tilesType = new UnorderedMap<>();
@@ -104,6 +106,11 @@ public class TileSettingsPanel extends SubPanel {
             mainWindow.getController().setPackageSizeFor(selectedTile, Integer.parseInt(value));
         });
 
+        minimalCut.addInputListener(InputEventKind.OnChange, (value, self) -> {
+            mainWindow.getController().setMinimalCutForTile(selectedTile, Double.parseDouble(value));
+            mainWindow.repaint();
+        });
+
         /*tileName.addInputListener(InputEventKind.OnChange, (value, self) -> {
             mainWindow.getController().renameTile(value, selectedTile);
             repaint();
@@ -128,6 +135,9 @@ public class TileSettingsPanel extends SubPanel {
 
                     int numberPerPack = mainWindow.getController().getPackageSizeFor(name);
                     this.numberPerPack.setText(Integer.toString(numberPerPack));
+
+                    double minCutSize = mainWindow.getController().getMinimalCutSizeFor(name);
+                    this.minimalCut.setText(minCutSize + "");
                     /*tileName.setText(selectedTile);*/
                 }
             });
@@ -198,6 +208,7 @@ public class TileSettingsPanel extends SubPanel {
         width = new UnitInput("Width", true, "double");
         height = new UnitInput("Height", true, "double");
         numberPerPack = new TextInput("Package Size", true, "integer");
+        minimalCut = new UnitInput("Minimal Cut size", true, "double");
         /*tileName = new TextInput("Tile name");*/
 
         line = new Panel();
@@ -210,6 +221,7 @@ public class TileSettingsPanel extends SubPanel {
         line = new Panel();
         line.setLayout(new BoxLayout(line, BoxLayout.X_AXIS));
         line.add(numberPerPack);
+        line.add(minimalCut);
         rows.add(line);
     }
 

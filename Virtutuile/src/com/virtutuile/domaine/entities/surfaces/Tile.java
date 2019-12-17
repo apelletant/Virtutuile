@@ -1,8 +1,11 @@
 package com.virtutuile.domaine.entities.surfaces;
 
+import com.virtutuile.shared.Vector2D;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 
 public class Tile extends PrimarySurface {
@@ -14,6 +17,8 @@ public class Tile extends PrimarySurface {
     private int packageSize;
     private boolean deletable = true;
     private boolean cutted = false;
+    private double minCut = 1;
+    private boolean impossibleCut;
 
     public Tile(double[] pointsX, double[] pointsY) {
         super(pointsX, pointsY);
@@ -32,7 +37,8 @@ public class Tile extends PrimarySurface {
     public Tile(Tile tile) {
         super(tile);
         origin = tile.origin;
-        packageSize = 10;
+        packageSize = tile.packageSize;
+        minCut = tile.minCut;
     }
 
     public Tile(Rectangle.Double rect) {
@@ -43,13 +49,14 @@ public class Tile extends PrimarySurface {
         regenerate();
     }
 
-    public Tile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
+    public Tile(double width, double height, Color color, String name, boolean deletable, int packageSize, double minCut) {
         origin = new Point2D.Double(0, 0);
         opposite = new Point2D.Double(width, height);
         setFillColor(color);
         setName(name);
         this.deletable = deletable;
         this.packageSize = packageSize;
+        this.minCut = minCut;
         regenerate();
     }
 
@@ -143,5 +150,21 @@ public class Tile extends PrimarySurface {
 
     public void setCutted(boolean cutted) {
         this.cutted = cutted;
+    }
+
+    public boolean isImpossibleCut() {
+        return impossibleCut;
+    }
+
+    public void setImpossibleCut(boolean impossibleCut) {
+        this.impossibleCut = impossibleCut;
+    }
+
+    public double getMinimalCut() {
+        return minCut;
+    }
+
+    public void setMinimalCut(double value) {
+        minCut = value;
     }
 }

@@ -51,8 +51,10 @@ public class Painter {
         for (Tile tile : tiles) {
             Path2D.Double poly = meta.rawPathToGfxPath(tile.getPolygon());
 
-            if (meta.displayCuttedTiles() && tile.isCutted())
-                paintPolygon(poly, ColorTransformer.Invert(tile.getFillColor()), tile.getBorderColor());
+            if (meta.displayCuttedTiles() && tile.isImpossibleCut())
+                paintPolygon(poly, ColorTransformer.Invert(tile.getFillColor()).darker(), tile.getBorderColor());
+            else if (meta.displayCuttedTiles() && tile.isCutted())
+                paintPolygon(poly, ColorTransformer.Invert(tile.getFillColor()).brighter(), tile.getBorderColor());
             else
                 paintPolygon(poly, tile.getFillColor(), tile.getBorderColor());
         }

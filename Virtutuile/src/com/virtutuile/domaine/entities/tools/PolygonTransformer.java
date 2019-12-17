@@ -211,7 +211,6 @@ public class PolygonTransformer {
                     rB.x = pts[0];
                     rB.y = pts[1];
                     rF = rB.copy();
-//                    System.out.println("MoveTo: " + rB.x + ";" + rB.y);
                     break;
                 case PathIterator.SEG_LINETO:
                     rB.x = pts[0];
@@ -227,7 +226,6 @@ public class PolygonTransformer {
 
                     vertices.add(new Vector2D[]{a1, a2});
                     vertices.add(new Vector2D[]{b1, b2});
-                    System.out.println("LineTo: A:" + a2.x + ";" + a2.y + " B:" + b2.x + ";" + b2.y);
                     break;
                 case PathIterator.SEG_CLOSE:
                     rA = rF.copy();
@@ -243,10 +241,8 @@ public class PolygonTransformer {
                     vertices.add(new Vector2D[]{b1, b2});
                     vertices.add(new Vector2D[]{a1, a2});
                     vertices.add(new Vector2D[]{});
-                    System.out.println("CloseTo: A:" + b2.x + ";" + b2.y + " B:" + a2.x + ";" + a2.y);
                     break;
                 default:
-                    System.out.println("Default");
                     break;
             }
             rA = rB.copy();

@@ -10,10 +10,7 @@ import com.virtutuile.domaine.entities.tools.PolygonTransformer;
 import com.virtutuile.shared.NotNull;
 import com.virtutuile.shared.Vector2D;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
@@ -64,7 +61,7 @@ public class PatternGroup implements Serializable {
         double degrees = surface.getRotationDeg() + rotation;
         at.setToRotation((degrees * Math.PI / 180) * -1);
 
-        surface.moveOf((-bounds.x - (bounds.getWidth() / 2)),((-bounds.y - (bounds.getHeight() / 2))));
+        surface.moveOf((-bounds.x - (bounds.getWidth() / 2)), ((-bounds.y - (bounds.getHeight() / 2))));
         surface.getPolygon().transform(at);
 
         Path2D.Double grout = surface.getPolygon();
@@ -81,7 +78,7 @@ public class PatternGroup implements Serializable {
             /*tile.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));*/
         }
         surface.getPolygon().transform(at);
-        surface.moveOf((bounds.x + (bounds.getWidth() / 2)),((bounds.y + (bounds.getHeight() / 2))));
+        surface.moveOf((bounds.x + (bounds.getWidth() / 2)), ((bounds.y + (bounds.getHeight() / 2))));
     }
 
     public void changeTileType(Surface surface, Tile tile) {
@@ -162,15 +159,16 @@ public class PatternGroup implements Serializable {
                         if (cuttedSurface.length == 1 && PolygonTransformer.isContaining(surface.getPolygon(), cuttedSurface[0])) {
                             newTile.setPolygon(cuttedSurface[0]);
                             newTile.setCutted(isCutted);
+                            searchImpossibleCut(newTile);
                             this.tiles.add(newTile);
                         } else {
-                            System.out.println(cuttedSurface.length);
                             for (Path2D.Double cut : cuttedSurface) {
                                 if (!PolygonTransformer.isContaining(surface.getPolygon(), cut))
                                     continue;
                                 newTile = tile.copy();
                                 newTile.setPolygon(cut);
                                 newTile.setCutted(isCutted);
+                                searchImpossibleCut(newTile);
                                 this.tiles.add(newTile);
                             }
                         }
@@ -190,6 +188,36 @@ public class PatternGroup implements Serializable {
             y += (grout * pattern.getOffsetY());
         }
         this.cuttedTiles = cuttedTiles;
+    }
+
+    private void searchImpossibleCut(Tile tile) {
+        double[] seg = new double[6];
+        boolean stop = false;
+        Vector2D start = new Vector2D();
+        Vector2D a = new Vector2D();
+        Vector2D b = new Vector2D();
+
+        for (PathIterator pi = tile.getPolygon().getPathIterator(null); !pi.isDone() && !stop; pi.next()) {
+            switch (pi.currentSegment(seg)) {
+                case PathIterator.SEG_MOVETO:
+                    start.x = seg[0];
+                    start.y = seg[1];
+                    b = start.copy();
+                    break;
+                case PathIterator.SEG_LINETO:
+                    b.x = seg[0];
+                    b.y = seg[1];
+
+                    if (Math.abs(b.copy().subtract(a).magnitude()) <= tile.getMinimalCut()) {
+                        stop = true;
+                        tile.setImpossibleCut(true);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            a = b.copy();
+        }
     }
 
     private boolean tileWillBeCuted(PrimarySurface tile, Path2D.Double surface) {

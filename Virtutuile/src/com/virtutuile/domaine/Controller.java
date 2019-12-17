@@ -186,6 +186,13 @@ public class Controller {
         meta.setHeightForTile(value, name);
     }
 
+    public void setMinimalCutForTile(String selectedTile, double value) {
+        meta.setMinimalCutForTile(selectedTile, value);
+    }
+
+    public double getMinimalCutSizeFor(String selectedTile) {
+        return meta.getMinimalCutSizeFor(selectedTile);
+    }
     public void renameTile(String newName, String oldName) {
         meta.renameTile(newName, oldName);
     }
