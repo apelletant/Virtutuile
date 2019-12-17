@@ -57,6 +57,18 @@ public class RectangularSurface extends Surface implements Cloneable {
     }
 
     private void regenerate() {
+        if (opposite.getX() < origin.getX()) {
+            double ox = opposite.getX();
+            double oy = opposite.getY();
+            opposite = new Point2D.Double(origin.getX(), oy);
+            origin = new Point2D.Double(ox, origin.getY());
+        }
+        if (opposite.getY() < origin.getY()) {
+            double ox = opposite.getX();
+            double oy = opposite.getY();
+            opposite = new Point2D.Double(ox, origin.getY());
+            origin = new Point2D.Double(origin.getX(), oy);
+        }
         polygon = new Path2D.Double();
         polygon.moveTo(origin.getX(), origin.getY());
         polygon.lineTo(origin.getX(), opposite.getY());

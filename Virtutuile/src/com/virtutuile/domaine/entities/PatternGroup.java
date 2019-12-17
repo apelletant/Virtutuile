@@ -150,11 +150,11 @@ public class PatternGroup implements Serializable {
 
                     newTile.moveOf(-pos.x, -pos.y);
                     newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
-                    if (tileWillBeCuted(newTile, cutting)) {
+                    if (tileWillBeCuted(newTile, surface.getPolygon())) {
                         isCutted = true;
                         ++cuttedTiles;
                     }
-                    Path2D.Double[] cuttedSurface = PolygonTransformer.poopSubtract(newTile.getPolygon(), cutting);
+                    Path2D.Double[] cuttedSurface = PolygonTransformer.poopSubtract(newTile.getPolygon(), surface.getPolygon());
                     if (cuttedSurface != null && cuttedSurface.length != 0) {
                         if (cuttedSurface.length == 1 && PolygonTransformer.isContaining(surface.getPolygon(), cuttedSurface[0])) {
                             newTile.setPolygon(cuttedSurface[0]);

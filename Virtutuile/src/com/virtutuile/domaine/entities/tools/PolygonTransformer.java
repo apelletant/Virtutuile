@@ -291,14 +291,14 @@ public class PolygonTransformer {
     }
 
     public static boolean isContaining(Path2D.Double polygon, Path2D.Double cut) {
-        Rectangle2D.Double p = (Rectangle2D.Double) polygon.getBounds2D();
-        Rectangle2D.Double c = (Rectangle2D.Double) cut.getBounds2D();
-        for (Point2D[] vertices : PolygonTransformer.extractVertices(cut)) {
-            for (Point2D vertex : vertices) {
-                if (!polygon.contains(vertex.getX(), vertex.getY()))
-                    return false;
-            }
-        }
+//        Rectangle2D.Double p = (Rectangle2D.Double) polygon.getBounds2D();
+//        Rectangle2D.Double c = (Rectangle2D.Double) cut.getBounds2D();
+//        for (Point2D[] vertices : PolygonTransformer.extractVertices(cut)) {
+//            for (Point2D vertex : vertices) {
+//                if (!polygon.contains(vertex.getX(), vertex.getY()))
+//                    return false;
+//            }
+//        }
         return true;
     }
 }
