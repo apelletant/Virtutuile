@@ -434,4 +434,8 @@ public class Controller {
     public void newCanvas() {
         meta = new Meta();
     }
+
+    /**
+     * tile et info => rethinkMenu
+     */
 }

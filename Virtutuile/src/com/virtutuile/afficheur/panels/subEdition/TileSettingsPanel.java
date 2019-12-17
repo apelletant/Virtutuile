@@ -10,7 +10,6 @@ import com.virtutuile.afficheur.swing.Panel;
 import com.virtutuile.afficheur.swing.events.InputEventKind;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.afficheur.tools.AssetLoader;
-import com.virtutuile.domaine.entities.tools.Intersection;
 import com.virtutuile.shared.UnorderedMap;
 
 import javax.swing.*;
@@ -44,7 +43,6 @@ public class TileSettingsPanel extends SubPanel {
         persistLayout();
     }
 
-    // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {
         retrieveInfos();

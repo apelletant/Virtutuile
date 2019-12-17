@@ -135,8 +135,11 @@ public class Toolbar extends BorderedPanel {
 
         newCanvas.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             mainWindow.getController().newCanvas();
-            mainWindow.repaint();
             mainWindow.refreshGUI();
+            mainWindow.getEditionPanel().getTileSettingsPanel().rethinkMenu();
+            mainWindow.getEditionPanel().getTilePanel().rethinkMenu();
+            mainWindow.getEditionPanel().getInfoPanel().rethinkMenu();
+            mainWindow.repaint();
         }));
     }
 
