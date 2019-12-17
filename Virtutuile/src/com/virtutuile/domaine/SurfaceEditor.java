@@ -542,8 +542,13 @@ public class SurfaceEditor {
     public void dragPattern(Point2D.Double mouse) {
         Point2D.Double hover = (Point2D.Double) meta.getHover();
 
-        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
-            meta.getSelectedSurface().getPatternGroup().moveOrigin(mouse.x - hover.x, mouse.y - hover.y);
+        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null) {
+            Vector2D m = new Vector2D(mouse);
+            Vector2D h = new Vector2D(hover);
+
+            Vector2D r = m.copy().subtract(h).rotateDeg(-meta.getSelectedSurface().getRotationDeg() - meta.getSelectedSurface().getPatternGroup().getRotation());
+            meta.getSelectedSurface().getPatternGroup().moveOrigin(r.x, r.y);
+        }
     }
 
     public void stickSurfaces() {

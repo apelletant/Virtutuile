@@ -72,9 +72,6 @@ public class Meta implements Serializable {
         Surface s = b.getSurface();
         surfaces.put(s.getId(), s);
 
-        s = new Surface(PolygonTransformer.flate(s.getPolygon(), 1), false);
-        surfaces.put(s.getId(), s);
-
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false, 10);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false, 10);
         createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false, 10);
