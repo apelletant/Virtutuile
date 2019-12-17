@@ -296,9 +296,7 @@ public class PolygonTransformer {
         for (Point2D[] vertices : PolygonTransformer.extractVertices(cut)) {
             for (Point2D vertex : vertices) {
                 if (!polygon.contains(vertex.getX(), vertex.getY()))
-                    return true;
-//                else if (c.x == p.x || c.y == p.y || c.x + c.width == p.x + p.width || c.y + c.height == p.y + p.height)
-//                    return false;
+                    return false;
             }
         }
         return true;
