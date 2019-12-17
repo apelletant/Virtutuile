@@ -66,12 +66,6 @@ public class Meta implements Serializable {
         typeOfTiles = new UnorderedMap<>();
         undoRedo = new UndoRedo(this);
 
-        RectangularSurface.Builder b = RectangularSurface.getBuilder();
-        b.placePoint(new Point2D.Double(10, 10));
-        b.placePoint(new Point2D.Double(50, 50));
-        Surface s = b.getSurface();
-        surfaces.put(s.getId(), s);
-
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false, 10);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false, 10);
         createNewTile(80, 40, Constants.DEFAULT_SHAPE_FILL_COLOR, "Large", false, 10);
