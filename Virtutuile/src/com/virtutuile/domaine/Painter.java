@@ -124,8 +124,8 @@ public class Painter {
 
         Dimension canvasDim = meta.getCanvasSize();
 
-        int newPosX = canvasPosInt.x - ((canvasPosInt.x % meta.getGridSize().intValue()) - meta.getGridSize().intValue());
-        int newPosY = canvasPosInt.y - ((canvasPosInt.y % meta.getGridSize().intValue()) - meta.getGridSize().intValue());
+        int newPosX = canvasPosInt.x - (canvasPosInt.x % canvasDim.width);
+        int newPosY = canvasPosInt.y - (canvasPosInt.y % canvasDim.height);
 
         //TODO ne plus utiliser de pixel pour le calcul car on doit pouvoir etre entre o et 1
         for (int i = newPosX; i <= canvasDim.width; i++) {
