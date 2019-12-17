@@ -21,12 +21,6 @@ public class UndoRedo {
         ObjectInputStream ois = objectToOIS(meta);
 
         if (ois != null) {
-//            System.out.println("\nDoing:");
-//            System.out.println(meta.getDoing());
-//            System.out.println("LastEVent:");
-//            System.out.println(meta.getLastEvent());
-//            System.out.println("added to undo");
-//            System.out.println(meta.getDoing());
             undoStack.push(ois);
         }
 

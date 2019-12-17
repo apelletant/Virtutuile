@@ -92,6 +92,7 @@ public class SurfaceEditor {
     public void removeShape(UUID id) {
         if (meta.getSurfaces().containsKey(id)) {
             meta.getSurfaces().remove(id);
+            meta.addToUndo();
         }
     }
 
@@ -356,8 +357,6 @@ public class SurfaceEditor {
                 Surface surface = builder.getSurface();
                 meta.getSurfaces().put(surface.getId(), surface);
                 builder = null;
-                System.out.println(meta.getDoing());
-                System.out.println(meta.getLastEvent());
                 meta.addToUndo();
             }
         }
