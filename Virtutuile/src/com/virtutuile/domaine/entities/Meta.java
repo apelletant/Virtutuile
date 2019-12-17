@@ -71,7 +71,7 @@ public class Meta implements Serializable {
 
     }
 
-    public boolean createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
+    public boolean createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize, double minCut) {
         if (typeOfTiles.containsKey(name)) {
             return false;
         }
@@ -84,8 +84,12 @@ public class Meta implements Serializable {
             height = inchToCentimeter(height);
         }
 
-        typeOfTiles.put(name, new Tile(width, height, color, name, deletable, packageSize));
+        typeOfTiles.put(name, new Tile(width, height, color, name, deletable, packageSize, minCut));
         return true;
+    }
+
+    public boolean createNewTile(double width, double height, Color color, String name, boolean deletable, int packageSize) {
+        return createNewTile(width, height, color, name, deletable, packageSize, 1);
     }
 
     public Surface getSelectedSurface() {
@@ -482,6 +486,25 @@ public class Meta implements Serializable {
                 surface.getPatternGroup().recalcPattern(surface);
             }
         });
+    }
+
+    public void setMinimalCutForTile(String name, double value) {
+        if (unitSetted.equals(Unit.Imperial)) {
+            value = inchToCentimeter(value);
+        }
+
+        typeOfTiles.get(name).setMinimalCut(value);
+        surfaces.forEach((key, surface) -> {
+            if (surface.getPatternGroup() != null
+                    && surface.getTypeOfTile() != null
+                    && surface.getTypeOfTile().getName().equals(name)) {
+                surface.getPatternGroup().recalcPattern(surface);
+            }
+        });
+    }
+
+    public double getMinimalCutSizeFor(String name) {
+        return typeOfTiles.get(name).getMinimalCut();
     }
 
     public void renameTile(String newName, String oldName) {

@@ -28,7 +28,7 @@ public class Classic extends Pattern {
     @Override
     public void setTileType(Tile tile) {
         tiles.clear();
-        tiles.add(new Tile(new Rectangle2D.Double(0,0, tile.getBounds().getWidth(), tile.getBounds().getHeight())));
-        tiles.get(0).setFillColor(tile.getFillColor());
+        tiles.add(tile.copy());
+//        tiles.get(0).setFillColor(tile.getFillColor());
     }
 }
