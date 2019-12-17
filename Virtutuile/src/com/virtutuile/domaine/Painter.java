@@ -165,26 +165,42 @@ public class Painter {
 
             Point2D[] displayedVertices = hoveredShadow.getVertices();
             Point2D[] tileVertices = tile.getVertices();
-            int[][] displayedPts = new int[2][displayedVertices.length];
-            int[][] tilePts = new int[2][displayedVertices.length];
+            double[][] displayedPts = new double[2][displayedVertices.length];
+            double[][] tilePts = new double[2][displayedVertices.length];
 
             for (int i = 0; i < displayedVertices.length; i++) {
-                displayedPts[0][i] = (int) displayedVertices[i].getX();
-                displayedPts[1][i] = (int) displayedVertices[i].getY();
-                tilePts[0][i] = (int) tileVertices[i].getX();
-                tilePts[1][i] = (int) tileVertices[i].getY();
+                displayedPts[0][i] = displayedVertices[i].getX();
+                displayedPts[1][i] = displayedVertices[i].getY();
+                tilePts[0][i] = tileVertices[i].getX();
+                tilePts[1][i] = tileVertices[i].getY();
 
             }
+
+            int[] displayFirstPts = doubleArrayToInt(displayedPts[0]);
+            int[] displaySndPts = doubleArrayToInt(displayedPts[1]);
+            int[][] newPoints = new int[2][displayedVertices.length];
+            newPoints[0] = displayFirstPts;
+            newPoints[1] = displaySndPts;
 
             printShadowTileSize(displayedPts, tilePts, tile);
 
             graphics2D.setColor(Constants.Gizmos.TileHoverDisplayBox.LINE_COLOR);
             graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.drawPolygon(displayedPts[0], displayedPts[1], displayedPts[0].length);
+
+            graphics2D.drawPolygon(displayFirstPts, displaySndPts, displayFirstPts.length);
         }
     }
 
-    private void printShadowTileSize(int[][] displayed, int[][] tilePts, Tile tile) {
+    private static int[] doubleArrayToInt(double[] displayedPt) {
+        int[] arr = new int[displayedPt.length];
+
+        for (int i = 0; i < displayedPt.length; i++) {
+            arr[i] = (int)displayedPt[i];
+        }
+        return arr;
+    }
+
+    private void printShadowTileSize(double[][] displayed, double[][] tilePts, Tile tile) {
         int displayX = 0;
         int displayY = 0;
         int newDisplayX = 0;
@@ -195,12 +211,12 @@ public class Painter {
         }
 
         for (int i = 0; i < displayed[0].length; i++) {
-            displayX = displayed[0][i];
-            displayY = displayed[1][i];
+            displayX = (int)displayed[0][i];
+            displayY = (int)displayed[1][i];
 
             int idx = (i + 1) % displayed[0].length;
-            newDisplayX = displayed[0][idx];
-            newDisplayY = displayed[1][idx];
+            newDisplayX = (int)displayed[0][idx];
+            newDisplayY = (int)displayed[1][idx];
 
             int middleX = displayX + ((newDisplayX - displayX) / 2);
             int middleY = displayY + ((newDisplayY - displayY) / 2);
