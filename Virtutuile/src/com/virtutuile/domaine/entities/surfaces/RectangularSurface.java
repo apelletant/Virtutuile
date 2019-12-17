@@ -1,5 +1,7 @@
 package com.virtutuile.domaine.entities.surfaces;
 
+import com.virtutuile.domaine.entities.tools.PolygonTransformer;
+
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;

@@ -44,7 +44,10 @@ public class PatternGroup implements Serializable {
                 break;
         }
         if (this.pattern != null) {
-            this.buildPattern(surface);
+            Path2D.Double grout = surface.getPolygon();
+            if (surface.getGrout().getThickness() > 0)
+                grout = PolygonTransformer.flate(grout, surface.getGrout().getThickness());
+            this.buildPattern(surface, grout);
             surface.setFillColor(surface.getGrout().getColor());
         }
     }
@@ -64,7 +67,12 @@ public class PatternGroup implements Serializable {
         surface.moveOf((-bounds.x - (bounds.getWidth() / 2)),((-bounds.y - (bounds.getHeight() / 2))));
         surface.getPolygon().transform(at);
 
-        buildPattern(surface);
+        Path2D.Double grout = surface.getPolygon();
+        if (surface.getGrout().getThickness() > 0) {
+            grout = PolygonTransformer.flate(grout, surface.getGrout().getThickness());
+        }
+
+        buildPattern(surface, grout);
 
         at = new AffineTransform();
         at.setToRotation(degrees * Math.PI / 180);
@@ -97,7 +105,7 @@ public class PatternGroup implements Serializable {
         return null;
     }
 
-    private void buildPattern(@NotNull Surface surface) {
+    private void buildPattern(@NotNull Surface surface, @NotNull Path2D.Double cutting) {
         final Vector<Tile> tiles = pattern.getTiles();
         final double grout = surface.getGrout().getThickness();
 
@@ -145,18 +153,21 @@ public class PatternGroup implements Serializable {
 
                     newTile.moveOf(-pos.x, -pos.y);
                     newTile.moveOf(tempX + (pos.x * pos.width), tempY + (pos.y * pos.height));
-                    if (tileWillBeCuted(newTile, surface.getPolygon())) {
+                    if (tileWillBeCuted(newTile, cutting)) {
                         isCutted = true;
                         ++cuttedTiles;
                     }
-                    Path2D.Double[] cutedSurface = PolygonTransformer.poopSubtract(newTile.getPolygon(), surface.getPolygon());
-                    if (cutedSurface != null && cutedSurface.length != 0) {
-                        if (cutedSurface.length == 1) {
-                            newTile.setPolygon(cutedSurface[0]);
+                    Path2D.Double[] cuttedSurface = PolygonTransformer.poopSubtract(newTile.getPolygon(), cutting);
+                    if (cuttedSurface != null && cuttedSurface.length != 0) {
+                        if (cuttedSurface.length == 1 && PolygonTransformer.isContaining(surface.getPolygon(), cuttedSurface[0])) {
+                            newTile.setPolygon(cuttedSurface[0]);
                             newTile.setCutted(isCutted);
                             this.tiles.add(newTile);
                         } else {
-                            for (Path2D.Double cut : cutedSurface) {
+                            System.out.println(cuttedSurface.length);
+                            for (Path2D.Double cut : cuttedSurface) {
+                                if (!PolygonTransformer.isContaining(surface.getPolygon(), cut))
+                                    continue;
                                 newTile = tile.copy();
                                 newTile.setPolygon(cut);
                                 newTile.setCutted(isCutted);
