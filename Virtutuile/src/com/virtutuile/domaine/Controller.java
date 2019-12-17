@@ -432,10 +432,7 @@ public class Controller {
     }
 
     public void newCanvas() {
-        meta = new Meta();
+        Meta met = new Meta();
+        meta.setMeta(met);
     }
-
-    /**
-     * tile et info => rethinkMenu
-     */
 }
