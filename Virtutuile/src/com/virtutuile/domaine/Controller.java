@@ -430,4 +430,8 @@ public class Controller {
     public void redo() {
         meta.redo();
     }
+
+    public void newCanvas() {
+        meta = new Meta();
+    }
 }

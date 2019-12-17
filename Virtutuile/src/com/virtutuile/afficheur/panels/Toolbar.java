@@ -39,6 +39,7 @@ public class Toolbar extends BorderedPanel {
         Button saveCanvas = buttons.get(TargetButton.SaveCanvas);
         Button undo = buttons.get(TargetButton.Undo);
         Button redo = buttons.get(TargetButton.Redo);
+        Button newCanvas = buttons.get(TargetButton.NewCanvas);
 
         edition.setActive(true);
         edition.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
@@ -130,6 +131,12 @@ public class Toolbar extends BorderedPanel {
         redo.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             mainWindow.getController().redo();
             mainWindow.repaint();
+        }));
+
+        newCanvas.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
+            mainWindow.getController().newCanvas();
+            mainWindow.repaint();
+            mainWindow.refreshGUI();
         }));
     }
 
