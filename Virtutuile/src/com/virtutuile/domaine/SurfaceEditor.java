@@ -195,13 +195,6 @@ public class SurfaceEditor {
             builder.placePoint(point);
             Surface surface = builder.getSurface();
             meta.getSurfaces().put(surface.getId(), surface);
-
-            Path2D.Double path = PolygonTransformer.flate(surface.getPolygon(), 1);
-
-            Path p = PolygonTransformer.awtPathToJavafx(path);
-
-            Surface s1 = new Surface(path, false);
-            meta.getSurfaces().put(s1.getId(), s1);
             builder = null;
             /*System.out.println("Surface Origin : {" + surface.getVertices()[0].getX() + ", " + surface.getVertices()[0].getY());
             System.out.println("Surface Dimensions : Width: " + surface.getPolygon().getBounds2D().getWidth() + ", Height: " + surface.getPolygon().getBounds2D().getHeight());*/
