@@ -219,4 +219,5 @@ public class TextInput extends Panel implements DocumentListener {
         }
         return true;
     }
+
 }

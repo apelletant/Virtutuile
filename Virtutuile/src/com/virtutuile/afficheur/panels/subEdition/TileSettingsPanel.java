@@ -76,7 +76,6 @@ public class TileSettingsPanel extends SubPanel {
         });
 
         creationButtons.get("Create").addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
-            /*tileCreation = new TileCreation("Create a Tile", mainWindow);*/
             creationFrame.setVisible(true);
         });
 

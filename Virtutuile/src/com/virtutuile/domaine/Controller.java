@@ -332,6 +332,12 @@ public class Controller {
     }
 
     public void moveSelectedPattern(double moveX, double moveY) {
+
+        if (meta.getUnitSetted().equals("Imperial")) {
+            moveX = meta.inchToCentimeter(moveX);
+            moveY = meta.inchToCentimeter(moveY);
+        }
+
         Surface surface = meta.getSelectedSurface();
         if (surface != null && surface.getPatternGroup() != null) {
             surface.getPatternGroup().setOrigin(moveX, moveY);
@@ -340,9 +346,15 @@ public class Controller {
     }
 
     public Vector2D getSelectedSurfacePatternOrigin() {
-        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
-            return meta.getSelectedSurface().getPatternGroup().getOrigin();
-        return null;
+        Vector2D ret = null;
+        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null) {
+            ret = meta.getSelectedSurface().getPatternGroup().getOrigin();
+            if (meta.getUnitSetted().equals("Imperial")) {
+                ret.x = meta.centimeterToInch(ret.x);
+                ret.y = meta.centimeterToInch(ret.y);
+            }
+        }
+        return ret;
     }
 
     public void stickSurfaces() {
@@ -366,9 +378,14 @@ public class Controller {
     }
 
     public double getSelectedSurfacePatternShift() {
-        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null)
-            return meta.getSelectedSurface().getPatternGroup().getShift();
-        return 0;
+        double shift = 0;
+        if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null) {
+            shift = meta.getSelectedSurface().getPatternGroup().getShift();
+            if (meta.getUnitSetted().equals("Imperial")) {
+                shift = meta.inchToCentimeter(shift);
+            }
+        }
+        return shift;
     }
 
     public boolean getSelectedSurfacePatternDirectionShift() {
@@ -379,6 +396,11 @@ public class Controller {
 
     public void changeSelectedShiftValue(double shift) {
         Surface surface = meta.getSelectedSurface();
+
+        if (meta.getUnitSetted().equals("Imperial")) {
+            shift = meta.inchToCentimeter(shift);
+        }
+
         if (surface != null && surface.getPatternGroup() != null) {
             PatternGroup pg = surface.getPatternGroup();
             pg.setShift(shift);

@@ -126,9 +126,7 @@ public class BottomToolbar extends BorderedPanel {
 
         unit.addMouseEventListener(MouseEventKind.MouseLClick, (event) -> {
             mainWindow.getController().switchUnit();
-            //
             boolean active = !unit.isActive();
-            mainWindow.getController().changeSelectedShiftDirection(active);
             unit.setActive(active);
             if (active)
                 unit.setText("Imperial");
@@ -205,8 +203,6 @@ public class BottomToolbar extends BorderedPanel {
         Unit,
         MagneticGrid
     }
-
-
 
     private UnitInput setUpUnitInput(String label) {
         UnitInput input = new UnitInput(label, false, "doubleInf");

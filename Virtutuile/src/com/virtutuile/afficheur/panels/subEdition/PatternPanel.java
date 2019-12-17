@@ -164,10 +164,10 @@ public class PatternPanel extends SubPanel {
 
         rotation.setText(Double.toString(rotationPattern));
         if (pt != null) {
-            patternPositionX.setValue(Math.round(pt.x * 100d) / 100d);
-            patternPositionY.setValue(Math.round(pt.y * 100d) / 100d);
+            patternPositionX.setValue(Math.round(pt.x * 1000d) / 1000d);
+            patternPositionY.setValue(Math.round(pt.y * 1000d) / 1000d);
         }
-        patternShiftConfig.setValue(Math.round(ps * 100d) / 100d);
+        patternShiftConfig.setValue(Math.round(ps * 1000d) / 1000d);
         patternShiftDirection.setActive(ds);
         if (ds)
             patternShiftDirection.setName("Shift on Y");

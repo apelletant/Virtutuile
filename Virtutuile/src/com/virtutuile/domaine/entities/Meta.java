@@ -72,6 +72,12 @@ public class Meta implements Serializable {
         if (color == null) {
             color = Constants.DEFAULT_SHAPE_FILL_COLOR;
         }
+
+        if (unitSetted.equals(Unit.Imperial)) {
+            width = inchToCentimeter(width);
+            height = inchToCentimeter(height);
+        }
+
         typeOfTiles.put(name, new Tile(width, height, color, name, deletable, packageSize));
         return true;
     }
@@ -251,6 +257,9 @@ public class Meta implements Serializable {
     }
 
     public double getZoomFactor() {
+            /*if (unitSetted.equals(Unit.Imperial)) {
+                return centimeterToInch(zoomFactor);
+            }*/
         return zoomFactor;
     }
 
@@ -260,6 +269,9 @@ public class Meta implements Serializable {
     }
 
     public void updateZoom(double zoom, Point cursor) {
+        if (unitSetted == Unit.Imperial) {
+            zoom = inchToCentimeter(zoom);
+        }
         zoom = zoom * -1;
         double oldWidth = pixelsToCentimeters(getCanvasSize().width);
         double oldHeight = pixelsToCentimeters(getCanvasSize().height);
@@ -298,6 +310,17 @@ public class Meta implements Serializable {
             dimensions[1] = selectedSurface.getBounds().height;
             dimensions[2] = selectedSurface.getBounds().x;
             dimensions[3] = selectedSurface.getBounds().y;
+
+            if (unitSetted.equals(Unit.Imperial)) {
+                Double[] dimensionsInch = new Double[4];
+                int i = 0;
+                for (Double dimension : dimensions) {
+                    dimensionsInch[i] = centimeterToInch(dimension);
+                    i++;
+                }
+                return dimensionsInch;
+            }
+
             return dimensions;
         }
         return null;
@@ -305,17 +328,30 @@ public class Meta implements Serializable {
 
     public Double getSelectedSurfaceGroutThickness() {
         if (selectedSurface != null) {
-            return selectedSurface.getGrout().getThickness();
+            Double thickness = selectedSurface.getGrout().getThickness();
+
+            if (unitSetted == Unit.Imperial) {
+                thickness = centimeterToInch(thickness);
+            }
+
+            return thickness;
         } else {
             return null;
         }
     }
 
     public Double getGridSize() {
-        return gridSize;
+        Double ret = gridSize;
+        if (unitSetted == Unit.Imperial) {
+            ret = centimeterToInch(ret);
+        }
+        return ret;
     }
 
     public void setGridSize(Double gridSize) {
+        if (unitSetted.equals(Unit.Imperial)) {
+            gridSize = inchToCentimeter(gridSize);
+        }
         this.gridSize = gridSize;
     }
 
@@ -324,6 +360,11 @@ public class Meta implements Serializable {
             Double[] dim = new Double[2];
             dim[0] = hoveredSurface.getBounds().width;
             dim[1] = hoveredSurface.getBounds().height;
+            if (unitSetted == Unit.Imperial) {
+                dim[0] = centimeterToInch(dim[0]);
+                dim[1] = centimeterToInch(dim[1]);
+                return dim;
+            }
             return dim;
         }
         return null;
@@ -331,12 +372,18 @@ public class Meta implements Serializable {
 
     public void setSelectedSurfaceWidth(double value) {
         if (selectedSurface != null) {
+            if (unitSetted.equals(Unit.Imperial)) {
+                value = inchToCentimeter(value);
+            }
             selectedSurface.setWidth(value);
         }
     }
 
     public void setSelectedSurfaceHeight(double value) {
         if (selectedSurface != null) {
+            if (unitSetted.equals(Unit.Imperial)) {
+                value = inchToCentimeter(value);
+            }
             selectedSurface.setHeight(value);
         }
     }
@@ -359,9 +406,15 @@ public class Meta implements Serializable {
     }
 
     public void setGroutThickness(String value) {
+        Double valueD = Double.parseDouble(value);
+
+        if (unitSetted.equals(Unit.Imperial)) {
+            valueD = inchToCentimeter(valueD);
+        }
+
         if (selectedSurface != null
                 && selectedSurface.getGrout() != null) {
-            if (selectedSurface.getGrout().getThickness() != Double.parseDouble(value)) {
+            if (selectedSurface.getGrout().getThickness() != valueD) {
                 selectedSurface.getGrout().setThickness(Double.parseDouble(value));
                 if (selectedSurface.getPatternGroup() != null) {
                     selectedSurface.getPatternGroup().recalcPattern(selectedSurface); /*TODO*/
@@ -374,11 +427,25 @@ public class Meta implements Serializable {
         Double[] dimensions = new Double[2];
         dimensions[0] = typeOfTiles.get(type).getBounds().getWidth();
         dimensions[1] = typeOfTiles.get(type).getBounds().getHeight();
+
+        if (unitSetted.equals(Unit.Imperial)) {
+            Double[] inched = new  Double[2];
+            inched[0] = centimeterToInch(dimensions[0]);
+            inched[1] = centimeterToInch(dimensions[1]);
+            return inched;
+        }
+
         return dimensions;
     }
 
     public void setWidthForTile(String value, String name) {
-        typeOfTiles.get(name).setWidth(Double.parseDouble(value));
+        Double converted = Double.parseDouble(value);
+
+        if (unitSetted.equals(Unit.Imperial)) {
+            converted = inchToCentimeter(Double.parseDouble(value));
+        }
+
+        typeOfTiles.get(name).setWidth(converted);
         surfaces.forEach((key, surface) -> {
             if (surface.getPatternGroup() != null
                     && surface.getTypeOfTile() != null
@@ -389,7 +456,13 @@ public class Meta implements Serializable {
     }
 
     public void setHeightForTile(String value, String name) {
-        typeOfTiles.get(name).setHeight(Double.parseDouble(value));
+        Double converted = Double.parseDouble(value);
+
+        if (unitSetted.equals(Unit.Imperial)) {
+            converted = inchToCentimeter(Double.parseDouble(value));
+        }
+
+        typeOfTiles.get(name).setHeight(converted);
         surfaces.forEach((key, surface) -> {
             if (surface.getPatternGroup() != null
                     && surface.getTypeOfTile() != null
@@ -513,6 +586,9 @@ public class Meta implements Serializable {
     public void setSelectedSurfaceLongitude(Double longitude) {
         if (selectedSurface != null) {
             Rectangle2D.Double b = selectedSurface.getBounds();
+            if (unitSetted.equals(Unit.Imperial)) {
+                longitude = inchToCentimeter(longitude);
+            }
             selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(longitude, b.y),selectedSurface.getNext());
         }
     }
@@ -520,6 +596,9 @@ public class Meta implements Serializable {
     public void setSelectedSurfaceLatitude(Double latitude) {
         if (selectedSurface != null) {
             Rectangle2D.Double b = selectedSurface.getBounds();
+            if (unitSetted.equals(Unit.Imperial)) {
+                latitude = inchToCentimeter(latitude);
+            }
             selectedSurface.move(new Point2D.Double(b.x, b.y), new Point2D.Double(b.x, latitude),selectedSurface.getNext());
         }
     }
@@ -876,6 +955,14 @@ public class Meta implements Serializable {
                 unitSetted = Unit.Metric;
                 break;
         }
+    }
+
+    public Double centimeterToInch(Double centimeter) {
+        return com.virtutuile.domaine.Constants.Convert(centimeter, com.virtutuile.domaine.Constants.Units.Centimeter, com.virtutuile.domaine.Constants.Units.Inches);
+    }
+
+    public Double inchToCentimeter(Double inch) {
+        return com.virtutuile.domaine.Constants.Convert(inch, com.virtutuile.domaine.Constants.Units.Inches, com.virtutuile.domaine.Constants.Units.Centimeter);
     }
 
     public enum EditionAction {

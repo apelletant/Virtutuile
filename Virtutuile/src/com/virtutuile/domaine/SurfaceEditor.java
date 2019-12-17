@@ -432,6 +432,11 @@ public class SurfaceEditor {
         Surface surface = meta.getSelectedSurface();
         Surface reference = meta.getLastAlignedSurface();
         Double originRef;
+
+        if (meta.getUnitSetted().equals("Imperial")) {
+            distance = meta.inchToCentimeter(distance);
+        }
+
         if (surface != null
                 && reference != null) {
             switch (meta.getAlignDirection()) {
