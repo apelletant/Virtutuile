@@ -45,7 +45,7 @@ public class Meta implements Serializable {
     private double zoomFactor = Constants.NORMAL_ZOOM;
     private Point2D.Double canvasPosition = new Point2D.Double();
 
-    private transient  Double gridSize = 100d;
+    private transient  Double gridSize = 10d;
 
     private transient UndoRedo undoRedo;
     private MouseEventKind lastEvent;
@@ -579,23 +579,32 @@ public class Meta implements Serializable {
         hover = new Point2D.Double(hover.getX() + canvasPosition.x - screen.x, hover.getY() + canvasPosition.y - screen.y);
 
         Point2D.Double ret = (Point2D.Double) updateCoordsToMagnetic(mousePosCM);
-        ret.x += canvasPosition.x - screen.x;
-        ret.y += canvasPosition.y - screen.y;
+
+        if (ret.x % gridSize > gridSize / 5) {
+            ret.x += canvasPosition.x - screen.x;
+        }
+        if (ret.y % gridSize > gridSize / 5) {
+            ret.y += canvasPosition.y - screen.y;
+        }
 
         return ret;
     }
 
     private Point2D updateCoordsToMagnetic(Point2D.Double point) {
         if (point.x % gridSize <= gridSize / 2) {
-            point.x -= point.x % gridSize;
+            if (point.x % gridSize < gridSize / 7)
+                point.x -= point.x % gridSize;
         } else {
-            point.x += gridSize - point.x % gridSize;
+            if (point.x % gridSize > gridSize / 7)
+                point.x += gridSize - point.x % gridSize;
         }
 
         if (point.y % gridSize <= gridSize / 2) {
-            point.y -= point.y % gridSize;
+            if (point.y % gridSize < gridSize / 7)
+                point.y -= point.y % gridSize;
         } else {
-            point.y += gridSize - point.y % gridSize;
+            if (point.y % gridSize > gridSize / 7)
+                point.y += gridSize - point.y % gridSize;
         }
 
         return point;
@@ -608,7 +617,8 @@ public class Meta implements Serializable {
 
         Point2D newBounds = updateCoordsToMagnetic(new Point2D.Double(bounds.x, bounds.y));
 
-        selectedSurface.move(new Point2D.Double(bounds.x, bounds.y), newBounds,selectedSurface.getNext());
+        if (newBounds.getX() % gridSize > gridSize / 5 && newBounds.getY() % gridSize > gridSize / 5)
+            selectedSurface.move(new Point2D.Double(bounds.x, bounds.y), newBounds,selectedSurface.getNext());
         return surf;
     }
 

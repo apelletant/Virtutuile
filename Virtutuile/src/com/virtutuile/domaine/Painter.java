@@ -124,12 +124,12 @@ public class Painter {
 
         Dimension canvasDim = meta.getCanvasSize();
 
-        canvasPosInt.x = canvasPosInt.x - (canvasPosInt.x % canvasDim.width);
-        canvasPosInt.y = canvasPosInt.y - (canvasPosInt.y % canvasDim.height);
+        int newPosX = canvasPosInt.x - ((canvasPosInt.x % meta.getGridSize().intValue()) - meta.getGridSize().intValue());
+        int newPosY = canvasPosInt.y - ((canvasPosInt.y % meta.getGridSize().intValue()) - meta.getGridSize().intValue());
 
         //TODO ne plus utiliser de pixel pour le calcul car on doit pouvoir etre entre o et 1
-        for (int i = canvasPosInt.x; i <= canvasDim.width; i++) {
-            for (int j = canvasPosInt.y; j <= canvasDim.height; j++) {
+        for (int i = newPosX; i <= canvasDim.width; i++) {
+            for (int j = newPosY ; j <= canvasDim.height; j++) {
                 if (i % meta.centimetersToPixels(meta.getGridSize()) == 0) {
                     graphics2D.drawLine(i, j, i, canvasDim.width);
                 }
