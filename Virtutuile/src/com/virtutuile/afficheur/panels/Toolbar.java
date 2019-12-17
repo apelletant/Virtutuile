@@ -102,6 +102,9 @@ public class Toolbar extends BorderedPanel {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 mainWindow.getController().loadCanvas(fc.getSelectedFile().getPath());
                 mainWindow.refreshGUI();
+                mainWindow.getEditionPanel().getTileSettingsPanel().rethinkMenu();
+                mainWindow.getEditionPanel().getTilePanel().rethinkMenu();
+                mainWindow.getEditionPanel().getInfoPanel().rethinkMenu();
             }
             mainWindow.revalidate();
             mainWindow.repaint();
