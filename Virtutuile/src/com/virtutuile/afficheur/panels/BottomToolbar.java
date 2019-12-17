@@ -134,7 +134,6 @@ public class BottomToolbar extends BorderedPanel {
             else
                 unit.setText("Metric");
             switchUnitsPanel();
-            refreshGUI();
             mainWindow.repaint();
         });
     }
@@ -146,6 +145,13 @@ public class BottomToolbar extends BorderedPanel {
         mainWindow.getEditionPanel().getPatternPanel().switchUnitsLabel();
         mainWindow.getEditionPanel().getTileSettingsPanel().switchUnitsLabel();
         switchUnitsLabel();
+
+        mainWindow.getEditionPanel().getSurfacePanel().refreshGUI();
+        mainWindow.getEditionPanel().getManagementPanel().refreshGUI();
+        mainWindow.getEditionPanel().getGroutPanel().refreshGUI();
+        mainWindow.getEditionPanel().getPatternPanel().refreshGUI();
+        mainWindow.getEditionPanel().getTileSettingsPanel().refreshGUI();
+        refreshGUI();
     }
 
     private void switchUnitsLabel() {
@@ -184,7 +190,7 @@ public class BottomToolbar extends BorderedPanel {
     }
 
     public void setZoomLevel() {
-        Double zoomlevel = Math.round(mainWindow.getController().getZoomFactorFront() * 10000) / 10000D;
+        Double zoomlevel = Math.round(mainWindow.getController().getZoomFactorFront() * 100000) / 100000D;
         if (zoomlevel.toString().equals("0.0")) {
             zoom.setText("Tiny");
         } else {

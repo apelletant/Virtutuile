@@ -29,7 +29,7 @@ public class ManagementPanel extends SubPanel {
     // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {
-
+        retrieveDistance();
     }
 
     @Override

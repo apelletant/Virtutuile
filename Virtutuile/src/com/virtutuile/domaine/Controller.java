@@ -382,7 +382,7 @@ public class Controller {
         if (meta.getSelectedSurface() != null && meta.getSelectedSurface().getPatternGroup() != null) {
             shift = meta.getSelectedSurface().getPatternGroup().getShift();
             if (meta.getUnitSetted().equals("Imperial")) {
-                shift = meta.inchToCentimeter(shift);
+                shift = meta.centimeterToInch(shift);
             }
         }
         return shift;

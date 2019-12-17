@@ -32,6 +32,7 @@ public class SurfacePanel extends SubPanel {
     // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {
+        retrieveSelectedSurfaceProperties();
     }
 
     @Override
@@ -226,8 +227,8 @@ public class SurfacePanel extends SubPanel {
     public void retrieveSelectedSurfaceProperties() {
         Double[] selectedSurfaceDimensions = mainWindow.getController().getSelectedSurfaceProperties();
         if (selectedSurfaceDimensions != null) {
-            unitInputs.get(InputContextType.Width).setValue(Math.round(selectedSurfaceDimensions[0] * 10000) / 10000D);
-            unitInputs.get(InputContextType.Height).setValue(Math.round(selectedSurfaceDimensions[1] * 10000) / 10000D);
+            unitInputs.get(InputContextType.Width).setValue(selectedSurfaceDimensions[0]);
+            unitInputs.get(InputContextType.Height).setValue(selectedSurfaceDimensions[1]);
             positionInputs.get(InputContextType.Longitude).setValue(selectedSurfaceDimensions[2]);
             positionInputs.get(InputContextType.Latitude).setValue(selectedSurfaceDimensions[3]);
         } else {
@@ -237,13 +238,13 @@ public class SurfacePanel extends SubPanel {
     }
 
     private void setSurfaceDimensions(Double width, Double height) {
-        unitInputs.get(InputContextType.Width).setValue(Math.round(width * 10000) / 10000D);
-        unitInputs.get(InputContextType.Height).setValue(Math.round(height * 10000) / 10000D);
+        unitInputs.get(InputContextType.Width).setValue(width);
+        unitInputs.get(InputContextType.Height).setValue(height);
     }
 
     private void setSurfacePosition(Double width, Double height) {
-        positionInputs.get(InputContextType.Longitude).setValue(Math.round(width * 10000) / 10000D);
-        positionInputs.get(InputContextType.Latitude).setValue(Math.round(height * 10000) / 10000D);
+        positionInputs.get(InputContextType.Longitude).setValue(width);
+        positionInputs.get(InputContextType.Latitude).setValue(height);
     }
 
     public enum DrawShapeButtonType {

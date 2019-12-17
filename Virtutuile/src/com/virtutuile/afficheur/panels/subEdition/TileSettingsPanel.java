@@ -45,7 +45,15 @@ public class TileSettingsPanel extends SubPanel {
     // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {
+        retrieveInfos();
+    }
 
+    public void retrieveInfos() {
+        if (selectedTile != null && !selectedTile.equals(""))  {
+            Double[] dimension = mainWindow.getController().getTileDimension(selectedTile);
+            height.setValue(dimension[1]);
+            width.setValue(dimension[0]);
+        }
     }
 
     private void setUpCreationFrame() {

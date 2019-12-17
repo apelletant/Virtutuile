@@ -34,7 +34,7 @@ public class PatternPanel extends SubPanel {
     // TODO IMPLEMENTS FUNCTIONE
     @Override
     public void refreshGUI() {
-
+        retrieveInfoSelected();
     }
 
     public void setButtonsOnPanel() {
@@ -164,10 +164,10 @@ public class PatternPanel extends SubPanel {
 
         rotation.setText(Double.toString(rotationPattern));
         if (pt != null) {
-            patternPositionX.setValue(Math.round(pt.x * 1000d) / 1000d);
-            patternPositionY.setValue(Math.round(pt.y * 1000d) / 1000d);
+            patternPositionX.setValue(pt.x);
+            patternPositionY.setValue(pt.y);
         }
-        patternShiftConfig.setValue(Math.round(ps * 1000d) / 1000d);
+        patternShiftConfig.setValue(ps);
         patternShiftDirection.setActive(ds);
         if (ds)
             patternShiftDirection.setName("Shift on Y");
