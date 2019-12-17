@@ -1,5 +1,6 @@
 package com.virtutuile.domaine;
 
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.surfaces.*;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
@@ -15,6 +16,8 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.virtutuile.domaine.entities.Meta.EditionAction.CreatingFreeSurface;
 
 public class SurfaceEditor {
 
@@ -147,7 +150,7 @@ public class SurfaceEditor {
         Surface surface = getSurfaceAt(point);
         boolean outOfShape = false;
 
-        if (builder != null && meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
+        if (builder != null && meta.getDoing() == CreatingFreeSurface) {
             builder.movePoint(point);
         }
 
@@ -194,6 +197,8 @@ public class SurfaceEditor {
             /*System.out.println("Surface Origin : {" + surface.getVertices()[0].getX() + ", " + surface.getVertices()[0].getY());
             System.out.println("Surface Dimensions : Width: " + surface.getPolygon().getBounds2D().getWidth() + ", Height: " + surface.getPolygon().getBounds2D().getHeight());*/
         }
+
+        meta.addToUndo();
         mouseHover(point);
     }
 
@@ -261,6 +266,7 @@ public class SurfaceEditor {
                 default:
                     break;
             }
+            meta.addToUndo();
         }
     }
 
@@ -309,6 +315,7 @@ public class SurfaceEditor {
                 default:
                     break;
             }
+            meta.addToUndo();
         }
     }
 
@@ -342,11 +349,13 @@ public class SurfaceEditor {
     }
 
     public void mouseRClick(Point2D point) {
-        if (meta.getDoing() == Meta.EditionAction.CreatingFreeSurface) {
+        if (meta.getDoing() == CreatingFreeSurface) {
             if (builder != null && (builder instanceof FreeSurface.Builder)) {
                 Surface surface = builder.getSurface();
                 meta.getSurfaces().put(surface.getId(), surface);
                 builder = null;
+//                System.out.println("rClick");
+//                meta.addToUndo();
             }
         }
     }
@@ -399,6 +408,7 @@ public class SurfaceEditor {
             meta.getSurfaces().remove(surface.getId());
             meta.setSelectedSurface(null);
             removeFromLinkedList(surface);
+            meta.addToUndo();
         }
     }
 
@@ -425,6 +435,7 @@ public class SurfaceEditor {
         Surface surface = meta.getSelectedSurface();
         if (surface != null) {
             surface.applyPattern(patternName, tile);
+            meta.addToUndo();
         }
     }
 
@@ -476,6 +487,7 @@ public class SurfaceEditor {
                 default:
                     break;
             }
+            meta.addToUndo();
         }
     }
 
@@ -520,6 +532,7 @@ public class SurfaceEditor {
                 surface.setSettedColor(color);
             }
             surface.setSettedColor(color);
+            meta.addToUndo();
         }
     }
 
@@ -537,6 +550,7 @@ public class SurfaceEditor {
             surfaceIntersect = meta.getSurfaceIntersected(selectedSurface);
             if (surfaceIntersect != null) {
                 linkSurfaces(selectedSurface, surfaceIntersect);
+                meta.addToUndo();
             }
         }
     }
@@ -627,6 +641,7 @@ public class SurfaceEditor {
 
             selectedSurface.setNext(null);
             selectedSurface.setPrevious(null);
+            meta.addToUndo();
         }
     }
 
@@ -720,6 +735,7 @@ public class SurfaceEditor {
                 removeFromLinkedList(secondSurface);
                 meta.getSurfaces().remove(oldSelectedSurface.getId());
                 meta.getSurfaces().remove(secondSurface.getId());
+                meta.addToUndo();
             }
         }
     }
@@ -730,6 +746,9 @@ public class SurfaceEditor {
         if (surface != null && surface.getPatternGroup() != null) {
             surface.getPatternGroup().setRotation(rotation);
             surface.getPatternGroup().recalcPattern(surface);
+            if (meta.getLastEvent() != MouseEventKind.MouseDrag) {
+                meta.addToUndo();
+            }
         }
     }
 }

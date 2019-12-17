@@ -124,10 +124,12 @@ public class Toolbar extends BorderedPanel {
 
         undo.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             mainWindow.getController().undo();
+            mainWindow.repaint();
         }));
 
         redo.addMouseEventListener(MouseEventKind.MouseLClick, (mouseEvent -> {
             mainWindow.getController().redo();
+            mainWindow.repaint();
         }));
     }
 

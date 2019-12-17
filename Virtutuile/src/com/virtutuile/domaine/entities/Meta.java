@@ -1,6 +1,8 @@
 package com.virtutuile.domaine.entities;
 
 import com.virtutuile.afficheur.Constants;
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
+import com.virtutuile.domaine.UndoRedo;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
@@ -26,23 +28,26 @@ public class Meta implements Serializable {
     private Direction alignDirection;
     private Orientation stickOrientation;
 
-    private Surface selectedSurface;
-    private Surface hoveredSurface;
+    private transient Surface selectedSurface;
+    private transient Surface hoveredSurface;
     private Surface lastAlignedSurface;
-    private Tile hoveredTile;
+    private transient Tile hoveredTile;
     private boolean isSelectedSurfaceCanBeResized;
     private boolean shouldDisplayCuttedTiles = false;
 
     private Point2D clicked;
     private Point2D hover;
     private boolean mousePressed;
-    private boolean isGridActivated;
+    private transient boolean isGridActivated;
     private Dimension canvasSize = new Dimension();
 
     private double zoomFactor = Constants.NORMAL_ZOOM;
     private Point2D.Double canvasPosition = new Point2D.Double();
 
-    private Double gridSize = 100d;
+    private transient  Double gridSize = 100d;
+
+    private transient UndoRedo undoRedo;
+    private MouseEventKind lastEvent;
 
     public Meta() {
         selectedSurface = null;
@@ -58,6 +63,7 @@ public class Meta implements Serializable {
         mousePressed = false;
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
+        undoRedo = new UndoRedo(this);
 
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false, 10);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false, 10);
@@ -96,6 +102,7 @@ public class Meta implements Serializable {
 
     public void setSurfaces(UnorderedMap<UUID, Surface> surfaces) {
         this.surfaces = surfaces;
+        undoRedo.addUndo(this);
     }
 
     public EditionAction getDoing() {
@@ -883,10 +890,7 @@ public class Meta implements Serializable {
         doing = EditionAction.Idle;
         alignDirection = metaCpy.alignDirection;
         stickOrientation = metaCpy.stickOrientation;
-        selectedSurface = metaCpy.selectedSurface;
-        hoveredSurface = metaCpy.hoveredSurface;
         lastAlignedSurface = metaCpy.lastAlignedSurface;
-        hoveredTile = metaCpy.hoveredTile;
         isSelectedSurfaceCanBeResized = metaCpy.isSelectedSurfaceCanBeResized;
         shouldDisplayCuttedTiles = metaCpy.shouldDisplayCuttedTiles;
         clicked = metaCpy.clicked;
@@ -896,7 +900,6 @@ public class Meta implements Serializable {
         canvasSize = metaCpy.canvasSize;
         zoomFactor = metaCpy.zoomFactor;
         canvasPosition = metaCpy.canvasPosition;
-        gridSize = metaCpy.gridSize;
         surfaces = metaCpy.surfaces;
         typeOfTiles = metaCpy.typeOfTiles;
         unitSetted = metaCpy.unitSetted;
@@ -968,6 +971,33 @@ public class Meta implements Serializable {
 
     public Double inchToCentimeter(Double inch) {
         return com.virtutuile.domaine.Constants.Convert(inch, com.virtutuile.domaine.Constants.Units.Inches, com.virtutuile.domaine.Constants.Units.Centimeter);
+    }
+
+    public void undo() {
+        Meta newItem = undoRedo.undo();
+        if (newItem != null) {
+            setMeta(newItem);
+        }
+    }
+
+    public void redo() {
+        Meta newItem = undoRedo.redo();
+
+        if (newItem != null) {
+            setMeta(newItem);
+        }
+    }
+
+    public void addToUndo() {
+        undoRedo.addUndo(this);
+    }
+
+    public void setLastEvent(MouseEventKind event) {
+        lastEvent = event;
+    }
+
+    public MouseEventKind getLastEvent() {
+        return lastEvent;
     }
 
     public enum EditionAction {

@@ -1,5 +1,6 @@
 package com.virtutuile.domaine;
 
+import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.domaine.entities.Meta;
 import com.virtutuile.domaine.entities.PatternGroup;
 import com.virtutuile.domaine.entities.surfaces.Surface;
@@ -16,14 +17,12 @@ public class Controller {
     private Painter painter;
     private SurfaceEditor surfaceEditor;
     private SaveManager saveManager;
-    private UndoRedo undoRedo;
 
     public Controller() {
         meta = new Meta();
         painter = new Painter(meta);
         surfaceEditor = new SurfaceEditor(meta);
         saveManager = new SaveManager(meta);
-        undoRedo = new UndoRedo(meta);
     }
 
     public void paint(Graphics graphics) {
@@ -56,10 +55,7 @@ public class Controller {
 
         meta.setHover(canvasCursor);
         this.surfaceEditor.mouseRelease(canvasCursor);
-
-        if (meta.getSelectedSurface() != null) {
-            undoRedo.addUndo(meta);
-        }
+        meta.setLastEvent(MouseEventKind.MouseRelease);
     }
 
     public void mouseLClick(Point point) {
@@ -72,10 +68,7 @@ public class Controller {
         }
         this.surfaceEditor.mouseLClick(canvasCursor);
         meta.setClicked(canvasCursor);
-
-        if (meta.getSelectedSurface() != null) {
-            undoRedo.addUndo(meta);
-        }
+        meta.setLastEvent(MouseEventKind.MouseLClick);
     }
 
     private Surface updateSurfacePosToMagneticPos() {
@@ -84,6 +77,7 @@ public class Controller {
 
     public void mouseRClick(Point point) {
         this.surfaceEditor.mouseRClick(meta.pointToPoints2D(point));
+        meta.setLastEvent(MouseEventKind.MouseRClick);
     }
 
     public void mouseDrag(Point point, int button) {
@@ -94,8 +88,10 @@ public class Controller {
             this.surfaceEditor.mouseDrag(canvasCursor);
         } else {
             this.surfaceEditor.dragPattern(canvasCursor);
+            meta.addToUndo();
         }
         meta.setHover(canvasCursor);
+        meta.setLastEvent(MouseEventKind.MouseDrag);
     }
 
     public void setDrawRectangularSurface(boolean doing) {
@@ -306,31 +302,6 @@ public class Controller {
         meta.setMeta(saveManager.loadCanvas(path));
     }
 
-    public void undo() {
-        Meta newItem = undoRedo.undo();
-        System.out.println("undo");
-        if (newItem != null) {
-            meta.setMeta(newItem);
-        }
-    }
-
-    public void redo() {
-        Meta newItem = undoRedo.redo();
-
-        if (newItem != null) {
-            System.out.println("redo");
-            meta.setMeta(newItem);
-        }
-    }
-
-    public boolean canRedo() {
-        return undoRedo.canRedo();
-    }
-
-    public boolean canUndo() {
-        return undoRedo.canUndo();
-    }
-
     public void moveSelectedPattern(double moveX, double moveY) {
 
         if (meta.getUnitSetted().equals("Imperial")) {
@@ -443,5 +414,13 @@ public class Controller {
 
     public Double getGridSizeFront() {
         return meta.getGridSizeFront();
+    }
+
+    public void undo() {
+        meta.undo();
+    }
+
+    public void redo() {
+        meta.redo();
     }
 }
