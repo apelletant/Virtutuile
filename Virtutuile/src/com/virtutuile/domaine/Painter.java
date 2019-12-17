@@ -207,6 +207,10 @@ public class Painter {
 
             Double size = new Vector2D(tilePts[0][i], tilePts[1][i]).distance(tilePts[0][idx], tilePts[1][idx]);
 
+            if (meta.getUnitSetted().equals("Imperial")) {
+                size = meta.centimeterToInch(size);
+            }
+
             if (size != 0) {
                 graphics2D.setColor(new Color(255, 255, 255));
                 graphics2D.drawString(String.format("%.2f", size), middleX, middleY);
