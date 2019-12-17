@@ -198,7 +198,9 @@ public class SurfaceEditor {
             System.out.println("Surface Dimensions : Width: " + surface.getPolygon().getBounds2D().getWidth() + ", Height: " + surface.getPolygon().getBounds2D().getHeight());*/
         }
 
-        meta.addToUndo();
+        if (meta.getDoing() != Meta.EditionAction.CreatingFreeSurface) {
+            meta.addToUndo();
+        }
         mouseHover(point);
     }
 
@@ -354,8 +356,9 @@ public class SurfaceEditor {
                 Surface surface = builder.getSurface();
                 meta.getSurfaces().put(surface.getId(), surface);
                 builder = null;
-//                System.out.println("rClick");
-//                meta.addToUndo();
+                System.out.println(meta.getDoing());
+                System.out.println(meta.getLastEvent());
+                meta.addToUndo();
             }
         }
     }
