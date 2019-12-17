@@ -15,7 +15,7 @@ import java.util.Vector;
 
 public class PolygonTransformer {
 
-    static Path awtPathToJavafx(java.awt.geom.Path2D path) {
+    public static Path awtPathToJavafx(java.awt.geom.Path2D path) {
         // Making a path with all PathElement
         Path ret = new Path();
         ret.setStrokeWidth(0.001);
@@ -296,9 +296,9 @@ public class PolygonTransformer {
         for (Point2D[] vertices : PolygonTransformer.extractVertices(cut)) {
             for (Point2D vertex : vertices) {
                 if (!polygon.contains(vertex.getX(), vertex.getY()))
-                    return false;
-                else if (c.x == p.x || c.y == p.y || c.x + c.width == p.x + p.width || c.y + c.height == p.y + p.height)
-                    return false;
+                    return true;
+//                else if (c.x == p.x || c.y == p.y || c.x + c.width == p.x + p.width || c.y + c.height == p.y + p.height)
+//                    return false;
             }
         }
         return true;

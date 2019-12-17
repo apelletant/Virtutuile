@@ -3,6 +3,7 @@ package com.virtutuile.domaine.entities;
 import com.virtutuile.afficheur.Constants;
 import com.virtutuile.afficheur.swing.events.MouseEventKind;
 import com.virtutuile.domaine.UndoRedo;
+import com.virtutuile.domaine.entities.surfaces.RectangularSurface;
 import com.virtutuile.domaine.entities.surfaces.Surface;
 import com.virtutuile.domaine.entities.surfaces.Tile;
 import com.virtutuile.domaine.entities.tools.PolygonTransformer;
@@ -64,6 +65,15 @@ public class Meta implements Serializable {
         isGridActivated = false;
         typeOfTiles = new UnorderedMap<>();
         undoRedo = new UndoRedo(this);
+
+        RectangularSurface.Builder b = RectangularSurface.getBuilder();
+        b.placePoint(new Point2D.Double(10, 10));
+        b.placePoint(new Point2D.Double(50, 50));
+        Surface s = b.getSurface();
+        surfaces.put(s.getId(), s);
+
+        s = new Surface(PolygonTransformer.flate(s.getPolygon(), 1), false);
+        surfaces.put(s.getId(), s);
 
         createNewTile(20, 10, Constants.DEFAULT_SHAPE_FILL_COLOR, "Small", false, 10);
         createNewTile(40, 20, Constants.DEFAULT_SHAPE_FILL_COLOR, "Medium", false, 10);
